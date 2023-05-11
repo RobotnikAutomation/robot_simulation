@@ -1,0 +1,15 @@
+---
+version: "3.7"
+services:
+  gazebo:
+    image: robotnik/robotnik-simulations:rb-theron-gazebo-humble-0.2.0
+    environment:
+      DISPLAY: ${DISPLAY}
+      GAZEBO_WORLD: default
+    volumes:
+      - type: bind
+        source: /tmp/.X11-unix
+        target: /tmp/.X11-unix
+    stop_signal: SIGINT
+    ipc: host
+    network_mode: host

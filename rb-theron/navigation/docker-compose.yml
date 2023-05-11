@@ -1,0 +1,122 @@
+---
+version: "3.7"
+services:
+  gazebo:
+    image: robotnik/robotnik-simulations:rb-theron-gazebo-humble-0.2.0
+    environment:
+      DISPLAY: ${DISPLAY}
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: all
+      GAZEBO_WORLD: opil_factory
+    volumes:
+      - type: bind
+        source: /tmp/.X11-unix
+        target: /tmp/.X11-unix
+      - type: bind
+        source: ./config/multirobot.launch.py
+        target: /opt/ros/humble/share/rb_theron_gazebo/launch/default.launch.py
+        read_only: true
+    stop_signal: SIGINT
+    runtime: nvidia
+    network_mode: host
+  rviz:
+    image: robotnik/robotnik-simulations:rb-theron-gazebo-humble-0.2.0
+    environment:
+      DISPLAY: ${DISPLAY}
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: all
+    volumes:
+      - type: bind
+        source: /tmp/.X11-unix
+        target: /tmp/.X11-unix
+      - type: bind
+        source: ./config/default.rviz
+        target: /config/default.rviz
+        read_only: false
+    command: rviz2 -d /config/default.rviz --ros-args -p use_sim_time:=true
+    stop_signal: SIGINT
+    runtime: nvidia
+    network_mode: host
+  global-map:
+    image: robotnik/robotnik-simulations:rb-theron-gazebo-humble-0.2.0
+    environment:
+      ROS_BU_PKG: rb_theron_localization
+      ROS_BU_LAUNCH: map_server.launch.py
+      MAP_NAME: opil_factory
+    stop_signal: SIGINT
+    network_mode: host
+
+  robot-a-laser-merger:
+    image: robotnik/robotnik-simulations:rb-theron-gazebo-humble-0.2.0
+    environment:
+      ROS_BU_PKG: rb_theron_localization
+      ROS_BU_LAUNCH: merge_laser.launch.py
+      ROBOT_ID: robot_a
+    stop_signal: SIGINT
+    network_mode: host
+  robot-a-amcl:
+    image: robotnik/robotnik-simulations:rb-theron-gazebo-humble-0.2.0
+    environment:
+      ROS_BU_PKG: rb_theron_localization
+      ROS_BU_LAUNCH: localization.launch.py
+      ROBOT_ID: robot_a
+    stop_signal: SIGINT
+    network_mode: host
+  robot-a-navigation:
+    image: robotnik/robotnik-simulations:rb-theron-gazebo-humble-0.2.0
+    environment:
+      ROS_BU_PKG: rb_theron_navigation
+      ROS_BU_LAUNCH: default.launch.py
+      ROBOT_ID: robot_a
+    stop_signal: SIGINT
+    network_mode: host
+
+  robot-b-laser-merger:
+    image: robotnik/robotnik-simulations:rb-theron-gazebo-humble-0.2.0
+    environment:
+      ROS_BU_PKG: rb_theron_localization
+      ROS_BU_LAUNCH: merge_laser.launch.py
+      ROBOT_ID: robot_b
+    stop_signal: SIGINT
+    network_mode: host
+  robot-b-amcl:
+    image: robotnik/robotnik-simulations:rb-theron-gazebo-humble-0.2.0
+    environment:
+      ROS_BU_PKG: rb_theron_localization
+      ROS_BU_LAUNCH: localization.launch.py
+      ROBOT_ID: robot_b
+    stop_signal: SIGINT
+    network_mode: host
+  robot-b-navigation:
+    image: robotnik/robotnik-simulations:rb-theron-gazebo-humble-0.2.0
+    environment:
+      ROS_BU_PKG: rb_theron_navigation
+      ROS_BU_LAUNCH: default.launch.py
+      ROBOT_ID: robot_b
+    stop_signal: SIGINT
+    network_mode: host
+
+  robot-c-laser-merger:
+    image: robotnik/robotnik-simulations:rb-theron-gazebo-humble-0.2.0
+    environment:
+      ROS_BU_PKG: rb_theron_localization
+      ROS_BU_LAUNCH: merge_laser.launch.py
+      ROBOT_ID: robot_c
+    stop_signal: SIGINT
+    network_mode: host
+  robot-c-amcl:
+    image: robotnik/robotnik-simulations:rb-theron-gazebo-humble-0.2.0
+    environment:
+      ROS_BU_PKG: rb_theron_localization
+      ROS_BU_LAUNCH: localization.launch.py
+      ROBOT_ID: robot_c
+    stop_signal: SIGINT
+    network_mode: host
+  robot-c-navigation:
+    image: robotnik/robotnik-simulations:rb-theron-gazebo-humble-0.2.0
+    environment:
+      ROS_BU_PKG: rb_theron_navigation
+      ROS_BU_LAUNCH: default.launch.py
+      ROBOT_ID: robot_c
+    stop_signal: SIGINT
+    network_mode: host

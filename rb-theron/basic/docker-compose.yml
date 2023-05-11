@@ -1,0 +1,35 @@
+---
+version: "3.7"
+services:
+  gazebo:
+    image: robotnik/robotnik-simulations:rb-theron-gazebo-humble-0.2.0
+    environment:
+      DISPLAY: ${DISPLAY}
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: all
+      GAZEBO_WORLD: default
+    volumes:
+      - type: bind
+        source: /tmp/.X11-unix
+        target: /tmp/.X11-unix
+    stop_signal: SIGINT
+    runtime: nvidia
+    network_mode: host
+  rviz:
+    image: robotnik/robotnik-simulations:rb-theron-gazebo-humble-0.2.0
+    environment:
+      DISPLAY: ${DISPLAY}
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: all
+    volumes:
+      - type: bind
+        source: /tmp/.X11-unix
+        target: /tmp/.X11-unix
+      - type: bind
+        source: ./config/default.rviz
+        target: /config/default.rviz
+        read_only: true
+    command: rviz2 -d /config/default.rviz --ros-args -p use_sim_time:=true
+    stop_signal: SIGINT
+    runtime: nvidia
+    network_mode: host
