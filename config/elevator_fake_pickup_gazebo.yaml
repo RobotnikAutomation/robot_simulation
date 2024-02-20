@@ -1,0 +1,19 @@
+# List of object enabled for picking & placing
+# model: gazebo model id
+# default_link: gazebo link used for picking for default
+# elevation_z: distance in z axis to move the object
+
+objects:
+ -
+   model: cart_1
+   default_link: link_0
+
+robots:
+-
+   model: robot
+   default_link: robot_base_footprint
+   elevation_z: 0.05
+
+config:
+  # min distance for the simple pick
+  min_picking_distance: 0.1

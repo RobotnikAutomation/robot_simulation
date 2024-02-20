@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot_id" default="$(optenv ROBOT_ID robot)"/>
+  <arg name="prefix" default="$(arg robot_id)_"/>
+  <arg name="robot_xacro" default="$(optenv ROBOT_XACRO summit_xl_std.urdf.xacro)"/>
+  <arg name="robot_xacro_package" default="$(optenv ROBOT_XACRO_PACKAGE summit_xl_description)"/>
+  <arg name="robot_xacro_relative_path" default="$(optenv ROBOT_XACRO_RELATIVE_PATH /robots/)" />
+  <arg name="robot_xacro_path" default="$(eval find(robot_xacro_package) + robot_xacro_relative_path + robot_xacro)"/>
+
+  <arg name="gps_latitude" default="39.5080331"/>
+  <arg name="gps_longitude" default="-0.4619816"/>
+
+	<arg name="ros_planar_move_plugin" default="false"/>
+  <arg name="ros_planar_move_plugin_force_based" default="false"/>
+  <arg name="kinematics" default="skid"/>
+  <arg name="use_gpu_for_simulation" default="$(optenv ROBOT_SIM_GPU false)"/>
+  <arg name="use_sim" default="true"/> <!-- just for rbtheron -->
+  
+
+  <!-- 
+    kinematic argument must be parsed inside xacro file (diff and omni)
+    To do: add this feature without breaking others developments
+  -->
+
+  <param name="robot_description" command="$(find xacro)/xacro '$(arg robot_xacro_path)'
+          prefix:=$(arg prefix)
+          ros_planar_move_plugin:=$(arg ros_planar_move_plugin)
+          ros_planar_move_plugin_force_based:=$(arg ros_planar_move_plugin_force_based)
+          kinematics:=$(arg kinematics)
+          gpu:=$(arg use_gpu_for_simulation)
+          gps_latitude:='$(arg gps_latitude)'
+          gps_longitude:='$(arg gps_longitude)'
+          use_sim:='$(arg use_sim)'" />
+
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+      <remap from="/joint_states" to="joint_states" />
+  </node>
+  
+</launch>

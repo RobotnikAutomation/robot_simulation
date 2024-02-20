@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+
+<arg name="world_package" default="opil_factory_world"/>
+<arg name="world_name" default="worlds/opil_factory.world"/>
+<arg name="world_path" default="$(eval find(world_package) + '/' + world_name)"/>
+
+<include file="$(find robot_advanced_sim)/launch/gazebo/spawn_simulation.launch.xml">
+    <arg name="world_name" value="$(arg world_path)"/>
+</include>
+
+
+</launch>

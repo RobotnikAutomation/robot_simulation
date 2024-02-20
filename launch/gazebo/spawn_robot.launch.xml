@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- arg to config the launch file-->
+  <arg name="robot_id" default="$(optenv ROBOT_ID robot)"/>
+
+  <!-- Robot configuration -->
+  <arg name="x_init_pose" default="0"/>
+  <arg name="y_init_pose" default="0"/>
+  <arg name="z_init_pose" default="0"/>
+  <arg name="a_init_pose" default="0"/>
+
+  <arg name="robot_xacro" default="$(optenv ROBOT_XACRO summit_xl_std.urdf.xacro)"/>
+  <arg name="robot_xacro_package" default="$(optenv ROBOT_XACRO_PACKAGE summit_xl_description)"/>
+  <arg name="robot_xacro_relative_path" default="$(optenv ROBOT_XACRO_RELATIVE_PATH /robots/)" />
+  <arg name="robot_xacro_path" default="$(eval find(robot_xacro_package) + robot_xacro_relative_path + robot_xacro)"/>
+
+  <arg name="ros_planar_move_plugin" default="false"/>
+  <arg name="ros_planar_move_plugin_force_based" default="false"/>
+  <arg name="kinematics" default="skid"/>
+  
+  <include file="$(find robot_advanced_sim)/launch/include/robot_state_publisher.launch.xml">
+    <arg name="robot_id" value="$(arg robot_id)"/>
+    <arg name="robot_xacro_path" value="$(arg robot_xacro_path)"/>
+    <arg name="ros_planar_move_plugin" default="$(arg ros_planar_move_plugin)"/>
+    <arg name="ros_planar_move_plugin_force_based" default="$(arg ros_planar_move_plugin_force_based)"/>
+    <arg name="kinematics" default="$(arg kinematics)"/>
+  </include>
+
+  <!-- Spawn model into gazebo -->
+  <node name="urdf_spawner_robot_model" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+      args="-x $(arg x_init_pose) 
+            -y $(arg y_init_pose) 
+            -z $(arg z_init_pose) 
+            -Y $(arg a_init_pose) 
+            -urdf 
+            -param robot_description 
+            -model $(arg robot_id)" 
+  />
+
+</launch>

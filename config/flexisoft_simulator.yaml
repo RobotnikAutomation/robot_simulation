@@ -1,0 +1,70 @@
+#Configuration
+safety_timeout: 5
+laser_topic_watchdog: 2
+elevator_topic_watchdog: 2
+joint_topic_watchdog: 2
+joint_topic: joint_states
+elevator_topic: robotnik_base_control/elevator_status
+
+
+# laser modes used in different operations
+# it is composed by cases
+modes:
+  standard:
+    - std_slow
+  docking_station:
+    - docking_slow
+  reduced:
+    - reduced
+
+#  docking_station:
+#    - reduced_slow
+
+# default mode from laser modes
+default_mode: standard
+
+#Cases configuration.
+cases:
+ - std_slow
+ - docking_slow
+ - reduced
+
+std_slow:
+  odom:
+    topic: robotnik_base_control/odom
+    topic_watchdog: 2
+    min_linear_speed: -1
+    max_linear_speed: 1
+    min_angular_speed: -1
+    max_angular_speed: 1
+  laser:
+    front_laser:
+      laser_frame: robot_front_laser_link
+      topic: front_laser/scan
+      footprint: [[-0.35,-0.05], [-0.2,0.15], [0.2,0.15],[0.35,-0.05]]
+docking_slow:
+  odom:
+    topic: robotnik_base_control/odom
+    topic_watchdog: 2
+    min_linear_speed: -0.5
+    max_linear_speed: 0.5
+    min_angular_speed: -0.5
+    max_angular_speed: 0.5
+  laser:
+    front_laser:
+      laser_frame: robot_front_laser_link
+      topic: front_laser/scan
+      footprint: [[-0.35,-0.05], [-0.2,0.05], [0.2,0.05],[0.35,-0.05]]
+reduced:
+  odom:
+    topic: robotnik_base_control/odom
+    topic_watchdog: 2
+    min_linear_speed: -0.5
+    max_linear_speed: 0.5
+    min_angular_speed: -0.5
+    max_angular_speed: 0.5
+  laser:
+    front_laser:
+      laser_frame: robot_front_laser_link
+      topic: front_laser/scan
+      footprint: [[-0.26,-0.05], [-0.1,0.05], [0.1,0.05],[0.26,-0.05]]

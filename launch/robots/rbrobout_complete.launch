@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- rb1_base, rb_theron, summit_xl, summit_xl_steel, rbkairos, rbvogui, rbvogui_xl, rbvogui_6w, rbrobout-->
+  <arg name="robot_model" default="rbrobout"/>
+  <!-- arg to config the launch file-->
+  <arg name="robot_id" default="$(optenv ROBOT_ID robot)"/>
+  <arg name="prefix" default="$(arg robot_id)_"/>
+  <arg name="sim_world" default="$(optenv ROBOT_SIM_WORLD willow_garage)"/>
+  <arg name="x_init_pose" default="$(optenv ROBOT_SIM_X_POSE 0)"/>
+  <arg name="y_init_pose" default="$(optenv ROBOT_SIM_Y_POSE 0)"/>
+  <arg name="z_init_pose" default="$(optenv ROBOT_SIM_Z_POSE 0)"/>
+  <arg name="a_init_pose" default="$(optenv ROBOT_SIM_Z_ANGLE 0)"/>
+  <arg name="robot_xacro" default="$(optenv ROBOT_XACRO rbrobout.urdf.xacro)"/>
+  <arg name="robot_xacro_package" default="$(optenv ROBOT_XACRO_PACKAGE rbrobout_description)"/>
+  <arg name="robot_xacro_relative_path" default="$(optenv ROBOT_XACRO_RELATIVE_PATH /robots/)" />
+  <arg name="robot_xacro_path" default="$(eval find(robot_xacro_package) + robot_xacro_relative_path + robot_xacro)"/>
+  <arg name="kinematics" default="omni_4w"/>
+  <arg name="ros_planar_move_plugin" default="true"/>
+  <arg name="ros_planar_move_plugin_force_based" default="false"/>
+
+  <!-- Common launch file for any robot and world -->  
+  <include file="$(find robot_advanced_sim)/launch/robot_common.launch">
+    <arg name="robot_id" value="$(arg robot_id)"/>
+    <arg name="sim_world" value="$(arg sim_world)"/>
+    <arg name="x_init_pose" value="$(arg x_init_pose)"/>
+    <arg name="y_init_pose" value="$(arg y_init_pose)"/>
+    <arg name="z_init_pose" value="$(arg z_init_pose)"/>
+    <arg name="a_init_pose" value="$(arg a_init_pose)"/>
+    <arg name="robot_xacro_path" value="$(arg robot_xacro_path)"/>
+    <arg name="kinematics" value="$(arg kinematics)"/>
+    <arg name="ros_planar_move_plugin" default="$(arg ros_planar_move_plugin)"/>
+    <arg name="ros_planar_move_plugin_force_based" default="$(arg ros_planar_move_plugin_force_based)"/>
+  </include>
+
+  <!-- base hw sim -->
+  <group ns="$(arg robot_id)">
+
+    <!-- It will launch the real robot control config or the old one for simulation -->
+    <include if="$(arg ros_planar_move_plugin)" file="$(find rbrobout_control)/launch/rbrobout_control.launch">
+      <arg name="id_robot" value="$(arg robot_id)"/>
+      <arg name="ros_planar_move_plugin" value="$(arg ros_planar_move_plugin)"/>
+      <arg name="sim" value="true"/>
+    </include>
+    <include unless="$(arg ros_planar_move_plugin)" file="$(find robot_bringup)/launch/bringup/control/robot_control.launch">
+      <arg name="id_robot" value="$(arg robot_id)"/>
+      <arg name="robot_model" value="$(arg robot_model)"/>
+      <arg name="kinematics" value="$(arg kinematics)"/>
+    </include>
+  </group>
+
+</launch>

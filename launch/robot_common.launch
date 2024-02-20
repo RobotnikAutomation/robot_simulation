@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- rb1_base, rb_theron, summit_xl, summit_xl_steel, rbkairos, rbvogui, rbvogui_xl, rbvogui_6w, rbrobout-->
+  <arg name="robot_model" default="$(optenv ROBOT_MODEL summit_xl)"/>
+  <!-- arg to config the launch file-->
+  <arg name="robot_id" default="$(optenv ROBOT_ID robot)"/>
+  <arg name="prefix" default="$(arg robot_id)_"/>
+  <arg name="sim_world" default="$(optenv ROBOT_SIM_WORLD willow_garage)"/>
+  <arg name="x_init_pose" default="0"/>
+  <arg name="y_init_pose" default="0"/>
+  <arg name="z_init_pose" default="0"/>
+  <arg name="a_init_pose" default="0"/>
+  <arg name="robot_xacro" default="$(optenv ROBOT_XACRO summit_xl_std.urdf.xacro)"/>
+  <arg name="robot_xacro_package" default="$(optenv ROBOT_XACRO_PACKAGE summit_xl_description)"/>
+  <arg name="robot_xacro_relative_path" default="$(optenv ROBOT_XACRO_RELATIVE_PATH /robots/)" />
+  <arg name="robot_xacro_path" default="$(eval find(robot_xacro_package) + robot_xacro_relative_path + robot_xacro)"/>
+  <arg name="kinematics" default="$(optenv ROBOT_KINEMATICS skid_4w)"/>
+  
+  <!-- CHARGE MANAGER -->
+  <arg name="docker_mode" default="automatic_sw"/>
+  <arg name="inverted_contact_relay_input" default="$(optenv ROBOT_BATTERY_INVERTED_CONTACT_RELAY false)" />
+  <arg name="contact_relay_input_number" default="$(optenv ROBOT_BATTERY_CONTACT_RELAY_INPUT_NUMBER 2)" />
+  <arg name="charger_relay_output_number" default="$(optenv ROBOT_BATTERY_CHARGER_RELAY_OUTPUT_NUMBER 1)" />
+
+  <arg name="launch_rviz" default="true"/>
+  <arg name="run_pad" default="false"/>
+  <arg name="pad_model" default="$(optenv ROBOT_PAD_MODEL ps4)"/>
+
+  <arg name="ros_planar_move_plugin" default="false"/>
+  <arg name="ros_planar_move_plugin_force_based" default="false"/>
+
+  <include file="$(find robot_advanced_sim)/launch/gazebo/world/$(arg sim_world).launch.xml">
+  </include>
+
+  <group ns="$(arg robot_id)">
+
+    <include file="$(find robot_advanced_sim)/launch/gazebo/spawn_robot.launch.xml">
+      <arg name="robot_id" value="$(arg robot_id)"/>
+      <arg name="robot_xacro_path" value="$(arg robot_xacro_path)"/>
+      <arg name="x_init_pose" value="$(arg x_init_pose)"/>
+      <arg name="y_init_pose" value="$(arg y_init_pose)"/>
+      <arg name="z_init_pose" value="$(arg z_init_pose)"/>
+      <arg name="a_init_pose" value="$(arg a_init_pose)"/>
+      <arg name="kinematics" default="$(arg kinematics)"/>
+      <arg name="ros_planar_move_plugin" default="$(arg ros_planar_move_plugin)"/>
+      <arg name="ros_planar_move_plugin_force_based" default="$(arg ros_planar_move_plugin_force_based)"/>
+    </include>
+    
+    <include file="$(find robotnik_base_hw_sim)/launch/robotnik_base_hw_sim.launch">
+        <arg name="prefix" value="$(arg prefix)"/>
+        <arg name="config_yaml" value="$(arg robot_model)"/>
+        <arg name="publish_battery_estimation" value="true"/>
+    </include>
+
+     <!-- start dock_manager node -->
+    <include file="$(find charge_manager)/launch/charge_manager.launch">
+      <arg name="docker_mode" value="$(arg docker_mode)"/>
+      <arg name="inverted_contact_relay_input" value="$(arg inverted_contact_relay_input)"/>
+      <arg name="contact_relay_input_number" value="$(arg contact_relay_input_number)"/>
+      <arg name="charger_relay_output_number" value="$(arg charger_relay_output_number)"/>
+    </include>
+
+    <!-- start robotnik_pad nodes -->
+    <include if="$(arg run_pad)" file="$(find robot_bringup)/launch/bringup/pad.launch">
+      <arg name="pad_model" value="$(arg pad_model)"/>
+    </include>
+
+  </group>
+
+ 	<!-- launch rviz -->
+	<node if="$(arg launch_rviz)" name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(find robot_bringup)/rviz/robot_map.rviz"/>
+
+
+
+</launch>

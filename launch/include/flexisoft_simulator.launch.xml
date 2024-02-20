@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot_id" default="robot"/>
+  <arg name="debug" default="false"/>
+  <arg if="$(arg debug)" name="launch_prefix" default="gdb -ex run --args"/>
+  <arg unless="$(arg debug)" name="launch_prefix" default=""/>
+  <!--arg name="autorepeat_rate" default="10.0"/-->
+  <arg name="flexisoft_simulator_config" default="$(find rb_theron_advanced_sim)/config/flexisoft_simulator.yaml" />
+
+  <group ns="$(arg robot_id)">
+      <!-- Parameters -->
+    <node name="safety_module" pkg="flexisoft_simulator" type="flexisoft_simulator_node" output="screen" launch-prefix="$(arg launch_prefix)">
+        <rosparam command="load" file="$(arg flexisoft_simulator_config)" />
+    </node>
+    <include file="$(find rb_theron_advanced_sim)/launch/safety_node_velocity_limiter.launch">
+    </include>
+
+  </group>
+</launch>
