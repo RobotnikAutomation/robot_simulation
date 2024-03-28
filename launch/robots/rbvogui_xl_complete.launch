@@ -20,7 +20,7 @@
   <arg name="ros_planar_move_plugin_force_based" default="false"/>
 
   <!-- Common launch file for any robot and world -->  
-  <include file="$(find robot_advanced_sim)/launch/robot_common.launch">
+  <include file="$(find robot_sim)/launch/robot_common.launch">
     <arg name="robot_id" value="$(arg robot_id)"/>
     <arg name="sim_world" value="$(arg sim_world)"/>
     <arg name="x_init_pose" value="$(arg x_init_pose)"/>

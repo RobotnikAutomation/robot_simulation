@@ -5,7 +5,7 @@
 <arg name="world_name" default="worlds/electrical_station.world"/>
 <arg name="world_path" default="$(eval find(world_package) + '/' + world_name)"/>
 
-<include file="$(find robot_advanced_sim)/launch/gazebo/spawn_simulation.launch.xml">
+<include file="$(find robot_sim)/launch/gazebo/spawn_simulation.launch.xml">
     <arg name="world_name" value="$(arg world_path)"/>
 </include>
 

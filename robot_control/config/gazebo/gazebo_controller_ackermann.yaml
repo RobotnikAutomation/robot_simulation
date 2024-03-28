@@ -1,0 +1,32 @@
+gazebo_ros_control:
+  pid_gains:
+    rbvogui_front_right_wheel_steer_joint:
+      p: 100.0
+      i: 0.01
+      d: 10.0
+      i_clamp: 0.2
+      antiwindup: false
+      publish_state: true
+    rbvogui_front_left_wheel_steer_joint:
+      p: 100.0
+      i: 0.01
+      d: 10.0
+      i_clamp: 0.2
+      antiwindup: false
+      publish_state: true
+
+    rbvogui_torso_pantilt_pan_joint:
+      p: 2.0
+      i: 0.1
+      d: 0.01
+      i_clamp: 0.2
+      antiwindup: false
+      publish_state: true
+
+    rbvogui_torso_pantilt_tilt_joint:
+      p: 2.0
+      i: 0.1
+      d: 0.01
+      i_clamp: 0.2
+      antiwindup: false
+      publish_state: true

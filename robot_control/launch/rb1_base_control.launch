@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<launch>
+
+	<arg name="sim" default="false"/>
+	<arg name="sim_arm_control" default="false"/>
+	<arg name="left_arm_controllers" default="left_arm/pos_traj_controller"/>
+	<arg name="right_arm_controllers" default="right_arm/pos_traj_controller"/>
+	<arg name="cmd_vel" default="robotnik_base_control/cmd_vel"/>
+	<arg name="id_robot" default="robot"/>
+	<arg name="prefix" default="robot_"/>
+	<arg name="has_elevator" default="false"/>
+	<arg name="elevator_controller" default="robotnik_elevator_controller"/>
+	<arg name="fake_elevator_physics" default="false"/>
+	<arg name="wheel_diameter" default="0.1524"/>
+	<arg name="ros_planar_move_plugin" default="false"/>
+	<arg name="cmd_vel_out" default="$(optenv ROBOT_TWISTMUX_CMD_OUT robotnik_base_control/cmd_vel)"/>
+
+	<!-- Robot - Load joint controller configurations from YAML file to parameter server -->
+	<group unless="$(arg sim)">
+		<!-- Load joint controller configurations from YAML file to parameter server -->
+		<rosparam file="$(find robot_description)/robot_control/config/rb1_base_control.yaml" command="load"/>
+		<param name="robotnik_base_control/joint/left_wheel_joint/name" value="$(arg prefix)left_wheel_joint"/>
+		<param name="robotnik_base_control/joint/right_wheel_joint/name" value="$(arg prefix)right_wheel_joint"/>
+		<param name="robotnik_base_control/robot_base_frame" value="$(arg prefix)base_footprint"/>
+		<param name="robotnik_base_control/odom_frame" value="$(arg prefix)odom"/>
+		<param name="robotnik_base_control/has_elevator" value="$(arg has_elevator)"/>
+		<param name="robotnik_base_control/wheel_diameter" value="$(arg wheel_diameter)"/>
+
+		<!-- load the controllers -->
+		<node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="
+  						  robotnik_base_control
+  						  joint_read_state_controller
+  						  ">
+		</node>
+	</group>
+
+	<!-- Simulation - Load joint controller configurations from YAML file to parameter server -->
+	<group if="$(arg sim)">
+
+		<!-- Load joint controller configurations from YAML file to parameter server -->
+		<rosparam file="$(find robot_description)/robot_control/config/simulation/rb1_base_diffdrive_control.yaml" command="load"/>
+		<param name="robotnik_base_control/left_wheel" value="$(arg prefix)left_wheel_joint"/>
+		<param name="robotnik_base_control/right_wheel" value="$(arg prefix)right_wheel_joint"/>
+		<param name="robotnik_base_control/base_frame_id" value="$(arg prefix)base_footprint"/>
+		<param name="robotnik_base_control/odom_frame_id" value="$(arg prefix)odom"/>
+		<param name="robotnik_elevator_controller/gazebo/robot_model" value="$(arg id_robot)"/>
+		<param name="robotnik_elevator_controller/joint/elevator_joint/name" value="$(arg prefix)elevator_platform_joint"/>
+		<param name="robotnik_elevator_controller/gazebo/disable_gazebo_physics_for_pickup" value="$(arg fake_elevator_physics)"/>
+
+		<!-- load the controllers -->
+		<node if="$(arg ros_planar_move_plugin)" name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="
+  						  joint_read_state_controller
+  						  ">
+		</node>
+
+		<node unless="$(arg ros_planar_move_plugin)" name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="
+  						  robotnik_base_control
+  						  joint_read_state_controller
+  						  ">
+		</node>
+
+		<!-- load elevator controller -->
+		<node if="$(arg has_elevator)" name="elevator_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="$(arg elevator_controller)"/>
+
+	</group>
+
+	<node pkg="twist_mux" type="twist_mux" name="twist_mux">
+		<rosparam command="load" file="$(find robot_description)/robot_control/config/twist_mux.yaml" />
+		<remap from="cart_docker/cmd_vel" to="docker/cmd_vel"/>
+		<remap from="cmd_vel_out" to="$(arg cmd_vel_out)" />
+	</node>
+
+	<!-- load arm controller -->
+	<group if="$(arg sim_arm_control)">
+
+		<rosparam file="$(find robot_description)/robot_control/config/ur_left_arm_controllers.yaml" command="load" subst_value="true" ns="left_arm"/>
+		<node name="controller_spawner_left_arm" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="
+			$(arg left_arm_controllers)
+		"/>
+
+		<rosparam file="$(find robot_description)/robot_control/config/ur_right_arm_controllers.yaml" command="load" subst_value="true" ns="right_arm"/>
+		<node name="controller_spawner_right_arm" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="
+			$(arg right_arm_controllers)
+		"/>
+
+	</group>
+
+
+</launch>

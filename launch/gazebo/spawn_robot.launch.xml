@@ -18,7 +18,7 @@
   <arg name="ros_planar_move_plugin_force_based" default="false"/>
   <arg name="kinematics" default="skid"/>
   
-  <include file="$(find robot_advanced_sim)/launch/include/robot_state_publisher.launch.xml">
+  <include file="$(find robot_sim)/launch/include/robot_state_publisher.launch.xml">
     <arg name="robot_id" value="$(arg robot_id)"/>
     <arg name="robot_xacro_path" value="$(arg robot_xacro_path)"/>
     <arg name="ros_planar_move_plugin" default="$(arg ros_planar_move_plugin)"/>

@@ -30,12 +30,12 @@
   <arg name="ros_planar_move_plugin" default="false"/>
   <arg name="ros_planar_move_plugin_force_based" default="false"/>
 
-  <include file="$(find robot_advanced_sim)/launch/gazebo/world/$(arg sim_world).launch.xml">
+  <include file="$(find robot_sim)/launch/gazebo/world/$(arg sim_world).launch.xml">
   </include>
 
   <group ns="$(arg robot_id)">
 
-    <include file="$(find robot_advanced_sim)/launch/gazebo/spawn_robot.launch.xml">
+    <include file="$(find robot_sim)/launch/gazebo/spawn_robot.launch.xml">
       <arg name="robot_id" value="$(arg robot_id)"/>
       <arg name="robot_xacro_path" value="$(arg robot_xacro_path)"/>
       <arg name="x_init_pose" value="$(arg x_init_pose)"/>

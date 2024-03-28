@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<package>
+  <name>robot_control</name>
+  <version>1.0.0</version>
+  <description>
+		This package contains the launch files that load the required controller interfaces for simulation in Gazebo.
+  </description>
+
+  <author email="rguzman@robotnik.es">Roberto Guzmán</author>
+
+  <maintainer email="asoriano@robotnik.es">Angel Soriano</maintainer>
+  <maintainer email="avillena@robotnik.es">Álvaro Villena</maintainer>
+  <maintainer email="dredo@robotnik.es">David Redó</maintainer>
+  <maintainer email="aarnal@robotnik.es">Alejandro Arnal</maintainer>
+  <maintainer email="mbosch@robotnik.es">Marc Bosch</maintainer>
+  <maintainer email="rnavarro@robotnik.es">Román Navarro</maintainer>
+
+  <license>BSD</license>
+  <url type="website">http://ros.org/wiki/robot_control</url>
+  <url type="repository">https://github.com/RobotnikAutomation/robot_sim.git</url>
+  <url type="bugtracker">https://github.com/RobotnikAutomation/robot_sim/issues</url>
+  <buildtool_depend>catkin</buildtool_depend>
+
+
+  <build_depend>joint_state_controller</build_depend>
+  <build_depend>velocity_controllers</build_depend>
+  <build_depend>diff_drive_controller</build_depend>
+  <build_depend>gripper_action_controller</build_depend>
+
+  <run_depend>joint_state_controller</run_depend>
+  <run_depend>velocity_controllers</run_depend>
+  <run_depend>diff_drive_controller</run_depend>
+  <run_depend>gripper_action_controller</run_depend>  
+
+</package>

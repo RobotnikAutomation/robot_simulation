@@ -1,0 +1,13 @@
+<launch>
+  <arg name="config_filepath" default="$(find robot_description)/robot_control/config/twist_mux.yaml" />
+
+  <!-- Twist mux -->
+  <node name="twist_mux" pkg="twist_mux" type="twist_mux">
+    <rosparam command="load" file="$(arg config_filepath)" />
+    <remap from="cmd_vel_out" to="robotnik_base_control/cmd_vel" />
+  </node>
+
+  <!-- Robotnik base control -->
+  <node name="controller_base_spawner" pkg="controller_manager" type="controller_manager" respawn="false"
+    output="screen" args="spawn joint_state_controller robotnik_base_control"/>
+</launch>

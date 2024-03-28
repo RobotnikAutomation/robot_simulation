@@ -1,0 +1,41 @@
+topics:
+- name    : pad
+  topic   : pad_teleop/cmd_vel
+  timeout : 0.5
+  priority: 100
+
+- name    : web_pad
+  topic   : web_teleop/cmd_vel
+  timeout : 0.5
+  priority: 70
+
+- name    : urcap
+  topic   : urcap_command_bridge/cmd_vel
+  timeout : 0.5
+  priority: 60
+
+- name    : move_base
+  topic   : move_base/cmd_vel
+  timeout : 0.5
+  priority: 50
+
+- name    : move
+  topic   : move/cmd_vel
+  timeout : 0.5
+  priority: 50
+
+- name    : docker
+  topic   : docker/cmd_vel
+  timeout : 0.5
+  priority: 50
+
+- name    : external
+  topic   : cmd_vel
+  timeout : 0.5
+  priority: 1
+
+locks:
+- name    : e_stop
+  topic   : robotnik_base_hw/emergency_stop
+  timeout : 0.0    
+  priority: 255

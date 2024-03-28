@@ -1,0 +1,18 @@
+# This is intended to be used in case the gripper is mimetic.
+# The controller joint must be the master joint. 
+gripper_controller:
+  type: position_controllers/GripperActionController
+  joint: robot_egh_gripper_finger_left_joint  
+
+
+pos_traj_controller:
+  type: position_controllers/JointTrajectoryController
+  joints: 
+    - robot_egh_gripper_finger_left_joint
+  constraints:
+    goal_time: 0.6
+    stopped_velocity_tolerance: 0.05
+    $(arg prefix)egh_gripper_finger_left_joint: {trajectory: 0.2, goal: 0.1}
+  stop_trajectory_duration: 0.5
+  state_publish_rate: 125
+  action_monitor_rate: 10
