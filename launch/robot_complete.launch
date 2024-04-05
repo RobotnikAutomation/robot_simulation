@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
     <arg name="robot_model" default="$(optenv ROBOT_MODEL summit_xl)"/>
-    <include file="$(find robot_advanced_sim)/launch/robots/$(arg robot_model)_complete.launch"/>
+    <include file="$(find robot_sim)/launch/robots/$(arg robot_model)_complete.launch"/>
 
 </launch>

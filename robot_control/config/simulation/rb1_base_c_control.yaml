@@ -1,0 +1,74 @@
+joint_blw_velocity_controller:
+  type: velocity_controllers/JointVelocityController
+  joint: robot_c_left_wheel_joint
+joint_brw_velocity_controller:
+  type: velocity_controllers/JointVelocityController
+  joint: robot_c_right_wheel_joint
+
+robotnik_base_control:
+  type: rb1_base_controller/RB1BaseController
+  joint:
+    right_wheel_joint:
+        name: robot_c_right_wheel_joint
+        max_speed: 27.27 # rad/s
+    left_wheel_joint:
+        name: robot_c_left_wheel_joint
+        max_speed: 27.27 # rad/s
+    elevator_joint:
+        name: robot_c_elevator_platform_joint
+  limits:
+    elevator_down:
+      linear_speed_limit: 1.5 # m/s
+      linear_acceleration_limit: 1.0 # m/s^2
+      linear_deceleration_limit: 2.5 # m/s^2
+      angular_speed_limit: 3 # rad/s
+      angular_acceleration_limit: 3 # rad/s^2
+      angular_deceleration_limit: 3 # rad/s^2
+    elevator_up:
+      linear_speed_limit: 1.5 # m/s
+      linear_acceleration_limit: 0.5 # 1.5 for same as elevator_down # m/s^2
+      linear_deceleration_limit: 2.0 # 3.0 for same as elevator_down # m/s^2
+      angular_speed_limit: 3 # rad/s
+      angular_acceleration_limit: 1.0 # 3.0 for same as elevator_down # rad/s^2
+      angular_deceleration_limit: 2.0 # 3.0 for same as elevator_down # rad/s^2
+    # TODO: still not implemented!
+    # how to deccelerate in case of hard_brake.
+    hard_brake:
+      linear_speed_limit: 1.5 # m/s
+      linear_acceleration_limit: 1.5 # m/s^2
+      linear_deceleration_limit: 4 # m/s^2
+      angular_speed_limit: 3 # rad/s
+      angular_acceleration_limit: 3.0 # rad/s^2
+      angular_deceleration_limit: 6.0 # rad/s^2
+  # TODO: remove this parameter, as it will be controlled by the limits above
+  hard_brake: false
+  odom_frame: robot_c_odom
+  robot_base_frame: robot_c_base_footprint
+  odom_broadcast_tf: true
+  odom_topic: 'robotnik_base_control/odom'
+  track_width: 0.421 # 0.543
+  wheel_diameter: 0.1524
+  cmd_watchdog_duration: 0.5
+  imu_watchdog_duration: 0.1
+  imu_topic: 'imu/data'
+  odom_publish_frequency: 100
+  cmd_vel        : 'robotnik_base_control/cmd_vel'
+  motion_odometry: true
+  in_motion_timer: 2.0
+  position_covariance: 0.0000001
+  orientation_covariance: 0.0000001
+  linear_velocity_covariance: 0.0000000001
+  angular_velocity_covariance: 0.0000000001
+  set_digital_output_service_hw: robotnik_base_hw/set_digital_output
+  has_elevator: true
+  elevator_position_up: 0.03 # linear height (m)
+  elevator_position_down: 0.0
+  elevator_digital_output_up: 3
+  elevator_digital_output_down: 2
+  elevator_digital_input_up: 3
+  elevator_digital_input_down: 2
+  reverse_logic: true # Make sure what logic is your robot using
+
+joint_read_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 100.0

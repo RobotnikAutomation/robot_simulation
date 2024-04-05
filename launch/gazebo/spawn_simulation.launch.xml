@@ -2,7 +2,7 @@
 <launch>
 
  <!-- Simulation arguments -->
- <arg name="world_name" default="$(find robot_advanced_sim)/worlds/willow_garage.world"/>
+ <arg name="world_name" default="$(find robot_sim)/worlds/willow_garage.world"/>
  <arg name="debug" default="false"/>
  <arg name="paused" default="false"/>
  <arg name="headless" default="false"/>

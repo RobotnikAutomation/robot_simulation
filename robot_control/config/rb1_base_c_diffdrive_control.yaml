@@ -1,0 +1,84 @@
+  joint_left_velocity_controller:
+#    type: velocity_controllers/JointVelocityController
+    type: effort_controllers/JointEffortController
+    joint: joint_left_wheel
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+
+  joint_right_velocity_controller:
+    type: effort_controllers/JointEffortController
+    joint: joint_right_wheel
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+ 
+  elevator_controller:
+    type:  effort_controllers/JointEffortController
+    joint: rb1_base_a_elevator_platform_joint
+    pid: {p: 10.0, i: 0.1, d: 0.0}
+
+  joint_read_state_controller:
+    type: joint_state_controller/JointStateController 
+    publish_rate: 100.0
+
+  robotnik_base_control:
+    type        : "diff_drive_controller/DiffDriveController"
+    left_wheel  : 'rb1_base_left_wheel_joint'
+    right_wheel : 'rb1_base_right_wheel_joint'
+    publish_rate: 50.0               # default: 50
+    pose_covariance_diagonal : [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 1000.0]
+    twist_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 1000.0]
+
+    # Wheel separation and diameter. These are both optional.
+    # diff_drive_controller will attempt to read either one or both from the
+    # URDF if not specified as a parameter
+    wheel_separation : 0.433
+    wheel_radius : 0.0762
+    
+    # Wheel separation and radius multipliers
+    wheel_separation_multiplier: 1.0 # default: 1.0
+    wheel_radius_multiplier    : 1.0 # default: 1.0
+
+    # Velocity commands timeout [s], default 0.5
+    cmd_vel_timeout: 0.25
+
+    # Base frame_id
+    base_frame_id: rb1_base_base_footprint #default: base_link
+    odom_frame_id: rb1_base_odom
+
+    # Velocity and acceleration limits
+    # Whenever a min_* is unspecified, default to -max_*
+    linear:
+      x:
+        has_velocity_limits    : true
+        max_velocity           : 1.75 # m/s
+        min_velocity           : -1.75 # m/s
+        has_acceleration_limits: true
+        max_acceleration       : 3.00  # m/s^2
+        min_acceleration       : -3.00 # m/s^2
+    angular:
+      z:
+        has_velocity_limits    : true
+        max_velocity           : 6.0  # rad/s
+        has_acceleration_limits: true
+        max_acceleration       : 6.0  # rad/s^2
+
+  robotnik_elevator_controller:
+    type        : "robotnik_elevator_controller/RobotnikElevatorController"
+    joint:    
+      elevator_joint:
+        name: rb1_base_a_elevator_platform_joint
+    elevator_position_up: 10
+    elevator_position_down: 0.0
+    # delay time to perform the elevation
+    elevation_action_time: 1.0
+    # params for the pickup avoiding Gazebo physics
+    gazebo:
+      # if true, the carts will be raised avoiding contact
+      disable_gazebo_physics_for_pickup: true
+      pickup_service: "/elevator_fake_pickup_gazebo/simple_pick"
+      place_service: "/elevator_fake_pickup_gazebo/simple_place"
+      # model id used in Gazebo
+      robot_model: "rb1_base_a"
+      # distance in z to move the picked cart (disabled)
+      # elevation_offset_z: 0.07  
+ 
+
+

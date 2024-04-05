@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
 <launch>
 
-<arg name="world_package" default="robot_advanced_sim"/>
+<arg name="world_package" default="robot_sim"/>
 <arg name="world_name" default="worlds/willow_garage.world"/>
 <arg name="world_path" default="$(eval find(world_package) + '/' + world_name)"/>
 
-<include file="$(find robot_advanced_sim)/launch/gazebo/spawn_simulation.launch.xml">
+<include file="$(find robot_sim)/launch/gazebo/spawn_simulation.launch.xml">
     <arg name="world_name" value="$(arg world_path)"/>
 </include>
 
 <arg name="docking_station_sdf_file" default="$(find robotnik_gazebo_models)/models/rb1_docking_station_1/rb1_docking_station_1.sdf"/>
 
-<include file="$(find robot_advanced_sim)/launch/gazebo/spawn_sdf.launch.xml">
+<include file="$(find robot_sim)/launch/gazebo/spawn_sdf.launch.xml">
     <arg name="object_name" value="docking_station_1"/>
     <arg name="x" value="1.000"/>
     <arg name="y" value="3.877"/>

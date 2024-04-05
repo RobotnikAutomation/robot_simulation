@@ -1,0 +1,48 @@
+joint_blw_velocity_controller:
+  type: velocity_controllers/JointVelocityController
+  joint: robot_left_wheel_joint
+joint_brw_velocity_controller:
+  type: velocity_controllers/JointVelocityController
+  joint: robot_right_wheel_joint
+
+robotnik_base_control:
+  type: rb_theron_controller/RbTheronController
+  joint:
+    right_wheel_joint:
+        name: robot_right_wheel_joint
+        max_speed: 27.27 # rad/s
+    left_wheel_joint:
+        name: robot_left_wheel_joint
+        max_speed: 27.27 # rad/s
+
+  linear_speed_limit: 1.5 # m/s
+  linear_acceleration_limit: 1.0 # m/s^2
+  linear_deceleration_limit: 2.5 # m/s^2
+  angular_speed_limit: 3 # rad/s
+  angular_acceleration_limit: 3 # rad/s^2
+  angular_deceleration_limit: 3 # rad/s^2
+
+  # TODO: remove this parameter, as it will be controlled by the limits above
+  hard_brake: false
+  odom_frame: robot_odom
+  robot_base_frame: robot_base_footprint
+  odom_broadcast_tf: true
+  odom_topic: 'robotnik_base_control/odom'
+  track_width: 0.5032
+  wheel_diameter: 0.1524
+  cmd_watchdog_duration: 0.5
+  imu_watchdog_duration: 0.1
+  imu_topic: 'imu/data'
+  odom_publish_frequency: 100
+  cmd_vel        : 'robotnik_base_control/cmd_vel'
+  motion_odometry: true
+  in_motion_timer: 2.0
+  position_covariance: 0.0000001
+  orientation_covariance: 0.0000001
+  linear_velocity_covariance: 0.0000000001
+  angular_velocity_covariance: 0.0000000001
+  set_digital_output_service_hw: robotnik_base_hw/set_digital_output
+
+joint_read_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 100.0

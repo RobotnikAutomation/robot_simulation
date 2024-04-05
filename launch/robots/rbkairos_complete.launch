@@ -12,7 +12,7 @@
   <arg name="z_init_pose" default="$(optenv ROBOT_SIM_Z_POSE 0)"/>
   <arg name="a_init_pose" default="$(optenv ROBOT_SIM_Z_ANGLE 0)"/>
   <arg name="robot_xacro" default="$(optenv ROBOT_XACRO rbkairos_ur5e_plus.urdf.xacro)"/>
-  <arg name="robot_xacro_package" default="$(optenv ROBOT_XACRO_PACKAGE rb_theron_description)"/>
+  <arg name="robot_xacro_package" default="$(optenv ROBOT_XACRO_PACKAGE robot_description)"/>
   <arg name="robot_xacro_relative_path" default="$(optenv ROBOT_XACRO_RELATIVE_PATH /robots/)" />
   <arg name="robot_xacro_path" default="$(eval find(robot_xacro_package) + robot_xacro_relative_path + robot_xacro)"/>
   <arg name="kinematics" default="omni_4w"/>
@@ -22,7 +22,7 @@
 
 
   <!-- Common launch file for any robot and world -->  
-  <include file="$(find robot_advanced_sim)/launch/robot_common.launch">
+  <include file="$(find robot_sim)/launch/robot_common.launch">
     <arg name="robot_id" value="$(arg robot_id)"/>
     <arg name="sim_world" value="$(arg sim_world)"/>
     <arg name="x_init_pose" value="$(arg x_init_pose)"/>
@@ -52,10 +52,10 @@
   </group>
 
   <!--include if="$(arg has_elevator)" file="$(find robotnik_base_hw_sim)/launch/elevator_fake_pickup_gazebo.launch">
-	<arg name="config_yaml" value="$(find robot_advanced_sim)/config/elevator_fake_pickup_gazebo.yaml"/>
+	<arg name="config_yaml" value="$(find robot_sim)/config/elevator_fake_pickup_gazebo.yaml"/>
   </include-->
 
-  <include if="$(arg has_safety_module)" file="$(find robot_advanced_sim)/launch/flexisoft_simulator.launch">
+  <include if="$(arg has_safety_module)" file="$(find robot_sim)/launch/flexisoft_simulator.launch">
 	<arg name="robot_id" value="$(arg id_robot)"/>
   </include>
 

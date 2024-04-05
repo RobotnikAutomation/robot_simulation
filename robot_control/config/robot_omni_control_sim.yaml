@@ -1,0 +1,91 @@
+front_left_wheel_traction_joint_controller:
+  type: velocity_controllers/JointVelocityController
+  joint: $(arg prefix)front_left_wheel_joint
+
+front_left_wheel_steer_joint_controller:
+  type: position_controllers/JointPositionController
+  joint: $(arg prefix)front_left_motor_wheel_joint
+
+front_right_wheel_traction_joint_controller:
+  type: velocity_controllers/JointVelocityController
+  joint: $(arg prefix)front_right_wheel_joint
+
+front_right_wheel_steer_joint_controller:
+  type: position_controllers/JointPositionController
+  joint: $(arg prefix)front_right_motor_wheel_joint
+
+back_left_wheel_traction_joint_controller:
+  type: velocity_controllers/JointVelocityController
+  joint: $(arg prefix)back_left_wheel_joint
+
+back_left_wheel_steer_joint_controller:
+  type: position_controllers/JointPositionController
+  joint: $(arg prefix)back_left_motor_wheel_joint
+
+back_right_wheel_traction_joint_controller:
+  type: velocity_controllers/JointVelocityController
+  joint: $(arg prefix)back_right_wheel_joint
+
+back_right_wheel_steer_joint_controller:
+  type: position_controllers/JointPositionController
+  joint: $(arg prefix)back_right_motor_wheel_joint
+
+robotnik_base_control:
+  type: rbvogui_hl_omni_controller/RbVoguiHlOmniController
+  traction:
+    front_right:
+      joint_name: $(arg prefix)front_right_wheel_joint
+      max_speed: 20.0 # rad/s
+    front_left:
+      joint_name: $(arg prefix)front_left_wheel_joint
+      max_speed: 20.0 # rad/s
+    back_right:
+      joint_name: $(arg prefix)back_right_wheel_joint
+      max_speed: 20.0 # rad/s
+    back_left:
+      joint_name: $(arg prefix)back_left_wheel_joint
+      max_speed: 20.0 # rad/s
+  steer:
+    front_right:
+      joint_name: $(arg prefix)front_right_motor_wheel_joint
+      min_angle: -2.6 # rads
+      max_angle: 2.6
+    front_left:
+      joint_name: $(arg prefix)front_left_motor_wheel_joint
+      min_angle: -2.6 # rads
+      max_angle: 2.6
+    back_right:
+      joint_name: $(arg prefix)back_right_motor_wheel_joint
+      min_angle: -3.1 # rads
+      max_angle: 3.1
+    back_left:
+      joint_name: $(arg prefix)back_left_motor_wheel_joint
+      min_angle: -3.1 # rads
+      max_angle: 3.1
+  has_steer_angle_limits: true
+  linear_speed_limit: 2.8
+  linear_acceleration_limit: 2.0
+  angular_speed_limit: 2.0
+  angular_acceleration_limit: 2.0
+  odom_frame: $(arg prefix)odom
+  robot_base_frame: $(arg prefix)base_footprint
+  odom_broadcast_tf: true
+  odom_topic: robotnik_base_control/odom
+  command_topic: robotnik_base_control/cmd_vel
+  wheel_base: $(arg wheel_base) #0.9310
+  track_width: $(arg track_width) #0.588
+  wheel_diameter: $(arg wheel_diameter) #0.325
+  cmd_watchdog_duration: 0.2
+  odom_publish_frequency: 100
+  direction_wheels_init_range: 3.14
+  direction_wheels_moving_range: 3.14
+  steering_wheels_in_same_orientation: true
+
+joint_read_state_controller:
+    type: joint_state_controller/JointStateController 
+    publish_rate: 100.0
+
+joint_read_command_controller:
+    type: joint_read_command_controller/JointReadCommandController 
+    publish_rate: 100.0
+

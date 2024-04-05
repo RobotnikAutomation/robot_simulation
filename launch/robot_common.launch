@@ -12,7 +12,7 @@
   <arg name="z_init_pose" default="0"/>
   <arg name="a_init_pose" default="0"/>
   <arg name="robot_xacro" default="$(optenv ROBOT_XACRO summit_xl_std.urdf.xacro)"/>
-  <arg name="robot_xacro_package" default="$(optenv ROBOT_XACRO_PACKAGE summit_xl_description)"/>
+  <arg name="robot_xacro_package" default="$(optenv ROBOT_XACRO_PACKAGE robot_description)"/>
   <arg name="robot_xacro_relative_path" default="$(optenv ROBOT_XACRO_RELATIVE_PATH /robots/)" />
   <arg name="robot_xacro_path" default="$(eval find(robot_xacro_package) + robot_xacro_relative_path + robot_xacro)"/>
   <arg name="kinematics" default="$(optenv ROBOT_KINEMATICS skid_4w)"/>
@@ -30,12 +30,12 @@
   <arg name="ros_planar_move_plugin" default="false"/>
   <arg name="ros_planar_move_plugin_force_based" default="false"/>
 
-  <include file="$(find robot_advanced_sim)/launch/gazebo/world/$(arg sim_world).launch.xml">
+  <include file="$(find robot_sim)/launch/gazebo/world/$(arg sim_world).launch.xml">
   </include>
 
   <group ns="$(arg robot_id)">
 
-    <include file="$(find robot_advanced_sim)/launch/gazebo/spawn_robot.launch.xml">
+    <include file="$(find robot_sim)/launch/gazebo/spawn_robot.launch.xml">
       <arg name="robot_id" value="$(arg robot_id)"/>
       <arg name="robot_xacro_path" value="$(arg robot_xacro_path)"/>
       <arg name="x_init_pose" value="$(arg x_init_pose)"/>
