@@ -12,7 +12,7 @@
 	<!-- Robot - Load joint controller configurations from YAML file to parameter server -->
 	<group unless="$(arg sim)">
 		<!-- Load joint controller configurations from YAML file to parameter server -->
-		<rosparam file="$(find robot_description)/robot_control/config/rb_theron_control.yaml" command="load"/>
+		<rosparam file="$(find robot_sim)/robot_control/config/rb_theron_control.yaml" command="load"/>
 		<param name="robotnik_base_control/joint/left_wheel_joint/name" value="$(arg prefix)left_wheel_joint"/>
 		<param name="robotnik_base_control/joint/right_wheel_joint/name" value="$(arg prefix)right_wheel_joint"/>
 		<param name="robotnik_base_control/robot_base_frame" value="$(arg prefix)base_footprint"/>
@@ -31,7 +31,7 @@
 	<group if="$(arg sim)">
 
 		<!-- Load joint controller configurations from YAML file to parameter server -->
-		<rosparam file="$(find robot_description)/robot_control/config/simulation/rb_theron_diffdrive_control.yaml" command="load"/>
+		<rosparam file="$(find robot_sim)/robot_control/config/simulation/rb_theron_diffdrive_control.yaml" command="load"/>
 		<param name="robotnik_base_control/left_wheel" value="$(arg prefix)left_wheel_joint"/>
 		<param name="robotnik_base_control/right_wheel" value="$(arg prefix)right_wheel_joint"/>
 		<param name="robotnik_base_control/base_frame_id" value="$(arg prefix)base_footprint"/>
@@ -52,7 +52,7 @@
 	</group>
 
 	<node pkg="twist_mux" type="twist_mux" name="twist_mux">
-		<rosparam command="load" file="$(find robot_description)/robot_control/config/twist_mux.yaml" />
+		<rosparam command="load" file="$(find robot_sim)/robot_control/config/twist_mux.yaml" />
 		<remap from="cart_docker/cmd_vel" to="docker/cmd_vel"/>
 		<remap from="cmd_vel_out" to="robotnik_base_control/cmd_vel" />
 	</node>

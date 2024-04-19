@@ -15,7 +15,7 @@
 
   <!-- Robot - Load joint controller configurations from YAML file to parameter server -->
   <group unless="$(arg sim)">
-	  <rosparam file="$(find robot_description)/robot_control/config/robot_control.yaml" command="load" subst_value="true"/>
+	  <rosparam file="$(find robot_sim)/robot_control/config/robot_control.yaml" command="load" subst_value="true"/>
 
 	  <!-- load the controllers -->
 	  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="
@@ -27,7 +27,7 @@
   </group>
     <!-- Simulation - Load joint controller configurations from YAML file to parameter server -->
   <group if="$(arg sim)">
-	  <rosparam file="$(find robot_description)/robot_control/config/simulation/robot_control.yaml" command="load" subst_value="true"/>
+	  <rosparam file="$(find robot_sim)/robot_control/config/simulation/robot_control.yaml" command="load" subst_value="true"/>
 
     <node if="$(arg ros_planar_move_plugin)" name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="
       joint_read_state_controller
@@ -45,7 +45,7 @@
 
 
   <node pkg="twist_mux" type="twist_mux" name="twist_mux">
-    <rosparam command="load" file="$(find robot_description)/robot_control/config/twist_mux.yaml" />
+    <rosparam command="load" file="$(find robot_sim)/robot_control/config/twist_mux.yaml" />
     <remap from="cmd_vel_out" to="$(arg cmd_vel)" />
   </node>
   <node pkg="twist_mux" type="twist_marker" name="twist_marker">
