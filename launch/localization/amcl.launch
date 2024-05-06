@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="config_package" default="$(optenv ROBOT_BRINGUP_SIM_PACKAGE robot_sim)"/>
+  <arg name="config_folder" default="config/localization"/>
+  <arg name="config_path" default="$(eval find(config_package) + '/' + config_folder)"/>
+
+  <arg name="id_robot" default="$(optenv ROBOT_ID robot)"/>
+  <arg name="prefix" default="$(arg id_robot)_"/>
+  <arg name="kinematics" default="$(optenv ROBOT_KINEMATICS skid)"/>
+  
+  <arg name="x_init_pose" default="0"/>
+  <arg name="y_init_pose" default="0"/>
+  <arg name="z_init_pose" default="0"/>
+  <arg name="scan_topic" default="$(optenv ROBOT_LOCALIZATION_SCAN_TOPIC front_laser/scan)"/>
+  <arg name="map_topic" default="map"/>
+  <arg name="global_frame" default="$(arg prefix)map"/>
+  <arg name="odom_frame" default="$(arg prefix)odom"/>
+  <arg name="base_frame" default="$(arg prefix)base_footprint"/>
+  <arg name="odom_model_type" default="diff"/> <!-- omni -->
+
+  <node pkg="amcl" type="amcl" name="amcl" output="screen">
+    <remap from="scan" to="$(arg scan_topic)"/>
+    <remap from="map" to="$(arg map_topic)"/>
+
+    <rosparam command="load" file="$(arg config_path)/amcl.yaml" subst_value="true"/>
+
+    <!-- Overwrite in case of omni kinematics -->
+    <param if="$(eval kinematics == 'omni_4w')" name="odom_model_type" value="omni"/>
+    <param if="$(eval kinematics == 'ackermann_4s')" name="odom_model_type" value="omni"/>
+
+  </node>
+
+</launch>

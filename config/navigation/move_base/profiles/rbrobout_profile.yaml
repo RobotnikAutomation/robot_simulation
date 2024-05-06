@@ -1,0 +1,33 @@
+# costmaps
+
+global_costmap:
+  footprint: [[0.859, -0.425], [0.859, 0.425], [-0.859,0.425], [-0.859, -0.425]]
+  inflation_layer:
+    enabled: true
+    cost_scaling_factor: 1.0 
+    inflation_radius: 0.6
+
+local_costmap:
+  footprint: [[0.859, -0.425], [0.859, 0.425], [-0.859,0.425], [-0.859, -0.425]]
+  inflation_layer:
+    enabled: true
+    cost_scaling_factor: 10.0 
+    inflation_radius: 0.6
+
+
+# planners
+
+TebLocalPlannerROS:
+  max_vel_x: 0.3
+  max_vel_x_backwards: 0.15
+  max_vel_theta: 0.3
+  max_vel_y: 0.25
+  acc_lim_y: 0.2
+  acc_lim_x: 0.2
+  acc_lim_theta: 0.2
+  min_turning_radius: 0.0
+  wheelbase: 0.0
+  cmd_angle_instead_rotvel: false
+  footprint_model: # types: "point", "circular", "two_circles", "line", "polygon"
+    type: "polygon"
+    vertices: [[0.859, -0.425], [0.859, 0.425], [-0.859,0.425], [-0.859, -0.425]]

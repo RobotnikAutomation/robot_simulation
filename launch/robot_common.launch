@@ -61,15 +61,15 @@
       <arg name="charger_relay_output_number" value="$(arg charger_relay_output_number)"/>
     </include>
 
-    <!-- start robotnik_pad nodes -->
-    <include if="$(arg run_pad)" file="$(find robot_bringup)/launch/bringup/pad.launch">
+    <!-- start robotnik_pad nodes 
+    <include if="$(arg run_pad)" file="$(find robot_sim)/launch/pad/pad.launch">
       <arg name="pad_model" value="$(arg pad_model)"/>
-    </include>
+    </include>-->
 
   </group>
 
  	<!-- launch rviz -->
-	<node if="$(arg launch_rviz)" name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(find robot_bringup)/rviz/robot_map.rviz"/>
+	<node if="$(arg launch_rviz)" name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(find robot_sim)/rviz/robot_map.rviz"/>
 
 
 

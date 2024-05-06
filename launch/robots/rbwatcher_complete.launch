@@ -18,6 +18,7 @@
   <arg name="kinematics" default="$(optenv ROBOT_KINEMATICS skid_4w)"/>
   <arg name="ros_planar_move_plugin" default="false"/>
   <arg name="ros_planar_move_plugin_force_based" default="false"/>
+  <arg name="launch_loc_and_nav" default="true"/>
 
   <!-- Common launch file for any robot and world -->  
   <include file="$(find robot_sim)/launch/robot_common.launch">
@@ -37,13 +38,13 @@
   <group ns="$(arg robot_id)">
 
     <!-- It will launch the real robot control config or the old one for simulation -->
-    <include if="$(arg ros_planar_move_plugin)" file="$(find summit_xl_control)/launch/summit_xl_control.launch">
+    <include if="$(arg ros_planar_move_plugin)" file="$(find robot_sim)/robot_control/launch/summit_xl_control.launch">
       <arg name="id_robot" value="$(arg robot_id)"/>
       <arg name="kinematics" value="$(arg kinematics)"/>
       <arg name="ros_planar_move_plugin" value="$(arg ros_planar_move_plugin)"/>
       <arg name="sim" value="true"/>
     </include>
-    <include unless="$(arg ros_planar_move_plugin)" file="$(find robot_bringup)/launch/bringup/control/robot_control.launch">
+    <include unless="$(arg ros_planar_move_plugin)" file="$(find robot_sim)/robot_control/launch/robot_control.launch">
       <arg name="id_robot" value="$(arg robot_id)"/>
       <arg name="robot_model" value="$(arg robot_model)"/>
       <arg name="kinematics" value="$(arg kinematics)"/>
@@ -59,6 +60,17 @@
     </include>
     
 
+    <!-- LOC & NAV -->
+    <include if="$(arg launch_loc_and_nav)" file="$(find robot_sim)/launch/robot_loc_nav.launch">
+      <arg name="robot_id" value="$(arg robot_id)"/>
+      <arg name="prefix" value="$(arg prefix)"/>
+      <arg name="robot_model" value="$(arg robot_model)"/>
+      <arg name="kinematics" value="$(arg kinematics)"/>
+      <arg name="sim_world" value="$(arg sim_world)"/>
+      <arg name="x_init_pose" value="$(arg x_init_pose)"/>
+      <arg name="y_init_pose" value="$(arg y_init_pose)"/>
+      <arg name="z_init_pose" value="$(arg z_init_pose)"/>
+    </include>
 
   </group>
 

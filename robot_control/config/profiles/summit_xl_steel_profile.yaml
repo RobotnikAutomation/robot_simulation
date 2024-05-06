@@ -1,0 +1,12 @@
+robotnik_base_control:
+
+  track_width: 0.538
+  wheel_base: 0.43
+  wheel_diameter: $(arg wheel_diameter)
+
+  linear_speed_limit: 1.5          # m/s
+  linear_acceleration_limit: 0.6   # m/s^2
+  linear_deceleration_limit: 0.6   # m/s^2 Not implemented
+  angular_speed_limit: 3.0         # rad/s
+  angular_acceleration_limit: 1.5  # rad/s^2
+  angular_deceleration_limit: 1.5  # rad/s^2 Not implemented

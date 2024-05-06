@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="config_package" default="$(optenv ROBOT_BRINGUP_SIM_PACKAGE robot_sim)"/>
+  <arg name="config_folder" default="config/navigation/move_base"/>
+  <arg name="config_path" default="$(eval find(config_package) + '/' + config_folder)"/>
+
+  <arg name="id_robot" default="$(optenv ROBOT_ID robot)"/>
+  <arg name="prefix" default="$(arg id_robot)_"/>
+  
+  <!-- Topics argumments -->
+  <arg name="cmd_vel_topic" default="move_base/cmd_vel"/>
+  <arg name="odom_topic" default="robotnik_base_control/odom"/>
+  <arg name="front_scan_topic" default="$(optenv ROBOT_NAVIGATION_FRONT_2D_SCAN front_laser/scan)"/>
+  <arg name="rear_scan_topic" default="$(optenv ROBOT_NAVIGATION_REAR_2D_SCAN rear_laser/scan)"/>
+  <arg name="front_rgbd_to_scan_topic" default="$(optenv ROBOT_NAVIGATION_FRONT_RGBD_TO_SCAN front_rgbd_camera/point_cloud_scan_filtered)"/>
+ 
+  <!-- Frames arguments -->
+  <arg name="global_frame" default="$(arg prefix)map"/>
+  <arg name="odom_frame" default="$(arg prefix)odom"/>
+  <arg name="base_frame" default="$(arg prefix)base_footprint"/>
+
+  <arg name="robot_model" default="$(optenv ROBOT_MODEL rbkairos)"/>
+  <arg name="kinematics" default="$(optenv ROBOT_KINEMATICS diff)"/>
+
+  <arg name="global_planner" default="$(optenv ROBOT_MOVE_BASE_GLOBAL_PLANNER global_planner)"/>
+  <arg name="local_planner" default="$(optenv ROBOT_MOVE_BASE_LOCAL_PLANNER teb)"/>
+
+  <!-- Run move_base -->
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base">
+  	<remap from="cmd_vel" to="$(arg cmd_vel_topic)" />
+    <remap from="odom" to="$(arg odom_topic)" />
+
+    <!-- Move base params -->
+    <rosparam file="$(arg config_path)/move_base.yaml" command="load" />
+    <rosparam file="$(arg config_path)/planners/global_planners/$(arg global_planner)/$(arg global_planner)_$(arg kinematics).yaml" command="load" />
+
+    <!-- Global costmap params-->
+    <rosparam file="$(arg config_path)/costmaps/common_costmap.yaml" command="load" ns="global_costmap" subst_value="true"/>
+    <rosparam file="$(arg config_path)/costmaps/global_costmap.yaml" command="load" subst_value="true"/>
+
+    <!-- Local costmap params-->
+    <rosparam file="$(arg config_path)/costmaps/common_costmap.yaml" command="load" ns="local_costmap" subst_value="true"/>
+    <rosparam file="$(arg config_path)/costmaps/local_costmap.yaml" command="load" subst_value="true"/>
+
+    <!-- Load local_planner based on kinematics -->
+    <rosparam file="$(arg config_path)/planners/local_planners/$(arg local_planner)/$(arg local_planner)_local_planner_$(arg kinematics).yaml" command="load" subst_value="true"/>
+
+    <!-- overwrites previous values based on robot profile -->
+    <rosparam file="$(arg config_path)/profiles/$(arg robot_model)_profile.yaml" command="load"/>
+  </node>
+
+</launch>
