@@ -11,7 +11,7 @@
   <arg name="y_init_pose" default="$(optenv ROBOT_SIM_Y_POSE 0)"/>
   <arg name="z_init_pose" default="$(optenv ROBOT_SIM_Z_POSE 0)"/>
   <arg name="a_init_pose" default="$(optenv ROBOT_SIM_Z_ANGLE 0)"/>
-  <arg name="robot_xacro" default="$(optenv ROBOT_XACRO rbwatcher_std.urdf.xacro)"/>
+  <arg name="robot_xacro" default="$(optenv ROBOT_XACRO rb_watcher_std.urdf.xacro)"/>
   <arg name="robot_xacro_package" default="$(optenv ROBOT_XACRO_PACKAGE robot_description)"/>
   <arg name="robot_xacro_relative_path" default="$(optenv ROBOT_XACRO_RELATIVE_PATH /robots/)" />
   <arg name="robot_xacro_path" default="$(eval find(robot_xacro_package) + robot_xacro_relative_path + robot_xacro)"/>
