@@ -38,7 +38,7 @@
   <group ns="$(arg robot_id)">
 
     <!-- It will launch the real robot control config or the old one for simulation -->
-    <include if="$(arg ros_planar_move_plugin)" file="$(find robot_sim)/robot_control/rbvogui_control.launch">
+    <include if="$(arg ros_planar_move_plugin)" file="$(find robot_sim)/robot_control/launch/robots/rbvogui_control.launch">
       <arg name="id_robot" value="$(arg robot_id)"/>
       <arg name="kinematics" value="$(arg kinematics)"/>
       <arg name="ros_planar_move_plugin" value="$(arg ros_planar_move_plugin)"/>

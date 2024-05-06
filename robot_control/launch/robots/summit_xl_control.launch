@@ -38,7 +38,7 @@
 	  <rosparam file="$(find robot_sim)/robot_control/config/simulation/robot_control.yaml" command="load" subst_value="true"/>
 
     <group if="$(arg sim_arm_control)">
-      <include file="$(find robot_sim)/robot_control/launch/$(arg arm_manufacturer)_control.launch">
+      <include file="$(find robot_sim)/robot_control/launch/manipulation/$(arg arm_manufacturer)_control.launch">
         <arg name="prefix" value="$(arg prefix)"/>
         <arg name="arm_prefix" value="$(arg arm_prefix)"/>
         <arg name="arm_model" value="$(arg arm_model)"/>

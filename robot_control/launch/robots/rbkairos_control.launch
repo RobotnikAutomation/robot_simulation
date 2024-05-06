@@ -16,7 +16,7 @@
   <arg name="cmd_vel" default="robotnik_base_control/cmd_vel"/>
 
   <!-- Base control -->
-  <include file="$(find robot_sim)/robot_control/launch/summit_xl_control.launch">
+  <include file="$(find robot_sim)/robot_control/launch/robots/summit_xl_control.launch">
     <arg name="id_robot" value="$(arg robot_id)"/>
     <arg name="prefix" value="$(arg prefix)"/>
     <arg name="kinematics" value="$(arg kinematics)"/>

@@ -43,7 +43,7 @@
     </node>
 
     <group if="$(eval arg('arm_manufacturer') != 'none')">
-      <include file="$(find robot_sim)/robot_control/launch/$(arg arm_manufacturer)_control.launch">
+      <include file="$(find robot_sim)/robot_control/launch/manipulation/$(arg arm_manufacturer)_control.launch">
         <arg name="prefix" value="$(arg prefix)"/>
         <arg name="arm_model" value="$(arg arm_model)"/>
         <arg name="use_trajectory_controller" value="true"/>
@@ -51,7 +51,7 @@
     </group> 
 
     <group if="$(eval arg('gripper_manufacturer') != 'none')">
-      <include file="$(find robot_sim)/robot_control/launch/$(arg gripper_manufacturer)_control.launch">
+      <include file="$(find robot_sim)/robot_control/launch/manipulation/$(arg gripper_manufacturer)_control.launch">
         <arg name="prefix" value="$(arg prefix)"/>
         <arg name="gripper_model" value="$(arg gripper_model)"/>
       </include> 
