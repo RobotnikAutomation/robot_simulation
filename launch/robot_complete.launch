@@ -1,6 +1,11 @@
 <?xml version="1.0"?>
 <launch>
     <arg name="robot_model" default="$(optenv ROBOT_MODEL summit_xl)"/>
-    <include file="$(find robot_sim)/launch/robots/$(arg robot_model)_complete.launch"/>
+    <arg name="launch_loc_and_nav" default="false"/>
+
+    <include file="$(find robot_sim)/launch/robots/$(arg robot_model)_complete.launch">
+        <arg name="launch_loc_and_nav" value="$(arg launch_loc_and_nav)"/>
+    </include>
+
 
 </launch>
