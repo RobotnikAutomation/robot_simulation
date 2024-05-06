@@ -1,0 +1,102 @@
+repositories:
+  src/robot_sim:
+    type: git
+    url: https://github.com/RobotnikAutomation/robot_sim
+    version: ros
+  src/robot_description:
+    type: git
+    url: https://github.com/RobotnikAutomation/robot_description
+    version: ros-devel
+  src/others/robotnik_sensors:
+    type: git
+    url: https://github.com/RobotnikAutomation/robotnik_sensors
+    version: ros
+  src/others/robotnik_gazebo_models:
+    type: git
+    url: https://github.com/RobotnikAutomation/robotnik_gazebo_models.git
+    version: master
+  src/others/robotnik_base_hw_sim:
+    type: git
+    url: https://github.com/RobotnikAutomation/robotnik_base_hw_sim
+    version: ros
+  src/others/robotnik_msgs:
+    type: git
+    url: https://github.com/RobotnikAutomation/robotnik_msgs
+    version: ros-devel
+  src/others/universal_robot:
+    type: git
+    url: https://github.com/ros-industrial/universal_robot.git
+    version: noetic-devel
+  
+  src/others/battery_manager: # Usar DEB
+    type: git
+    url: https://github.com/RobotnikAutomation/battery_manager
+    version: ros-devel
+  src/others/rcomponent:
+    type: git
+    url: https://github.com/RobotnikAutomation/rcomponent
+    version: master
+  src/others/teleop_panel:
+    type: git
+    url: https://github.com/RobotnikAutomation/teleop_panel
+    version: master
+  
+  
+  src/others/robotnik_controllers: # Usar DEB
+    type: git
+    url: https://github.com/RobotnikAutomation/robotnik_controllers
+    version: ros-devel
+  
+  src/others/flexisoft_simulator:
+    type: git
+    url: https://github.com/RobotnikAutomation/flexisoft_simulator
+    version: master
+  src/others/robotnik_navigation: # Usar DEB de safety_controller
+    type: git
+    url: https://github.com/RobotnikAutomation/robotnik_navigation.git
+    version: ros-devel
+  src/others/robotnik_navigation_msgs:
+    type: git
+    url: https://github.com/RobotnikAutomation/robotnik_navigation_msgs.git
+    version: ros-devel
+  src/others/robotnik_gazebo_plugins:
+    type: git
+    url: https://github.com/RobotnikAutomation/robotnik_gazebo_plugins
+    version: master
+  src/others/robotnik_elevator_interface:
+    type: git
+    url: https://github.com/RobotnikAutomation/robotnik_elevator_interface
+    version: master
+  src/others/roboticsgroup_gazebo_plugins:
+    type: git
+    url: https://github.com/RobotnikAutomation/roboticsgroup_gazebo_plugins
+    version: master
+  src/others/velodyne_simulator:
+    type: git
+    url: https://github.com/RobotnikAutomation/velodyne_simulator
+    version: 1.0.0
+
+
+  src/others/egh_gripper_common:
+    type: git
+    url: https://github.com/RobotnikAutomation/egh_gripper_common
+    version: master
+  src/others/wsg50-ros-pkg:
+    type: git
+    url: https://github.com/RobotnikAutomation/wsg50-ros-pkg
+    version: master  
+  src/others/kinova-ros:
+    type: git
+    url: https://github.com/RobotnikAutomation/kinova-ros.git
+    version: master
+  src/others/rg2_gripper_common:
+    type: git
+    url: https://github.com/RobotnikAutomation/rg2_gripper_common.git
+    version: 3642dccf6c6c1cc6a12a0b7d411d5027321d6012
+  src/others/ewellix_description:
+    type: git
+    url: https://github.com/RobotnikAutomation/ewellix_description.git
+    version: d21c40e5fcbe86cdddbecbf320a92717fc895cdc
+  
+  
+  
