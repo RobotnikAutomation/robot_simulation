@@ -15,7 +15,8 @@
   <arg name="arm_model" default="$(optenv ROBOT_ARM_MODEL ur5)"/>
   <arg name="gripper_manufacturer" default="$(optenv ROBOT_GRIPPER_MANUFACTURER schunk)"/>
   <arg name="gripper_model" default="$(optenv ROBOT_GRIPPER_MODEL egh)"/>
-
+  <arg name="cmd_vel_unsafe" default="robotnik_base_control/cmd_vel_unsafe"/>
+  <arg name="robot_has_safety" default="false"/>
 
   <!-- Robot - Load joint controller configurations from YAML file to parameter server -->
   <group unless="$(arg sim)">
@@ -61,6 +62,7 @@
 
   <node pkg="twist_mux" type="twist_mux" name="twist_mux">
     <rosparam command="load" file="$(find robot_sim)/robot_control/config/twist_mux.yaml" />
-    <remap from="cmd_vel_out" to="$(arg cmd_vel)" />
+    <remap if="$(arg robot_has_safety)" from="cmd_vel_out" to="$(arg cmd_vel_unsafe)" />
+    <remap unless="$(arg robot_has_safety)" from="cmd_vel_out" to="$(arg cmd_vel)" />
   </node>
 </launch>

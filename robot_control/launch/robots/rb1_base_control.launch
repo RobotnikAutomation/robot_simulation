@@ -14,6 +14,8 @@
 	<arg name="wheel_diameter" default="0.1524"/>
 	<arg name="ros_planar_move_plugin" default="false"/>
 	<arg name="cmd_vel_out" default="$(optenv ROBOT_TWISTMUX_CMD_OUT robotnik_base_control/cmd_vel)"/>
+	<arg name="cmd_vel_unsafe" default="robotnik_base_control/cmd_vel_unsafe"/>
+	<arg name="robot_has_safety" default="false"/>
 
 	<!-- Robot - Load joint controller configurations from YAML file to parameter server -->
 	<group unless="$(arg sim)">
@@ -67,7 +69,8 @@
 	<node pkg="twist_mux" type="twist_mux" name="twist_mux">
 		<rosparam command="load" file="$(find robot_sim)/robot_control/config/twist_mux.yaml" />
 		<remap from="cart_docker/cmd_vel" to="docker/cmd_vel"/>
-		<remap from="cmd_vel_out" to="$(arg cmd_vel_out)" />
+		<remap if="$(arg robot_has_safety)" from="cmd_vel_out" to="$(arg cmd_vel_unsafe)" />
+		<remap unless="$(arg robot_has_safety)" from="cmd_vel_out" to="$(arg cmd_vel_out)" />
 	</node>
 
 	<!-- load arm controller -->
