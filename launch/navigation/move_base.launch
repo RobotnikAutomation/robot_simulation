@@ -4,8 +4,8 @@
   <arg name="config_folder" default="config/navigation/move_base"/>
   <arg name="config_path" default="$(eval find(config_package) + '/' + config_folder)"/>
 
-  <arg name="id_robot" default="$(optenv ROBOT_ID robot)"/>
-  <arg name="prefix" default="$(arg id_robot)_"/>
+  <arg name="robot_id" default="$(optenv ROBOT_ID robot)"/>
+  <arg name="prefix" default="$(arg robot_id)_"/>
   
   <!-- Topics argumments -->
   <arg name="cmd_vel_topic" default="move_base/cmd_vel"/>

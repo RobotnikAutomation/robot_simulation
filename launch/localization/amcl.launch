@@ -4,8 +4,8 @@
   <arg name="config_folder" default="config/localization"/>
   <arg name="config_path" default="$(eval find(config_package) + '/' + config_folder)"/>
 
-  <arg name="id_robot" default="$(optenv ROBOT_ID robot)"/>
-  <arg name="prefix" default="$(arg id_robot)_"/>
+  <arg name="robot_id" default="$(optenv ROBOT_ID robot)"/>
+  <arg name="prefix" default="$(arg robot_id)_"/>
   <arg name="kinematics" default="$(optenv ROBOT_KINEMATICS skid)"/>
   
   <arg name="x_init_pose" default="0"/>

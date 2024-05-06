@@ -40,14 +40,14 @@
 
     <!-- It will launch the real robot control config or the old one for simulation -->
     <include if="$(arg ros_planar_move_plugin)" file="$(find robot_sim)/robot_control/launch/robots/rb1_base.launch">
-      <arg name="id_robot" value="$(arg robot_id)"/>
+      <arg name="robot_id" value="$(arg robot_id)"/>
       <arg name="kinematics" value="$(arg kinematics)"/>
       <arg name="ros_planar_move_plugin" value="$(arg ros_planar_move_plugin)"/>
       <arg name="sim" value="true"/>
       <arg name="robot_has_safety" value="$(arg has_safety_module)"/>
     </include>
     <include unless="$(arg ros_planar_move_plugin)" file="$(find robot_sim)/robot_control/launch/robot_control.launch">
-      <arg name="id_robot" value="$(arg robot_id)"/>
+      <arg name="robot_id" value="$(arg robot_id)"/>
       <arg name="robot_model" value="$(arg robot_model)"/>
       <arg name="kinematics" value="$(arg kinematics)"/>
       <arg name="robot_has_safety" value="$(arg has_safety_module)"/>

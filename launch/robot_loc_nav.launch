@@ -28,18 +28,18 @@
     <!-- robot_localization nodes, publishes transformation world->odom->base_footprint -->
     <include if="$(arg launch_robot_ekf_localization)" file="$(find robot_sim)/launch/localization/robot_localization_$(arg robot_ekf_localization_mode).launch">
         <arg name="prefix" value="$(arg prefix)"/>
-        <arg name="id_robot" value="$(arg robot_id)"/>
+        <arg name="robot_id" value="$(arg robot_id)"/>
     </include>
 
     <!-- amcl and map server base-->
     <include if="$(arg launch_amcl_and_mapserver)" file="$(find robot_sim)/launch/localization/map_server.launch">
         <arg name="prefix" value="$(arg prefix)"/>
         <arg name="map_file" value="$(arg map_file)"/>
-        <arg name="id_robot" value="$(arg robot_id)"/>
+        <arg name="robot_id" value="$(arg robot_id)"/>
     </include>
     <include if="$(arg launch_amcl_and_mapserver)" file="$(find robot_sim)/launch/localization/amcl.launch">
         <arg name="prefix" value="$(arg prefix)"/>
-        <arg name="id_robot" value="$(arg robot_id)"/>
+        <arg name="robot_id" value="$(arg robot_id)"/>
         <arg name="kinematics" value="$(arg kinematics)"/>
         <arg name="x_init_pose" value="$(arg x_init_pose)"/>
         <arg name="y_init_pose" value="$(arg y_init_pose)"/>
@@ -49,7 +49,7 @@
     <!-- gmapping -->
     <include if="$(arg launch_gmapping)" file="$(find robot_sim)/launch/localization/slam_gmapping.launch">
         <arg name="prefix" value="$(arg prefix)"/>
-        <arg name="id_robot" value="$(arg robot_id)"/>
+        <arg name="robot_id" value="$(arg robot_id)"/>
     </include>
 </launch>
   

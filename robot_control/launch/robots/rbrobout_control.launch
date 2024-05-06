@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="id_robot" default="$(optenv ROBOT_ID robot)"/>
-  <arg name="prefix" default="$(arg id_robot)_"/>
+  <arg name="robot_id" default="$(optenv ROBOT_ID robot)"/>
+  <arg name="prefix" default="$(arg robot_id)_"/>
 
   <arg name="wheel_diameter" default="$(optenv ROBOT_WHEEL_DIAMETER 0.254)"/>
   <arg name="track_width" default="$(optenv ROBOT_TRACK_WIDTH 0.573)"/>
