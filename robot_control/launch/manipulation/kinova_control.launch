@@ -7,7 +7,7 @@
   <arg name="is7dof" default="false"/>
 
   <!-- Load joint controller configurations from YAML file to parameter server -->
-  <rosparam file="$(find robot_sim)/robot_control/config/kinova/$(arg arm_model)_control.yaml" command="load"/>
+  <rosparam file="$(find robot_sim)/robot_control/config/manipulation/kinova/$(arg arm_model)_control.yaml" command="load"/>
 
   <group unless="$(arg use_trajectory_controller)">
       <group unless="$(eval arg('arm_model') == 'j2s7s300')">
