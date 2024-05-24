@@ -18,6 +18,8 @@
   <arg name="kinematics" default="$(optenv ROBOT_KINEMATICS skid_4w)"/>
   <arg name="ros_planar_move_plugin" default="false"/>
   <arg name="ros_planar_move_plugin_force_based" default="false"/>
+  <arg name="has_top_ptz" default="$(optenv ROBOT_SIM_RUN_PTZ_CONTROLLER_1 false)"/>
+  <arg name="has_front_ptz" default="$(optenv ROBOT_SIM_RUN_PTZ_CONTROLLER_2 false)"/>
 
   <!-- Common launch file for any robot and world -->  
   <include file="$(find robot_sim)/launch/robot_common.launch">
@@ -33,13 +35,36 @@
     <arg name="ros_planar_move_plugin_force_based" default="$(arg ros_planar_move_plugin_force_based)"/>
   </include>
 
-  <!-- base hw sim -->
   <group ns="$(arg robot_id)">  
     <include file="$(find robot_bringup)/launch/bringup/control/robot_control.launch">
       <arg name="id_robot" value="$(arg robot_id)"/>
       <arg name="robot_model" value="$(arg robot_model)"/>
       <arg name="kinematics" value="$(arg kinematics)"/>
     </include>
+
+    <include if="$(arg has_top_ptz)" file="$(find robot_sim)/launch/include/ptz_control.launch.xml">
+      <arg name="id_robot" value="$(arg robot_id)"/>
+      <arg name="has_zoom" value="false"/>
+      <arg name="pan_joint" value="$(arg prefix)top_ptz_camera_pan_joint"/>
+      <arg name="tilt_joint" value="$(arg prefix)top_ptz_camera_tilt_joint"/>
+      <!--arg name="zoom_joint" value="$(arg prefix)top_ptz_camera_zoom_joint"/-->
+      <arg name="spawner_id" value="1"/>
+      <arg name="controller_prefix_id" value="top_ptz_camera_"/>
+    </include>
+
+    <include if="$(arg has_front_ptz)"  file="$(find robot_sim)/launch/include/ptz_control.launch.xml">
+      <arg name="id_robot" value="$(arg robot_id)"/>
+      <arg name="has_zoom" value="true"/>
+      <arg name="pan_joint" value="$(arg prefix)front_ptz_camera_pan_joint"/>
+      <arg name="tilt_joint" value="$(arg prefix)front_ptz_camera_tilt_joint"/>
+      <arg name="zoom_joint" value="$(arg prefix)front_ptz_camera_zoom_joint"/>
+      <arg name="spawner_id" value="2"/>
+      <arg name="controller_prefix_id" value="front_ptz_camera_"/>
+    </include>
+
   </group>
+
+  
+  
 
 </launch>
