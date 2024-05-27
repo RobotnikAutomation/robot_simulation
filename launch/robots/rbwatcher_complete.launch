@@ -53,9 +53,10 @@
     <include file="$(find robot_sim)/launch/include/ptz_control.launch.xml">
       <arg name="id_robot" value="$(arg robot_id)"/>
       <arg name="has_zoom" value="true"/>
-      <arg name="pan_joint" value="$(arg prefix)ptz_camera_pan_joint"/>
-      <arg name="tilt_joint" value="$(arg prefix)ptz_camera_tilt_joint"/>
-      <arg name="zoom_joint" value="$(arg prefix)ptz_camera_zoom_joint"/>
+      <arg name="pan_joint" value="$(arg prefix)top_ptz_camera_pan_joint"/>
+      <arg name="tilt_joint" value="$(arg prefix)top_ptz_camera_tilt_joint"/>
+      <arg name="zoom_joint" value="$(arg prefix)top_ptz_camera_zoom_joint"/>
+      <arg name="controller_prefix_id" value="top_ptz_camera_"/>
     </include>
     
 
