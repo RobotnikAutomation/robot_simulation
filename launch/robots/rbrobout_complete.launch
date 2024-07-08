@@ -24,6 +24,7 @@
   <!-- Common launch file for any robot and world -->  
   <include file="$(find robot_sim)/launch/robot_common.launch">
     <arg name="robot_id" value="$(arg robot_id)"/>
+    <arg name="robot_model" value="$(arg robot_model)"/>
     <arg name="sim_world" value="$(arg sim_world)"/>
     <arg name="x_init_pose" value="$(arg x_init_pose)"/>
     <arg name="y_init_pose" value="$(arg y_init_pose)"/>
@@ -33,6 +34,8 @@
     <arg name="kinematics" value="$(arg kinematics)"/>
     <arg name="ros_planar_move_plugin" default="$(arg ros_planar_move_plugin)"/>
     <arg name="ros_planar_move_plugin_force_based" default="$(arg ros_planar_move_plugin_force_based)"/>
+    <arg name="has_safety_module" default="$(arg has_safety_module)"/>
+    <arg name="launch_loc_and_nav" default="$(arg launch_loc_and_nav)"/>
   </include>
 
   <!-- base hw sim -->
@@ -52,21 +55,6 @@
       <arg name="robot_has_safety" value="$(arg has_safety_module)"/>
     </include>
 
-    <!-- LOC & NAV -->
-    <include if="$(arg launch_loc_and_nav)" file="$(find robot_sim)/launch/robot_loc_nav.launch">
-      <arg name="robot_id" value="$(arg robot_id)"/>
-      <arg name="prefix" value="$(arg prefix)"/>
-      <arg name="robot_model" value="$(arg robot_model)"/>
-      <arg name="kinematics" value="$(arg kinematics)"/>
-      <arg name="sim_world" value="$(arg sim_world)"/>
-      <arg name="x_init_pose" value="$(arg x_init_pose)"/>
-      <arg name="y_init_pose" value="$(arg y_init_pose)"/>
-      <arg name="z_init_pose" value="$(arg z_init_pose)"/>
-    </include>
   </group>
-
-  <include if="$(arg has_safety_module)" file="$(find robot_sim)/launch/include/flexisoft_simulator.launch.xml">
-    <arg name="robot_id" value="$(arg robot_id)"/>
-  </include>
 
 </launch>

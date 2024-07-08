@@ -30,6 +30,9 @@
   <arg name="ros_planar_move_plugin" default="false"/>
   <arg name="ros_planar_move_plugin_force_based" default="false"/>
 
+  <arg name="launch_loc_and_nav" default="true"/>
+  <arg name="has_safety_module" default="false"/>
+
   <include file="$(find robot_sim)/launch/gazebo/world/$(arg sim_world).launch.xml">
   </include>
 
@@ -66,7 +69,23 @@
       <arg name="pad_model" value="$(arg pad_model)"/>
     </include>-->
 
+    <!-- LOC & NAV -->
+    <include if="$(arg launch_loc_and_nav)" file="$(find robot_sim)/launch/robot_loc_nav.launch">
+      <arg name="robot_id" value="$(arg robot_id)"/>
+      <arg name="prefix" value="$(arg prefix)"/>
+      <arg name="robot_model" value="$(arg robot_model)"/>
+      <arg name="kinematics" value="$(arg kinematics)"/>
+      <arg name="sim_world" value="$(arg sim_world)"/>
+      <arg name="x_init_pose" value="$(arg x_init_pose)"/>
+      <arg name="y_init_pose" value="$(arg y_init_pose)"/>
+      <arg name="z_init_pose" value="$(arg z_init_pose)"/>
+    </include>
+
   </group>
+
+  <include if="$(arg has_safety_module)" file="$(find robot_sim)/launch/include/flexisoft_simulator.launch.xml">
+    <arg name="robot_id" value="$(arg robot_id)"/>
+  </include>
 
  	<!-- launch rviz -->
 	<node if="$(arg launch_rviz)" name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(find robot_sim)/rviz/robot_map.rviz"/>
