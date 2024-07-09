@@ -7,7 +7,7 @@
   <arg name="use_trajectory_controller" default="true"/>
 
    <!-- Load joint controller configurations from YAML file to parameter server -->
-  <rosparam file="$(find robot_sim)/robot_control/config/manipulation/ur/ur_control.yaml" command="load" subst_value="true"/>
+  <rosparam file="$(find robot_sim)/config/control/manipulation/ur/ur_control.yaml" command="load" subst_value="true"/>
 
   <group if="$(arg use_trajectory_controller)">
 

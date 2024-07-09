@@ -17,7 +17,7 @@
   <arg name="robot_has_safety" default="false"/>
 
   <!-- Base control -->
-  <include file="$(find robot_sim)/robot_control/launch/robots/summit_xl_control.launch">
+  <include file="$(find robot_sim)/launch/control/robots/summit_xl_control.launch">
     <arg name="robot_id" value="$(arg robot_id)"/>
     <arg name="prefix" value="$(arg prefix)"/>
     <arg name="kinematics" value="$(arg kinematics)"/>
@@ -33,7 +33,7 @@
 
     <group if="$(arg sim_arm_control)">
 
-      <rosparam file="$(find robot_sim)/robot_control/config/ur_controllers.yaml" command="load" ns="arm" subst_value="true"/>
+      <rosparam file="$(find robot_sim)/config/control/ur_controllers.yaml" command="load" ns="arm" subst_value="true"/>
       <node name="controller_spawner_arm" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="
         $(arg arm_controllers)
       "/>
@@ -42,7 +42,7 @@
 
     <group if="$(arg sim_gripper_control)">
 
-      <rosparam file="$(find robot_sim)/robot_control/config/gripper_control.yaml" command="load" subst_value="true" ns="gripper"/>
+      <rosparam file="$(find robot_sim)/config/control/gripper_control.yaml" command="load" subst_value="true" ns="gripper"/>
       <node name="controller_spawner_gripper" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="
         $(arg gripper_controllers)
       "/>

@@ -24,9 +24,9 @@
   <arg name="robot_has_brakes" default="false"/>
 
   <!-- Load generic robot control params-->
-  <rosparam file="$(find robot_sim)/robot_control/config/kinematics/$(arg kinematics)_control.yaml" command="load" subst_value="true"/>
+  <rosparam file="$(find robot_sim)/config/control/kinematics/$(arg kinematics)_control.yaml" command="load" subst_value="true"/>
   <!-- Load specific robot control params -->
-  <rosparam file="$(find robot_sim)/robot_control/config/profiles/$(arg robot_model)_profile.yaml" command="load" subst_value="true"/>
+  <rosparam file="$(find robot_sim)/config/control/profiles/$(arg robot_model)_profile.yaml" command="load" subst_value="true"/>
 
   <!-- Load kinematic controller -->
   <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="
@@ -37,7 +37,7 @@
 
   <!-- Load twist mux -->
   <node pkg="twist_mux" type="twist_mux" name="twist_mux">
-    <rosparam command="load" file="$(find robot_sim)/robot_control/config/twist_mux.yaml" />
+    <rosparam command="load" file="$(find robot_sim)/config/control/twist_mux.yaml" />
     <remap if="$(arg robot_has_safety)" from="cmd_vel_out" to="$(arg cmd_vel_unsafe)" />
     <remap unless="$(arg robot_has_safety)" from="cmd_vel_out" to="$(arg cmd_vel)" />
   </node>

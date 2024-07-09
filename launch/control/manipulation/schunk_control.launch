@@ -6,7 +6,7 @@
     <arg name="gripper_prefix" default="$(arg prefix)gripper"/>
 
     <!-- Load joint controller configurations from YAML file to parameter server -->
-    <rosparam file="$(find robot_sim)/robot_control/config/manipulation/schunk/$(arg gripper_model)_control.yaml" command="load" subst_value="true"/>
+    <rosparam file="$(find robot_sim)/config/control/manipulation/schunk/$(arg gripper_model)_control.yaml" command="load" subst_value="true"/>
 
 
     <group if="$(eval arg('gripper_model') == 'egh')">

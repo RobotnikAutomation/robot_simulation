@@ -40,7 +40,7 @@
 
   <!-- base hw sim -->
   <group ns="$(arg robot_id)">  
-    <include unless="$(arg ros_planar_move_plugin)" file="$(find robot_sim)/robot_control/launch/robot_control.launch">
+    <include unless="$(arg ros_planar_move_plugin)" file="$(find robot_sim)/launch/control/robot_control.launch">
       <arg name="robot_id" value="$(arg robot_id)"/>
       <arg name="robot_model" value="$(arg robot_model)"/>
       <arg name="kinematics" value="$(arg kinematics)"/>
