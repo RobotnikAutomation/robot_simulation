@@ -13,7 +13,7 @@
 	<arg name="fake_elevator_physics" default="false"/>
 	<arg name="wheel_diameter" default="0.1524"/>
 	<arg name="ros_planar_move_plugin" default="false"/>
-	<arg name="cmd_vel_out" default="$(optenv ROBOT_TWISTMUX_CMD_OUT robotnik_base_control/cmd_vel)"/>
+	<arg name="cmd_vel_out" default="robotnik_base_control/cmd_vel"/>
 	<arg name="cmd_vel_unsafe" default="robotnik_base_control/cmd_vel_unsafe"/>
 	<arg name="robot_has_safety" default="false"/>
 
