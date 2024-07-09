@@ -2,7 +2,6 @@
 <launch>
 
 	<arg name="sim" default="false"/>
-	<arg name="cmd_vel" default="robotnik_base_control/cmd_vel"/>
 	<arg name="robot_id" default="robot"/>
 	<arg name="prefix" default="robot_"/>
 	<arg name="wheel_diameter" default="0.1524"/>
