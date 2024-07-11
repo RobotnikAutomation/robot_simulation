@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
     <arg name="robot_model" default="$(optenv ROBOT_MODEL summit_xl)"/>
-    <arg name="robot_id" default="$(optenv ROBOT_ID robot2)"/>
+    <arg name="robot_id" default="robot2"/>
     <arg name="map_prefix" default="robot"/>
     <arg name="launch_loc_nav" default="true"/>
     <arg name="x_init_pose" default="$(optenv ROBOT_SIM_X_POSE 0)"/>
