@@ -17,7 +17,7 @@ global_costmap:
 
   static_map_layer:
       lethal_cost_threshold: 94
-      map_topic: map
+      map_topic: $(arg map_topic) #map
       unknown_cost_value: 1
       trinary_costmap: false
       use_maximum: false

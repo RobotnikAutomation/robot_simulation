@@ -1,49 +1,65 @@
 <?xml version="1.0"?>
 <launch>
 
-  <!-- rb1_base, rb_theron, summit_xl, summit_xl_steel, rbkairos, rbvogui, rbvogui_xl, rbvogui_6w, rbrobout-->
-  <arg name="robot_model" default="summit_xl"/>
-  <!-- arg to config the launch file-->
-  <arg name="robot_id" default="$(optenv ROBOT_ID robot)"/>
-  <arg name="prefix" default="$(arg robot_id)_"/>
-  <arg name="sim_world" default="$(optenv ROBOT_SIM_WORLD willow_garage)"/>
-  <arg name="x_init_pose" default="$(optenv ROBOT_SIM_X_POSE 0)"/>
-  <arg name="y_init_pose" default="$(optenv ROBOT_SIM_Y_POSE 0)"/>
-  <arg name="z_init_pose" default="$(optenv ROBOT_SIM_Z_POSE 0)"/>
-  <arg name="kinematics" default="$(optenv ROBOT_KINEMATICS skid_4w)"/>
-  
-  <arg name="launch_robot_ekf_localization" default="false"/>
-  <arg name="robot_ekf_localization_mode" default="odom"/>
-  <arg name="launch_move_base" default="true"/>
-  <arg name="launch_amcl_and_mapserver" default="true"/>
-  <arg name="launch_gmapping" default="false"/>
-  <arg name="map_file" default="$(arg sim_world)/$(arg sim_world).yaml"/>
+    <!-- rb1_base, rb_theron, summit_xl, summit_xl_steel, rbkairos, rbvogui, rbvogui_xl, rbvogui_6w, rbrobout-->
+    <arg name="robot_model" default="summit_xl"/>
+    <!-- arg to config the launch file-->
+    <arg name="robot_id" default="$(optenv ROBOT_ID robot)"/>
+    <arg name="prefix" default="$(arg robot_id)_"/>
+    <arg name="sim_world" default="$(optenv ROBOT_SIM_WORLD willow_garage)"/>
+    <arg name="x_init_pose" default="$(optenv ROBOT_SIM_X_POSE 0)"/>
+    <arg name="y_init_pose" default="$(optenv ROBOT_SIM_Y_POSE 0)"/>
+    <arg name="z_init_pose" default="$(optenv ROBOT_SIM_Z_POSE 0)"/>
+    <arg name="kinematics" default="$(optenv ROBOT_KINEMATICS skid_4w)"/>
+
+    <arg name="launch_robot_ekf_localization" default="false"/>
+    <arg name="robot_ekf_localization_mode" default="odom"/>
+    <arg name="launch_move_base" default="true"/>
+    <arg name="launch_amcl_and_mapserver" default="true"/>
+    <arg name="launch_gmapping" default="false"/>
+    <arg name="map_file" default="$(arg sim_world)/$(arg sim_world).yaml"/>
+
+    <arg name="map_frame_id" default="$(arg prefix)map"/>
+    <arg name="map_topic" default="map"/>
+
+    <arg name="launch_nav" default="true"/>
+    <arg name="launch_mapserver" default="true"/>
+    <arg name="launch_amcl" default="true"/>
 
     <!-- move base -->
-    <include if="$(arg launch_move_base)" file="$(find robot_sim)/launch/navigation/move_base.launch">
-      <arg name="robot_model" value="$(arg robot_model)"/>
-      <arg name="kinematics" value="$(arg kinematics)"/>
-    </include>
+    <group if="$(arg launch_nav)">
+        <include if="$(arg launch_move_base)" file="$(find robot_sim)/launch/navigation/move_base.launch">
+            <arg name="robot_id" value="$(arg robot_id)"/>
+            <arg name="robot_model" value="$(arg robot_model)"/>
+            <arg name="kinematics" value="$(arg kinematics)"/>
+            <arg name="global_frame" value="$(arg map_frame_id)"/>
+            <arg name="map_topic" value="$(arg map_topic)"/>
+        </include>
 
-    <!-- robot_localization nodes, publishes transformation world->odom->base_footprint -->
-    <include if="$(arg launch_robot_ekf_localization)" file="$(find robot_sim)/launch/localization/robot_localization_$(arg robot_ekf_localization_mode).launch">
-        <arg name="prefix" value="$(arg prefix)"/>
-        <arg name="robot_id" value="$(arg robot_id)"/>
-    </include>
+        <!-- robot_localization nodes, publishes transformation world->odom->base_footprint -->
+        <include if="$(arg launch_robot_ekf_localization)" file="$(find robot_sim)/launch/localization/robot_localization_$(arg robot_ekf_localization_mode).launch">
+            <arg name="prefix" value="$(arg prefix)"/>
+            <arg name="robot_id" value="$(arg robot_id)"/>
+        </include>
+    </group>
 
     <!-- amcl and map server base-->
-    <include if="$(arg launch_amcl_and_mapserver)" file="$(find robot_sim)/launch/localization/map_server.launch">
+    <include if="$(arg launch_mapserver)" file="$(find robot_sim)/launch/localization/map_server.launch">
         <arg name="prefix" value="$(arg prefix)"/>
         <arg name="map_file" value="$(arg map_file)"/>
         <arg name="robot_id" value="$(arg robot_id)"/>
+        <arg name="frame_id" value="$(arg map_frame_id)"/>
+        <arg name="map_topic" value="$(arg map_topic)"/>
     </include>
-    <include if="$(arg launch_amcl_and_mapserver)" file="$(find robot_sim)/launch/localization/amcl.launch">
+    <include if="$(arg launch_amcl)" file="$(find robot_sim)/launch/localization/amcl.launch">
         <arg name="prefix" value="$(arg prefix)"/>
         <arg name="robot_id" value="$(arg robot_id)"/>
         <arg name="kinematics" value="$(arg kinematics)"/>
         <arg name="x_init_pose" value="$(arg x_init_pose)"/>
         <arg name="y_init_pose" value="$(arg y_init_pose)"/>
         <arg name="z_init_pose" value="$(arg z_init_pose)"/>
+        <arg name="global_frame" value="$(arg map_frame_id)"/>
+        <arg name="map_topic" value="$(arg map_topic)"/>
     </include>
 
     <!-- gmapping -->

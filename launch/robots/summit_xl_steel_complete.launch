@@ -6,55 +6,82 @@
   <!-- arg to config the launch file-->
   <arg name="robot_id" default="$(optenv ROBOT_ID robot)"/>
   <arg name="prefix" default="$(arg robot_id)_"/>
+
+  <!-- Simulation -->
   <arg name="sim_world" default="$(optenv ROBOT_SIM_WORLD willow_garage)"/>
   <arg name="x_init_pose" default="$(optenv ROBOT_SIM_X_POSE 0)"/>
   <arg name="y_init_pose" default="$(optenv ROBOT_SIM_Y_POSE 0)"/>
   <arg name="z_init_pose" default="$(optenv ROBOT_SIM_Z_POSE 0)"/>
   <arg name="a_init_pose" default="$(optenv ROBOT_SIM_Z_ANGLE 0)"/>
+  <arg name="spawn_world" default="true"/>
+
+  <!-- Description -->
   <arg name="robot_xacro" default="$(optenv ROBOT_XACRO summit_xls_std.urdf.xacro)"/>
   <arg name="robot_xacro_package" default="$(optenv ROBOT_XACRO_PACKAGE robot_description)"/>
   <arg name="robot_xacro_relative_path" default="$(optenv ROBOT_XACRO_RELATIVE_PATH /robots/)" />
   <arg name="robot_xacro_folder" default="$(optenv ROBOT_XACRO_FOLDER none)" />
   <arg if="$(eval robot_xacro_folder =='none')" name="robot_xacro_path" default="$(eval find(robot_xacro_package) + robot_xacro_relative_path + robot_xacro)"/>
   <arg unless="$(eval robot_xacro_folder =='none')" name="robot_xacro_path" default="$(arg robot_xacro_folder)/$(arg robot_xacro)"/>
+  
+  <!-- Controller -->
   <arg name="kinematics" default="omni_4w"/>
   <arg name="ros_planar_move_plugin" default="true"/>
   <arg name="ros_planar_move_plugin_force_based" default="false"/>
-  <arg name="launch_loc_and_nav" default="true"/>
-  <arg name="has_safety_module" default="$(optenv ROBOT_RLC_SAFETY_MODULE false)" />
   <arg name="wheel_diameter" default="$(optenv ROBOT_WHEEL_DIAMETER 0.2552)"/>
 
+  <!-- Safety -->
+  <arg name="has_safety_module" default="$(optenv ROBOT_RLC_SAFETY_MODULE false)" />
+
+  <!-- Loc & Nav -->
+  <arg name="launch_loc_nav" default="true"/>
+  <arg name="launch_nav" default="$(arg launch_loc_nav)"/>
+  <arg name="launch_mapserver" default="$(arg launch_loc_nav)"/>
+  <arg name="launch_amcl" default="$(arg launch_loc_nav)"/>
+
+  <arg name="map_prefix" default="$(arg robot_id)"/>
+  <arg if="$(eval map_prefix == robot_id)" name="map_frame_id" default="$(arg prefix)map"/>
+  <arg unless="$(eval map_prefix == robot_id)" name="map_frame_id" default="$(arg map_prefix)_map"/>
+  <arg if="$(eval map_prefix == robot_id)" name="map_topic" default="map"/>
+  <arg unless="$(eval map_prefix == robot_id)" name="map_topic" default="/$(arg map_prefix)/map"/>
 
   <!-- Common launch file for any robot and world -->  
   <include file="$(find robot_sim)/launch/robot_common.launch">
     <arg name="robot_id" value="$(arg robot_id)"/>
     <arg name="robot_model" value="$(arg robot_model)"/>
+
+    <!-- Simulation -->
     <arg name="sim_world" value="$(arg sim_world)"/>
     <arg name="x_init_pose" value="$(arg x_init_pose)"/>
     <arg name="y_init_pose" value="$(arg y_init_pose)"/>
     <arg name="z_init_pose" value="$(arg z_init_pose)"/>
     <arg name="a_init_pose" value="$(arg a_init_pose)"/>
+    <arg name="spawn_world" value="$(arg spawn_world)"/>
+    <arg name="launch_rviz" value="$(arg spawn_world)"/>
+
+    <!-- Description -->
     <arg name="robot_xacro_path" value="$(arg robot_xacro_path)"/>
+
+    <!-- Control -->
     <arg name="kinematics" value="$(arg kinematics)"/>
-    <arg name="ros_planar_move_plugin" default="$(arg ros_planar_move_plugin)"/>
-    <arg name="ros_planar_move_plugin_force_based" default="$(arg ros_planar_move_plugin_force_based)"/>
-    <arg name="has_safety_module" default="$(arg has_safety_module)"/>
-    <arg name="launch_loc_and_nav" default="$(arg launch_loc_and_nav)"/>
+    <arg name="ros_planar_move_plugin" value="$(arg ros_planar_move_plugin)"/>
+    <arg name="ros_planar_move_plugin_force_based" value="$(arg ros_planar_move_plugin_force_based)"/>
+
+    <!-- Safety -->
+    <arg name="has_safety_module" value="$(arg has_safety_module)"/>
+
+    <!-- Loc & Nav -->
+    <arg name="launch_nav" value="$(arg launch_nav)"/>
+    <arg name="launch_mapserver" value="$(arg launch_mapserver)"/>
+    <arg name="launch_amcl" value="$(arg launch_amcl)"/>
+    <arg name="map_frame_id" value="$(arg map_frame_id)"/>
+    <arg name="map_topic" value="$(arg map_topic)"/>
   </include>
 
   <!-- base hw sim -->
   <group ns="$(arg robot_id)">
 
-    <!-- It will launch the real robot control config or the old one for simulation -->
-    <include if="$(arg ros_planar_move_plugin)" file="$(find robot_sim)/launch/control/robots/summit_xl_control.launch">
-      <arg name="robot_id" value="$(arg robot_id)"/>
-      <arg name="kinematics" value="$(arg kinematics)"/>
-      <arg name="ros_planar_move_plugin" value="$(arg ros_planar_move_plugin)"/>
-      <arg name="sim" value="true"/>
-      <arg name="robot_has_safety" value="$(arg has_safety_module)"/>
-      <arg name="wheel_diameter" value="$(arg wheel_diameter)"/>
-    </include>
-    <include unless="$(arg ros_planar_move_plugin)" file="$(find robot_sim)/launch/control/robot_control.launch">
+    <!-- Robot control -->
+    <include file="$(find robot_sim)/launch/control/robot_control.launch">
       <arg name="robot_id" value="$(arg robot_id)"/>
       <arg name="robot_model" value="$(arg robot_model)"/>
       <arg name="kinematics" value="$(arg kinematics)"/>

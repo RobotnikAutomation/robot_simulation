@@ -21,9 +21,9 @@
   <include file="$(find robot_sim)/launch/include/robot_state_publisher.launch.xml">
     <arg name="robot_id" value="$(arg robot_id)"/>
     <arg name="robot_xacro_path" value="$(arg robot_xacro_path)"/>
-    <arg name="ros_planar_move_plugin" default="$(arg ros_planar_move_plugin)"/>
-    <arg name="ros_planar_move_plugin_force_based" default="$(arg ros_planar_move_plugin_force_based)"/>
-    <arg name="kinematics" default="$(arg kinematics)"/>
+    <arg name="ros_planar_move_plugin" value="$(arg ros_planar_move_plugin)"/>
+    <arg name="ros_planar_move_plugin_force_based" value="$(arg ros_planar_move_plugin_force_based)"/>
+    <arg name="kinematics" value="$(arg kinematics)"/>
   </include>
 
   <!-- Spawn model into gazebo -->

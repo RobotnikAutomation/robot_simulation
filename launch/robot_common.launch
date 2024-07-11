@@ -30,10 +30,17 @@
   <arg name="ros_planar_move_plugin" default="false"/>
   <arg name="ros_planar_move_plugin_force_based" default="false"/>
 
-  <arg name="launch_loc_and_nav" default="true"/>
-  <arg name="has_safety_module" default="false"/>
+  <arg name="launch_nav" default="true"/>
+  <arg name="launch_mapserver" default="true"/>
+  <arg name="launch_amcl" default="true"/>
 
-  <include file="$(find robot_sim)/launch/gazebo/world/$(arg sim_world).launch.xml">
+  <arg name="map_frame_id" default="$(arg prefix)map"/>
+  <arg name="map_topic" default="map"/>
+
+  <arg name="has_safety_module" default="false"/>
+  <arg name="spawn_world" default="true"/>
+
+  <include if="$(arg spawn_world)" file="$(find robot_sim)/launch/gazebo/world/$(arg sim_world).launch.xml">
   </include>
 
   <group ns="$(arg robot_id)">
@@ -45,9 +52,9 @@
       <arg name="y_init_pose" value="$(arg y_init_pose)"/>
       <arg name="z_init_pose" value="$(arg z_init_pose)"/>
       <arg name="a_init_pose" value="$(arg a_init_pose)"/>
-      <arg name="kinematics" default="$(arg kinematics)"/>
-      <arg name="ros_planar_move_plugin" default="$(arg ros_planar_move_plugin)"/>
-      <arg name="ros_planar_move_plugin_force_based" default="$(arg ros_planar_move_plugin_force_based)"/>
+      <arg name="kinematics" value="$(arg kinematics)"/>
+      <arg name="ros_planar_move_plugin" value="$(arg ros_planar_move_plugin)"/>
+      <arg name="ros_planar_move_plugin_force_based" value="$(arg ros_planar_move_plugin_force_based)"/>
     </include>
     
     <include file="$(find robotnik_base_hw_sim)/launch/robotnik_base_hw_sim.launch">
@@ -70,7 +77,7 @@
     </include>-->
 
     <!-- LOC & NAV -->
-    <include if="$(arg launch_loc_and_nav)" file="$(find robot_sim)/launch/robot_loc_nav.launch">
+    <include file="$(find robot_sim)/launch/robot_loc_nav.launch">
       <arg name="robot_id" value="$(arg robot_id)"/>
       <arg name="prefix" value="$(arg prefix)"/>
       <arg name="robot_model" value="$(arg robot_model)"/>
@@ -79,6 +86,11 @@
       <arg name="x_init_pose" value="$(arg x_init_pose)"/>
       <arg name="y_init_pose" value="$(arg y_init_pose)"/>
       <arg name="z_init_pose" value="$(arg z_init_pose)"/>
+      <arg name="map_frame_id" value="$(arg map_frame_id)"/>
+      <arg name="map_topic" value="$(arg map_topic)"/>
+      <arg name="launch_nav" value="$(arg launch_nav)"/>
+      <arg name="launch_mapserver" value="$(arg launch_mapserver)"/>
+      <arg name="launch_amcl" value="$(arg launch_amcl)"/>
     </include>
 
   </group>
