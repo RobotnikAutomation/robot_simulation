@@ -40,6 +40,12 @@
   <arg name="has_safety_module" default="false"/>
   <arg name="spawn_world" default="true"/>
 
+  <!-- Pointcloud to laser scan -->
+  <arg name="has_3d_laser" default="false"/>
+  <arg name="points_topic" default="top_3d_laser/points"/>
+  <arg name="scan_topic" default="top_3d_laser/scan"/>
+  <arg name="sensor" default="rs_lidar16"/> <!-- rs_lidar16/rs_bpearl-->
+
   <include if="$(arg spawn_world)" file="$(find robot_sim)/launch/gazebo/world/$(arg sim_world).launch.xml">
   </include>
 
@@ -93,6 +99,13 @@
       <arg name="launch_amcl" value="$(arg launch_amcl)"/>
     </include>
 
+    <!-- Pointcloud to laserscan -->
+    <include if="$(arg has_3d_laser)" file="$(find robot_sim)/launch/include/pointcloud_to_laserscan.launch">
+      <arg name="robot_id" value="$(arg robot_id)"/>
+      <arg name="points_topic" value="$(arg points_topic)"/>
+      <arg name="scan_topic" value="$(arg scan_topic)"/>
+      <arg name="sensor" value="$(arg sensor)"/>
+    </include>
   </group>
 
   <include if="$(arg has_safety_module)" file="$(find robot_sim)/launch/include/flexisoft_simulator.launch.xml">

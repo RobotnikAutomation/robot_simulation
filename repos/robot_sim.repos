@@ -63,6 +63,9 @@ repositories:
     type: git
     url: https://github.com/RobotnikAutomation/ewellix_description.git
     version: d21c40e5fcbe86cdddbecbf320a92717fc895cdc
-  
+  src/others/pointcloud_to_laserscan:
+    type: git
+    url: https://github.com/RobotnikAutomation/pointcloud_to_laserscan.git
+    version: 7de77c1fd25d1f5130f08e8397f391bfb84ea661
   
   
