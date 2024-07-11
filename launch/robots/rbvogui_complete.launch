@@ -63,11 +63,11 @@
 
     <!-- Control -->
     <arg name="kinematics" value="$(arg kinematics)"/>
-    <arg name="ros_planar_move_plugin" default="$(arg ros_planar_move_plugin)"/>
-    <arg name="ros_planar_move_plugin_force_based" default="$(arg ros_planar_move_plugin_force_based)"/>
+    <arg name="ros_planar_move_plugin" value="$(arg ros_planar_move_plugin)"/>
+    <arg name="ros_planar_move_plugin_force_based" value="$(arg ros_planar_move_plugin_force_based)"/>
 
     <!-- Safety -->
-    <arg name="has_safety_module" default="$(arg has_safety_module)"/>
+    <arg name="has_safety_module" value="$(arg has_safety_module)"/>
 
     <!-- Loc & Nav -->
     <arg name="launch_nav" value="$(arg launch_nav)"/>
