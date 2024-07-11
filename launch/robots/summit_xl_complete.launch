@@ -44,6 +44,12 @@
   <arg if="$(eval map_prefix == robot_id)" name="map_topic" default="map"/>
   <arg unless="$(eval map_prefix == robot_id)" name="map_topic" default="/$(arg map_prefix)/map"/>
 
+  <!-- Pointcloud to laser scan -->
+  <arg name="has_3d_laser" default="true"/>
+  <arg name="points_topic" default="lidar_3d/points"/>
+  <arg name="scan_topic" default="front_laser/scan"/>
+  <arg name="sensor" default="rs_lidar16"/> <!-- rs_lidar16/rs_bpearl-->
+
   <!-- Common launch file for any robot and world -->  
   <include file="$(find robot_sim)/launch/robot_common.launch">
 <arg name="robot_id" value="$(arg robot_id)"/>
@@ -75,6 +81,13 @@
     <arg name="launch_amcl" value="$(arg launch_amcl)"/>
     <arg name="map_frame_id" value="$(arg map_frame_id)"/>
     <arg name="map_topic" value="$(arg map_topic)"/>
+
+    <!-- Pointcloud to laserscan -->
+    <arg name="has_3d_laser" value="$(arg has_3d_laser)"/>
+    <arg name="sensor" value="$(arg sensor)"/>
+    <arg name="points_topic" value="$(arg points_topic)"/>
+    <arg name="scan_topic" value="$(arg scan_topic)"/>
+
   </include>
 
   <!-- base hw sim -->
