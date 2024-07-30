@@ -29,8 +29,8 @@
     <arg name="a_init_pose" value="$(arg a_init_pose)"/>
     <arg name="robot_xacro_path" value="$(arg robot_xacro_path)"/>
     <arg name="kinematics" value="$(arg kinematics)"/>
-    <arg name="ros_planar_move_plugin" default="$(arg ros_planar_move_plugin)"/>
-    <arg name="ros_planar_move_plugin_force_based" default="$(arg ros_planar_move_plugin_force_based)"/>
+    <arg name="ros_planar_move_plugin" value="$(arg ros_planar_move_plugin)"/>
+    <arg name="ros_planar_move_plugin_force_based" value="$(arg ros_planar_move_plugin_force_based)"/>
   </include>
 
   <!-- base hw sim -->

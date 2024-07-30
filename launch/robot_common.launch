@@ -42,9 +42,9 @@
       <arg name="y_init_pose" value="$(arg y_init_pose)"/>
       <arg name="z_init_pose" value="$(arg z_init_pose)"/>
       <arg name="a_init_pose" value="$(arg a_init_pose)"/>
-      <arg name="kinematics" default="$(arg kinematics)"/>
-      <arg name="ros_planar_move_plugin" default="$(arg ros_planar_move_plugin)"/>
-      <arg name="ros_planar_move_plugin_force_based" default="$(arg ros_planar_move_plugin_force_based)"/>
+      <arg name="kinematics" value="$(arg kinematics)"/>
+      <arg name="ros_planar_move_plugin" value="$(arg ros_planar_move_plugin)"/>
+      <arg name="ros_planar_move_plugin_force_based" value="$(arg ros_planar_move_plugin_force_based)"/>
     </include>
     
     <include file="$(find robotnik_base_hw_sim)/launch/robotnik_base_hw_sim.launch">
