@@ -47,12 +47,6 @@
   <arg name="launch_mapserver" default="$(arg launch_loc_nav)"/>
   <arg name="launch_amcl" default="$(arg launch_loc_nav)"/>
 
-  <arg name="map_prefix" default="$(arg robot_id)"/>
-  <arg if="$(eval map_prefix == robot_id)" name="map_frame_id" default="$(arg prefix)map"/>
-  <arg unless="$(eval map_prefix == robot_id)" name="map_frame_id" default="$(arg map_prefix)_map"/>
-  <arg if="$(eval map_prefix == robot_id)" name="map_topic" default="map"/>
-  <arg unless="$(eval map_prefix == robot_id)" name="map_topic" default="/$(arg map_prefix)/map"/>
-
   <!-- Common launch file for any robot and world -->  
   <include file="$(find robot_sim)/launch/robot_common.launch">
     <arg name="robot_id" value="$(arg robot_id)"/>
@@ -81,10 +75,7 @@
     <!-- Loc & Nav -->
     <arg name="launch_nav" value="$(arg launch_nav)"/>
     <arg name="launch_mapserver" value="$(arg launch_mapserver)"/>
-    <arg name="launch_amcl" value="$(arg launch_amcl)"/>
-    <arg name="map_frame_id" value="$(arg map_frame_id)"/>
-    <arg name="map_topic" value="$(arg map_topic)"/>
-    
+    <arg name="launch_amcl" value="$(arg launch_amcl)"/>  
   </include>
 
   <group ns="$(arg robot_id)">

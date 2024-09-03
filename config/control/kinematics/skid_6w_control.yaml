@@ -47,7 +47,7 @@ robotnik_base_control:
   
   odom_frame: $(arg prefix)odom
   robot_base_frame: $(arg prefix)base_footprint
-  odom_broadcast_tf: true
+  odom_broadcast_tf: $(arg odom_broadcast_tf)
   odom_topic: robotnik_base_control/odom
   wheel_base: $(arg wheel_base)
   track_width: $(arg track_width)

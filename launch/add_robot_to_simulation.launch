@@ -2,7 +2,6 @@
 <launch>
     <arg name="robot_model" default="$(optenv ROBOT_MODEL summit_xl)"/>
     <arg name="robot_id" default="robot2"/>
-    <arg name="map_prefix" default="robot"/>
     <arg name="launch_loc_nav" default="true"/>
     <arg name="x_init_pose" default="$(optenv ROBOT_SIM_X_POSE 0)"/>
     <arg name="y_init_pose" default="$(optenv ROBOT_SIM_Y_POSE 0)"/>
@@ -10,10 +9,8 @@
     <arg name="a_init_pose" default="$(optenv ROBOT_SIM_Z_ANGLE 0)"/>
 
     <include file="$(find robot_sim)/launch/robots/$(arg robot_model)_complete.launch">
-        <arg name="launch_mapserver" value="false"/>
         <arg name="launch_loc_nav" value="$(arg launch_loc_nav)"/>
         <arg name="robot_id" value="$(arg robot_id)"/>
-        <arg name="map_prefix" value="$(arg map_prefix)"/>
         <arg name="spawn_world" value="false"/>
         <arg name="x_init_pose" value="$(arg x_init_pose)"/>
         <arg name="y_init_pose" value="$(arg y_init_pose)"/>

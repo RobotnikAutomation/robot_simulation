@@ -19,9 +19,6 @@
     <arg name="launch_gmapping" default="false"/>
     <arg name="map_file" default="$(arg sim_world)/$(arg sim_world).yaml"/>
 
-    <arg name="map_frame_id" default="$(arg prefix)map"/>
-    <arg name="map_topic" default="map"/>
-
     <arg name="launch_nav" default="true"/>
     <arg name="launch_mapserver" default="true"/>
     <arg name="launch_amcl" default="true"/>
@@ -32,8 +29,6 @@
             <arg name="robot_id" value="$(arg robot_id)"/>
             <arg name="robot_model" value="$(arg robot_model)"/>
             <arg name="kinematics" value="$(arg kinematics)"/>
-            <arg name="global_frame" value="$(arg map_frame_id)"/>
-            <arg name="map_topic" value="$(arg map_topic)"/>
         </include>
 
         <!-- robot_localization nodes, publishes transformation world->odom->base_footprint -->
@@ -48,8 +43,6 @@
         <arg name="prefix" value="$(arg prefix)"/>
         <arg name="map_file" value="$(arg map_file)"/>
         <arg name="robot_id" value="$(arg robot_id)"/>
-        <arg name="frame_id" value="$(arg map_frame_id)"/>
-        <arg name="map_topic" value="$(arg map_topic)"/>
     </include>
     <include if="$(arg launch_amcl)" file="$(find robot_sim)/launch/localization/amcl.launch">
         <arg name="prefix" value="$(arg prefix)"/>
@@ -58,8 +51,6 @@
         <arg name="x_init_pose" value="$(arg x_init_pose)"/>
         <arg name="y_init_pose" value="$(arg y_init_pose)"/>
         <arg name="z_init_pose" value="$(arg z_init_pose)"/>
-        <arg name="global_frame" value="$(arg map_frame_id)"/>
-        <arg name="map_topic" value="$(arg map_topic)"/>
     </include>
 
     <!-- gmapping -->
