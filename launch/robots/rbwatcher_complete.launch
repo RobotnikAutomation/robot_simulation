@@ -16,7 +16,7 @@
   <arg name="spawn_world" default="true"/>
 
   <!-- Description -->
-  <arg name="robot_xacro" default="$(optenv ROBOT_XACRO rb_watcher_std.urdf.xacro)"/>
+  <arg name="robot_xacro" default="$(optenv ROBOT_XACRO rbwatcher_std.urdf.xacro)"/>
   <arg name="robot_xacro_package" default="$(optenv ROBOT_XACRO_PACKAGE robot_description)"/>
   <arg name="robot_xacro_relative_path" default="$(optenv ROBOT_XACRO_RELATIVE_PATH /robots/)" />
   <arg name="robot_xacro_folder" default="$(optenv ROBOT_XACRO_FOLDER none)" />
