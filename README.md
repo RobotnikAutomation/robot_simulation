@@ -15,6 +15,7 @@ First install this package:
 
 ```
 git clone git@github.com:RobotnikAutomation/robotnik_common.git -b humble
+git clone git@github.com:RobotnikAutomation/robot_description.git -b fix/ros2-devel/basic-robots
 ```
 
 ## Gazebo Classic
