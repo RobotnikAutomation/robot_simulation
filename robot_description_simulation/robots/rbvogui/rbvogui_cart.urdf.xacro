@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!-- RBVogui v3.0 -->
+<robot name="rbvogui" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- ***************** -->
+    <!-- Imported elements -->
+    <!-- ***************** -->
+
+    <!-- First we import all posible elements defined in the urdf.xacro files. All these elements are defined as macro:xacros -->
+
+    <!-- Import rbvogui base elements-->
+    <xacro:include filename="$(find robot_description)/robots/macros/rbvogui_macro.urdf.xacro" />
+    <xacro:include filename="$(find robot_description)/urdf/ros2_control/rbvogui_control.urdf.xacro"/>
+
+    <!-- Import all available sensors -->
+    <xacro:include filename="$(find robotnik_sensors)/urdf/all_sensors.urdf.xacro" />
+    <xacro:include filename="$(find robot_description)/urdf/structures/sensor_support/gps_mast.urdf.xacro" />
+
+    <!-- Flag to select the high or low quality model -->
+    <xacro:property name="hq" value="true" />
+    <xacro:property name="publish_bf" value="true" />
+
+    <xacro:arg name="robot_id" default="robot" />
+    <xacro:arg name="namespace" default="robot" />
+    <xacro:arg name="gpu" default="true" />
+    <xacro:arg name="hardware" default="omni" />
+    <xacro:arg name="controllers" default="$(find rbvogui_gazebo)/config/omni_controller.yaml" />
+
+    <xacro:rbvogui robot_id="$(arg robot_id)_" hardware="$(arg hardware)" gpu="$(arg gpu)" publish_bf="${publish_bf}" hq="${hq}"/>
+
+    <!-- SENSORS see robotnik_sensors for the specific configuration -->
+
+    <!-- IMU -->
+    <!-- <xacro:sensor_vectornav prefix="${prefix}" parent="${prefix}chassis_link" topic="${robot_id}/imu/data">
+        <origin xyz="0.3 -0.3 0.0725" rpy="0 0 0"/>
+    </xacro:sensor_vectornav> -->
+
+    <!-- Front Camera -->
+    <!-- <xacro:sensor_intel_d435 prefix="${prefix}front_rgbd_camera" parent="${prefix}chassis_link" prefix_topic="${robot_id}/front_rgbd_camera" use_nominal_extrinsics="true">
+        <origin xyz="0.46462 0.0 0.18258" rpy="0 0 0"/>
+    </xacro:sensor_intel_d435> -->
+
+    <!-- Rear Camera -->
+    <!-- <xacro:sensor_intel_d435 prefix="${prefix}rear_rgbd_camera" parent="${prefix}base_link" prefix_topic="${robot_id}/rear_rgbd_camera" use_nominal_extrinsics="true">
+        <origin xyz="-0.503 0.0 0.29" rpy="0 0 -${PI}"/>
+    </xacro:sensor_intel_d435> -->
+
+    <!-- 2d laser -->
+    <!-- <xacro:sensor_sick_s300 prefix="${prefix}front_laser" parent="${prefix}chassis_link" gpu="${gpu}" prefix_topic="${robot_id}/front_laser">
+        <origin xyz="0.53 0.33 0.1145" rpy="${PI} 0 ${PI/4}"/>
+    </xacro:sensor_sick_s300>
+
+    <xacro:sensor_sick_s300 prefix="${prefix}rear_laser" parent="${prefix}chassis_link" gpu="${gpu}" prefix_topic="${robot_id}/rear_laser">
+        <origin xyz="-0.53 -0.33 0.1145" rpy="${PI} 0 ${-PI*3/4}"/>
+    </xacro:sensor_sick_s300> -->
+
+
+    <xacro:ros2_control namespace="$(arg namespace)" robot_id="$(arg robot_id)_" controllers="$(arg controllers)"/>
+
+    <!-- Cart -->
+    <!-- <xacro:include filename="$(find robot_description)/urdf/cart/robot_cart_connection.urdf.xacro" />
+    <xacro:include filename="$(find robot_description)/urdf/cart/cart_base.urdf.xacro" />
+    <xacro:arg name="cart" default="false" />
+    <xacro:arg name="connected" default="false" />
+
+    <xacro:if value="$(arg cart)">
+        <xacro:cart_connection prefix="$(arg prefix)cart_" connected="$(arg connected)" parent="$(arg prefix)base_link">
+        </xacro:cart_connection>
+        <xacro:if value="$(arg connected)">
+            <xacro:cart_base prefix="$(arg prefix)cart_" connected="$(arg connected)" namespace="$(arg robot_id)">
+            </xacro:cart_base>
+        </xacro:if>
+    </xacro:if> -->
+
+</robot>

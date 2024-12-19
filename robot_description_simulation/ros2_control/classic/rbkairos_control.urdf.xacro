@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+    <xacro:macro name="rbkairos_gz_classic_control"  params="namespace">
+        <gazebo>
+          <plugin name="ros_control" filename="libgazebo_ros2_control.so">
+            <robot_param>robot_description</robot_param>
+            <robot_param_node>robot_state_publisher</robot_param_node>
+            <parameters>$(find robotnik_controller)/config/rbkairos_controller_example_params.yaml</parameters>
+            <ros>
+                <namespace>/${namespace}</namespace>
+            </ros>
+          </plugin>
+        </gazebo>
+
+        <xacro:macro name="ros2_joint" params="interface jmin jmax name">
+          <joint name="${name}">
+            <command_interface name="${interface}">
+              <param name="min">${jmin}</param>
+              <param name="max">${jmax}</param>
+            </command_interface>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+          </joint>
+        </xacro:macro>
+
+        <ros2_control name="GazeboSystem" type="system">
+          <hardware>
+              <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+          </hardware>
+
+          <xacro:ros2_joint interface="velocity" jmin="-10" jmax="10" name="rbkairos_front_left_wheel_joint"/>
+          <xacro:ros2_joint interface="velocity" jmin="-10" jmax="10" name="rbkairos_front_right_wheel_joint"/>
+          <xacro:ros2_joint interface="velocity" jmin="-20" jmax="20" name="rbkairos_back_left_wheel_joint"/>
+          <xacro:ros2_joint interface="velocity" jmin="-20" jmax="20" name="rbkairos_back_right_wheel_joint"/>
+
+        </ros2_control>
+    </xacro:macro>
+
+    <xacro:macro name="ros_planar_move">
+        <gazebo>
+          <plugin name="planar_move" filename="libgazebo_ros_planar_move.so">
+            <ros>
+
+              <!-- Remap the default topic -->
+              <remapping>cmd_vel:=cmd_vel_limited</remapping>
+              <remapping>odom:=rbkairos_odom</remapping>
+
+            </ros>
+
+            <update_rate>100</update_rate>
+            <publish_rate>10</publish_rate>
+
+            <!-- output -->
+            <publish_odom>true</publish_odom>
+            <publish_odom_tf>true</publish_odom_tf>
+
+            <odometry_frame>rbkairos_odom</odometry_frame>
+            <robot_base_frame>rbkairos_base_link</robot_base_frame>
+
+            <covariance_x>0.0001</covariance_x>
+            <covariance_y>0.0001</covariance_y>
+            <covariance_yaw>0.01</covariance_yaw>
+          </plugin>
+        </gazebo>
+    </xacro:macro>
+</robot>
