@@ -11,7 +11,7 @@ The structure of the package includes:
 
 # How to use it?
 
-First install this package:
+First install these packages:
 
 ```
 git clone git@github.com:RobotnikAutomation/robotnik_common.git -b humble
