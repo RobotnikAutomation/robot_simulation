@@ -6,10 +6,28 @@
   <!-- ***************** -->
 
   <!-- First we import all posible elements defined in the urdf.xacro files. All these elements are defined as macro:xacros -->
+  <xacro:arg name="controllers" default="$(find robotnik_gazebo_classic)/config/rbkairos_control_gazebo.yaml"/>
 
   <xacro:include filename="$(find robot_description)/macros/rbkairos_macro.urdf.xacro" />
   <xacro:include filename="$(find robot_description_simulation)/ros2_control/classic/rbkairos_control.urdf.xacro"/>
   <xacro:include filename="$(find robot_description_simulation)/ros2_control/ignition/rbkairos_control.urdf.xacro"/>
+
+  <!-- Import UR arm -->
+  <!-- <xacro:include filename="$(find ur_description)/urdf/ur.urdf.xacro" /> -->
+  <xacro:arg name="ur_type" default="ur5e"/>
+  <xacro:arg name="name" default="$(arg ur_type)"/>
+  <xacro:arg name="prefix" default="rbkairos_"/>
+  <xacro:arg name="joint_limit_params" default="$(find ur_description)/config/$(arg ur_type)/joint_limits.yaml"/>
+  <xacro:arg name="kinematics_params" default="$(find ur_description)/config/$(arg ur_type)/default_kinematics.yaml"/>
+  <xacro:arg name="physical_params" default="$(find ur_description)/config/$(arg ur_type)/physical_parameters.yaml"/>
+  <xacro:arg name="visual_params" default="$(find ur_description)/config/$(arg ur_type)/visual_parameters.yaml"/>
+  <xacro:arg name="use_fake_hardware" default="true" />
+  <xacro:arg name="fake_sensor_commands" default="true" />
+  <xacro:arg name="sim_gazebo" default="false" />
+  <xacro:arg name="sim_ignition" default="false" />
+  <xacro:arg name="robot_ip" default="192.168.0.210" />
+
+  <xacro:include filename="$(find robot_description)/urdf/arms/ur/ur.urdf.xacro"/>
 
   <!-- Import all available sensors -->
   <xacro:include filename="$(find robotnik_sensors)/urdf/all_sensors.urdf.xacro" />
@@ -43,13 +61,9 @@
   <xacro:property name="gps_offset_y" value="-0.167"/>
   <xacro:property name="gps_offset_z" value="0.302"/>
 
-  <!-- Launch Arguments -->
-  <xacro:arg name="use_gazebo_classic" default="false" />
-  <xacro:arg name="use_gazebo_ignition" default="false" />
-  <xacro:arg name="gpu" default="true" />
-  <xacro:arg name="namespace" default="robot" />
-
   <xacro:rbkairos/>
+
+  <!-- <xacro:include filename="$(find robot_description)/urdf/ros2_control/rbkairos_control.urdf.xacro" /> -->
 
   <!-- IMU -->
 	<xacro:sensor_vectornav prefix="rbkairos_" parent="rbkairos_base_link" topic="imu/data">

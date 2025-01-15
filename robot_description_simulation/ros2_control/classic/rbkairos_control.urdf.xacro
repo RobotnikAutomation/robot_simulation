@@ -5,7 +5,7 @@
           <plugin name="ros_control" filename="libgazebo_ros2_control.so">
             <robot_param>robot_description</robot_param>
             <robot_param_node>robot_state_publisher</robot_param_node>
-            <parameters>$(find robotnik_controller)/config/rbkairos_controller_example_params.yaml</parameters>
+            <parameters>$(find robotnik_gazebo_classic)/config/rbkairos_controller_params.yaml</parameters>
             <ros>
                 <namespace>/${namespace}</namespace>
             </ros>
@@ -37,14 +37,13 @@
         </ros2_control>
     </xacro:macro>
 
-    <xacro:macro name="ros_planar_move">
+    <xacro:macro name="ros_planar_move_gazebo">
         <gazebo>
           <plugin name="planar_move" filename="libgazebo_ros_planar_move.so">
             <ros>
 
               <!-- Remap the default topic -->
-              <remapping>cmd_vel:=cmd_vel_limited</remapping>
-              <remapping>odom:=rbkairos_odom</remapping>
+              <remapping>cmd_vel:=/robot/robotnik_base_controller/cmd_vel</remapping>
 
             </ros>
 
@@ -52,15 +51,8 @@
             <publish_rate>10</publish_rate>
 
             <!-- output -->
-            <publish_odom>true</publish_odom>
-            <publish_odom_tf>true</publish_odom_tf>
-
-            <odometry_frame>rbkairos_odom</odometry_frame>
-            <robot_base_frame>rbkairos_base_link</robot_base_frame>
-
-            <covariance_x>0.0001</covariance_x>
-            <covariance_y>0.0001</covariance_y>
-            <covariance_yaw>0.01</covariance_yaw>
+            <publish_odom>false</publish_odom>
+            <publish_odom_tf>false</publish_odom_tf>
           </plugin>
         </gazebo>
     </xacro:macro>

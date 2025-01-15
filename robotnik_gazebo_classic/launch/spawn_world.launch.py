@@ -42,15 +42,6 @@ def generate_launch_description():
     world = LaunchConfiguration('world')
 
     arg = ExtendedArgument(
-        name='namespace',
-        description='Namespace',
-        default_value='robot',
-        use_env=True,
-        environment='NAMESPACE',
-    )
-    add_to_launcher.add_arg(arg)
-
-    arg = ExtendedArgument(
         name='world',
         description='world in gazebo classic',
         default_value='maze',
@@ -71,7 +62,6 @@ def generate_launch_description():
     ld.add_action(
         GroupAction(
             actions=[
-                # PushRosNamespace(namespace=params['namespace']),
                 IncludeLaunchDescription(
                     PythonLaunchDescriptionSource(
                         os.path.join(gazebo_dir, 'gzserver.launch.py')

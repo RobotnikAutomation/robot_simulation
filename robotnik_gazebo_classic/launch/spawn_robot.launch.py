@@ -138,14 +138,15 @@ def generate_launch_description():
     )
     ld.add_action(robot_spawner)
 
-    controller_dir = os.path.join(get_package_share_directory('robotnik_controller'), 'launch')
+    controller_dir = os.path.join(get_package_share_directory('robotnik_gazebo_classic'), 'launch')
 
     robot_controllers = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
-                os.path.join(controller_dir, 'robotnik_simulation_controller.launch.py')
+                os.path.join(controller_dir, 'robotnik_controllers.launch.py')
             ),
             launch_arguments={
                 'verbose': 'false',
+                'namespace': params['namespace'],
             }.items(),
     )
     ld.add_action(RegisterEventHandler(

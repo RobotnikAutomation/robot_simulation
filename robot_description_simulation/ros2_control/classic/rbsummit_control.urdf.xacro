@@ -5,7 +5,7 @@
           <plugin name="ros_control" filename="libgazebo_ros2_control.so">
             <robot_param>robot_description</robot_param>
             <robot_param_node>robot_state_publisher</robot_param_node>
-            <parameters>$(find robotnik_controller)/config/rbsummit_controller_example_params.yaml</parameters>
+            <parameters>$(find robotnik_gazebo_classic)/config/rbsummit_controller_params.yaml</parameters>
             <ros>
                 <namespace>/${namespace}</namespace>
             </ros>
