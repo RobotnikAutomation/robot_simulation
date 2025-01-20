@@ -8,7 +8,7 @@
     <!-- First we import all posible elements defined in the urdf.xacro files. All these elements are defined as macro:xacros -->
 
     <!-- Import rbvogui base elements-->
-    <xacro:include filename="$(find robot_description)/robots/macros/rbvogui_macro.urdf.xacro" />
+    <xacro:include filename="$(find robot_description)/bases/rbvogui/rbvogui_base.urdf.xacro" />
     <xacro:include filename="$(find robot_description)/urdf/ros2_control/rbvogui_control.urdf.xacro"/>
 
     <!-- Import all available sensors -->

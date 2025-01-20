@@ -10,7 +10,7 @@
 	<!-- First we import all posible elements defined in the urdf.xacro files. All these elements are defined as macro:xacros -->
 
 	<!-- Import rbtheron macro -->
-	<xacro:include filename="$(find robot_description)/macros/rbtheron_macro.xacro"/>
+	<xacro:include filename="$(find robot_description)/bases/rbtheron/rbtheron_base.xacro"/>
 
 	<!-- Import all available sensors -->
 	<xacro:include filename="$(find robotnik_sensors)/urdf/all_sensors.urdf.xacro" />
@@ -52,17 +52,17 @@
 	<xacro:rbtheron hq="${hq}"/>
 
 	<!-- ELEVATOR_PLATFORM -->
-	<xacro:if value="$(arg has_elevator)">
+	<!-- <xacro:if value="$(arg has_elevator)">
 		<xacro:elevator_platform robot_id="rbtheron_elevator" parent="rbtheron_base_link" hq="${hq}">
 			<origin xyz="${elevator_x} -${elevator_y} ${elevator_z}" rpy="1.5708 0 1.5708"/>
 		</xacro:elevator_platform>
-	</xacro:if>
+	</xacro:if> -->
 
 	<!-- SENSORS -->
 
-	<xacro:sensor_vectornav prefix="rbtheron_" parent="rbtheron_base_link" topic="imu/data">
+	<!-- <xacro:sensor_vectornav prefix="rbtheron_" parent="rbtheron_base_link" topic="imu/data">
 		<origin xyz="-0.1975 0.0 0.1598" rpy="0 0 0"/>
-    </xacro:sensor_vectornav>
+    </xacro:sensor_vectornav> -->
 
     <xacro:if value="$(arg use_gazebo_classic)">
         <xacro:rbtheron_gz_classic_control namespace="$(arg namespace)"/>

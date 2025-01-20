@@ -7,7 +7,7 @@
 
   <!-- First we import all posible elements defined in the urdf.xacro files. All these elements are defined as macro:xacros -->
 
-  <xacro:include filename="$(find robot_description)/macros/rbkairos_macro.urdf.xacro" />
+  <xacro:include filename="$(find robot_description)/bases/rbkairos/rbkairos_base.urdf.xacro" />
   <xacro:include filename="$(find robot_description_simulation)/ros2_control/classic/rbkairos_control.urdf.xacro"/>
   <xacro:include filename="$(find robot_description_simulation)/ros2_control/ignition/rbkairos_control.urdf.xacro"/>
 
@@ -52,18 +52,18 @@
   <xacro:rbkairos/>
 
   <!-- IMU -->
-	<xacro:sensor_vectornav prefix="rbkairos_" parent="rbkairos_base_link" topic="imu/data">
+	<!-- <xacro:sensor_vectornav prefix="rbkairos_" parent="rbkairos_base_link" topic="imu/data">
     <origin xyz="${imu_offset_x} ${imu_offset_y} ${imu_offset_z}" rpy="0 0 0"/>
-  </xacro:sensor_vectornav>
+  </xacro:sensor_vectornav> -->
 
 
   <!-- SENSORS -->
-  <xacro:sensor_sick_s300 prefix="rbkairos_front_laser" parent="rbkairos_base_link" prefix_topic="front_laser" gpu="true">
+  <!-- <xacro:sensor_sick_s300 prefix="rbkairos_front_laser" parent="rbkairos_base_link" prefix_topic="front_laser" gpu="true">
     <origin xyz="${front_laser_offset_x} ${front_laser_offset_y} ${front_laser_offset_z}" rpy="0 ${-PI} ${3/4*PI}" />
   </xacro:sensor_sick_s300>
   <xacro:sensor_sick_s300 prefix="rbkairos_rear_laser" parent="rbkairos_base_link" prefix_topic="rear_laser" gpu="true">
     <origin xyz="${rear_laser_offset_x} ${rear_laser_offset_y} ${rear_laser_offset_z}" rpy="0 ${-PI} ${-1/4*PI}" />
-  </xacro:sensor_sick_s300>
+  </xacro:sensor_sick_s300> -->
 
   <!--xacro:sensor_axis_m5013 prefix="$(arg prefix)front_ptz_camera" parent="$(arg prefix)base_link">
     <origin xyz="${front_ptz_camera_offset_x} ${front_ptz_camera_offset_y} ${front_ptz_camera_offset_z}" rpy="${-PI/2} 0 0"/>

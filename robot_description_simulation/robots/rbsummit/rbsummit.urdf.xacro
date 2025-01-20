@@ -9,7 +9,7 @@
 	<!-- First we import the robot and all the sensors. All these elements are defined as macro:xacros -->
 
 	<!-- Import summit XL macro -->
-	<xacro:include filename="$(find robot_description)/macros/rbsummit_macro.xacro"/>
+	<xacro:include filename="$(find robot_description)/bases/rbsummit/rbsummit_base.xacro"/>
 
 	<!-- Import all available sensors -->
 	<xacro:include filename="$(find robotnik_sensors)/urdf/all_sensors.urdf.xacro" />
@@ -46,9 +46,9 @@
 	<!-- Custom Sensors -->
 
 	<!-- IMU -->
-	<xacro:sensor_vectornav prefix="rbsummit_" parent="rbsummit_base_link" topic="imu/data">
+	<!-- <xacro:sensor_vectornav prefix="rbsummit_" parent="rbsummit_base_link" topic="imu/data">
 		<origin xyz="0.0385 0.132 0.158" rpy="0 0 0"/>
-  </xacro:sensor_vectornav>
+  </xacro:sensor_vectornav> -->
 	<!-- 3d laser -->
 	<!-- <xacro:sensor_rs_helios_16p prefix="$(arg prefix)top_3d_laser" parent="$(arg prefix)base_link" gpu="$(arg gpu)">
 		<origin xyz="-0.11808 0.0 0.38509" rpy="0 0 0"/>
