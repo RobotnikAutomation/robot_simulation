@@ -39,7 +39,6 @@ def generate_launch_description():
 
     ld = LaunchDescription()
     add_to_launcher = AddArgumentParser(ld)
-    world = LaunchConfiguration('world')
 
     arg = ExtendedArgument(
         name='world',
@@ -47,6 +46,7 @@ def generate_launch_description():
         default_value='maze',
     )
     add_to_launcher.add_arg(arg)
+    world = LaunchConfiguration('world')
 
     arg = ExtendedArgument(
         name='world_path',

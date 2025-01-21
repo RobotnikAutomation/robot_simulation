@@ -1,3 +1,0 @@
-[submodule "robotnik_gazebo_classic/worlds/robotnik_gazebo_worlds"]
-	path = robotnik_gazebo_classic/worlds/robotnik_gazebo_worlds
-	url = git@github.com:RobotnikAutomation/robotnik_gazebo_worlds.git
