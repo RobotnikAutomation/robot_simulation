@@ -67,7 +67,7 @@ def generate_launch_description():
                         os.path.join(gazebo_dir, 'gzserver.launch.py')
                     ),
                     launch_arguments={
-                        'verbose': 'false',
+                        'verbose': 'true',
                         'world': params['world_path'],
                         'paused': 'false',
                         'physics': 'ode',
@@ -82,7 +82,7 @@ def generate_launch_description():
                         os.path.join(gazebo_dir, 'gzclient.launch.py')
                     ),
                     launch_arguments={
-                        'verbose': 'false',
+                        'verbose': 'true',
                     }.items(),
                 )
             ]

@@ -63,7 +63,7 @@ def generate_launch_description():
 
     arg = ExtendedArgument(
         name='robot_model',
-        description='Robot type variation (rbvogui, rbvogui_6w, rbvogui_ackermann)',
+        description='Robot type variation (rbvogui, rbkairos_ur), default=robot value',
         default_value=robot,
     )
     add_to_launcher.add_arg(arg)
@@ -80,7 +80,7 @@ def generate_launch_description():
     arg = ExtendedArgument(
         name='robot_xacro_path',
         description='Path to the xacro file',
-        default_value=[FindPackageShare('robot_description_simulation'), '/robots/', robot_xacro_file],
+        default_value=[FindPackageShare('robot_description'), '/robots/', robot_xacro_file],
     )
     add_to_launcher.add_arg(arg)
 
@@ -107,7 +107,7 @@ def generate_launch_description():
 
     params = add_to_launcher.process_arg()
 
-    robot_dir = os.path.join(get_package_share_directory('robot_description_simulation'), 'launch')
+    robot_dir = os.path.join(get_package_share_directory('robot_description'), 'launch')
 
     robot_state = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
@@ -116,7 +116,8 @@ def generate_launch_description():
             launch_arguments={
                 'verbose': 'false',
                 'robot_xacro_file': robot_xacro_file,
-                'use_gazebo_classic': 'true',
+                'namespace': params['namespace'],
+                'gazebo_classic': 'true',
             }.items(),
     )
 
@@ -138,27 +139,53 @@ def generate_launch_description():
     )
     ld.add_action(robot_spawner)
 
-    controller_dir = os.path.join(get_package_share_directory('robotnik_gazebo_classic'), 'launch')
-
-    robot_controllers = IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(
-                os.path.join(controller_dir, 'robotnik_controllers.launch.py')
-            ),
-            launch_arguments={
-                'verbose': 'false',
-                'namespace': params['namespace'],
-            }.items(),
+    joint_state_broadcaster = Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['joint_state_broadcaster'],
+        namespace=params['namespace']
     )
-    ld.add_action(RegisterEventHandler(
-            OnProcessExit(
-                target_action=robot_spawner,
-                on_exit=[
-                    LogInfo(msg='Robot controllers start'),
-                    robot_controllers
-                ]
-            )
+    ld.add_action(joint_state_broadcaster)
+
+    robotnik_controller= Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['robotnik_base_controller'],
+        output='screen',
+        emulate_tty=True,
+        namespace=params['namespace']
+    )
+
+    init_robotnik_controller = RegisterEventHandler(
+        OnProcessExit(
+            target_action=joint_state_broadcaster,
+            on_exit=[
+                LogInfo(msg='Joint States spawned'),
+                robotnik_controller
+            ]
         )
     )
+    ld.add_action(init_robotnik_controller)
+    
+    # joint_trajectory_controller= Node(
+    #     package='controller_manager',
+    #     executable='spawner',
+    #     arguments=['joint_trajectory_controller'],
+    #     output='screen',
+    #     emulate_tty=True,
+    #     namespace=params['namespace']
+    # )
+
+    # init_joint_trajectory_controller = RegisterEventHandler(
+    #     OnProcessExit(
+    #         target_action=robotnik_controller,
+    #         on_exit=[
+    #             LogInfo(msg='Joint States spawned'),
+    #             joint_trajectory_controller
+    #         ]
+    #     )
+    # )
+    # ld.add_action(init_joint_trajectory_controller)
 
     return ld
 
