@@ -10,13 +10,13 @@
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <a href="https://github.com/RobotnikAutomation/robot_simulation">
     <img src="img/LOGO BLANCO-ROJO.png" alt="Logo">
   </a>
+=======
 
   <h3 align="center">robot_simulation</h3>
 
@@ -209,7 +209,6 @@ I recommend to use teleop_twist_keyboard to control by cmd_vel:
 ```sh
 ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-arg cmd_vel:=/robot/robotnik_base_controller/cmd_vel
 ```
-
 #### Enjoy!
 
 ![rbvogui_gif](img/RBVogui_Docking.gif)
