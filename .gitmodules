@@ -1,0 +1,16 @@
+[submodule "robotnik_pkgs/robotnik_sensors"]
+	path = robotnik_pkgs/robotnik_sensors
+	url = https://github.com/RobotnikAutomation/robotnik_sensors
+	branch = ros2-devel
+[submodule "robotnik_pkgs/robotnik_msgs"]
+	path = robotnik_pkgs/robotnik_msgs
+	url = https://github.com/RobotnikAutomation/robotnik_msgs
+	branch = ros2-devel
+[submodule "robotnik_pkgs/robotnik_common"]
+	path = robotnik_pkgs/robotnik_common
+	url = https://github.com/RobotnikAutomation/robotnik_common
+	branch = humble
+[submodule "robotnik_pkgs/robot_description"]
+	path = robotnik_pkgs/robot_description
+	url = https://github.com/RobotnikAutomation/robot_description
+	branch = fix/ros2-devel/basic-robots

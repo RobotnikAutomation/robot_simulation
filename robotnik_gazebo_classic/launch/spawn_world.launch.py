@@ -39,16 +39,6 @@ def generate_launch_description():
 
     ld = LaunchDescription()
     add_to_launcher = AddArgumentParser(ld)
-    world = LaunchConfiguration('world')
-
-    arg = ExtendedArgument(
-        name='namespace',
-        description='Namespace',
-        default_value='robot',
-        use_env=True,
-        environment='NAMESPACE',
-    )
-    add_to_launcher.add_arg(arg)
 
     arg = ExtendedArgument(
         name='world',
@@ -56,6 +46,7 @@ def generate_launch_description():
         default_value='maze',
     )
     add_to_launcher.add_arg(arg)
+    world = LaunchConfiguration('world')
 
     arg = ExtendedArgument(
         name='world_path',
@@ -71,13 +62,12 @@ def generate_launch_description():
     ld.add_action(
         GroupAction(
             actions=[
-                # PushRosNamespace(namespace=params['namespace']),
                 IncludeLaunchDescription(
                     PythonLaunchDescriptionSource(
                         os.path.join(gazebo_dir, 'gzserver.launch.py')
                     ),
                     launch_arguments={
-                        'verbose': 'false',
+                        'verbose': 'true',
                         'world': params['world_path'],
                         'paused': 'false',
                         'physics': 'ode',
@@ -92,7 +82,7 @@ def generate_launch_description():
                         os.path.join(gazebo_dir, 'gzclient.launch.py')
                     ),
                     launch_arguments={
-                        'verbose': 'false',
+                        'verbose': 'true',
                     }.items(),
                 )
             ]
