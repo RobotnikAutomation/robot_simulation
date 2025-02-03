@@ -11,6 +11,8 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <exec_depend>robotnik_sensors</exec_depend>
+  <exec_depend>robotnik_msgs</exec_depend>
+  <exec_depend>robotnik_common</exec_depend>
   <exec_depend>robot_description</exec_depend>
   <exec_depend>ur_description</exec_depend>
 
