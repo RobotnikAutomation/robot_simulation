@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="debug" default="false"/>
+    <arg if="$(arg debug)" name="launch_prefix" default="gdb -ex run --args"/>
+    <arg unless="$(arg debug)" name="launch_prefix" default=""/>
+
+    <arg name="autorepeat_rate" default="10.0"/>
+    <arg name="default_trig_val" default="0.0"/>
+    <arg name="pad_model" default="$(optenv ROBOT_PAD_MODEL ps4)"/>
+    <arg name="pad_deadzone" default="$(optenv ROBOT_PAD_DEADZONE 0.12)" />
+    <arg name="joy_dev" default="$(optenv ROBOT_PAD_DEV /dev/input/js_base)" />
+    <arg name="joy_dev_accel" default="$(optenv ROBOT_PAD_DEV_ACCEL /dev/input/js_base_motion)" />
+    <arg name="joy_topic" default="$(optenv ROBOT_PAD_TOPIC joy)" />
+    <arg name="joy_topic_accel" default="$(optenv ROBOT_PAD_TOPIC_ACCEL joy_accel)" />
+    <arg name="pad_config" default="$(find robot_sim)/config/pad/$(arg pad_model).yaml" />
+    <arg name="node_name" default="pad_teleop" />
+    <arg name="cmd_vel_topic" default="$(optenv ROBOT_PAD_TWIST_MUX pad_teleop/cmd_vel)" />
+    <arg name="cmd_ptz_topic" default="$(optenv ROBOT_PAD_PTZ_COMMAND front_ptz_camera/front_ptz_camera/ptz_command)" />
+    <arg name="arm_model" default="$(optenv ROBOT_ARM_1_MODEL j2n6s200)"/>
+
+    <!-- joy node -->
+    <node pkg="joy" type="joy_node" name="$(arg node_name)" output="screen" respawn="true">
+        <param name="dev" type="string" value="$(arg joy_dev)" />
+        <param name="deadzone" value="$(arg pad_deadzone)" />
+        <param name="autorepeat_rate" value="$(arg autorepeat_rate)" type="double" />
+        <param name="default_trig_val" value="$(arg default_trig_val)" type="double" />
+    </node>
+
+    <!-- joy motion node -->
+    <node if="$(eval pad_model == 'ps5')" pkg="joy" type="joy_node" name="$(arg node_name)_accel" output="screen" respawn="true">
+        <param name="dev" type="string" value="$(arg joy_dev_accel)" />
+        <param name="deadzone" value="$(arg pad_deadzone)" />
+        <param name="autorepeat_rate" value="$(arg autorepeat_rate)" type="double" />
+        <param name="default_trig_val" value="$(arg default_trig_val)" type="double" />
+        <remap from="joy" to="$(arg joy_topic_accel)"/>
+    </node>
+
+    <!-- Parameters -->
+    <node name="robotnik_pad" pkg="robotnik_pad" type="robotnik_pad_node" output="screen" launch-prefix="$(arg launch_prefix)">
+        <rosparam command="load" file="$(arg pad_config)" subst_value="true"/>
+    </node>
+
+</launch>

@@ -1,0 +1,123 @@
+plugins:
+  - Movement
+#  - MovementSafe
+#  - Elevator
+#  - Poi
+#  - Ptz
+#  - KinovaArm
+
+pad:
+  type: ps5
+  num_of_buttons: 14
+  num_of_axes: 8
+  joy_timeout: 1.0
+  accel_common_dev_interface: false
+  joy_topic_accel: $(arg joy_topic_accel)
+  accel_num_of_axes: 6
+
+Movement:
+  type: robotnik_pad_plugins/Movement
+  max_linear_speed: 1.5
+  max_angular_speed: 1.5
+  cmd_topic_vel: pad_teleop/cmd_vel
+  config:
+    button_deadman: 5
+    axis_linear_x: 1
+    axis_linear_y: 0
+    axis_angular_z: 3
+    button_speed_up: 2
+    button_speed_down: 0
+    button_kinematic_mode: 7
+    use_accel_watchdog: true
+    axis_watchdog: 9 #js_base axes + js_base_motion_axes -> 8 js_base_axes, then it is axis 1 in js_base_motion
+
+MovementSafe:
+  type: robotnik_pad_plugins/Movement
+  max_linear_speed: 0.6
+  max_angular_speed: 0.8
+  cmd_topic_vel: safety_controller_pad/cmd_vel
+  config:
+    button_deadman: 4
+    axis_linear_x: 1
+    axis_linear_y: 0
+    axis_angular_z: 3
+    button_speed_up: 2
+    button_speed_down: 0
+    button_kinematic_mode: 7
+    use_accel_watchdog: true
+    axis_watchdog: 9 #js_base axes + js_base_motion_axes -> 8 js_base_axes, then it is axis 1 in js_base_motion
+
+Elevator:
+  type: robotnik_pad_plugins/Elevator
+  elevator_service_name: robotnik_base_control/set_elevator
+  config:
+    deadman: 5
+    axis_elevator: 7
+
+
+Poi:
+  type: robotnik_pad_plugins/Poi
+  poi_service_name: poi_interactive_marker/save_robot_pose
+  config:
+    deadman: 5
+    save_poi_l3: 11
+    save_poi_r3: 12
+
+Ptz:
+  type: robotnik_pad_plugins/Ptz
+  cmd_topic_ptz: $(arg cmd_ptz_topic)
+  
+  speed_increment: 0.5
+  speed_limit: 3.14
+
+  home_pan_position: 0.0
+  home_tilt_position: 0.0
+  home_zoom_position: 0.0
+  
+  position_increment: 0.1
+  position_increment_limit: 0.5
+  min_pan_position: -3.14
+  max_pan_position: 3.14
+  min_tilt_position: -1.57
+  max_tilt_position: 1.57
+  max_zoom_position: 12000
+
+  set_position_mode: false # if false, set speed mode
+
+  config:
+    inverted_tilt_ptz: false
+    inverted_pan_ptz: false
+    button_deadman: 5
+    button_home: 10
+    button_pan:  7
+    button_tilt: 6
+    button_zoom_in: 4 
+    button_zoom_out: 6
+    button_increment_up: 3 
+    button_increment_down: 1
+    #button_ptz_mode: 8
+
+KinovaArm:
+  type: kinova_pad_plugin/KinovaArm
+  arm_control_topic_name: /robot/$(arg arm_model)_controller/in/cartesian_velocity_with_fingers
+  set_home_service_name: /robot/$(arg arm_model)_controller/in/home_arm
+  max_linear_speed: 2.0
+  max_angular_speed: 3.0
+  config:
+    button_deadman: 4
+    button_movement_deadman: 5 # this plugin will not work if movement deadman button is pressed
+    button_home_arm: 10
+
+    axis_open_gripper: 4
+    axis_close_gripper: 2
+
+    axis_linear_x_ee: 0
+    axis_linear_y_ee: 0
+    axis_linear_z_ee: 10
+
+    axis_angular_x_ee: 5
+    axis_angular_y_ee: 2
+    axis_angular_z_ee: 9
+
+    button_speed_up: 2
+    button_speed_down: 0
