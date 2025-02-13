@@ -70,4 +70,4 @@ repositories:
   src/robotnik_pkgs/robotnik_pad:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_pad.git
-    version: 9dc97937fd6369cceaf12198bd392d89e42b2230
+    version: 6297bfda97c5496ee1aedb3f892f125b8e5f46db
