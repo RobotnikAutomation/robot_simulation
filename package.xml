@@ -7,7 +7,7 @@
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
   <!-- <maintainer email="jane.doe@example.com">Jane Doe</maintainer> -->
-  <maintainer email="robert@todo.todo">robert</maintainer>
+  <maintainer email="jamendez@robotnik.es">robert</maintainer>
 
 
   <!-- One license tag required, multiple allowed, one license per tag -->
@@ -68,6 +68,7 @@
   <depend>rbvogui_hl_controller</depend>
   <depend>robotnik_differential_controller</depend>
   <depend>controller_manager</depend>
+  <depend>rviz</depend>
 
   <exec_depend>gazebo_plugins</exec_depend>
   <exec_depend>twist_mux</exec_depend>
@@ -79,6 +80,8 @@
   <exec_depend>xacro</exec_depend>
   <exec_depend>xacro</exec_depend>
   <exec_depend>hector_gazebo_plugins</exec_depend>
+  <exec_depend>global_planner</exec_depend>
+  <exec_depend>teb_local_planner</exec_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
