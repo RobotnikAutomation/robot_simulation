@@ -6,7 +6,7 @@
  <arg name="debug" default="false"/>
  <arg name="paused" default="false"/>
  <arg name="headless" default="false"/>
- <arg name="gui" default="true"/>
+ <arg name="gui" default="$(optenv ROBOT_SIM_GAZEBO_GUI true)"/>
 
  <!-- Launch gazebo -->
  <include file="$(find gazebo_ros)/launch/empty_world.launch">
