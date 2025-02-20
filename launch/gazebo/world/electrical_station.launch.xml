@@ -11,5 +11,36 @@
     <arg name="gui" value="$(arg gazebo_gui)"/>
 </include>
 
+<include file="$(find robot_sim)/launch/gazebo/spawn_sdf_from_db.launch.xml">
+    <arg name="object_name" value="person_1"/>
+    <arg name="x" value="5.75"/>
+    <arg name="y" value="-9.6"/>
+    <arg name="z" value="0"/>
+    <arg name="roll" value="0"/>
+    <arg name="pitch" value="0"/>
+    <arg name="yaw" value="3.14"/>
+    <arg name="model" value="person_standing"/>
+</include>
+<include file="$(find robot_sim)/launch/gazebo/spawn_sdf_from_db.launch.xml">
+    <arg name="object_name" value="suv_1"/>
+    <arg name="x" value="-22"/>
+    <arg name="y" value="-50"/>
+    <arg name="z" value="0"/>
+    <arg name="roll" value="0"/>
+    <arg name="pitch" value="0"/>
+    <arg name="yaw" value="3.14"/>
+    <arg name="model" value="suv"/>
+</include>
+<include file="$(find robot_sim)/launch/gazebo/spawn_sdf_from_db.launch.xml">
+    <arg name="object_name" value="ambulance_1"/>
+    <arg name="x" value="7"/>
+    <arg name="y" value="21"/>
+    <arg name="z" value="0"/>
+    <arg name="roll" value="0"/>
+    <arg name="pitch" value="0"/>
+    <arg name="yaw" value="1.57"/>
+    <arg name="model" value="ambulance"/>
+</include>
+
 
 </launch>
