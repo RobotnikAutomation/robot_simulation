@@ -27,11 +27,11 @@
   <arg name="kinematics" default="ackermann_4s"/>
   <arg name="ros_planar_move_plugin" default="false"/>
   <arg name="ros_planar_move_plugin_force_based" default="false"/>
-  <arg name="wheel_diameter" default="$(optenv ROBOT_WHEEL_DIAMETER 0.233)"/>
+  <arg name="wheel_diameter" default="0.233"/>
   <arg name="odom_broadcast_tf" default="true"/>
 
   <!-- Safety -->
-  <arg name="has_safety_module" default="$(optenv ROBOT_RLC_SAFETY_MODULE false)" />
+  <arg name="has_safety_module" default="false" />
 
     <!-- Loc & Nav -->
   <arg name="launch_loc_nav" default="true"/>

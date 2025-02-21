@@ -19,8 +19,8 @@
   <arg name="odom_frame" default="$(arg prefix)odom"/>
   <arg name="base_frame" default="$(arg prefix)base_footprint"/>
 
-  <arg name="robot_model" default="$(optenv ROBOT_MODEL rbkairos)"/>
-  <arg name="kinematics" default="$(optenv ROBOT_KINEMATICS diff)"/>
+  <arg name="robot_model" default=""/>
+  <arg name="kinematics" default=""/>
 
   <arg name="global_planner" default="$(optenv ROBOT_MOVE_BASE_GLOBAL_PLANNER global_planner)"/>
   <arg name="local_planner" default="$(optenv ROBOT_MOVE_BASE_LOCAL_PLANNER teb)"/>

@@ -7,7 +7,7 @@
 
     <arg name="autorepeat_rate" default="10.0"/>
     <arg name="default_trig_val" default="0.0"/>
-    <arg name="pad_model" default="$(optenv ROBOT_PAD_MODEL ps4)"/>
+    <arg name="pad_model" default="$(optenv ROBOT_PAD_MODEL ps5)"/>
     <arg name="pad_deadzone" default="$(optenv ROBOT_PAD_DEADZONE 0.12)" />
     <arg name="joy_dev" default="$(optenv ROBOT_PAD_DEV /dev/input/js_base)" />
     <arg name="joy_dev_accel" default="$(optenv ROBOT_PAD_DEV_ACCEL /dev/input/js_base_motion)" />

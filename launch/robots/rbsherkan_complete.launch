@@ -24,15 +24,15 @@
   <arg unless="$(eval robot_xacro_folder =='none')" name="robot_xacro_path" default="$(arg robot_xacro_folder)/$(arg robot_xacro)"/>
 
   <!-- Controller -->
-  <arg name="kinematics" default="$(optenv ROBOT_KINEMATICS diff_2w)"/>
+  <arg name="kinematics" default="diff_2w"/>
   <arg name="ros_planar_move_plugin" default="false"/>
   <arg name="ros_planar_move_plugin_force_based" default="false"/>
-  <arg name="wheel_diameter" default="$(optenv ROBOT_WHEEL_DIAMETER 0.14)"/>
+  <arg name="wheel_diameter" default="0.14"/>
   <arg name="odom_broadcast_tf" default="true"/>
   
 
   <!-- Safety -->
-  <arg name="has_safety_module" default="$(optenv ROBOT_RLC_SAFETY_MODULE false)" />
+  <arg name="has_safety_module" default="false" />
 
   <!-- Loc & Nav -->
   <arg name="launch_loc_nav" default="true"/>

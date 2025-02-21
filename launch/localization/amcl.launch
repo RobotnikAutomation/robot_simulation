@@ -6,7 +6,7 @@
 
   <arg name="robot_id" default="$(optenv ROBOT_ID robot)"/>
   <arg name="prefix" default="$(arg robot_id)_"/>
-  <arg name="kinematics" default="$(optenv ROBOT_KINEMATICS skid)"/>
+  <arg name="kinematics" default=""/>
   
   <arg name="x_init_pose" default="0"/>
   <arg name="y_init_pose" default="0"/>

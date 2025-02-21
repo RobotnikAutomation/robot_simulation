@@ -27,7 +27,7 @@
   <arg name="kinematics" default="omni_4w"/>
   <arg name="ros_planar_move_plugin" default="true"/>
   <arg name="ros_planar_move_plugin_force_based" default="false"/>
-  <arg name="wheel_diameter" default="$(optenv ROBOT_WHEEL_DIAMETER 0.2552)"/>
+  <arg name="wheel_diameter" default="0.2552"/>
 
   <!-- arm -->
   <arg name="sim_arm_control" default="true"/>
@@ -39,7 +39,7 @@
   <arg name="arm_prefix" default="$(arg prefix)$(arg arm_model)"/>
 
   <!-- Safety -->
-  <arg name="has_safety_module" default="$(optenv ROBOT_RLC_SAFETY_MODULE false)" />
+  <arg name="has_safety_module" default="false" />
 
   <!-- Loc & Nav -->
   <arg name="launch_loc_nav" default="true"/>

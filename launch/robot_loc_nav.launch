@@ -2,16 +2,22 @@
 <launch>
 
     <!-- rb1_base, rb_theron, summit_xl, summit_xl_steel, rbkairos, rbvogui, rbvogui_xl, rbvogui_6w, rbrobout-->
-    <arg name="robot_model" default="summit_xl"/>
+    <arg name="robot_model" default=""/>
     <!-- arg to config the launch file-->
     <arg name="robot_id" default="$(optenv ROBOT_ID robot)"/>
     <arg name="prefix" default="$(arg robot_id)_"/>
-    <arg name="sim_world" default="$(optenv ROBOT_SIM_WORLD willow_garage)"/>
-    <arg name="x_init_pose" default="$(optenv ROBOT_SIM_X_POSE 0)"/>
-    <arg name="y_init_pose" default="$(optenv ROBOT_SIM_Y_POSE 0)"/>
-    <arg name="z_init_pose" default="$(optenv ROBOT_SIM_Z_POSE 0)"/>
-    <arg name="kinematics" default="$(optenv ROBOT_KINEMATICS skid_4w)"/>
 
+    <!-- Simulation -->
+    <arg name="sim_world" default=""/>
+    <arg name="x_init_pose" default="0"/>
+    <arg name="y_init_pose" default="0"/>
+    <arg name="z_init_pose" default="0"/>
+    <arg name="a_init_pose" default="0"/>
+
+    <!-- Control -->
+    <arg name="kinematics" default=""/>
+
+    <!-- Loc & Nav -->
     <arg name="launch_robot_ekf_localization" default="false"/>
     <arg name="robot_ekf_localization_mode" default="odom"/>
     <arg name="launch_move_base" default="true"/>
