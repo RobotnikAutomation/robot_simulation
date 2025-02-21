@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>robot_sim</name>
-  <version>0.0.0</version>
+  <version>1.0.0</version>
   <description>The robot_sim package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
@@ -49,6 +49,10 @@
   <!-- Use doc_depend for packages you need only for building documentation: -->
   <!--   <doc_depend>doxygen</doc_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>joint_state_controller</build_depend>
+  <build_depend>velocity_controllers</build_depend>
+  <build_depend>diff_drive_controller</build_depend>
+  <build_depend>gripper_action_controller</build_depend>
 
   <build_depend>roslaunch</build_depend>
 

@@ -7,21 +7,24 @@
     <arg name="tilt_joint" default="$(arg prefix)_ptz_camera_tilt_joint"/>
     <arg name="zoom_joint" default="$(arg prefix)_ptz_camera_zoom_joint"/>
     <arg name="has_zoom" default="false"/>
+    <!-- spawner id is required when several controller spawners are run at the same time -->
     <arg name="spawner_id" default="1"/>
+    <!-- controller id is required when several ptzs are included in the same robot -->
+    <arg name="controller_prefix_id" default=""/>
 
 
     <rosparam file="$(find robot_sim)/config/ptz_control.yaml" command="load" subst_value="true"/>
     <node if="$(arg has_zoom)" name="controller_spawner_$(arg spawner_id)" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="
             joint_read_state_controller
-            joint_pan_position_controller
-            joint_tilt_position_controller
-            joint_zoom_position_controller
+            $(arg controller_prefix_id)joint_pan_position_controller
+            $(arg controller_prefix_id)joint_tilt_position_controller
+            $(arg controller_prefix_id)joint_zoom_position_controller
     ">
     </node>
     <node unless="$(arg has_zoom)" name="controller_spawner_$(arg spawner_id)" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="
             joint_read_state_controller
-            joint_pan_position_controller
-            joint_tilt_position_controller
+            $(arg controller_prefix_id)joint_pan_position_controller
+            $(arg controller_prefix_id)joint_tilt_position_controller
     ">
     </node>
   
