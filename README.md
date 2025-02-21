@@ -48,7 +48,7 @@ source devel/setup.bash
 ## Usage
 
 ### 1. Simulation of a robot
-If the env variable `ROBOT_MODEL` is defined, the value will be taken in the robot_complete.launch:
+If the env variable `ROBOT_MODEL` is defined, the value will be taken in the `robot_complete.launch`:
 
 ```bash
 roslaunch robot_sim robot_complete.launch
@@ -66,7 +66,7 @@ Or the argument `robot_model` can be set in `robot_complete.launch`:
 roslaunch robot_sim robot_complete.launch robot_model:=<robot_model>
 ```
 
-*Note: some of the launch arguments are taken from the Robotnik's standard env variables defined in the package robot_bringup.*
+*Note: some launch arguments are taken from the Robotnik's standard env variables defined in the package robot_bringup.*
 
 Substitute *<robot_model>* with one of the following models:
 - summit_xl
@@ -118,7 +118,7 @@ Substitute *<robot_model>* with one of the following models:
 - `robot_xacro`: Name of the xacro file.
     - If the argument is not set, the default value in `<robot_model>_complete.launch` will be used.
 
-Example: To run the simulation of a rbvogui without navigation and localization:
+Example: To simulate a rbvogui without navigation and localization:
 ```bash
 roslaunch robot_sim robot_complete.launch robot_model:=rbvogui launch_loc_nav:=false
 ```
@@ -167,7 +167,7 @@ Apart from the arguments listed for `robot_complete.launch`, there are other arg
 
 - `has_safety_module`: Flag to simulate a safety module.
 
-Example: To run the simulation of a rbrobout without navigation and localization with safety module in the world *demo*:
+Example: To simulate a rbrobout without navigation and localization with safety module in the world *demo*:
 ```bash
 roslaunch robot_sim rbrobout_complete.launch launch_loc_nav:=false has_safety_module:=true sim_world:=demo
 ```
@@ -217,6 +217,7 @@ Terminal 2:
 roslaunch robot_sim add_robot_to_simulation.launch robot_model:=rb_theron
 ```
 
-WARNING: For each robot added to the simulation, a new `robot_id` has to be set. The dafault value is *robot2*. Also, make sure the init poses of the robots are diferent to prevent collisions.
 
-![alt text](image.png)
+WARNING: For each robot added to the simulation, a new `robot_id` has to be set. The default value is *robot2*. Also, make sure the init poses of the robots are different to prevent collisions.
+![image](https://github.com/user-attachments/assets/1cb2fd34-a3d6-457c-bf7a-74ea9b9ee686)
+
