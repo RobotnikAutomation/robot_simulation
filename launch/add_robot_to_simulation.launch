@@ -3,10 +3,11 @@
     <arg name="robot_model" default="$(optenv ROBOT_MODEL summit_xl)"/>
     <arg name="robot_id" default="robot2"/>
     <arg name="launch_loc_nav" default="true"/>
-    <arg name="x_init_pose" default="$(optenv ROBOT_SIM_X_POSE 0)"/>
-    <arg name="y_init_pose" default="$(optenv ROBOT_SIM_Y_POSE 0)"/>
-    <arg name="z_init_pose" default="$(optenv ROBOT_SIM_Z_POSE 0)"/>
-    <arg name="a_init_pose" default="$(optenv ROBOT_SIM_Z_ANGLE 0)"/>
+    <arg name="x_init_pose" default="2"/>
+    <arg name="y_init_pose" default="2"/>
+    <arg name="z_init_pose" default="0"/>
+    <arg name="a_init_pose" default="2"/>
+    <arg name="has_safety_module" default="false" />
 
     <include file="$(find robot_sim)/launch/robots/$(arg robot_model)_complete.launch">
         <arg name="launch_loc_nav" value="$(arg launch_loc_nav)"/>
@@ -16,6 +17,7 @@
         <arg name="y_init_pose" value="$(arg y_init_pose)"/>
         <arg name="z_init_pose" value="$(arg z_init_pose)"/>
         <arg name="a_init_pose" value="$(arg a_init_pose)"/>
+        <arg name="has_safety_module" value="$(arg has_safety_module)"/>
     </include>
 
 
