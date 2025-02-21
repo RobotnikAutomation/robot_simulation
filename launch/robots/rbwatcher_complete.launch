@@ -18,7 +18,7 @@
   <!-- Description -->
   <arg name="robot_xacro" default="rbwatcher_std.urdf.xacro"/>
   <arg name="robot_xacro_package" default="robot_description"/>
-  <arg name="robot_xacro_relative_path" default="robots/" />
+  <arg name="robot_xacro_relative_path" default="/robots/" />
   <arg name="robot_xacro_folder" default="none" />
   <arg if="$(eval robot_xacro_folder =='none')" name="robot_xacro_path" default="$(eval find(robot_xacro_package) + robot_xacro_relative_path + robot_xacro)"/>
   <arg unless="$(eval robot_xacro_folder =='none')" name="robot_xacro_path" default="$(arg robot_xacro_folder)/$(arg robot_xacro)"/>
@@ -102,7 +102,7 @@
       <arg name="has_zoom" value="true"/>
       <arg name="pan_joint" value="$(arg prefix)top_ptz_camera_pan_joint"/>
       <arg name="tilt_joint" value="$(arg prefix)top_ptz_camera_tilt_joint"/>
-      <arg name="zoom_joint" value="$(arg prefix)top_ptz_camera_zoom_joint"/>
+      <arg name="zoom_joint" value="$(arg prefix)top_ptz_camera_zoom_color_joint"/>
       <arg name="controller_prefix_id" value="top_ptz_camera_"/>
     </include>
 
