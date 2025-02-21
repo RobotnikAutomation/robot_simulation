@@ -2,7 +2,7 @@ repositories:
   src/robot_sim:
     type: git
     url: https://github.com/RobotnikAutomation/robot_sim
-    version: ros
+    version: ros-devel
   src/robotnik_pkgs/robot_description:
     type: git
     url: https://github.com/RobotnikAutomation/robot_description
