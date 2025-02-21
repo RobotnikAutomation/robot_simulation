@@ -2,12 +2,24 @@
 <launch>
     <arg name="robot_model" default="$(optenv ROBOT_MODEL summit_xl)"/>
     <arg name="robot_id" default="robot2"/>
+
+    <!-- Loc & Nav -->
     <arg name="launch_loc_nav" default="true"/>
+
+    <!-- Init pose -->
     <arg name="x_init_pose" default="2"/>
     <arg name="y_init_pose" default="2"/>
     <arg name="z_init_pose" default="0"/>
     <arg name="a_init_pose" default="2"/>
+
+    <!-- Safety -->
     <arg name="has_safety_module" default="false" />
+
+    <!-- Description -->
+    <arg name="robot_xacro" default=""/>
+    <arg name="robot_xacro_package" default=""/>
+    <arg name="robot_xacro_relative_path" default=""/>
+    <arg name="robot_xacro_folder" default=""/>
 
     <include file="$(find robot_sim)/launch/robots/$(arg robot_model)_complete.launch">
         <arg name="launch_loc_nav" value="$(arg launch_loc_nav)"/>
@@ -18,6 +30,10 @@
         <arg name="z_init_pose" value="$(arg z_init_pose)"/>
         <arg name="a_init_pose" value="$(arg a_init_pose)"/>
         <arg name="has_safety_module" value="$(arg has_safety_module)"/>
+        <arg unless="$(eval robot_xacro == '')" name="robot_xacro" value="$(arg robot_xacro)"/>
+        <arg unless="$(eval robot_xacro_package == '')" name="robot_xacro_package" value="$(arg robot_xacro_package)"/>
+        <arg unless="$(eval robot_xacro_relative_path == '')" name="robot_xacro_relative_path" value="$(arg robot_xacro_relative_path)"/>
+        <arg unless="$(eval robot_xacro_folder == '')" name="robot_xacro_folder" value="$(arg robot_xacro_folder)"/>
     </include>
 
 
