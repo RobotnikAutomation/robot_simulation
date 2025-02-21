@@ -16,10 +16,10 @@
   <arg name="spawn_world" default="true"/>
 
   <!-- Description -->
-  <arg name="robot_xacro" default="$(optenv ROBOT_XACRO summit_hm_std.urdf.xacro)"/>
-  <arg name="robot_xacro_package" default="$(optenv ROBOT_XACRO_PACKAGE robot_description)"/>
-  <arg name="robot_xacro_relative_path" default="$(optenv ROBOT_XACRO_RELATIVE_PATH /robots/)" />
-  <arg name="robot_xacro_folder" default="$(optenv ROBOT_XACRO_FOLDER none)" />
+  <arg name="robot_xacro" default="summit_hm_std.urdf.xacro"/>
+  <arg name="robot_xacro_package" default="robot_description"/>
+  <arg name="robot_xacro_relative_path" default="/robots/" />
+  <arg name="robot_xacro_folder" default="none" />
   <arg if="$(eval robot_xacro_folder =='none')" name="robot_xacro_path" default="$(eval find(robot_xacro_package) + robot_xacro_relative_path + robot_xacro)"/>
   <arg unless="$(eval robot_xacro_folder =='none')" name="robot_xacro_path" default="$(arg robot_xacro_folder)/$(arg robot_xacro)"/>
   
