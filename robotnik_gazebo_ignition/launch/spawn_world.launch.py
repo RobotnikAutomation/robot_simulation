@@ -42,25 +42,17 @@ def generate_launch_description():
     world = LaunchConfiguration('world')
 
     arg = ExtendedArgument(
-        name='namespace',
-        description='Namespace',
-        default_value='robot',
-        use_env=True,
-        environment='NAMESPACE',
-    )
-    add_to_launcher.add_arg(arg)
-
-    arg = ExtendedArgument(
         name='world',
         description='world in gazebo classic',
-        default_value='demo',
+        default_value='demo.sdf.world',
+        # default_value='warehouse_big.sdf',
     )
     add_to_launcher.add_arg(arg)
 
     arg = ExtendedArgument(
         name='world_path',
         description='world path in gazebo classic',
-        default_value=[FindPackageShare('robotnik_gazebo_ignition'), '/worlds/ignition/', world, '.sdf.world'],
+        default_value=[FindPackageShare('robotnik_gazebo_ignition'), '/worlds/ignition/', world],
     )
     add_to_launcher.add_arg(arg)
 
@@ -68,7 +60,6 @@ def generate_launch_description():
 
     gazebo_ignition_launch_group = GroupAction(
         actions=[
-            PushRosNamespace(namespace=params['namespace']),
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(
                     os.path.join(
@@ -86,6 +77,7 @@ def generate_launch_description():
                         '-s ',
                         #'-v4 ', #verbose level
                         params['world_path']
+                        # 'empty.sdf'
                     ], 
                     'on_exit_shutdown':'true'
                 }.items(),
@@ -110,7 +102,7 @@ def generate_launch_description():
             )
         ]
     )
-    
+
     ld.add_action(gazebo_ignition_launch_group)
 
     return ld

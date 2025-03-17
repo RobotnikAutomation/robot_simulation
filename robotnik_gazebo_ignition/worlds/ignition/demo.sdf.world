@@ -10,6 +10,7 @@
     <plugin
       filename="gz-sim-physics-system"
       name="gz::sim::systems::Physics">
+      <render_engine>gz-physics6-bullet-plugin</render_engine>
     </plugin>
     <plugin
       filename="gz-sim-user-commands-system"
@@ -56,15 +57,14 @@
           <surface>
             <contact>
               <collide_bitmask>65535</collide_bitmask>
-              <ode/>
+              <bullet/>
             </contact>
             <friction>
-              <ode>
+              <bullet>
                 <mu>100</mu>
-                <mu2>50</mu2>
-              </ode>
+              </bullet>
               <torsional>
-                <ode/>
+                <bullet/>
               </torsional>
             </friction>
             <bounce/>
@@ -96,6 +96,11 @@
       <max_step_size>0.001</max_step_size>
       <real_time_factor>1</real_time_factor>
       <real_time_update_rate>1000</real_time_update_rate>
+      <bullet>
+        <friction_model>
+          cone_model
+        </friction_model>
+      </bullet>
     </physics>
     <scene>
       <ambient>0.4 0.4 0.4 1</ambient>
