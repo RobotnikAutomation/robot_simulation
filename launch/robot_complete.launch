@@ -1,6 +1,27 @@
 <?xml version="1.0"?>
 <launch>
     <arg name="robot_model" default="$(optenv ROBOT_MODEL summit_xl)"/>
-    <include file="$(find robot_sim)/launch/robots/$(arg robot_model)_complete.launch"/>
+    <arg name="robot_id" default="$(optenv ROBOT_ID robot)"/>
+
+    <!-- Loc & Nav -->
+    <arg name="launch_loc_nav" default="true"/>
+
+    <!-- Description -->
+    <arg name="robot_xacro" default="$(optenv ROBOT_XACRO)"/>
+    <arg name="robot_xacro_package" default="$(optenv ROBOT_XACRO_PACKAGE)"/>
+    <arg name="robot_xacro_relative_path" default="$(optenv ROBOT_XACRO_RELATIVE_PATH)" />
+    <arg name="robot_xacro_folder" default="$(optenv ROBOT_XACRO_FOLDER)" />
+
+    <include file="$(find robot_sim)/launch/robots/$(arg robot_model)_complete.launch">
+        <arg name="launch_loc_nav" value="$(arg launch_loc_nav)"/>
+        <arg name="robot_id" value="$(arg robot_id)"/>
+
+        <!-- Description -->
+        <arg unless="$(eval robot_xacro =='')" name="robot_xacro" value="$(arg robot_xacro)"/>
+        <arg unless="$(eval robot_xacro_package =='')" name="robot_xacro_package" value="$(arg robot_xacro_package)"/>
+        <arg unless="$(eval robot_xacro_relative_path =='')" name="robot_xacro_relative_path" value="$(arg robot_xacro_relative_path)"/>
+        <arg unless="$(eval robot_xacro_folder =='')" name="robot_xacro_folder" value="$(arg robot_xacro_folder)"/>
+    </include>
+
 
 </launch>

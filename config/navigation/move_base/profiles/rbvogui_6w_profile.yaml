@@ -1,0 +1,23 @@
+# costmaps
+
+global_costmap:
+  footprint: [[0.58, -0.43], [0.58, 0.43], [-0.58,0.43], [-0.58, -0.43]]
+  inflation_layer:
+    enabled: true
+    cost_scaling_factor: 1.0 
+    inflation_radius: 0.2
+
+local_costmap:
+  footprint: [[0.58, -0.43], [0.58, 0.43], [-0.58,0.43], [-0.58, -0.43]]
+  inflation_layer:
+    enabled: true
+    cost_scaling_factor: 10.0 
+    inflation_radius: 0.3
+
+
+# planners
+
+TebLocalPlannerROS:
+  footprint_model: # types: "point", "circular", "two_circles", "line", "polygon"
+    type: "polygon"
+    vertices: [[0.58, -0.43], [0.58, 0.43], [-0.58,0.43], [-0.58, -0.43]]

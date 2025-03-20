@@ -6,16 +6,47 @@
 
   <maintainer email="rvasquez@robotnik.es">Robert Vásquez</maintainer>
   <maintainer email="rnavarro@robotnik.es">Román Navarro</maintainer>
-
+  <maintainer email="jamendez@robotnik.es">José Antonio Méndez</maintainer>
 
   <license>BSD</license>
 
   <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>joint_state_controller</build_depend>
   <build_depend>velocity_controllers</build_depend>
   <build_depend>diff_drive_controller</build_depend>
   <build_depend>gripper_action_controller</build_depend>
 
+  <build_depend>roslaunch</build_depend>
+
+  <depend>robot_description</depend>
+  <depend>robotnik_sensors</depend>
+  <depend>roscpp</depend>
+  <depend>std_msgs</depend>
+  <depend>std_srvs</depend>
+  <depend>gazebo_ros</depend>
+  <depend>tf</depend>
+  <depend>joint_state_controller</depend>
+  <depend>gazebo_ros_control</depend>
+  <depend>summit_xl_controller</depend>
+  <depend>rb1_base_controller</depend>
+  <depend>rb_theron_controller</depend>
+  <depend>rbares_controller</depend>
+  <depend>rbvogui_hl_controller</depend>
+  <depend>robotnik_differential_controller</depend>
+  <depend>controller_manager</depend>
+  <depend>rviz</depend>
+
+  <exec_depend>gazebo_plugins</exec_depend>
+  <exec_depend>twist_mux</exec_depend>
+  <exec_depend>move_base</exec_depend>
+  <exec_depend>amcl</exec_depend>
+  <exec_depend>map_server</exec_depend>
+  <exec_depend>gmapping</exec_depend>
+  <exec_depend>robot_localization</exec_depend>
+  <exec_depend>xacro</exec_depend>
+  <exec_depend>xacro</exec_depend>
+  <exec_depend>hector_gazebo_plugins</exec_depend>
+  <exec_depend>global_planner</exec_depend>
+  <exec_depend>teb_local_planner</exec_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

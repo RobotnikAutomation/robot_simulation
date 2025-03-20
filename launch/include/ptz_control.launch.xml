@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
-    <arg name="id_robot" default="$(optenv ROBOT_ID robot)"/>
-    <arg name="prefix" default="$(arg id_robot)_"/>
+    <arg name="robot_id" default="$(optenv ROBOT_ID robot)"/>
+    <arg name="prefix" default="$(arg robot_id)_"/>
 
     <arg name="pan_joint" default="$(arg prefix)_ptz_camera_pan_joint"/>
     <arg name="tilt_joint" default="$(arg prefix)_ptz_camera_tilt_joint"/>

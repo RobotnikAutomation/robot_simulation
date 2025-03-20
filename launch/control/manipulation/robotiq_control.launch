@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="prefix" default="robot_"/>
+    <arg name="gripper_model" default="hand_e"/>
+    <arg name="gripper_prefix" default="$(arg prefix)gripper"/>
+
+    <!-- Load joint controller configurations from YAML file to parameter server -->
+    <rosparam file="$(find robot_sim)/config/control/manipulation/robotiq/$(arg gripper_model)_control.yaml" command="load" subst_value="true"/>
+
+
+    <group if="$(eval arg('gripper_model') == 'hand_e')">
+
+        <node name="$(arg gripper_prefix)_action_controller" pkg="controller_manager" type="spawner" output="screen" 
+        args="
+            gripper
+        "
+        />
+
+    </group>
+
+    <group if="$(eval arg('gripper_model') == '2f_85')">
+
+        <node name="$(arg gripper_prefix)_action_controller" pkg="controller_manager" type="spawner" output="screen" 
+        args="
+            gripper
+        "
+        />
+        
+    </group>
+
+    <group if="$(eval arg('gripper_model') == '2f_140')">
+
+        <node name="$(arg gripper_prefix)_action_controller" pkg="controller_manager" type="spawner" output="screen" 
+        args="
+            gripper
+        "
+        />
+        
+    </group>
+
+</launch>

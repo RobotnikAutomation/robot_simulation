@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="robot_id" default="$(optenv ROBOT_ID robot)"/>
+  <arg name="prefix" default="$(arg robot_id)_"/>
+  <arg name="sim" default="false"/>
+  <arg name="cmd_vel" default="robotnik_base_control/cmd_vel"/>
+  <arg name="kinematics" default="$(optenv ROBOT_KINEMATICS omni)" />  
+  <arg name="controller_sim" default="$(optenv ROBOT_CONTROLLER_SIM robotnik_base_control joint_read_command_controller)"/>
+  <arg name="wheel_diameter" default="$(optenv ROBOT_WHEEL_DIAMETER 0.22)"/>
+  <arg name="track_width" default="$(optenv ROBOT_TRACK_WIDTH 0.439)"/> 
+  <arg name="wheel_base" default="$(optenv ROBOT_WHEEL_BASE 0.439)"/>  
+  <arg name="sim_arm_control" default="false"/>
+  <arg name="arm_manufacturer" default="$(optenv ROBOT_ARM_MANUFACTURER ur)"/>
+  <arg name="arm_model" default="$(optenv ROBOT_ARM_MODEL ur5)"/>
+  <arg name="gripper_manufacturer" default="$(optenv ROBOT_GRIPPER_MANUFACTURER schunk)"/>
+  <arg name="gripper_model" default="$(optenv ROBOT_GRIPPER_MODEL egh)"/>
+  <arg name="cmd_vel_unsafe" default="robotnik_base_control/cmd_vel_unsafe"/>
+  <arg name="robot_has_safety" default="false"/>
+
+  <!-- Robot - Load joint controller configurations from YAML file to parameter server -->
+  <group unless="$(arg sim)">
+    <rosparam file="$(find robot_sim)/config/control/kinematics/$(arg kinematics)_control.yaml" command="load" subst_value="true"/>
+    <param name="robotnik_base_control/wheel_diameter" value="$(arg wheel_diameter)"/>
+    <param name="robotnik_base_control/track_width" value="$(arg track_width)"/>
+    <param name="robotnik_base_control/kinematic_mode" value="$(arg kinematics)"/>
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"
+          args="robotnik_base_control
+	              joint_read_command_controller
+                joint_read_state_controller">
+    </node>
+   
+  </group>
+
+  <!-- Simulation - Load joint controller configurations from YAML file to parameter server -->
+  <group if="$(arg sim)">
+    <rosparam file="$(find robot_sim)/config/control/robot_$(arg kinematics)_control_sim.yaml" command="load" subst_value="true"/>
+    
+    <!-- Controller spawner for ackermann/omni model -->
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"
+          args="$(arg controller_sim)
+                joint_read_state_controller
+                ">
+    </node>
+
+    <group if="$(eval arg('arm_manufacturer') != 'none')">
+      <include file="$(find robot_sim)/launch/control/manipulation/$(arg arm_manufacturer)_control.launch">
+        <arg name="prefix" value="$(arg prefix)"/>
+        <arg name="arm_model" value="$(arg arm_model)"/>
+        <arg name="use_trajectory_controller" value="true"/>
+      </include> 
+    </group> 
+
+    <group if="$(eval arg('gripper_manufacturer') != 'none')">
+      <include file="$(find robot_sim)/launch/control/manipulation/$(arg gripper_manufacturer)_control.launch">
+        <arg name="prefix" value="$(arg prefix)"/>
+        <arg name="gripper_model" value="$(arg gripper_model)"/>
+      </include> 
+    </group> 
+
+  </group>
+
+  <node pkg="twist_mux" type="twist_mux" name="twist_mux">
+    <rosparam command="load" file="$(find robot_sim)/config/control/twist_mux.yaml" />
+    <remap if="$(arg robot_has_safety)" from="cmd_vel_out" to="$(arg cmd_vel_unsafe)" />
+    <remap unless="$(arg robot_has_safety)" from="cmd_vel_out" to="$(arg cmd_vel)" />
+  </node>
+</launch>

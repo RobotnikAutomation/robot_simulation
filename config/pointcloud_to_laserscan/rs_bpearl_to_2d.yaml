@@ -1,0 +1,15 @@
+transform_tolerance: 0.01
+
+angle_min: -3.14 # -M_PI
+angle_max: 3.14 # M_PI
+angle_increment: 0.0087 # M_PI/360.0
+scan_time: 0.3333
+range_min: 0.45
+range_max: 50.0
+use_inf: true
+
+# Concurrency level, affects number of pointclouds queued for processing and number of threads used
+# 0 : Detect number of cores
+# 1 : Single threaded
+# 2->inf : Parallelism level
+concurrency_level: 1

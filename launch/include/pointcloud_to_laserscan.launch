@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<launch>
+    <arg name="robot_id" default="$(optenv ROBOT_ID robot)"/>
+    <arg name="angle_min"  default="-1.5708"/>
+    <arg name="angle_max"  default="1.5708"/>
+    <arg name="points_topic" default="points" />
+    <arg name="scan_topic" default="scan" />
+    <arg name="sensor" default="rs_lidar16"/>
+
+    <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan">
+      <remap from="cloud_in" to="$(arg points_topic)"/>
+      <remap from="scan" to="$(arg scan_topic)"/>
+      <param name="target_frame" value="$(arg robot_id)_base_link"/>
+      <rosparam command="load" file="$(find robot_sim)/config/pointcloud_to_laserscan/$(arg sensor)_to_2d.yaml" subst_value="true"/>
+      <param name="angle_min" value=""/>
+      <param name="angle_max" value=""/>
+    </node>
+</launch>

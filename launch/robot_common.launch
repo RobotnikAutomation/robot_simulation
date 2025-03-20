@@ -2,39 +2,58 @@
 <launch>
 
   <!-- rb1_base, rb_theron, summit_xl, summit_xl_steel, rbkairos, rbvogui, rbvogui_xl, rbvogui_6w, rbrobout-->
-  <arg name="robot_model" default="$(optenv ROBOT_MODEL summit_xl)"/>
+  <arg name="robot_model" default=""/>
   <!-- arg to config the launch file-->
-  <arg name="robot_id" default="$(optenv ROBOT_ID robot)"/>
+  <arg name="robot_id" default=""/>
   <arg name="prefix" default="$(arg robot_id)_"/>
-  <arg name="sim_world" default="$(optenv ROBOT_SIM_WORLD willow_garage)"/>
+
+  <!-- Simulation -->
+  <arg name="sim_world" default=""/>
   <arg name="x_init_pose" default="0"/>
   <arg name="y_init_pose" default="0"/>
   <arg name="z_init_pose" default="0"/>
   <arg name="a_init_pose" default="0"/>
-  <arg name="robot_xacro" default="$(optenv ROBOT_XACRO summit_xl_std.urdf.xacro)"/>
-  <arg name="robot_xacro_package" default="$(optenv ROBOT_XACRO_PACKAGE robot_description)"/>
-  <arg name="robot_xacro_relative_path" default="$(optenv ROBOT_XACRO_RELATIVE_PATH /robots/)" />
-  <arg name="robot_xacro_path" default="$(eval find(robot_xacro_package) + robot_xacro_relative_path + robot_xacro)"/>
-  <arg name="kinematics" default="$(optenv ROBOT_KINEMATICS skid_4w)"/>
-  
-  <!-- CHARGE MANAGER -->
+  <arg name="spawn_world" default="true"/>
+  <arg name="launch_rviz" default="true"/>
+
+  <!-- Description -->
+  <arg name="robot_xacro_path" default=""/>
+
+  <!-- Control -->
+  <arg name="kinematics" default=""/>
+  <arg name="ros_planar_move_plugin" default="false"/>
+  <arg name="ros_planar_move_plugin_force_based" default="false"/>
+
+  <!-- Safety -->
+  <arg name="has_safety_module" default="false"/>
+
+  <!-- Loc & Nav -->
+  <arg name="launch_nav" default="false"/>
+  <arg name="launch_mapserver" default="false"/>
+  <arg name="launch_amcl" default="false"/>
+
+  <!-- Charge manager -->
   <arg name="docker_mode" default="automatic_sw"/>
   <arg name="inverted_contact_relay_input" default="$(optenv ROBOT_BATTERY_INVERTED_CONTACT_RELAY false)" />
   <arg name="contact_relay_input_number" default="$(optenv ROBOT_BATTERY_CONTACT_RELAY_INPUT_NUMBER 2)" />
   <arg name="charger_relay_output_number" default="$(optenv ROBOT_BATTERY_CHARGER_RELAY_OUTPUT_NUMBER 1)" />
 
-  <arg name="launch_rviz" default="true"/>
-  <arg name="run_pad" default="false"/>
-  <arg name="pad_model" default="$(optenv ROBOT_PAD_MODEL ps4)"/>
+  <!-- Pad -->
+  <arg name="launch_pad" default="true"/>
+  <arg name="pad_model" default="$(optenv ROBOT_PAD_MODEL ps5)"/>
 
-  <arg name="ros_planar_move_plugin" default="false"/>
-  <arg name="ros_planar_move_plugin_force_based" default="false"/>
+  <!-- Pointcloud to laser scan -->
+  <arg name="has_3d_laser" default="false"/>
+  <arg name="points_topic" default="top_3d_laser/points"/>
+  <arg name="scan_topic" default="top_3d_laser/scan"/>
+  <arg name="sensor" default="rs_lidar16"/> <!-- rs_lidar16/rs_bpearl-->
 
-  <include file="$(find robot_sim)/launch/gazebo/world/$(arg sim_world).launch.xml">
+  <include if="$(arg spawn_world)" file="$(find robot_sim)/launch/gazebo/world/$(arg sim_world).launch.xml">
   </include>
 
   <group ns="$(arg robot_id)">
 
+    <!-- Simulation -->
     <include file="$(find robot_sim)/launch/gazebo/spawn_robot.launch.xml">
       <arg name="robot_id" value="$(arg robot_id)"/>
       <arg name="robot_xacro_path" value="$(arg robot_xacro_path)"/>
@@ -42,11 +61,14 @@
       <arg name="y_init_pose" value="$(arg y_init_pose)"/>
       <arg name="z_init_pose" value="$(arg z_init_pose)"/>
       <arg name="a_init_pose" value="$(arg a_init_pose)"/>
+
+      <!-- Control -->
       <arg name="kinematics" value="$(arg kinematics)"/>
       <arg name="ros_planar_move_plugin" value="$(arg ros_planar_move_plugin)"/>
       <arg name="ros_planar_move_plugin_force_based" value="$(arg ros_planar_move_plugin_force_based)"/>
     </include>
     
+    <!-- Control -->
     <include file="$(find robotnik_base_hw_sim)/launch/robotnik_base_hw_sim.launch">
         <arg name="prefix" value="$(arg prefix)"/>
         <arg name="config_yaml" value="$(arg robot_model)"/>
@@ -61,15 +83,42 @@
       <arg name="charger_relay_output_number" value="$(arg charger_relay_output_number)"/>
     </include>
 
-    <!-- start robotnik_pad nodes -->
-    <include if="$(arg run_pad)" file="$(find robot_bringup)/launch/bringup/pad.launch">
+    <!-- start robotnik_pad nodes  -->
+    <include if="$(arg launch_pad)" file="$(find robot_sim)/launch/pad/pad.launch">
       <arg name="pad_model" value="$(arg pad_model)"/>
     </include>
 
+    <!-- LOC & NAV -->
+    <include file="$(find robot_sim)/launch/robot_loc_nav.launch">
+      <arg name="robot_id" value="$(arg robot_id)"/>
+      <arg name="prefix" value="$(arg prefix)"/>
+      <arg name="robot_model" value="$(arg robot_model)"/>
+      <arg name="kinematics" value="$(arg kinematics)"/>
+      <arg name="sim_world" value="$(arg sim_world)"/>
+      <arg name="x_init_pose" value="$(arg x_init_pose)"/>
+      <arg name="y_init_pose" value="$(arg y_init_pose)"/>
+      <arg name="z_init_pose" value="$(arg z_init_pose)"/>
+      <arg name="launch_nav" value="$(arg launch_nav)"/>
+      <arg name="launch_mapserver" value="$(arg launch_mapserver)"/>
+      <arg name="launch_amcl" value="$(arg launch_amcl)"/>
+    </include>
+
+    <!-- Pointcloud to laserscan -->
+    <include if="$(arg has_3d_laser)" file="$(find robot_sim)/launch/include/pointcloud_to_laserscan.launch">
+      <arg name="robot_id" value="$(arg robot_id)"/>
+      <arg name="points_topic" value="$(arg points_topic)"/>
+      <arg name="scan_topic" value="$(arg scan_topic)"/>
+      <arg name="sensor" value="$(arg sensor)"/>
+    </include>
   </group>
 
+  <!-- Safety -->
+  <include if="$(arg has_safety_module)" file="$(find robot_sim)/launch/include/flexisoft_simulator.launch.xml">
+    <arg name="robot_id" value="$(arg robot_id)"/>
+  </include>
+
  	<!-- launch rviz -->
-	<node if="$(arg launch_rviz)" name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(find robot_bringup)/rviz/robot_map.rviz"/>
+	<node if="$(arg launch_rviz)" name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(find robot_sim)/rviz/robot_map.rviz"/>
 
 
 

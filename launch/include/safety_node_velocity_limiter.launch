@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<launch>
+	<arg name="cmd_vel_out" default="robotnik_base_control/cmd_vel" />
+	<arg name="cmd_vel_in" default="robotnik_base_control/cmd_vel_unsafe" />
+	<arg name="safety_module_topic" default="safety_module/status" />
+	<arg name="warning_max_linear_speed_x" default="0.27" />
+	<arg name="warning_max_linear_speed_y" default="0.27" />
+	<arg name="warning_max_angular_speed" default="0.35" />
+	<arg name="emergency_max_linear_speed_x" default="0.0" />
+	<arg name="emergency_max_linear_speed_y" default="0.0" />
+	<arg name="emergency_max_angular_speed" default="0.0" />
+	<arg name="activation_time_detection" default="0.0" />
+	<arg name="deactivation_time_detection" default="1.0" />
+
+	<node pkg="robotnik_safety_controller" type="safety_module_velocity_limiter_node" name="safety_module_velocity_limiter" output="screen">
+		<param name="warning_max_linear_speed_x" value="$(arg warning_max_linear_speed_x)"/>
+		<param name="warning_max_linear_speed_y" value="$(arg warning_max_linear_speed_y)"/>
+		<param name="warning_max_angular_speed" value="$(arg warning_max_angular_speed)"/>
+		<param name="emergency_max_linear_speed_x" value="$(arg emergency_max_linear_speed_x)"/>
+		<param name="emergency_max_linear_speed_y" value="$(arg emergency_max_linear_speed_y)"/>
+		<param name="emergency_max_angular_speed" value="$(arg emergency_max_angular_speed)"/>
+		<param name="activation_time_detection" value="$(arg activation_time_detection)"/>
+		<param name="deactivation_time_detection" value="$(arg deactivation_time_detection)"/>
+		<remap from="cmd_vel_in" to="$(arg cmd_vel_in)"/>
+		<remap from="cmd_vel_out" to="$(arg cmd_vel_out)"/>
+		<remap from="safety_module/status" to="$(arg safety_module_topic)"/>
+	</node>
+</launch>

@@ -1,0 +1,16 @@
+base_global_planner: global_planner/GlobalPlanner
+
+GlobalPlanner:
+  planner_frequency: 1.0
+  planner_patience: 0.0
+  orientation_mode: 2 # interpolate from current orientation to last orientation
+  allow_unknown: true
+  default_tolerance: 0.0
+  visualize_potential: true
+  use_dijkstra: true
+  use_quadratic: false
+  use_grid_path: false
+  old_navfn_behaviour: false
+  lethal_cost: 253
+  neutral_cost: 66
+  cost_factor: 0.55
