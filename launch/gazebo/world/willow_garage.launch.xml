@@ -4,9 +4,11 @@
 <arg name="world_package" default="robot_sim"/>
 <arg name="world_name" default="worlds/willow_garage.world"/>
 <arg name="world_path" default="$(eval find(world_package) + '/' + world_name)"/>
+<arg name="gazebo_gui" default="$(optenv ROBOT_SIM_GAZEBO_GUI true)"/>
 
 <include file="$(find robot_sim)/launch/gazebo/spawn_simulation.launch.xml">
     <arg name="world_name" value="$(arg world_path)"/>
+    <arg name="gui" value="$(arg gazebo_gui)"/>
 </include>
 
 <arg name="docking_station_sdf_file" default="$(find robotnik_gazebo_models)/models/rb1_docking_station_1/rb1_docking_station_1.sdf"/>

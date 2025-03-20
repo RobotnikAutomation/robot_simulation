@@ -4,9 +4,11 @@
 <arg name="world_package" default="warehouse_world"/>
 <arg name="world_name" default="worlds/warehouse.world"/>
 <arg name="world_path" default="$(eval find(world_package) + '/' + world_name)"/>
+<arg name="gazebo_gui" default="$(optenv ROBOT_SIM_GAZEBO_GUI true)"/>
 
 <include file="$(find robot_sim)/launch/gazebo/spawn_simulation.launch.xml">
     <arg name="world_name" value="$(arg world_path)"/>
+    <arg name="gui" value="$(arg gazebo_gui)"/>
 </include>
 
 
