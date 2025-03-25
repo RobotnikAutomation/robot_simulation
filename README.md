@@ -27,7 +27,7 @@ mkdir ~/catkin_ws && cd ~/catkin_ws
 Install the latest version of the simulation:
 
 ```bash
-vcs import --input https://raw.githubusercontent.com/RobotnikAutomation/robot_sim/ros-devel/repos/robot_sim.repos
+vcs import --input https://raw.githubusercontent.com/RobotnikAutomation/robotnik_simulation/refs/heads/ros-devel/repos/robot_sim.repos
 ```
 
 **Install the private packages and the ROS dependencies:**
