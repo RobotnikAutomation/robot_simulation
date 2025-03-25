@@ -41,7 +41,7 @@ rosdep install --from-paths src --ignore-src -y -r
 ### 3. Compile
 
 ```bash
-catkin_build
+catkin build
 source devel/setup.bash
 ```
 
