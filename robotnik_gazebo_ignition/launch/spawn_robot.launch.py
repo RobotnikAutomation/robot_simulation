@@ -87,7 +87,7 @@ def generate_launch_description():
     arg = ExtendedArgument(
         name='robot_xacro_path',
         description='Path to the xacro file',
-        default_value=[FindPackageShare('robot_description_simulation'), '/robots/', robot_xacro_file],
+        default_value=[FindPackageShare('robot_description'), '/robots/', robot_xacro_file],
         use_env=True,
         environment='ROBOT_XACRO_PATH',
     )
@@ -115,7 +115,7 @@ def generate_launch_description():
     add_to_launcher.add_arg(arg)
     params = add_to_launcher.process_arg()
 
-    robot_dir = os.path.join(get_package_share_directory('robot_description_simulation'), 'launch')
+    robot_dir = os.path.join(get_package_share_directory('robot_description'), 'launch')
 
     robot_state = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
@@ -124,7 +124,8 @@ def generate_launch_description():
             launch_arguments={
                 'verbose': 'false',
                 'robot_xacro_file': robot_xacro_file,
-                'use_gazebo_ignition': 'true',
+                'namespace': params['namespace'],
+                'gazebo_ignition': 'true',
             }.items(),
     )
 
@@ -145,7 +146,7 @@ def generate_launch_description():
             namespace=params['namespace']
     )
     ld.add_action(robot_spawner)
-    bridge_params = os.path.join(get_package_share_directory('rbvogui_gazebo'),'config','gz_bridge.yaml')
+    bridge_params = os.path.join(get_package_share_directory('robotnik_gazebo_ignition'),'config','bridge.yaml')
 
     ros_gz_bridge = Node(
         package="ros_gz_bridge",
@@ -159,44 +160,53 @@ def generate_launch_description():
     )
     ld.add_action(ros_gz_bridge)
 
-    ros_gz_image_bridge = Node(
-        package="ros_gz_image",
-        executable="image_bridge",
-        arguments=[
-            "/robot/front_rgbd_camera/color/image_raw", 
-            "/robot/rear_rgbd_camera/color/image_raw"
-            #"/robot/front_rgbd_camera/ired1/image_raw", 
-            #"/robot/rear_rgbd_camera/ired1/image_raw",
-            #"/robot/front_rgbd_camera/ired2/image_raw", 
-            #"/robot/rear_rgbd_camera/ired2/image_raw",
-            #"/robot/front_rgbd_camera/depth/image_raw",
-            #"/robot/rear_rgbd_camera/depth/image_raw"
-        ],
+    # ros_gz_image_bridge = Node(
+    #     package="ros_gz_image",
+    #     executable="image_bridge",
+    #     arguments=[
+    #         "/robot/front_rgbd_camera/color/image_raw", 
+    #         "/robot/rear_rgbd_camera/color/image_raw"
+    #         #"/robot/front_rgbd_camera/ired1/image_raw", 
+    #         #"/robot/rear_rgbd_camera/ired1/image_raw",
+    #         #"/robot/front_rgbd_camera/ired2/image_raw", 
+    #         #"/robot/rear_rgbd_camera/ired2/image_raw",
+    #         #"/robot/front_rgbd_camera/depth/image_raw",
+    #         #"/robot/rear_rgbd_camera/depth/image_raw"
+    #     ],
+    #     namespace=params['namespace']
+    # )
+    # ld.add_action(ros_gz_image_bridge)
+
+    # controller_dir = os.path.join(get_package_share_directory('robotnik_controller'), 'launch')
+
+    
+    joint_state_broadcaster = Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['joint_state_broadcaster'],
         namespace=params['namespace']
-
     )
-    ld.add_action(ros_gz_image_bridge)
+    ld.add_action(joint_state_broadcaster)
 
-    controller_dir = os.path.join(get_package_share_directory('robotnik_controller'), 'launch')
-
-    robot_controllers = IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(
-                os.path.join(controller_dir, 'robotnik_simulation_controller.launch.py')
-            ),
-            launch_arguments={
-                'verbose': 'false',
-            }.items(),
+    robotnik_controller= Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['robotnik_base_controller'],
+        output='screen',
+        emulate_tty=True,
+        namespace=params['namespace']
     )
-    ld.add_action(RegisterEventHandler(
-            OnProcessExit(
-                target_action=robot_spawner,
-                on_exit=[
-                    LogInfo(msg='Robot controllers start'),
-                    robot_controllers
-                ]
-            )
+
+    init_robotnik_controller = RegisterEventHandler(
+        OnProcessExit(
+            target_action=joint_state_broadcaster,
+            on_exit=[
+                LogInfo(msg='Joint States spawned'),
+                robotnik_controller
+            ]
         )
     )
+    ld.add_action(init_robotnik_controller)
 
     return ld
 
