@@ -87,7 +87,7 @@ def generate_launch_description():
     arg = ExtendedArgument(
         name='robot_xacro_path',
         description='Path to the xacro file',
-        default_value=[FindPackageShare('robot_description'), '/robots/', robot_xacro_file],
+        default_value=[FindPackageShare('robotnik_description'), '/robots/', robot_xacro_file],
         use_env=True,
         environment='ROBOT_XACRO_PATH',
     )
@@ -115,7 +115,7 @@ def generate_launch_description():
     add_to_launcher.add_arg(arg)
     params = add_to_launcher.process_arg()
 
-    robot_dir = os.path.join(get_package_share_directory('robot_description'), 'launch')
+    robot_dir = os.path.join(get_package_share_directory('robotnik_description'), 'launch')
 
     robot_state = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
