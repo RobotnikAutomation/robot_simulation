@@ -162,7 +162,7 @@ ros2 launch robotnik_gazebo_classic spawn_robot.launch.py
 | namespace        | robot                        | namespace that will be in the nodes and topics and differenciate one robot entity from another |
 | robot            | rbkairos                     | robot type desired to be spawned                                                               |
 | robot_model      | _value of robot argument_              | robot_model variation of the robot type. For using this argument, robot has to be fulfilled    |
-| robot_xacro_path | rbkairos/rbkairos.urdf.xacro | path to a xacro model if it is not included in the robot_description package        |
+| robot_xacro_path | rbkairos/rbkairos.urdf.xacro | path to a xacro model if it is not included in the robotnik_description package        |
 | x                | 0.0                          | position x in the Gazebo world to spawn the robot                                              |
 | y                | 0.0                          | position y in the Gazebo world to spawn the robot                                              |
 | z                | 0.0                          | position z in the Gazebo world to spawn the robot                                              |
@@ -179,7 +179,7 @@ Example:
 ros2 launch robotnik_gazebo_classic spawn_robot.launch.py robot:=rbvogui
 ```
 
-In case that your robot has a variation (check [robots](robotnik_pkgs/robot_description/robots/) folder in robot_description package), you can select it by the argument **robot_model**.
+In case that your robot has a variation (check [robots](robotnik_pkgs/robot_description/robots/) folder in robotnik_description package), you can select it by the argument **robot_model**.
 
 Example:
 ```sh
@@ -219,15 +219,15 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-arg cmd_vel:=/robot/r
 <!-- CUSTOMIZATION -->
 ## Custom Simulation
 
-In case that the robot model that you want to simulate is not in robot_description package, or the world, or you want to use a different controller, you will have to create your own simulaiton files.
+In case that the robot model that you want to simulate is not in robotnik_description package, or the world, or you want to use a different controller, you will have to create your own simulaiton files.
 
 This will guide you to create your custom simulation.
 
 ### Custom Robot Model
 
 1. First, create your own package for the project.
-2. In this package, create your URDF file. You can base in the [template file](robotnik_pkgs/robot_description/robots/robot_template.urdf.xacro) that are in robot_description package.
-3. In the README of [robot_description](robotnik_pkgs/robot_description/README.md) there is a brief descripiton on how to create a robot.
+2. In this package, create your URDF file. You can base in the [template file](robotnik_pkgs/robotnik_description/robots/robot_template.urdf.xacro) that are in robotnik_description package.
+3. In the README of [robotnik_description](robotnik_pkgs/robotnik_description/README.md) there is a brief descripiton on how to create a robot.
 4. On this file you can modify and add all the sensors, arms and any other component.
 5. Then, launch the spawn_robot with the argument _robot_xacro_path_.
 

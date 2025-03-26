@@ -15,7 +15,7 @@
 
   <export>
     <build_type>ament_cmake</build_type>
-    <gazebo_ros gazebo_model_path="${prefix}/../../../robot_description/share"/>
+    <gazebo_ros gazebo_model_path="${prefix}/../../../robotnik_description/share"/>
   </export>
 </package>
 <!-- This package was generated using the Turtle Nest ROS 2 package creator -->
