@@ -106,6 +106,13 @@ sudo apt install ros-jazzy-ros-gz
 ### Installation
 
 Then, let's procede with the installation of the Robotnik packages.
+First, create the workspace to work with:
+
+```
+mkdir -p ~/ros2_ws/src
+cd ~/ros2_ws/src/
+```
+Then continue with the installation of packages.
 
 1. robotnik_description
     ```sh
@@ -127,10 +134,21 @@ Then, let's procede with the installation of the Robotnik packages.
     git clone git@github.com:RobotnikAutomation/robotnik_interfaces.git -b ros2-devel
    ```
 
-5. robotnik_controller. This package is shared in the folder debs
+5. ur_description
+   ```sh
+    git clone git@github.com:RobotnikAutomation/Universal_Robots_ROS2_Description.git -b fix/gazebo-control-jazzy
+   ```
+
+6. robotnik_controller. This package is shared in the folder debs
    ```sh
     sudo apt install debs/ros-humble-robotnik-controllers_0.0.0-20250401.134752-local_amd64.deb
    ```
+
+Finally, compile workspace:
+```
+cd ~/ros2_ws && colcon build
+source install/setup.bash
+```
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
