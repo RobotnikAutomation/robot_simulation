@@ -97,7 +97,7 @@ This package works with the different packages that Robotnik developed for the r
 
 ### Prerequisites
 
-First, be sure that you have all the [Gazebo packages](https://classic.gazebosim.org/tutorials?tut=ros2_installing) installed for ROS2.
+First, be sure that you have all the [Gazebo packages](https://gazebosim.org/docs/harmonic/install_ubuntu/) installed for ROS2.
 
 ```sh
 sudo apt install ros-jazzy-ros-gz
@@ -114,35 +114,41 @@ cd ~/ros2_ws/src/
 ```
 Then continue with the installation of packages.
 
-1. robotnik_description
+1. [robotnik_description](https://github.com/RobotnikAutomation/robotnik_description/tree/ros2-devel)
     ```sh
     git clone git@github.com:RobotnikAutomation/robotnik_description.git -b ros2-devel
     ```
 
-2. robotnik_sensors
+2. [robotnik_sensors](https://github.com/RobotnikAutomation/robotnik_sensors/tree/ros2-devel)
    ```sh
     git clone git@github.com:RobotnikAutomation/robotnik_sensors.git -b ros2-devel
    ```
 
-3. robotnik_common
+3. [robotnik_common](https://github.com/RobotnikAutomation/robotnik_common)
    ```sh
     git clone git@github.com:RobotnikAutomation/robotnik_common.git -b ros2-devel
    ```
 
-4. robotnik_interfaces
+4. [robotnik_interfaces](https://github.com/RobotnikAutomation/robotnik_interfaces)
    ```sh
     git clone git@github.com:RobotnikAutomation/robotnik_interfaces.git -b ros2-devel
    ```
 
-5. ur_description
+5. [ur_description](https://github.com/RobotnikAutomation/Universal_Robots_ROS2_Description/tree/fix/gazebo-control-jazzy#)
    ```sh
     git clone git@github.com:RobotnikAutomation/Universal_Robots_ROS2_Description.git -b fix/gazebo-control-jazzy
    ```
 
-6. robotnik_controller. This package is shared in the folder debs
+6. [robotnik_controller](./debs/ros-humble-robotnik-controllers_0.0.0-20250401.134752-local_amd64.deb). This package is shared in the folder debs
    ```sh
     sudo apt install debs/ros-humble-robotnik-controllers_0.0.0-20250401.134752-local_amd64.deb
    ```
+
+Install this repository:
+
+```
+git clone git@github.com:RobotnikAutomation/robotnik_simulation.git
+```
 
 Finally, compile workspace:
 ```
@@ -220,11 +226,11 @@ Example:
 ros2 launch robotnik_gazebo_classic spawn_robot.launch.py robot:=rbvogui
 ```
 
-In case that your robot has a variation (check [robots](robotnik_pkgs/robot_description/robots/) folder in robotnik_description package), you can select it by the argument **robot_model**.
+In case that your robot has a variation (check robots folder in robotnik_description package), you can select it by the argument **robot_model**.
 
 Example:
 ```sh
-ros2 launch robotnik_gazebo_classic spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos_plus
+ros2 launch robotnik_gazebo_classic spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos_plus has_arm:=true
 ```
 
 Then, the arguments _x_, _y_ and _z_ selects the position respect the world frame to spawn the robot.
@@ -247,13 +253,37 @@ This topic will move the robot acording to the velocity demanded but it can be a
 /robot/robotnik_base_controller/cmd_joint
 ```
 
-This topic is from type sensor_msgs/msg/JointState.
+Topic type sensor_msgs/msg/JointState.
 
 I recommend to use teleop_twist_keyboard to control by cmd_vel:
 
 ```sh
+sudo apt install ros-jazzy-teleop-twist-keyboard
+
 ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=/robot/robotnik_base_controller/cmd_vel -p stamped:=true
 ```
+
+### Mobile robots with manipulators
+
+There are two mobile bases with a manipulator that can be used:
+- rbkairos_plus
+- rbrobout_plus
+
+To use them launch the spawn of the robot as follows:
+
+```sh
+ros2 launch robotnik_gazebo_classic spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos_plus has_arm:=true
+```
+
+The arm has a joint_trajectory_controller configured that can be used with rqt_joint_trajectory_controller:
+
+
+```sh
+sudo apt install ros-jazzy-rqt-joint-trajectory-controller
+
+ros2 run rqt_joint_trajectory_controller rqt_joint_trajectory_controller --ros-args -r __ns:=/robot
+```
+
 #### Enjoy!
 
 ![rbvogui_gif](img/RBVogui_Docking.gif)
