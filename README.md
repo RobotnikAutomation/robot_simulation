@@ -198,13 +198,13 @@ ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py
 | Arguments        | Default                      | Description                                                                                    |
 |------------------|------------------------------|------------------------------------------------------------------------------------------------|
 | namespace        | robot                        | namespace that will be in the nodes and topics and differenciate one robot entity from another |
-| robot            | rbkairos                     | robot type desired to be spawned                                                               |
-| robot_model      | _value of robot argument_              | robot_model variation of the robot type. For using this argument, robot has to be fulfilled    |
-| robot_xacro_path | rbkairos/rbkairos.urdf.xacro | path to a xacro model if it is not included in the robotnik_description package        |
+| robot            | ''                     | robot type desired to be spawned, must be specified                                                  |
+| robot_model      | _same as robot_              | robot_model variation of the robot type. For using this argument, robot has to be fulfilled    |
+| robot_xacro_path | rbkairos/rbkairos.urdf.xacro | path to a xacro model if it is not included in the robotnik_description package                |
 | x                | 0.0                          | position x in the Gazebo world to spawn the robot                                              |
 | y                | 0.0                          | position y in the Gazebo world to spawn the robot                                              |
 | z                | 0.0                          | position z in the Gazebo world to spawn the robot                                              |
-| has_arm                | false                          | If the robot has arm or not to initilize joint_trajectory_controller 
+| has_arm          | false                        | If the robot has arm or not to initilize joint_trajectory_controller                           |
 
 With the arguments described above, the launcher creates the robot that you want in Gazebo. As default, it will spawn a RBKairos robot, but you can changed it.
 
