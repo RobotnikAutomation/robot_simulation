@@ -11,14 +11,13 @@
 
 
 <!-- PROJECT LOGO -->
+![Logo Robotnik](./img/LOGO%20BLANCO-ROJO.png)
+
 <br />
 <div align="center">
-  <a href="https://github.com/RobotnikAutomation/robot_simulation">
-    <img src="img/LOGO BLANCO-ROJO.png" alt="Logo">
-  </a>
 =======
 
-  <h3 align="center">robot_simulation</h3>
+  <h1 align="center">robot_simulation</h1>
 
   <p align="center">
     Simulation of Robotnik Automation robots in ROS2!
@@ -85,7 +84,7 @@
 
 [![Simulation View][product-screenshot]](https://github.com/RobotnikAutomation/robot_simulation)
 
-This package will combine the different Robotnik packages in ROS2 to simulate the robots in the different available platforms, as Gazebo Classic, Gazebo Ignition, etc.
+This package will combine the different Robotnik packages in ROS2 to simulate the robots in the different available platforms, as Gazebo Ignition, Gazebo Classic (DEPRECATED), etc.
 
 This README will guide you to the simulation usage and the custom simulations that you can build for your own projects.
 
@@ -98,25 +97,64 @@ This package works with the different packages that Robotnik developed for the r
 
 ### Prerequisites
 
-First, be sure that you have all the [Gazebo packages](https://classic.gazebosim.org/tutorials?tut=ros2_installing) installed for ROS2.
+First, be sure that you have all the [Gazebo packages](https://gazebosim.org/docs/harmonic/install_ubuntu/) installed for ROS2.
 
 ```sh
-sudo apt install ros-humble-gazebo-ros-pkgs
+sudo apt install ros-jazzy-ros-gz
 ```
 
 ### Installation
 
 Then, let's procede with the installation of the Robotnik packages.
+First, create the workspace to work with:
 
-1. Init the submodules of this repository
+```
+mkdir -p ~/ros2_ws/src
+cd ~/ros2_ws/src/
+```
+Then continue with the installation of packages.
+
+1. [robotnik_description](https://github.com/RobotnikAutomation/robotnik_description/tree/ros2-devel)
     ```sh
-    git submodule init && git submodule update
+    git clone git@github.com:RobotnikAutomation/robotnik_description.git -b ros2-devel
     ```
 
-2. Install robotnik_controller dependencies
+2. [robotnik_sensors](https://github.com/RobotnikAutomation/robotnik_sensors/tree/ros2-devel)
    ```sh
-   sudo dpkg -i debs/*.deb
+    git clone git@github.com:RobotnikAutomation/robotnik_sensors.git -b ros2-devel
    ```
+
+3. [robotnik_common](https://github.com/RobotnikAutomation/robotnik_common)
+   ```sh
+    git clone git@github.com:RobotnikAutomation/robotnik_common.git -b ros2-devel
+   ```
+
+4. [robotnik_interfaces](https://github.com/RobotnikAutomation/robotnik_interfaces)
+   ```sh
+    git clone git@github.com:RobotnikAutomation/robotnik_interfaces.git -b ros2-devel
+   ```
+
+5. [ur_description](https://github.com/RobotnikAutomation/Universal_Robots_ROS2_Description/tree/fix/gazebo-control-jazzy#)
+   ```sh
+    git clone git@github.com:RobotnikAutomation/Universal_Robots_ROS2_Description.git -b fix/gazebo-control-jazzy
+   ```
+
+6. [robotnik_controller](./debs/ros-humble-robotnik-controllers_0.0.0-20250401.134752-local_amd64.deb). This package is shared in the folder debs
+   ```sh
+    sudo apt install debs/ros-humble-robotnik-controllers_0.0.0-20250401.134752-local_amd64.deb
+   ```
+
+Install this repository:
+
+```
+git clone git@github.com:RobotnikAutomation/robotnik_simulation.git
+```
+
+Finally, compile workspace:
+```
+cd ~/ros2_ws && colcon build
+source install/setup.bash
+```
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -126,17 +164,17 @@ Then, let's procede with the installation of the Robotnik packages.
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-### Gazebo Classic
+### Gazebo Ignition
 
 #### Launch Gazebo
 
 Init the Gazebo world by launching:
 
 ```sh
-ros2 launch robotnik_gazebo_classic spawn_world.launch.py
+ros2 launch robotnik_gazebo_ignition spawn_world.launch.py
 ```
 
-There are some arguments that allows you to change the world, in case that you want to use a custom world.
+<!-- There are some arguments that allows you to change the world, in case that you want to use a custom world.
 
 
 | Arguments  | Default    | Description                                                                                                 |
@@ -147,7 +185,7 @@ There are some arguments that allows you to change the world, in case that you w
 Example:
 ```sh
 ros2 launch robotnik_gazebo_classic spawn_world.launch.py world:=maze
-```
+``` -->
 
 
 #### Spawn Robot
@@ -155,7 +193,7 @@ ros2 launch robotnik_gazebo_classic spawn_world.launch.py world:=maze
 Once you have the simulation running, you can spawn the robot in the world. For that, there is a launch file that starts all the nodes.
 
 ```sh
-ros2 launch robotnik_gazebo_classic spawn_robot.launch.py
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py
 ```
 | Arguments        | Default                      | Description                                                                                    |
 |------------------|------------------------------|------------------------------------------------------------------------------------------------|
@@ -166,49 +204,86 @@ ros2 launch robotnik_gazebo_classic spawn_robot.launch.py
 | x                | 0.0                          | position x in the Gazebo world to spawn the robot                                              |
 | y                | 0.0                          | position y in the Gazebo world to spawn the robot                                              |
 | z                | 0.0                          | position z in the Gazebo world to spawn the robot                                              |
+| has_arm                | false                          | If the robot has arm or not to initilize joint_trajectory_controller 
 
-With the arguments described above, the launcher creates the robot that you want in Gazebo. As default, it will spawn a RBKairos robot, but you can changed by:
+With the arguments described above, the launcher creates the robot that you want in Gazebo. As default, it will spawn a RBKairos robot, but you can changed it.
+
+Available robots
 
 - rbvogui
 - rbtheron
 - rbsummit
 - rbkairos
+- rbrobout
+
+Available robot_model
+
+- rbkairos_plus
+- rbrobout_plus
 
 Example:
 ```sh
 ros2 launch robotnik_gazebo_classic spawn_robot.launch.py robot:=rbvogui
 ```
 
-In case that your robot has a variation (check [robots](robotnik_pkgs/robot_description/robots/) folder in robotnik_description package), you can select it by the argument **robot_model**.
+In case that your robot has a variation (check robots folder in robotnik_description package), you can select it by the argument **robot_model**.
 
 Example:
 ```sh
-ros2 launch robotnik_gazebo_classic spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos_ur
+ros2 launch robotnik_gazebo_classic spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos_plus has_arm:=true
 ```
 
 Then, the arguments _x_, _y_ and _z_ selects the position respect the world frame to spawn the robot.
 
 #### Control the robot
 
-All the controllers for the robots work with a Twist topic called /namespace/robotnik_base_controller/cmd_vel, the default topic is:
+All the controllers for the robots work with a TwistStamped topic called /namespace/robotnik_base_controller/cmd_vel, the default topic is:
 
 ```sh
 /robot/robotnik_base_controller/cmd_vel
 ```
-
-This topic will move the robot acsording to the velocity demanded but it can be also controller by joint commands, using the topic:
-
+Also it can be used a Twist topic:
 ```sh
-/robot/robotnik_base_controller/joint_control_command
+/robot/robotnik_base_controller/cmd_vel_unstamped
 ```
 
-This topic is from type sensor_msgs/msg/JointState.
+This topic will move the robot acording to the velocity demanded but it can be also controller by joint commands, using the topic:
+
+```sh
+/robot/robotnik_base_controller/cmd_joint
+```
+
+Topic type sensor_msgs/msg/JointState.
 
 I recommend to use teleop_twist_keyboard to control by cmd_vel:
 
 ```sh
-ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-arg cmd_vel:=/robot/robotnik_base_controller/cmd_vel
+sudo apt install ros-jazzy-teleop-twist-keyboard
+
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=/robot/robotnik_base_controller/cmd_vel -p stamped:=true
 ```
+
+### Mobile robots with manipulators
+
+There are two mobile bases with a manipulator that can be used:
+- rbkairos_plus
+- rbrobout_plus
+
+To use them launch the spawn of the robot as follows:
+
+```sh
+ros2 launch robotnik_gazebo_classic spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos_plus has_arm:=true
+```
+
+The arm has a joint_trajectory_controller configured that can be used with rqt_joint_trajectory_controller:
+
+
+```sh
+sudo apt install ros-jazzy-rqt-joint-trajectory-controller
+
+ros2 run rqt_joint_trajectory_controller rqt_joint_trajectory_controller --ros-args -r __ns:=/robot
+```
+
 #### Enjoy!
 
 ![rbvogui_gif](img/RBVogui_Docking.gif)
@@ -233,7 +308,7 @@ This will guide you to create your custom simulation.
 
 ### Custom Control
 
-In case that you want to modify the velocity, topics, frames and everything related to the control, you can find the files in [robotnik_gazebo_classic/config folder](robotnik_gazebo_classic/config/).
+In case that you want to modify the velocity, topics, frames and everything related to the control, you can find the files in [robotnik_gazebo_ignition/config folder](robotnik_gazebo_ignition/config/).
 There is a file for each robot that you can modify.
 
 ### Custom world
@@ -309,4 +384,4 @@ Project Link: [https://github.com/RobotnikAutomation](https://github.com/Robotni
 [license-url]: https://github.com/RobotnikAutomation/robot_simulation/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/company/robotnik-automation/
-[product-screenshot]: img/simulation_view.png
+[product-screenshot]: img/ignition_simulation_view.png
