@@ -58,7 +58,7 @@ def generate_launch_description():
     arg = ExtendedArgument(
         name='robot',
         description='Robot model (rbvogui, rbkairos, rbtheron, rbsummit)',
-        default_value='rbvogui',
+        default_value='',
         use_env=True,
         environment='ROBOT',
     )
