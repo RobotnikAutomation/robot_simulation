@@ -1,0 +1,149 @@
+/**:
+  controller_manager:
+    ros__parameters:
+      use_sim_time: true
+      update_rate: 100  # Hz
+
+      joint_state_broadcaster:
+        type: joint_state_broadcaster/JointStateBroadcaster
+
+      robotnik_base_controller:
+        type: robotnik_controllers/RBKairosController
+
+      joint_trajectory_controller:
+        type: joint_trajectory_controller/JointTrajectoryController
+
+  joint_state_broadcaster:
+    ros__parameters:
+      use_sim_time: true
+      publish_rate: 200
+
+  joint_trajectory_controller:
+    ros__parameters:
+      use_sim_time: true
+      publish_rate: 200
+      joints:
+        - robot_arm_shoulder_pan_joint
+        - robot_arm_shoulder_lift_joint
+        - robot_arm_elbow_joint
+        - robot_arm_wrist_1_joint
+        - robot_arm_wrist_2_joint
+        - robot_arm_wrist_3_joint
+
+      command_interfaces:
+        - position
+
+      state_interfaces:
+        - position
+        - velocity
+
+      state_publish_rate: 50.0
+      action_monitor_rate: 20.0
+
+      allow_partial_joints_goal: false
+      open_loop_control: true
+
+  robotnik_base_controller:
+    ros__parameters:
+      use_sim_time: true
+      publish_rate: 200
+
+      #General Params
+      profile_list: ["base"]
+      profile: base
+      debug: true
+      open_loop: true
+
+      #Timeouts
+      joint_command_timeout: 0.1
+      imu_timeout: 0.2
+      cmd_vel_timeout: 1.0
+
+      #Topics
+      cmd_vel_topic: ~/cmd_vel
+      odom_topic: ~/odom
+      imu_topic: /robot/imu/data
+      emergency_topic: ~/emergency
+      joint_control_topic: ~/joint_control_command
+
+      #Odom
+      odom_frame_id: robot_odom
+      base_frame_id: robot_base_footprint
+      set_odometry_service: ~/set_odometry
+
+      #Imu
+      use_imu: true
+
+      #Kinematics Params
+      wheel_radius: 0.2552
+      wheel_base:   0.43
+      track_width:  0.538
+
+      wheels_positions: ["front_right", "front_left", "back_right", "back_left"]
+
+      #Cartesian and wheels limits
+      base:
+        linear:
+          x:
+            velocity:
+              min: -1.0
+              max:  1.0
+            acceleration:
+              min: -1.0
+              max:  1.0
+          y:
+            velocity:
+              min: -1.0
+              max:  1.0
+            acceleration:
+              min: -1.0
+              max:  1.0
+        angular:
+          z:
+            velocity:
+              min: -1.0
+              max:  1.0
+            acceleration:
+              min: -1.0
+              max:  1.0
+
+        front_right:
+          traction:
+            joint_name: robot_front_right_wheel_joint
+            limits:
+              velocity:
+                min: -27.7
+                max:  27.7
+              acceleration:
+                min: -10.0
+                max:  10.0
+        front_left:
+          traction:
+            joint_name: robot_front_left_wheel_joint
+            limits:
+              velocity:
+                min: -27.7
+                max:  27.7
+              acceleration:
+                min: -10.0
+                max:  10.0
+        back_right:
+          traction:
+            joint_name: robot_back_right_wheel_joint
+            limits:
+              velocity:
+                min: -27.7
+                max:  27.7
+              acceleration:
+                min: -10.0
+                max:  10.0
+        back_left:
+          traction:
+            joint_name: robot_back_left_wheel_joint
+            limits:
+              velocity:
+                min: -27.7
+                max:  27.7
+              acceleration:
+                min: -10.0
+                max:  10.0

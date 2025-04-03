@@ -8,7 +8,7 @@
         type: joint_state_broadcaster/JointStateBroadcaster
 
       robotnik_base_controller:
-        type: robotnik_controller/RBKairosController
+        type: robotnik_controllers/RBKairosController
 
       joint_trajectory_controller:
         type: joint_trajectory_controller/JointTrajectoryController
@@ -23,12 +23,13 @@
       use_sim_time: true
       publish_rate: 200
       joints:
-        - robot_ur5e_shoulder_pan_joint
-        - robot_ur5e_shoulder_lift_joint
-        - robot_ur5e_elbow_joint
-        - robot_ur5e_wrist_1_joint
-        - robot_ur5e_wrist_2_joint
-        - robot_ur5e_wrist_3_joint
+        - robot_lift_ewellix_lift_top_joint
+        - robot_arm_shoulder_pan_joint
+        - robot_arm_shoulder_lift_joint
+        - robot_arm_elbow_joint
+        - robot_arm_wrist_1_joint
+        - robot_arm_wrist_2_joint
+        - robot_arm_wrist_3_joint
 
       command_interfaces:
         - position
@@ -67,7 +68,7 @@
       joint_control_topic: ~/joint_control_command
 
       #Odom
-      odom_frame_id: robot_odom
+      odom_frame_id: robot_odom_robotnik_controller
       base_frame_id: robot_base_footprint
       set_odometry_service: ~/set_odometry
 
@@ -75,9 +76,9 @@
       use_imu: true
 
       #Kinematics Params
-      wheel_radius: 0.2552
-      wheel_base:   0.43
-      track_width:  0.538
+      wheel_radius: 0.15
+      wheel_base:   0.573
+      track_width:  1.116
 
       wheels_positions: ["front_right", "front_left", "back_right", "back_left"]
 
