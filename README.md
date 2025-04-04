@@ -101,6 +101,7 @@ This package works with the different packages that Robotnik developed for the r
 
 #### - Gazebo Sim 8.9.0
 #### - ROS2 Jazzy
+#### - Set Up an SSH Key for Git (Locally)
 
 
 First, be sure that you have all the [Gazebo packages](https://gazebosim.org/docs/harmonic/install_ubuntu/) installed for ROS2.
@@ -122,43 +123,37 @@ cd ~/ros2_ws/src/
 Then continue with the installation of packages.
 
 1. [robotnik_description](https://github.com/RobotnikAutomation/robotnik_description/tree/ros2-devel)
-    ```sh
-    git clone git@github.com:RobotnikAutomation/robotnik_description.git -b ros2-devel
-    ```
-
 2. [robotnik_sensors](https://github.com/RobotnikAutomation/robotnik_sensors/tree/ros2-devel)
-   ```sh
-    git clone git@github.com:RobotnikAutomation/robotnik_sensors.git -b ros2-devel
-   ```
-
 3. [robotnik_common](https://github.com/RobotnikAutomation/robotnik_common)
-   ```sh
-    git clone git@github.com:RobotnikAutomation/robotnik_common.git -b ros2-devel
-   ```
-
 4. [robotnik_interfaces](https://github.com/RobotnikAutomation/robotnik_interfaces)
-   ```sh
-    git clone git@github.com:RobotnikAutomation/robotnik_interfaces.git -b ros2-devel
-   ```
-
 5. [ur_description](https://github.com/RobotnikAutomation/Universal_Robots_ROS2_Description/tree/fix/gazebo-control-jazzy#)
-   ```sh
-    git clone git@github.com:RobotnikAutomation/Universal_Robots_ROS2_Description.git -b fix/gazebo-control-jazzy
-   ```
+6. [robotnik_simulation](https://github.com/RobotnikAutomation/robotnik_simulation.git#)
 
-6. [robotnik_controller](./debs/ros-humble-robotnik-controllers_0.0.0-20250401.134752-local_amd64.deb). This package is shared in the folder debs
-   ```sh
-    sudo apt install debs/ros-humble-robotnik-controllers_0.0.0-20250401.134752-local_amd64.deb
-   ```
+  ```sh
+  git clone git@github.com:RobotnikAutomation/robotnik_description.git -b ros2-devel
+  
+  git clone git@github.com:RobotnikAutomation/robotnik_sensors.git -b ros2-devel
 
-Install this repository:
+  git clone git@github.com:RobotnikAutomation/robotnik_common.git -b ros2-devel
+
+  git clone git@github.com:RobotnikAutomation/robotnik_interfaces.git -b jazzy-devel
+
+  git clone git@github.com:RobotnikAutomation/Universal_Robots_ROS2_Description.git -b fix/gazebo-control-jazzy
+
+  git clone git@github.com:RobotnikAutomation/robotnik_simulation.git -b jazzy-devel
+  
+  ```
+
+Install the [robotnik_controller](./debs/ros-humble-robotnik-controllers_0.0.0-20250401.134752-local_amd64.deb) within the debs folder:
 
 ```
-git clone git@github.com:RobotnikAutomation/robotnik_simulation.git
+sudo apt install ./robotnik_simulation/debs/ros-humble-robotnik-controllers_0.0.0-20250401.134752-local_amd64.deb
+
 ```
 
 Finally, compile workspace:
 ```
+source /opt/ros/jazzy/setup.bash
 cd ~/ros2_ws && colcon build
 source install/setup.bash
 ```
@@ -230,14 +225,14 @@ Available robot_model
 
 Example:
 ```sh
-ros2 launch robotnik_gazebo_classic spawn_robot.launch.py robot:=rbvogui
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbvogui
 ```
 
 In case that your robot has a variation (check robots folder in robotnik_description package), you can select it by the argument **robot_model**.
 
 Example:
 ```sh
-ros2 launch robotnik_gazebo_classic spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos_plus has_arm:=true
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos_plus has_arm:=true
 ```
 
 Then, the arguments _x_, _y_ and _z_ selects the position respect the world frame to spawn the robot.
@@ -279,7 +274,7 @@ There are two mobile bases with a manipulator that can be used:
 To use them launch the spawn of the robot as follows:
 
 ```sh
-ros2 launch robotnik_gazebo_classic spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos_plus has_arm:=true
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos_plus has_arm:=true
 ```
 
 The arm has a joint_trajectory_controller configured that can be used with rqt_joint_trajectory_controller:
