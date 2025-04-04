@@ -154,15 +154,13 @@ def generate_launch_description():
             namespace=params['namespace']
     )
     ld.add_action(robot_spawner)
-    bridge_params = os.path.join(get_package_share_directory('robotnik_gazebo_ignition'),'config','bridge.yaml')
 
+    bridge_params = [get_package_share_directory('robotnik_gazebo_ignition'),'/config/', robot,'/bridge.yaml']
     ros_gz_bridge = Node(
         package="ros_gz_bridge",
         executable="parameter_bridge",
-        arguments=[
-            '--ros-args',
-            '-p',
-            f'config_file:={bridge_params}'
+        parameters=[
+            {'config_file': bridge_params},
         ],
         namespace=params['namespace']
     )
