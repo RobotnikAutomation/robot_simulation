@@ -53,7 +53,7 @@
         <a href="#usage">Usage</a>
       <ul>
         <li>
-            <a href="#gazebo-classic">Gazebo Classic</a>
+            <a href="#gazebo-ignition">Gazebo Ignition</a>
         <ul>
             <li><a href="#launch-gazebo">Launch Gazebo</a></li>
             <li><a href="#spawn-robot">Spawn Robot</a></li>
@@ -84,9 +84,11 @@
 
 [![Simulation View][product-screenshot]](https://github.com/RobotnikAutomation/robot_simulation)
 
-This package will combine the different Robotnik packages in ROS2 to simulate the robots in the different available platforms, as Gazebo Ignition, Gazebo Classic (DEPRECATED), etc.
+This package will combine the different Robotnik packages in ROS2 to simulate the robots in the different available platforms, as Gazebo Sim 8.9.0, etc.
 
 This README will guide you to the simulation usage and the custom simulations that you can build for your own projects.
+
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -97,7 +99,12 @@ This package works with the different packages that Robotnik developed for the r
 
 ### Prerequisites
 
+#### - Gazebo Sim 8.9.0
+#### - ROS2 Jazzy
+
+
 First, be sure that you have all the [Gazebo packages](https://gazebosim.org/docs/harmonic/install_ubuntu/) installed for ROS2.
+
 
 ```sh
 sudo apt install ros-jazzy-ros-gz
@@ -318,8 +325,7 @@ To launch a custom file, you can use the _world_path_ argument that it's in the 
 <!-- ROADMAP -->
 ## Roadmap
 
-- [x] Add Gazebo Classic
-- [ ] Add Gazebo Ignition
+- [x] Add Gazebo Ignition
 - [ ] Add more worlds
 - [ ] Add multi robot support
 
