@@ -214,6 +214,17 @@ def generate_launch_description():
         )
     )
     ld.add_action(init_robotnik_controller)
+    
+    rviz2_config = [get_package_share_directory('robotnik_gazebo_ignition'),'/config/', robot,'/rviz_config.rviz']
+    rviz2 = Node(
+        package="rviz2",
+        executable="rviz2",
+        parameters=[
+            {'display_config': bridge_params},
+        ],
+        namespace=params['namespace']
+    )
+    ld.add_action(rviz2)
 
     return ld
 
