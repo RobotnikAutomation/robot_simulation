@@ -72,14 +72,7 @@
 #  ros_type_name: "tf2_msgs/msg/TFMessage"
 #  gz_type_name: "gz.msgs.Pose_V"
 #  direction: GZ_TO_ROS
-#
-## gz topic subscribed to by DiffDrive plugin
-- ros_topic_name: "robotnik_base_controller/cmd_vel"
-  # gz_topic_name: "/robot/robotnik_base_controller/cmd_vel"
-  gz_topic_name: "/robot_cmd_vel"
-  ros_type_name: "geometry_msgs/msg/Twist"
-  gz_type_name: "gz.msgs.Twist"
-  direction: ROS_TO_GZ
+
 #
 # gz topic published by JointState plugin
 - ros_topic_name: "/robot/joint_states"
