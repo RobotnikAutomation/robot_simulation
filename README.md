@@ -122,17 +122,17 @@ cd ~/ros2_ws/src/
 ```
 Then continue with the installation of packages.
 
-1. [robotnik_description](https://github.com/RobotnikAutomation/robotnik_description/tree/ros2-devel)
-2. [robotnik_sensors](https://github.com/RobotnikAutomation/robotnik_sensors/tree/ros2-devel)
+1. [robotnik_description](https://github.com/RobotnikAutomation/robotnik_description/tree/ros2-jazzy)
+2. [robotnik_sensors](https://github.com/RobotnikAutomation/robotnik_sensors/tree/ros2-jazzy)
 3. [robotnik_common](https://github.com/RobotnikAutomation/robotnik_common)
 4. [robotnik_interfaces](https://github.com/RobotnikAutomation/robotnik_interfaces)
 5. [ur_description](https://github.com/RobotnikAutomation/Universal_Robots_ROS2_Description/tree/fix/gazebo-control-jazzy#)
 6. [robotnik_simulation](https://github.com/RobotnikAutomation/robotnik_simulation.git#)
 
   ```sh
-  git clone git@github.com:RobotnikAutomation/robotnik_description.git -b ros2-devel
+  git clone git@github.com:RobotnikAutomation/robotnik_description.git -b ros2-jazzy
   
-  git clone git@github.com:RobotnikAutomation/robotnik_sensors.git -b ros2-devel
+  git clone git@github.com:RobotnikAutomation/robotnik_sensors.git -b ros2-jazzy
 
   git clone git@github.com:RobotnikAutomation/robotnik_common.git -b ros2-devel
 
