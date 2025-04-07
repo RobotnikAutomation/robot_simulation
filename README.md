@@ -122,17 +122,17 @@ cd ~/ros2_ws/src/
 ```
 Then continue with the installation of packages.
 
-1. [robotnik_description](https://github.com/RobotnikAutomation/robotnik_description/tree/ros2-jazzy)
-2. [robotnik_sensors](https://github.com/RobotnikAutomation/robotnik_sensors/tree/ros2-jazzy)
+1. [robotnik_description](https://github.com/RobotnikAutomation/robotnik_description/tree/jazzy-devel)
+2. [robotnik_sensors](https://github.com/RobotnikAutomation/robotnik_sensors/tree/jazzy-devel)
 3. [robotnik_common](https://github.com/RobotnikAutomation/robotnik_common)
 4. [robotnik_interfaces](https://github.com/RobotnikAutomation/robotnik_interfaces)
 5. [ur_description](https://github.com/RobotnikAutomation/Universal_Robots_ROS2_Description/tree/fix/gazebo-control-jazzy#)
 6. [robotnik_simulation](https://github.com/RobotnikAutomation/robotnik_simulation.git#)
 
   ```sh
-  git clone git@github.com:RobotnikAutomation/robotnik_description.git -b ros2-jazzy
+  git clone git@github.com:RobotnikAutomation/robotnik_description.git -b jazzy-devel
   
-  git clone git@github.com:RobotnikAutomation/robotnik_sensors.git -b ros2-jazzy
+  git clone git@github.com:RobotnikAutomation/robotnik_sensors.git -b jazzy-devel
 
   git clone git@github.com:RobotnikAutomation/robotnik_common.git -b ros2-devel
 
@@ -144,10 +144,10 @@ Then continue with the installation of packages.
   
   ```
 
-Install the [robotnik_controller](./debs/ros-humble-robotnik-controllers_0.0.0-20250401.134752-local_amd64.deb) within the debs folder:
+Install the [robotnik_controller](./debs/ros-jazzy-robotnik-controllers_1.0.0-20250407.075635-7bed613_amd64.deb) within the debs folder:
 
 ```
-sudo apt install ./robotnik_simulation/debs/ros-humble-robotnik-controllers_0.0.0-20250401.134752-local_amd64.deb
+sudo apt install ./robotnik_simulation/debs/ros-jazzy-robotnik-controllers_1.0.0-20250407.075635-7bed613_amd64.deb
 
 ```
 
@@ -175,20 +175,6 @@ Init the Gazebo world by launching:
 ```sh
 ros2 launch robotnik_gazebo_ignition spawn_world.launch.py
 ```
-
-<!-- There are some arguments that allows you to change the world, in case that you want to use a custom world.
-
-
-| Arguments  | Default    | Description                                                                                                 |
-|------------|------------|-------------------------------------------------------------------------------------------------------------|
-| world      | demo       | This arguments selects a world in  [ worlds ](robotnik_gazebo_classic/worlds/)  folder. |
-| world_path | demo.world | In the case that you have your own world to simulate, introduce the path to the world file.                 |.
-
-Example:
-```sh
-ros2 launch robotnik_gazebo_classic spawn_world.launch.py world:=maze
-``` -->
-
 
 #### Spawn Robot
 
