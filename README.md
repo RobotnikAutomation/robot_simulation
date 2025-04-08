@@ -146,9 +146,14 @@ Then continue with the installation of packages.
 
 Install the [robotnik_controller](./debs/ros-jazzy-robotnik-controllers_1.0.0-20250407.075635-7bed613_amd64.deb) within the debs folder:
 
-```
+```sh
 sudo dpkg -i ./robotnik_simulation/debs/ros-jazzy-robotnik-controllers_1.0.0-20250407.075635-7bed613_amd64.deb
 
+```
+
+Install dependencies:
+```sh
+rosdep install --from-paths src --ignore-src -r -y
 ```
 
 Finally, compile workspace:
