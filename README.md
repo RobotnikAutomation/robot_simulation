@@ -101,8 +101,6 @@ This package works with the different packages that Robotnik developed for the r
 
 #### - Gazebo Sim 8.9.0
 #### - ROS2 Jazzy
-#### - Set Up an SSH Key for Git (Locally)
-
 
 First, be sure that you have all the [Gazebo packages](https://gazebosim.org/docs/harmonic/install_ubuntu/) installed for ROS2.
 
@@ -130,17 +128,17 @@ Then continue with the installation of packages.
 6. [robotnik_simulation](https://github.com/RobotnikAutomation/robotnik_simulation.git#)
 
   ```sh
-  git clone git@github.com:RobotnikAutomation/robotnik_description.git -b jazzy-devel
+  git clone https://github.com/RobotnikAutomation/robotnik_description.git -b jazzy-devel
   
-  git clone git@github.com:RobotnikAutomation/robotnik_sensors.git -b jazzy-devel
+  git clone https://github.com/RobotnikAutomation/robotnik_sensors.git -b jazzy-devel
 
-  git clone git@github.com:RobotnikAutomation/robotnik_common.git -b ros2-devel
+  git clone https://github.com/RobotnikAutomation/robotnik_common.git -b ros2-devel
 
-  git clone git@github.com:RobotnikAutomation/robotnik_interfaces.git -b jazzy-devel
+  git clone https://github.com/RobotnikAutomation/robotnik_interfaces.git -b jazzy-devel
 
-  git clone git@github.com:RobotnikAutomation/Universal_Robots_ROS2_Description.git -b fix/gazebo-control-jazzy
+  git clone https://github.com/RobotnikAutomation/Universal_Robots_ROS2_Description.git -b fix/gazebo-control-jazzy
 
-  git clone git@github.com:RobotnikAutomation/robotnik_simulation.git -b jazzy-devel
+  git clone https://github.com/RobotnikAutomation/robotnik_simulation.git -b jazzy-devel
   
   ```
 
@@ -153,6 +151,7 @@ sudo dpkg -i ./robotnik_simulation/debs/ros-jazzy-robotnik-controllers_1.0.0-202
 
 Install dependencies:
 ```sh
+rosdep update
 rosdep install --from-paths src --ignore-src -r -y
 ```
 
