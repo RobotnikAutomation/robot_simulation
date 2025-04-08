@@ -184,9 +184,6 @@ ros2 launch robotnik_gazebo_ignition spawn_world.launch.py
 
 Once you have the simulation running, you can spawn the robot in the world. For that, there is a launch file that starts all the nodes.
 
-```sh
-ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py
-```
 | Arguments        | Default                      | Description                                                                                    |
 |------------------|------------------------------|------------------------------------------------------------------------------------------------|
 | namespace        | robot                        | namespace that will be in the nodes and topics and differenciate one robot entity from another |
