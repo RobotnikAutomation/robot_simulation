@@ -17,6 +17,9 @@
   <depend>control_toolbox</depend>
   <depend>controller_interface</depend>
   <depend>joint_state_broadcaster</depend>
+  <depend>joint_trajectory_controller</depend>
+  <depend>teleop_twist_keyboard</depend>
+  <depend>rqt_joint_trajectory_controller</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
