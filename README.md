@@ -167,7 +167,7 @@ If you want to use Docker, you can use the docker-compose file that is in the ro
 To start the containers, run the following command:
 
 ```sh
-docker-compose up
+docker compose up
 ```
 This will build a robotnik_simulator image the first time you run it. After that, it will use the cached image.
 
