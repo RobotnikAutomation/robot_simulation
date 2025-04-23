@@ -165,7 +165,22 @@ source install/setup.bash
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Docker
+If you want to use Docker, you can use the docker-compose file that is in the root of the repository. This will create a container with all the dependencies installed and ready to use.
 
+To start the containers, run the following command:
+
+```sh
+docker compose up
+```
+This will build a robotnik_simulator image the first time you run it. After that, it will use the cached image.
+
+### Setup
+You can configure the simulation based on docker images editing the environment in the env/robot.env file. You will need to uncomment the specific variables related to desired robot to simulate and comment or delete the others.
+
+Make sure that the environment variables (ROBOT, ROBOT_MODEL, HAS_ARM) are set correctly before running the containers.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- USAGE EXAMPLES -->
 ## Usage

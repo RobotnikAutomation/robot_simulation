@@ -1,0 +1,4 @@
+build-essential
+git
+python3-vcstool
+python3-colcon-common-extensions
