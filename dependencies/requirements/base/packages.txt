@@ -1,0 +1,11 @@
+libgz-sim8-dev
+ros-jazzy-ros-gz-sim
+ros-jazzy-ros-gz
+ros-jazzy-controller-manager
+ros-jazzy-gz-ros2-control
+ros-jazzy-joint-state-broadcaster
+ros-jazzy-teleop-twist-keyboard
+ros-jazzy-joint-trajectory-controller
+ros-jazzy-rqt-joint-trajectory-controller
+ros-jazzy-joint-state-publisher
+ros-jazzy-joint-state-publisher-gui
