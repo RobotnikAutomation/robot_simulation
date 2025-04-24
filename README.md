@@ -151,6 +151,7 @@ sudo dpkg -i ./robotnik_simulation/debs/ros-jazzy-robotnik-controllers_1.0.0-202
 
 Install dependencies:
 ```sh
+cd ~/ros2_ws
 rosdep update
 rosdep install --from-paths src --ignore-src -r -y
 ```
