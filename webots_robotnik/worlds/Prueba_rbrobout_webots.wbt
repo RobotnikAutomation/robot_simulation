@@ -1,0 +1,55 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
+IMPORTABLE EXTERNPROTO "../protos/rbrobout.proto"
+IMPORTABLE EXTERNPROTO "../protos/rbwatcher.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/balls/protos/Ball.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/apartment_structure/protos/Wall.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.3415372376488703 0.003484476863904683 0.9398617843705339 3.125229487157289
+  position 27.504321193053503 0.8999970111483542 24.446385068927718
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  translation 0 0 -0.64
+  floorSize 15 15
+  floorTileSize 1 1
+  wallHeight 1
+}
+Ball {
+  hidden linearVelocity_0 -1.2963801518755102e-15 -2.1501587573096195e-18 5.642261729932983e-17
+  hidden angularVelocity_0 4.271803677481759e-18 -2.575568655742158e-15 7.94156195852536e-40
+  translation 0.33942999999989426 -2.7200000007065985 -0.14000000000001572
+  rotation -0.001658860884203631 0.9999986240893367 1.4351811943874895e-08 2.4338652922105834e-06
+  radius 0.5
+  mass 1e-11
+}
+Wall {
+  translation -3.75 0 -0.64
+  size 0.1 5 2.4
+}
+Wall {
+  translation 3.75 0 -0.64
+  name "wall(1)"
+  size 0.1 5 2.4
+}
+Wall {
+  translation 0 -3.75 -0.64
+  rotation 0 0 1 1.5707996938995747
+  name "wall(2)"
+  size 0.1 5 2.4
+}
+Wall {
+  translation 0 3.75 -0.64
+  rotation 0 0 1 1.5707996938995747
+  name "wall(3)"
+  size 0.1 5 2.4
+}

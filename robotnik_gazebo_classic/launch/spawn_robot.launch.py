@@ -50,27 +50,21 @@ def generate_launch_description():
         name='namespace',
         description='Namespace',
         default_value='robot',
-        use_env=True,
-        environment='NAMESPACE',
     )
     add_to_launcher.add_arg(arg)
 
     arg = ExtendedArgument(
         name='robot',
         description='Robot model (rbvogui, rbkairos, rbtheron, rbsummit)',
-        default_value='',
-        use_env=True,
-        environment='ROBOT',
+        default_value='rbkairos',
     )
     add_to_launcher.add_arg(arg)
     robot = LaunchConfiguration('robot')
 
     arg = ExtendedArgument(
         name='robot_model',
-        description='Robot type variation (rbvogui, rbvogui_6w, rbvogui_ackermann)',
+        description='Robot type variation (rbvogui, rbkairos_ur), default=robot value',
         default_value=robot,
-        use_env=True,
-        environment='ROBOT_MODEL',
     )
     add_to_launcher.add_arg(arg)
     robot_model = LaunchConfiguration('robot_model')
@@ -79,8 +73,6 @@ def generate_launch_description():
         name='robot_xacro_file',
         description='Name of the xacro file',
         default_value=[robot, '/', robot_model, '.urdf.xacro'],
-        use_env=True,
-        environment='ROBOT_XACRO_FILE',
     )
     add_to_launcher.add_arg(arg)
 
@@ -88,9 +80,7 @@ def generate_launch_description():
     arg = ExtendedArgument(
         name='robot_xacro_path',
         description='Path to the xacro file',
-        default_value=[FindPackageShare('robotnik_description'), '/robots/', robot_xacro_file],
-        use_env=True,
-        environment='ROBOT_XACRO_PATH',
+        default_value=[FindPackageShare('robot_description'), '/robots/', robot_xacro_file],
     )
     add_to_launcher.add_arg(arg)
 
@@ -115,16 +105,9 @@ def generate_launch_description():
     )
     add_to_launcher.add_arg(arg)
 
-    arg = ExtendedArgument(
-        name='has_arm',
-        description='If robot has an arm to start controller',
-        default_value='False',
-    )
-    add_to_launcher.add_arg(arg)
-
     params = add_to_launcher.process_arg()
 
-    robot_dir = os.path.join(get_package_share_directory('robotnik_description'), 'launch')
+    robot_dir = os.path.join(get_package_share_directory('robot_description'), 'launch')
 
     robot_state = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
@@ -162,38 +145,7 @@ def generate_launch_description():
         arguments=['joint_state_broadcaster'],
         namespace=params['namespace']
     )
-
-    init_joint_state_broadcaster = RegisterEventHandler(
-        OnProcessExit(
-            target_action=robot_spawner,
-            on_exit=[
-                LogInfo(msg='Robot spawned'),
-                joint_state_broadcaster
-            ]
-        )
-    )
-    ld.add_action(init_joint_state_broadcaster)
-
-    joint_trajectory_controller= Node(
-        package='controller_manager',
-        executable='spawner',
-        arguments=['joint_trajectory_controller'],
-        output='screen',
-        emulate_tty=True,
-        namespace=params['namespace'],
-        condition=IfCondition(params['has_arm'])
-    )
-
-    init_joint_trajectory_controller = RegisterEventHandler(
-        OnProcessExit(
-            target_action=joint_state_broadcaster,
-            on_exit=[
-                LogInfo(msg='Joint States spawned'),
-                joint_trajectory_controller
-            ]
-        )
-    )
-    ld.add_action(init_joint_trajectory_controller)
+    ld.add_action(joint_state_broadcaster)
 
     robotnik_controller= Node(
         package='controller_manager',
@@ -214,17 +166,26 @@ def generate_launch_description():
         )
     )
     ld.add_action(init_robotnik_controller)
-
-    rviz2_config = [get_package_share_directory('robotnik_gazebo_classic'),'/config/', robot,'/rviz_config.rviz']
     
-    rviz2 = Node(
-        package="rviz2",
-        executable="rviz2",
-        namespace=params['namespace'],
-        arguments=['-d', rviz2_config]
+    # joint_trajectory_controller= Node(
+    #     package='controller_manager',
+    #     executable='spawner',
+    #     arguments=['joint_trajectory_controller'],
+    #     output='screen',
+    #     emulate_tty=True,
+    #     namespace=params['namespace']
+    # )
 
-    )
-    ld.add_action(rviz2)
-    
+    # init_joint_trajectory_controller = RegisterEventHandler(
+    #     OnProcessExit(
+    #         target_action=robotnik_controller,
+    #         on_exit=[
+    #             LogInfo(msg='Joint States spawned'),
+    #             joint_trajectory_controller
+    #         ]
+    #     )
+    # )
+    # ld.add_action(init_joint_trajectory_controller)
+
     return ld
 

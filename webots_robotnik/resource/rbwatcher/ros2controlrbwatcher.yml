@@ -1,0 +1,38 @@
+/**:
+  controller_manager:
+    ros__parameters:
+      update_rate: 50
+
+      diffdrive_controller:
+        type: diff_drive_controller/DiffDriveController
+
+      joint_state_broadcaster:
+        type: joint_state_broadcaster/JointStateBroadcaster
+
+  diffdrive_controller:
+    ros__parameters:
+      left_wheel_names: ["robot_front_left_wheel_joint", "robot_back_left_wheel_joint"]
+      right_wheel_names: ["robot_front_right_wheel_joint", "robot_back_right_wheel_joint"]
+
+      wheel_separation: 0.573
+      wheel_radius: 0.127
+
+      # The real separation between wheels is not resulting in a perfect odometry
+      wheel_separation_multiplier: 1.112
+
+      use_stamped_vel: false
+      base_frame_id: "base_link"
+    
+      linear:
+        x:
+          max_velocity: 0.2 # Maximal speed of turtlebot
+        z:
+          max_velocity: 0.2 # Maximal speed of turtlebot
+
+  joint_state_broadcaster:
+    ros__parameters:
+      use_sim_time: true
+      publish_rate: 200
+      extra_joints:
+        - robot_top_ptz_camera_pan_joint
+        - robot_top_ptz_camera_tilt_joint

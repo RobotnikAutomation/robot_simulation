@@ -10,17 +10,10 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <exec_depend>controller_manager</exec_depend>
-  <exec_depend>control_msgs</exec_depend>
-  <exec_depend>controller_interface</exec_depend>
-  <exec_depend>gazebo_ros2_control</exec_depend>
-  <exec_depend>joint_state_broadcaster</exec_depend>
-  <exec_depend>joint_trajectory_controller</exec_depend>
-
   <exec_depend>robotnik_sensors</exec_depend>
   <exec_depend>robotnik_msgs</exec_depend>
   <exec_depend>robotnik_common</exec_depend>
-  <exec_depend>robotnik_description</exec_depend>
+  <exec_depend>robot_description</exec_depend>
   <exec_depend>ur_description</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
@@ -28,7 +21,7 @@
 
   <export>
     <build_type>ament_cmake</build_type>
-    <gazebo_ros gazebo_model_path="${prefix}/../../../robotnik_description/share"/>
+    <gazebo_ros gazebo_model_path="${prefix}/../../../robot_description/share"/>
   </export>
 </package>
 <!-- This package was generated using the Turtle Nest ROS 2 package creator -->

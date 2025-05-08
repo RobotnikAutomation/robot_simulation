@@ -1,0 +1,650 @@
+#VRML_SIM R2023b utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# This is a proto file for Webots for the rbrobout
+# template language: javascript
+# Extracted from: /home/joel/Documentos/GitHub/Robotnik_practicas/Robotnik_ws/src/robot_description/robots/rbrobout/rbrobout.urdf
+
+PROTO rbrobout [
+  field  SFVec3f     translation     0 0 -0.49
+  field  SFRotation  rotation        0 0 1 0
+  field  SFString    name            "rbrobout"  # Is `Robot.name`.
+  field  SFString    controller      "<extern>"      # Is `Robot.controller`.
+  field  MFString    controllerArgs  []          # Is `Robot.controllerArgs`.
+  field  SFString    customData      ""          # Is `Robot.customData`.
+  field  SFBool      supervisor      FALSE       # Is `Robot.supervisor`.
+  field  SFBool      synchronization TRUE        # Is `Robot.synchronization`.
+  field  SFBool      selfCollision   FALSE       # Is `Robot.selfCollision`.
+  field  MFNode      toolSlot        []          # Extend the robot with new nodes at the end of the arm.
+  
+  field  SFString    robot_base_link            "rbrobout/base_link"  # Is `Robot.base_link`.
+  field  SFString    robot_rear_laser_base_link            "rbrobout/rear_laser_base_link"  # Is `Robot.rear_laser_base_link`.
+  field  SFString    robot_rear_laser_link            "rbrobout/rear_laser_link"  # Is `Robot.rear_laser_link`.
+  field  SFString    robot_front_laser_base_link            "rbrobout/front_laser_base_link"  # Is `Robot.front_laser_base_link`.
+  field  SFString    robot_front_laser_link            "rbrobout/front_laser_link"  # Is `Robot.front_laser_link`.
+  field  SFString    robot_rear_rgbd_camera_color_frame            "rbrobout/rear_rgbd_camera_color_frame"  # Is `Robot.rear_rgbd_camera_color_frame`.
+  field  SFString    robot_rear_rgbd_camera_infra2_frame            "rbrobout/rear_rgbd_camera_infra2_frame"  # Is `Robot.rear_rgbd_camera_infra2_frame`.
+  field  SFString    robot_rear_rgbd_camera_depth_frame            "rbrobout/rear_rgbd_camera_depth_frame"  # Is `Robot.rear_rgbd_camera_depth_frame`.
+  field  SFString    robot_rear_rgbd_camera_link            "rbrobout/rear_rgbd_camera_link"  # Is `Robot.rear_rgbd_camera_link`.
+  field  SFString    robot_front_rgbd_camera_color_frame            "rbrobout/front_rgbd_camera_color_frame"  # Is `Robot.front_rgbd_camera_color_frame`.
+  field  SFString    robot_front_rgbd_camera_infra2_frame            "rbrobout/front_rgbd_camera_infra2_frame"  # Is `Robot.front_rgbd_camera_infra2_frame `.
+  field  SFString    robot_front_rgbd_camera_depth_frame            "rbrobout/front_rgbd_camera_depth_frame"  # Is `Robot.front_rgbd_camera_depth_frame`.
+  field  SFString    robot_front_rgbd_camera_link            "rbrobout/front_rgbd_camera_link"  # Is `Robot.front_rgbd_camera_link`.
+  field  SFString    robot_vectornav_base_link            "rbrobout/vectornav_base_link"  # Is `Robot.vectornav_base_link `.
+  field  SFString    robot_back_right_wheel_link            "rbrobout/back_right_wheel_link"  # Is `Robot.back_right_wheel_link `.
+  field  SFString    robot_front_right_wheel_link            "rbrobout/front_right_wheel_link"  # Is `Robot.front_right_wheel_link `.
+  field  SFString    robot_back_left_wheel_link            "rbrobout/back_left_wheel_link"  # Is `Robot.back_left_wheel_link `.
+  field  SFString    robot_front_left_wheel_link           "rbrobout/front_left_wheel_link"  # Is `Robot.front_left_wheel_link `.
+  
+  field  SFString    robot_front_laser_sensor           "rbrobout/front_laser_sensor"  # Is `Robot.front_laser_sensor `.
+  field  SFString    robot_rear_laser_sensor           "rbrobout/rear_laser_sensor"  # Is `Robot.rear_laser_sensor `.
+  field  SFString    rear_camera_color          "rbrobout/rear_camera_color"  # Is `Robot.rear_camera_color `.
+  field  SFString    front_camera_color          "rbrobout/front_camera_color"  # Is `Robot.front_camera_color `.
+  field  SFString    rear_camera_depth          "rbrobout/rear_camera_depth"  # Is `Robot.rear_camera_depth `.
+  field  SFString    front_camera_depth         "rbrobout/front_camera_depth"  # Is `Robot.front_camera_depth `.
+  field  SFString    rear_camera_irred1          "rbrobout/rear_camera_irred1"  # Is `Robot.rear_camera_irred1 `.
+  field  SFString    front_camera_irred1          "rbrobout/front_camera_irred1"  # Is `Robot.front_camera_irred1 `.
+  field  SFString    rear_camera_irred2          "rbrobout/rear_camera_irred2"  # Is `Robot.rear_camera_irred2 `.
+  field  SFString    front_camera_irred2         "rbrobout/front_camera_irred2"  # Is `Robot.front_camera_irred2 `.
+  field  SFString    imu_inertial         "rbrobout/imu_inertial"  # Is `Robot.imu_inertial `.
+  field  SFString    imu_accelerometer          "rbrobout/imu_accelerometer"  # Is `Robot.imu_accelerometer `.
+  field  SFString    imu_gyro          "rbrobout/imu_gyro"  # Is `Robot.imu_gyro `.
+  field  SFString    imu_compass          "rbrobout/imu_compass"  # Is `Robot.imu_compass `.
+  field  SFString    robot_vectornav_link         "rbrobout/vectornav_link"  # Is `Robot.robot_vectornav_link `.
+  
+]
+{
+  Robot {
+  translation IS translation
+  rotation IS rotation
+  controller IS controller
+  physics Physics {
+          }
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.5 0.5 0.5
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.001 0.001 0.001
+      }
+    }
+    Solid {
+      translation -6.210151132147768e-08 9.696835165239764e-09 0.17664612811097358
+      rotation 0.15848101536233386 0.9873620246746995 -4.42952216530456e-08 4.520739722719765e-06
+      children [
+        Shape {
+          appearance DEF darkgrey PBRAppearance {
+            baseColor 0.1 0.1 0.1
+            roughness 1
+            metalness 0
+          }
+          geometry DEF robout_chassis Mesh {
+            url [
+              "../../../../robot_description/share/robot_description/meshes/bases/rbrobout/robout_chassis.stl"
+            ]
+          }
+        }
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            position -2.141492116036656e-16
+            axis 0 1 0
+            anchor 0.558 -0.2865 0
+          }
+          device [
+            RotationalMotor {
+              name "robot_front_right_wheel_joint"
+              maxVelocity 100
+              maxTorque 100
+            }
+            PositionSensor {
+              name "robot_front_right_wheel_joint_sensor"
+            }
+          ]
+	endPoint Solid {
+	  translation 0.558 -0.2865 0
+	  rotation 0 1 0 0  # Sin rotación global para el modelo (esto sigue siendo global)
+
+	  children [
+	    # Parte visual del modelo (malla) - aquí rotamos junto con la colisión
+	    Shape {
+	      appearance USE darkgrey
+	      geometry DEF robout_wheel Mesh {
+		url [
+		  "../../../../robot_description/share/robot_description/meshes/wheels/omni_wheel/robout_wheel.stl"
+		]
+	      }
+	    }
+	    # Colisión de la rueda, aquí aplicamos la rotación
+	    Shape {
+	      appearance USE darkgrey
+	      geometry DEF wheel_collision Cylinder {
+		height 0.087
+		radius 0.127
+	      }
+	    }
+	  ]
+	  rotation 1 0 0 1.5708  # Rotamos todo, tanto la malla como la colisión (90 grados sobre el eje X)
+	  name IS robot_front_right_wheel_link
+	  boundingObject Cylinder {
+	    height 0.087
+	    radius 0.127
+	  }
+	  physics Physics {
+	    density -1
+	    mass 6.5
+	    centerOfMass [0 0 0]
+	    inertiaMatrix [
+	      0.0303095 0.05241925 0.0303095
+	      0 0 0
+	    ]
+	  }
+	  linearVelocity 5.1081415779968945e-12 -7.332384579843867e-13 -8.282206990138889e-06
+	  angularVelocity -7.347666218576626e-12 -5.2549886211720226e-11 -4.02051968338612e-18
+	}
+
+        }
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            position 2.554591342287735e-11
+            axis 0 1 0
+            anchor 0.558 0.2865 0
+          }
+          device [
+            RotationalMotor {
+              name "robot_front_left_wheel_joint"
+              maxVelocity 100
+              maxTorque 100
+            }
+            PositionSensor {
+              name "robot_front_left_wheel_joint_sensor"
+            }
+          ]
+endPoint Solid {
+            translation 0.558 0.2865 0
+            rotation 0 1 0 0
+            children [
+		  Shape {
+		    appearance USE darkgrey
+		    geometry USE robout_wheel
+		  }
+		  Shape {
+	      	    appearance USE darkgrey
+	            geometry USE wheel_collision 
+	          }
+            ]
+            rotation 1 0 0 1.570796
+            name IS robot_front_left_wheel_link
+            boundingObject Cylinder {
+              height 0.087
+              radius 0.127
+            }
+            physics Physics {
+              density -1
+              mass 6.5
+              centerOfMass [
+                0 0 0
+              ]
+              inertiaMatrix [
+                0.0303095 0.05241925 0.0303095
+                0 0 0
+              ]
+            }
+            linearVelocity 5.108122338309992e-12 -7.332349543793639e-13 -8.282211184626447e-06
+            angularVelocity -7.347666425332296e-12 -5.2549888443541723e-11 -4.0204077585993676e-18
+          }
+        }
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            position 2.5509238640594927e-11
+            axis 0 1 0
+            anchor -0.558 0.2865 0
+          }
+          device [
+            RotationalMotor {
+              name "robot_back_left_wheel_joint"
+              maxVelocity 100
+              maxTorque 100
+            }
+            PositionSensor {
+              name "robot_back_left_wheel_joint_sensor"
+            }
+          ]
+          endPoint Solid {
+            translation -0.558 0.2865 0
+            rotation 0 1 0 0
+            children [
+		  Shape {
+		    appearance USE darkgrey
+		    geometry USE robout_wheel
+		  }
+		  Shape {
+	      	    appearance USE darkgrey
+	            geometry USE wheel_collision 
+	          }
+            ]
+            rotation 1 0 0 1.570796
+            name IS robot_back_left_wheel_link
+            boundingObject Cylinder {
+              height 0.087
+              radius 0.127
+            }
+            physics Physics {
+              density -1
+              mass 6.5
+              centerOfMass [
+                0 0 0
+              ]
+              inertiaMatrix [
+                0.0303095 0.05241925 0.0303095
+                0 0 0
+              ]
+            }
+            linearVelocity 5.108122338309992e-12 -7.332349543793639e-13 -8.282211184626447e-06
+            angularVelocity -7.347666425332296e-12 -5.2549888443541723e-11 -4.0204077585993676e-18
+          }
+        }
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            position -2.1428697019024251e-16
+            axis 0 1 0
+            anchor -0.558 -0.2865 0
+          }
+          device [
+            RotationalMotor {
+              name "robot_back_right_wheel_joint"
+              maxVelocity 100
+              maxTorque 100
+            }
+            PositionSensor {
+              name "robot_back_right_wheel_joint_sensor"
+            }
+          ]
+endPoint Solid {
+            translation -0.558 -0.2865 0
+            rotation 0 1 0 0
+            children [
+		  Shape {
+		    appearance USE darkgrey
+		    geometry USE robout_wheel
+		  }
+		  Shape {
+	      	    appearance USE darkgrey
+	            geometry USE wheel_collision 
+	          }
+            ]
+            rotation 1 0 0 1.570796
+            name IS robot_back_right_wheel_link
+            boundingObject Cylinder {
+              height 0.087
+              radius 0.127
+            }
+            physics Physics {
+              density -1
+              mass 6.5
+              centerOfMass [
+                0 0 0
+              ]
+              inertiaMatrix [
+                0.0303095 0.05241925 0.0303095
+                0 0 0
+              ]
+            }
+            linearVelocity 5.108122338309992e-12 -7.332349543793639e-13 -8.282211184626447e-06
+            angularVelocity -7.347666425332296e-12 -5.2549888443541723e-11 -4.0204077585993676e-18
+          }
+        }
+        Solid {
+          translation 0.242 -0.053 -0.028
+          children [
+            Shape {
+              appearance DEF vectornav_imu_color PBRAppearance {
+                baseColor 1 0 0
+                roughness 1
+                metalness 0
+              }
+              geometry DEF vectornav_vn100 Mesh {
+                url [
+                  "../../../../robotnik_sensors/share/robotnik_sensors/meshes/imu/vectornav_vn100.stl"
+                ]
+              }
+            }
+            Solid {
+              translation -0.00745 0 0.0088
+              children [
+                InertialUnit {
+                  name IS imu_inertial
+                }
+                Accelerometer {
+                  name IS imu_accelerometer
+                }
+                Gyro {
+                  name IS imu_gyro
+                }
+                Compass {
+                  name IS imu_compass
+                }
+              ]
+              name IS robot_vectornav_link
+            }
+          ]
+          name IS robot_vectornav_base_link
+          boundingObject Box {
+            size 0.036 0.037 0.009
+          }
+          physics Physics {
+            density -1
+            mass 0.05
+            centerOfMass [
+              0 0 0.01
+            ]
+            inertiaMatrix [
+              3.333333e-06 3.333333e-06 3.333333e-06
+              0 0 0
+            ]
+          }
+        }
+        Solid {
+          translation 0.845 0.02 0.1555
+          children [
+            Pose {
+              translation 0.0149 -0.0175 0
+              rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 2.094395
+              children [
+                DEF intel_d435_color_visual CadShape {
+                  url [
+                    "../../../../robotnik_sensors/share/robotnik_sensors/meshes/depth/intel_realsense_d435/intel_d435_color.dae"
+                  ]
+                }
+              ]
+            }
+            Solid {
+              children [
+                Pose {
+                  translation 0.01 0 0
+                  rotation 0 0 1 0
+                  children [
+                    RangeFinder {
+                      name IS front_camera_depth
+                      fieldOfView 1.487021
+                      width 1280
+                      height 720
+                      near 0.1
+                      minRange 0.1
+                      noise 0.007
+                    }
+                  ]
+                }
+              ]
+              name IS robot_front_rgbd_camera_depth_frame
+            }
+            Solid {
+              translation 0 -0.05 0
+              children [
+                Pose {
+                  translation 0.01 0 0
+                  rotation 0 0 1 0
+                  children [
+                    Camera {
+                      name IS front_camera_irred1
+                      fieldOfView 1.487021
+                      width 1280
+                      height 720
+                      noise 0.05
+                    }
+                  ]
+                }
+                Pose {
+                  translation 0.01 0 0
+                  rotation 0 0 1 0
+                  children [
+                    Camera {
+                      name IS front_camera_irred2
+                      fieldOfView 1.487021
+                      width 1280
+                      height 720
+                      noise 0.05
+                    }
+                  ]
+                }
+              ]
+              name IS robot_front_rgbd_camera_infra2_frame
+            }
+            Solid {
+              translation 0 0.015 0
+              children [
+                Pose {
+                  translation 0.01 0 0
+                  rotation 0 0 1 0
+                  children [
+                    Camera {
+                      name IS front_camera_color
+                      fieldOfView 1.211259
+                      width 1920
+                      height 1080
+                      noise 0.05
+                    }
+                  ]
+                }
+              ]
+              name IS robot_front_rgbd_camera_color_frame
+            }
+          ]
+          name IS robot_front_rgbd_camera_link
+          boundingObject Box {
+            size 0.02505 0.09 0.025
+          }
+          physics Physics {
+            density -1
+            mass 0.1
+            centerOfMass [
+              0.0025 -0.015 0
+            ]
+            inertiaMatrix [
+              7.270833e-05 1.041667e-05 7.270833e-05
+              0 0 0
+            ]
+          }
+        }
+        Solid {
+          translation -0.845 0.02 0.1555
+          rotation 0 -1 0 3.141593
+          children [
+            Pose {
+              translation 0.0149 -0.0175 0
+              rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 2.094395
+              children [
+                USE intel_d435_color_visual
+              ]
+            }
+            Solid {
+              children [
+                Pose {
+                  translation 0.01 0 0
+                  rotation 1 0 0 3.14159
+                  children [
+                    RangeFinder {
+                      name IS rear_camera_depth
+                      fieldOfView 1.487021
+                      width 1280
+                      height 720
+                      near 0.1
+                      minRange 0.1
+                      noise 0.007
+                    }
+                  ]
+                }
+              ]
+              name IS robot_rear_rgbd_camera_depth_frame
+            }
+            Solid {
+              translation 0 -0.05 0
+              children [
+                Pose {
+                  translation 0.01 0 0
+                  rotation 1 0 0 3.14159
+                  children [
+                    Camera {
+                      name IS rear_camera_irred1
+                      fieldOfView 1.487021
+                      width 1280
+                      height 720
+                      noise 0.05
+                    }
+                  ]
+                }
+                Pose {
+                  translation 0.01 0 0
+                  rotation 1 0 0 3.14159
+                  children [
+                    Camera {
+                      name IS rear_camera_irred2
+                      fieldOfView 1.487021
+                      width 1280
+                      height 720
+                      noise 0.05
+                    }
+                  ]
+                }
+              ]
+              name IS robot_rear_rgbd_camera_infra2_frame
+            }
+            Solid {
+              translation 0 0.015 0
+              children [
+                Pose {
+                  translation 0.01 0 0
+                  rotation 1 0 0 3.14159
+                  children [
+                    Camera {
+                      name IS rear_camera_color
+                      fieldOfView 1.211259
+                      width 1920
+                      height 1080
+                      noise 0.05
+                    }
+                  ]
+                }
+              ]
+              name IS robot_rear_rgbd_camera_color_frame
+            }
+          ]
+          name IS robot_rear_rgbd_camera_link
+          boundingObject Box {
+            size 0.02505 0.09 0.025
+          }
+          physics Physics {
+            density -1
+            mass 0.1
+            centerOfMass [
+              0.0025 -0.015 0
+            ]
+            inertiaMatrix [
+              7.270833e-05 1.041667e-05 7.270833e-05
+              0 0 0
+            ]
+          }
+        }
+        Solid {
+          translation 0.8 0.3666 -0.06
+          rotation 0 0 1 0.785398
+          children [
+            DEF microscan3_visual CadShape {
+              url [
+                "../../../../robotnik_sensors/share/robotnik_sensors/meshes/2d_lidar/sick/microscan3.dae"
+              ]
+            }
+            Solid {
+              translation 0 0 0.11
+              children [
+                Lidar {
+                  name IS robot_front_laser_sensor
+                  horizontalResolution 700
+                  fieldOfView 4.7
+                  numberOfLayers 1
+                  minRange 0.05
+                  maxRange 64
+                  noise 0.000156
+                  resolution 0.00575
+                }
+              ]
+              name IS robot_front_laser_link
+            }
+          ]
+          name IS robot_front_laser_base_link
+          boundingObject DEF microscan3 Mesh {
+            url [
+              "../../../../robotnik_sensors/share/robotnik_sensors/meshes/2d_lidar/sick/microscan3.dae"
+            ]
+          }
+          physics Physics {
+            density -1
+            mass 1.15
+            centerOfMass [
+              0 0 0.075
+            ]
+            inertiaMatrix [
+              0.003337012 0.003358383 0.002382896
+              0 0 0
+            ]
+          }
+        }
+        Solid {
+          translation -0.8 -0.3666 -0.06
+          rotation 0 0 -1 2.356194
+          children [
+            USE microscan3_visual
+            Solid {
+              translation 0 0 0.11
+              children [
+                Lidar {
+                  name IS robot_rear_laser_sensor
+                  horizontalResolution 700
+                  fieldOfView 4.7
+                  numberOfLayers 1
+                  minRange 0.05
+                  maxRange 64
+                  noise 0.000156
+                  resolution 0.00575
+                }
+              ]
+               name IS robot_rear_laser_link
+            }
+          ]
+          name IS robot_rear_laser_base_link
+          boundingObject USE microscan3
+          physics Physics {
+            density -1
+            mass 1.15
+            centerOfMass [
+              0 0 0.075
+            ]
+            inertiaMatrix [
+              0.003337012 0.003358383 0.002382896
+              0 0 0
+            ]
+          }
+        }
+      ]
+      name IS robot_base_link
+      boundingObject USE robout_chassis
+      physics Physics {
+        density -1
+        mass 70
+        centerOfMass [
+          0 0 0.1
+        ]    selfCollision IS selfCollision
+        inertiaMatrix [
+          38.16667 67.33333 104.1667
+          0 0 0
+        ]
+      }
+      linearVelocity -7.807809119424266e-14 -8.078330905563233e-15 -8.053926776554262e-06
+      angularVelocity -7.347797488777971e-12 -5.254967010210104e-11 -4.0195083981356815e-18
+    }
+  ]
+  name IS name
+}
+}

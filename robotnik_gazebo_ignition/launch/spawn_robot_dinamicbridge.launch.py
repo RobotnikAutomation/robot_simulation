@@ -31,6 +31,7 @@ from launch_ros.substitutions import FindPackageShare
 from launch_ros.descriptions import ParameterValue
 from robotnik_common.launch import ExtendedArgument, AddArgumentParser
 from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.conditions import IfCondition
 
 from ament_index_python.packages import get_package_share_directory
 
@@ -57,7 +58,7 @@ def generate_launch_description():
     arg = ExtendedArgument(
         name='robot',
         description='Robot model (rbvogui, rbkairos, rbtheron, rbsummit)',
-        default_value='rbvogui',
+        default_value='',
         use_env=True,
         environment='ROBOT',
     )
@@ -113,6 +114,13 @@ def generate_launch_description():
         default_value='0.0',
     )
     add_to_launcher.add_arg(arg)
+    
+    arg = ExtendedArgument(
+        name='has_arm',
+        description='If robot has an arm to start controller',
+        default_value='False',
+    )
+    add_to_launcher.add_arg(arg)
     params = add_to_launcher.process_arg()
 
     robot_dir = os.path.join(get_package_share_directory('robot_description'), 'launch')
@@ -126,6 +134,7 @@ def generate_launch_description():
                 'robot_xacro_file': robot_xacro_file,
                 'namespace': params['namespace'],
                 'gazebo_ignition': 'true',
+                'frame_prefix': [params['namespace'],'_']
             }.items(),
     )
 
@@ -146,37 +155,69 @@ def generate_launch_description():
             namespace=params['namespace']
     )
     ld.add_action(robot_spawner)
-    bridge_params = [get_package_share_directory('robotnik_gazebo_ignition'),'/config/', robot,'/bridge.yaml']
+    
+    
+
+
+    
+    rviz2_config = [get_package_share_directory('robotnik_gazebo_ignition'),'/config/', robot,'/rviz_config.rviz']
+    
+    rviz2 = Node(
+        package="rviz2",
+        executable="rviz2",
+        namespace=params['namespace'],
+        arguments=['-d', rviz2_config]
+
+    )
+    ld.add_action(rviz2)
+    
+    initial_bridge_params = get_package_share_directory('robotnik_gazebo_ignition') + '/config/auxiliar/initial_bridge.yaml'
+    
+    bridge_yaml_generator = [get_package_share_directory('robotnik_gazebo_ignition'),'/config/auxiliar/ignition_bridge.sh']
+    
+    bridge_yaml_creator = ExecuteProcess(
+      cmd=[
+        bridge_yaml_generator,params['namespace'] 
+      ],
+    cwd=get_package_share_directory('robotnik_gazebo_ignition')+'/config/auxiliar',
+    output='screen',
+    name="bridge_yaml_creator",
+    )
+
+    bridge_params = get_package_share_directory('robotnik_gazebo_ignition') + '/config/auxiliar/topics.yaml'
 
     ros_gz_bridge = Node(
         package="ros_gz_bridge",
         executable="parameter_bridge",
-         parameters=[
-            {'config_file': bridge_params,
-            'expand_gz_topic_names':True},
+        arguments=[
+            '--ros-args',
+            '-p',
+            f'config_file:={bridge_params}'
         ],
         namespace=params['namespace']
     )
-
-    # ros_gz_image_bridge = Node(
-    #     package="ros_gz_image",
-    #     executable="image_bridge",
-    #     arguments=[
-    #         "/robot/front_rgbd_camera/color/image_raw", 
-    #         "/robot/rear_rgbd_camera/color/image_raw"
-    #         #"/robot/front_rgbd_camera/ired1/image_raw", 
-    #         #"/robot/rear_rgbd_camera/ired1/image_raw",
-    #         #"/robot/front_rgbd_camera/ired2/image_raw", 
-    #         #"/robot/rear_rgbd_camera/ired2/image_raw",
-    #         #"/robot/front_rgbd_camera/depth/image_raw",
-    #         #"/robot/rear_rgbd_camera/depth/image_raw"
-    #     ],
-    #     namespace=params['namespace']
-    # )
-    # ld.add_action(ros_gz_image_bridge)
-
-    # controller_dir = os.path.join(get_package_share_directory('robotnik_controller'), 'launch')
-
+    
+    init_bridge_creator = RegisterEventHandler(
+        OnProcessExit(
+            target_action=robot_spawner,
+            on_exit=[
+                LogInfo(msg='Robot spawned'),
+                bridge_yaml_creator
+            ]
+        )
+    )
+    ld.add_action(init_bridge_creator)
+    
+    init_gz_bridge = RegisterEventHandler(
+        OnProcessExit(
+            target_action=bridge_yaml_creator,
+            on_exit=[
+                LogInfo(msg='Bridge file generated'),
+                ros_gz_bridge
+            ]
+        )
+    )
+    ld.add_action(init_gz_bridge)
     
     joint_state_broadcaster = Node(
         package='controller_manager',
@@ -185,6 +226,27 @@ def generate_launch_description():
         namespace=params['namespace']
     )
     ld.add_action(joint_state_broadcaster)
+    
+    joint_trajectory_controller= Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['joint_trajectory_controller'],
+        output='screen',
+        emulate_tty=True,
+        namespace=params['namespace'],
+        condition=IfCondition(params['has_arm'])
+    )
+
+    init_joint_trajectory_controller = RegisterEventHandler(
+        OnProcessExit(
+            target_action=joint_state_broadcaster,
+            on_exit=[
+                LogInfo(msg='Joint States spawned'),
+                joint_trajectory_controller
+            ]
+        )
+    )
+    ld.add_action(init_joint_trajectory_controller)
 
     robotnik_controller= Node(
         package='controller_manager',
@@ -205,16 +267,6 @@ def generate_launch_description():
         )
     )
     ld.add_action(init_robotnik_controller)
-    
-    init_param_bridge = RegisterEventHandler(
-        OnProcessExit(
-            target_action=robotnik_controller,
-            on_exit=[
-                LogInfo(msg='Joint States spawned'),
-                ros_gz_bridge
-            ]
-        )
-    )
-    ld.add_action(init_param_bridge)
 
     return ld
+

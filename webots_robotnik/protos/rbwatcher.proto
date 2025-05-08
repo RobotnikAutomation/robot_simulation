@@ -1,0 +1,907 @@
+#VRML_SIM R2023b utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# This is a proto file for Webots for the rbwatcher
+# Extracted from: /tmp/tmpdw819j8u.urdf
+
+PROTO rbwatcher [
+  field  SFVec3f     translation     0 0 0
+  field  SFRotation  rotation        0 0 1 0
+  field  SFString    name            "rbwatcher"  # Is `Robot.name`.
+  field  SFString    controller      "<extern>"       # Is `Robot.controller`.
+  field  MFString    controllerArgs  []           # Is `Robot.controllerArgs`.
+  field  SFString    customData      ""           # Is `Robot.customData`.
+  field  SFBool      supervisor      FALSE        # Is `Robot.supervisor`.
+  field  SFBool      synchronization TRUE         # Is `Robot.synchronization`.
+  field  SFBool      selfCollision   FALSE        # Is `Robot.selfCollision`.
+  field  MFNode      toolSlot        []          # Extend the robot with new nodes at the end of the arm.
+  
+  field  SFString    robot_base_link            "rbwatcher/base_link"  # Is `Robot.base_link`.
+  field  SFString    robot_rear_rgbd_camera_color_frame            "rbwatcher/rear_rgbd_camera_color_frame"  # Is `Robot.rear_rgbd_camera_color_frame`.
+  field  SFString    robot_rear_rgbd_camera_infra2_frame            "rbwatcher/rear_rgbd_camera_infra2_frame"  # Is `Robot.rear_rgbd_camera_infra2_frame`.
+  field  SFString    robot_rear_rgbd_camera_depth_frame            "rbwatcher/rear_rgbd_camera_depth_frame"  # Is `Robot.rear_rgbd_camera_depth_frame`.
+  field  SFString    robot_rear_rgbd_camera_link            "rbwatcher/rear_rgbd_camera_link"  # Is `Robot.rear_rgbd_camera_link`.
+  field  SFString    robot_front_rgbd_camera_color_frame            "rbwatcher/front_rgbd_camera_color_frame"  # Is `Robot.front_rgbd_camera_color_frame`.
+  field  SFString    robot_front_rgbd_camera_infra2_frame            "rbwatcher/front_rgbd_camera_infra2_frame"  # Is `Robot.front_rgbd_camera_infra2_frame `.
+  field  SFString    robot_front_rgbd_camera_depth_frame            "rbwatcher/front_rgbd_camera_depth_frame"  # Is `Robot.front_rgbd_camera_depth_frame`.
+  field  SFString    robot_front_rgbd_camera_link            "rbwatcher/front_rgbd_camera_link"  # Is `Robot.front_rgbd_camera_link`.
+  field  SFString    robot_vectornav_base_link            "rbwatcher/vectornav_base_link"  # Is `Robot.vectornav_base_link `.
+  field  SFString    robot_back_right_wheel_link            "rbwatcher/back_right_wheel_link"  # Is `Robot.back_right_wheel_link `.
+  field  SFString    robot_front_right_wheel_link            "rbwatcher/front_right_wheel_link"  # Is `Robot.front_right_wheel_link `.
+  field  SFString    robot_back_left_wheel_link            "rbwatcher/back_left_wheel_link"  # Is `Robot.back_left_wheel_link `.
+  field  SFString    robot_front_left_wheel_link           "rbwatcher/front_left_wheel_link"  # Is `Robot.front_left_wheel_link `.
+  
+  field  SFString    rear_camera_color          "rbwatcher/rear_camera_color"  # Is `Robot.rear_camera_color `.
+  field  SFString    front_camera_color          "rbwatcher/front_camera_color"  # Is `Robot.front_camera_color `.
+  field  SFString    rear_camera_depth          "rbwatcher/rear_camera_depth"  # Is `Robot.rear_camera_depth `.
+  field  SFString    front_camera_depth         "rbwatcher/front_camera_depth"  # Is `Robot.front_camera_depth `.
+  field  SFString    rear_camera_irred1          "rbwatcher/rear_camera_irred1"  # Is `Robot.rear_camera_irred1 `.
+  field  SFString    front_camera_irred1          "rbwatcher/front_camera_irred1"  # Is `Robot.front_camera_irred1 `.
+  field  SFString    rear_camera_irred2          "rbwatcher/rear_camera_irred2"  # Is `Robot.rear_camera_irred2 `.
+  field  SFString    front_camera_irred2         "rbwatcher/front_camera_irred2"  # Is `Robot.front_camera_irred2 `.
+  field  SFString    imu_inertial         "rbwatcher/imu_inertial"  # Is `Robot.imu_inertial `.
+  field  SFString    imu_accelerometer          "rbwatcher/imu_accelerometer"  # Is `Robot.imu_accelerometer `.
+  field  SFString    imu_gyro          "rbwatcher/imu_gyro"  # Is `Robot.imu_gyro `.
+  field  SFString    imu_compass          "rbwatcher/imu_compass"  # Is `Robot.imu_compass `.
+  field  SFString    robot_vectornav_link         "rbwatcher/vectornav_link"  # Is `Robot.robot_vectornav_link `.
+  
+  field  SFString    robot_top_structure_link         "rbwatcher/top_structure_link"  # Is `Robot.top_structure_link `.
+  field  SFString    robot_gps_base_link         "rbwatcher/gps_base_link"  # Is `Robot.gps_base_link `.
+  field  SFString    robot_top_3d_laser         "rbwatcher/top_3d_laser"  # Is `Robot.top_3d_laser  `.
+  field  SFString    robot_top_3d_laserlink         "rbwatcher/top_3d_laserlink"  # Is `Robot.top_3d_laserlink `.
+  field  SFString    robot_top_3d_laserbase_link         "rbwatcher/top_3d_laserbase_link"  # Is `Robot.top_3d_laserbase_link `.
+  field  SFString    robot_antenna_base_link         "rbwatcher/antenna_base_link"  # Is `Robot.antenna_base_link `.
+  field  SFString    robot_top_ptz_camera_sensor         "rbwatcher/top_ptz_camera_sensor"  # Is `Robot.top_ptz_camera_sensor `.
+  field  SFString    robot_top_ptz_camera_zoom_color_link         "rbwatcher/top_ptz_camera_zoom_color_link"  # Is `Robot.top_ptz_camera_zoom_color_link `.
+  field  SFString    robot_top_ptz_camera_optical_frame_link         "rbwatcher/top_ptz_camera_optical_frame_link"  # Is `Robot.top_ptz_camera_optical_frame_link  `.
+  field  SFString    robot_top_ptz_camera_frame_link         "rbwatcher/top_ptz_camera_frame_link"  # Is `Robot.top_ptz_camera_frame_link `.
+  field  SFString    robot_top_ptz_camera_zoom_thermal_link         "rbwatcher/top_ptz_camera_zoom_thermal_link"  # Is `Robot.top_ptz_camera_zoom_thermal_link `.
+  field  SFString    robot_top_ptz_camera_optical_thermal_frame_link         "rbwatcher/top_ptz_camera_optical_thermal_frame_link"  # Is `Robot.top_ptz_camera_optical_thermal_frame_link `.
+  field  SFString    robot_top_ptz_camera_thermal_frame_link         "rbwatcher/top_ptz_camera_thermal_frame_link"  # Is `Robot.top_ptz_camera_thermal_frame_link  `.
+  field  SFString    robot_top_ptz_camera_tilt_link         "rbwatcher/top_ptz_camera_tilt_link"  # Is `Robot.top_ptz_camera_tilt_link  `.
+  field  SFString    robot_top_ptz_camera_pan_link         "rbwatcher/top_ptz_camera_pan_link"  # Is `Robot.top_ptz_camera_pan_link  `.
+  field  SFString    robot_top_ptz_camera_base_link         "rbwatcher/top_ptz_camera_base_link"  # Is `Robot.top_ptz_camera_base_link  `.
+
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    controller IS controller
+    physics Physics {
+          }
+    children [
+      Shape {
+        appearance PBRAppearance {
+          baseColor 0.500000 0.500000 0.500000
+          roughness 1.000000
+          metalness 0
+        }
+        geometry Box {
+           size 0.001000 0.001000 0.001000
+        }
+      }
+      Solid {
+        translation 0.000000 0.000000 0.117500
+        children [
+          Shape {
+            appearance DEF darkgrey PBRAppearance {
+              baseColor 0.100000 0.100000 0.100000
+              roughness 1.000000
+              metalness 0
+            }
+            geometry DEF rbwatcher_body Mesh {
+              url "/home/joel/Documentos/GitHub/Robotnik_practicas/Robotnik_ws/install/robot_description/share/robot_description/meshes/bases/rbwatcher/rbwatcher_body.stl"
+            }
+          }
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0.000000 1.000000 0.000000
+              anchor 0.227950 -0.155000 0.000000
+            }
+            device [
+              RotationalMotor {
+                name "robot_front_right_wheel_joint"
+                maxVelocity 100.0
+                maxTorque 100.0
+              }
+              PositionSensor {
+                name "robot_front_right_wheel_joint_sensor"
+              }
+            ]
+            endPoint Solid {
+              translation 0.227950 -0.155000 0.000000
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.500000 0.500000 0.500000
+                    roughness 1.000000
+                    metalness 0
+                  }
+                  geometry DEF rubber_wheel_v2_right Mesh {
+                    url "/home/joel/Documentos/GitHub/Robotnik_practicas/Robotnik_ws/install/robot_description/share/robot_description/meshes/wheels/rubber_wheel/rubber_wheel_v2_right.stl"
+                  }
+                }
+              ]
+              name IS robot_front_right_wheel_link
+              boundingObject USE rubber_wheel_v2_right
+              physics Physics {
+                density -1
+                mass 4.000000
+                centerOfMass [ 0.000000 0.000000 0.000000 ]
+                inertiaMatrix [
+                  2.052758e-02 2.761250e-02 2.052758e-02
+                  0.000000e+00 0.000000e+00 0.000000e+00
+                ]
+              }
+            }
+          }
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0.000000 1.000000 0.000000
+              anchor 0.227950 0.155000 0.000000
+            }
+            device [
+              RotationalMotor {
+                name "robot_front_left_wheel_joint"
+                maxVelocity 100.0
+                maxTorque 100.0
+              }
+              PositionSensor {
+                name "robot_front_left_wheel_joint_sensor"
+              }
+            ]
+            endPoint Solid {
+              translation 0.227950 0.155000 0.000000
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.500000 0.500000 0.500000
+                    roughness 1.000000
+                    metalness 0
+                  }
+                  geometry DEF rubber_wheel_v2_left Mesh {
+                    url "/home/joel/Documentos/GitHub/Robotnik_practicas/Robotnik_ws/install/robot_description/share/robot_description/meshes/wheels/rubber_wheel/rubber_wheel_v2_left.stl"
+                  }
+                }
+              ]
+              name IS robot_front_left_wheel_link
+              boundingObject USE rubber_wheel_v2_left
+              physics Physics {
+                density -1
+                mass 4.000000
+                centerOfMass [ 0.000000 0.000000 0.000000 ]
+                inertiaMatrix [
+                  2.052758e-02 2.761250e-02 2.052758e-02
+                  0.000000e+00 0.000000e+00 0.000000e+00
+                ]
+              }
+            }
+          }
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0.000000 1.000000 0.000000
+              anchor -0.227950 -0.155000 0.000000
+            }
+            device [
+              RotationalMotor {
+                name "robot_back_right_wheel_joint"
+                maxVelocity 100.0
+                maxTorque 100.0
+              }
+              PositionSensor {
+                name "robot_back_right_wheel_joint_sensor"
+              }
+            ]
+            endPoint Solid {
+              translation -0.227950 -0.155000 0.000000
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.500000 0.500000 0.500000
+                    roughness 1.000000
+                    metalness 0
+                  }
+                  geometry USE rubber_wheel_v2_right
+                }
+              ]
+              name IS robot_back_right_wheel_link
+              boundingObject USE rubber_wheel_v2_right
+              physics Physics {
+                density -1
+                mass 4.000000
+                centerOfMass [ 0.000000 0.000000 0.000000 ]
+                inertiaMatrix [
+                  2.052758e-02 2.761250e-02 2.052758e-02
+                  0.000000e+00 0.000000e+00 0.000000e+00
+                ]
+              }
+            }
+          }
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0.000000 1.000000 0.000000
+              anchor -0.227950 0.155000 0.000000
+            }
+            device [
+              RotationalMotor {
+                name "robot_back_left_wheel_joint"
+                maxVelocity 100.0
+                maxTorque 100.0
+              }
+              PositionSensor {
+                name "robot_back_left_wheel_joint_sensor"
+              }
+            ]
+            endPoint Solid {
+              translation -0.227950 0.155000 0.000000
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColor 0.500000 0.500000 0.500000
+                    roughness 1.000000
+                    metalness 0
+                  }
+                  geometry USE rubber_wheel_v2_left
+                }
+              ]
+              name IS robot_back_left_wheel_link
+              boundingObject USE rubber_wheel_v2_left
+              physics Physics {
+                density -1
+                mass 4.000000
+                centerOfMass [ 0.000000 0.000000 0.000000 ]
+                inertiaMatrix [
+                  2.052758e-02 2.761250e-02 2.052758e-02
+                  0.000000e+00 0.000000e+00 0.000000e+00
+                ]
+              }
+            }
+          }
+          Solid {
+            translation -0.170240 0.000000 0.276090
+            children [
+              Shape {
+                appearance DEF alu_color PBRAppearance {
+                  baseColor 0.500000 0.500000 0.500000
+                  roughness 1.000000
+                  metalness 0
+                }
+                geometry DEF rbwatcher_top_structure Mesh {
+                  url "/home/joel/Documentos/GitHub/Robotnik_practicas/Robotnik_ws/install/robot_description/share/robot_description/meshes/structures/rbwatcher/rbwatcher_top_structure.stl"
+                }
+              }
+            ]
+            name IS robot_top_structure_link
+            boundingObject USE rbwatcher_top_structure
+            physics Physics {
+              density -1
+              mass 0.001000
+              centerOfMass [ 0.000000 0.000000 0.000000 ]
+              inertiaMatrix [
+                1.000000e-04 1.000000e-06 1.000000e-04
+                0.000000e+00 0.000000e+00 0.000000e+00
+              ]
+            }
+          }
+          Solid {
+            translation -0.035340 0.132000 0.161090
+            children [
+              Shape {
+                appearance DEF vectornav_imu_color PBRAppearance {
+                  baseColor 1.000000 0.000000 0.000000
+                  roughness 1.000000
+                  metalness 0
+                }
+                geometry DEF vectornav_vn100 Mesh {
+                  url "/home/joel/Documentos/GitHub/Robotnik_practicas/Robotnik_ws/install/robotnik_sensors/share/robotnik_sensors/meshes/imu/vectornav_vn100.stl"
+                }
+              }
+              Solid {
+                translation -0.007450 0.000000 0.008800
+                children [
+                  InertialUnit {
+                    name IS imu_inertial
+                  }
+                  Accelerometer {
+                    name IS imu_accelerometer
+                  }
+                  Gyro {
+                    name IS imu_gyro
+                  }
+                  Compass {
+                    name IS imu_compass
+                  }
+                ]
+                name IS robot_vectornav_link
+              }
+            ]
+            name IS robot_vectornav_base_link
+            boundingObject Pose {
+              translation 0.000000 0.000000 0.004500
+              children [
+                Box {
+                   size 0.036000 0.037000 0.009000
+                }
+              ]
+            }
+            physics Physics {
+              density -1
+              mass 0.050000
+              centerOfMass [ 0.000000 0.000000 0.010000 ]
+              inertiaMatrix [
+                3.333333e-06 3.333333e-06 3.333333e-06
+                0.000000e+00 0.000000e+00 0.000000e+00
+              ]
+            }
+          }
+          Solid {
+            translation 0.308810 0.020000 0.152430
+            children [
+              Pose {
+                translation 0.014900 -0.017500 0.000000
+                rotation 0.577350 0.577350 0.577350 2.094395
+                children [
+                  DEF intel_d435_color_visual CadShape {
+                    url "/home/joel/Documentos/GitHub/Robotnik_practicas/Robotnik_ws/install/robotnik_sensors/share/robotnik_sensors/meshes/depth/intel_realsense_d435/intel_d435_color.dae"
+                  }
+                ]
+              }
+              Solid {
+                children [
+                  Pose {
+                    translation 0.01 0 0
+                    rotation 0 0 0 0
+                    children [
+                      RangeFinder {
+                        name IS front_camera_depth
+                        fieldOfView 1.487021
+                        width 1280
+                        height 720
+                        noise 0.007000
+                        near 0.100000
+                        minRange 0.100000
+                      }
+                    ]
+                  }
+                ]
+                name IS robot_front_rgbd_camera_depth_frame
+              }
+              Solid {
+                translation 0.000000 -0.050000 0.000000
+                children [
+                  Pose {
+                    translation 0.01 0 0
+                    rotation 0 0 0 0
+                    children [
+                      Camera {
+                        name IS front_camera_irred1
+                        fieldOfView 1.487021
+                        width 1280
+                        height 720
+                        noise 0.050000
+                      }
+                    ]
+                  }
+                  Pose {
+                    translation 0 0 0
+                    rotation 0 0 0 0
+                    children [
+                      Camera {
+                        name IS front_camera_irred2
+                        fieldOfView 1.487021
+                        width 1280
+                        height 720
+                        noise 0.050000
+                      }
+                    ]
+                  }
+                ]
+                name IS robot_front_rgbd_camera_infra2_frame
+              }
+              Solid {
+                translation 0.000000 0.015000 0.000000
+                children [
+                  Pose {
+                    translation 0.01 0 0
+                    rotation 0 0 0 0
+                    children [
+                      Camera {
+                        name IS front_camera_color
+                        fieldOfView 1.211259
+                        width 1920
+                        height 1080
+                        noise 0.050000
+                      }
+                    ]
+                  }
+                ]
+                name IS robot_front_rgbd_camera_color_frame
+              }
+            ]
+            name IS robot_front_rgbd_camera_link
+            boundingObject Pose {
+              translation 0.000000 -0.017500 0.000000
+              children [
+                Box {
+                   size 0.025050 0.090000 0.025000
+                }
+              ]
+            }
+            physics Physics {
+              density -1
+              mass 0.100000
+              centerOfMass [ 0.002500 -0.015000 0.000000 ]
+              inertiaMatrix [
+                7.270833e-05 1.041667e-05 7.270833e-05
+                0.000000e+00 0.000000e+00 0.000000e+00
+              ]
+            }
+          }
+          Solid {
+            translation -0.318000 0.020000 0.183080
+            rotation 0.000000 1.000000 0.000000 3.141593
+            children [
+              Pose {
+                translation 0.014900 -0.017500 0.000000
+                rotation 0.577350 0.577350 0.577350 2.094395
+                children [
+                  USE intel_d435_color_visual
+                ]
+              }
+              Solid {
+                children [
+                  Pose {
+                    translation 0.01 0 0
+                    rotation 0 0 0 0
+                    children [
+                      RangeFinder {
+                        name IS rear_camera_depth
+                        fieldOfView 1.487021
+                        width 1280
+                        height 720
+                        noise 0.007000
+                        near 0.100000
+                        minRange 0.100000
+                      }
+                    ]
+                  }
+                ]
+                name IS robot_rear_rgbd_camera_depth_frame
+              }
+              Solid {
+                translation 0.000000 -0.050000 0.000000
+                children [
+                  Pose {
+                    translation 0.01 0 0
+                    rotation 1 0 0 3.14159
+                    children [
+                      Camera {
+                        name IS rear_camera_irred1
+                        fieldOfView 1.487021
+                        width 1280
+                        height 720
+                        noise 0.050000
+                      }
+                    ]
+                  }
+                  Pose {
+                    translation 0.01 0 0
+                    rotation 1 0 0 3.14159
+                    children [
+                      Camera {
+                        name IS rear_camera_irred2
+                        fieldOfView 1.487021
+                        width 1280
+                        height 720
+                        noise 0.050000
+                      }
+                    ]
+                  }
+                ]
+                name IS robot_rear_rgbd_camera_infra2_frame
+              }
+              Solid {
+                translation 0.000000 0.015000 0.000000
+                children [
+                  Pose {
+                    translation 0.01 0 0
+                    rotation 1 0 0 3.14159
+                    children [
+                      Camera {
+                        name IS rear_camera_color
+                        fieldOfView 1.211259
+                        width 1920
+                        height 1080
+                        noise 0.050000
+                      }
+                    ]
+                  }
+                ]
+                name IS robot_rear_rgbd_camera_color_frame
+              }
+            ]
+            name IS robot_rear_rgbd_camera_link
+            boundingObject Pose {
+              translation 0.000000 -0.017500 0.000000
+              children [
+                Box {
+                   size 0.025050 0.090000 0.025000
+                }
+              ]
+            }
+            physics Physics {
+              density -1
+              mass 0.100000
+              centerOfMass [ 0.002500 -0.015000 0.000000 ]
+              inertiaMatrix [
+                7.270833e-05 1.041667e-05 7.270833e-05
+                0.000000e+00 0.000000e+00 0.000000e+00
+              ]
+            }
+          }
+          Solid {
+            translation -0.248240 0.095000 0.763590
+            children [
+              Shape {
+                appearance DEF ublox_gps_color PBRAppearance {
+                  baseColor 0.500000 0.500000 0.500000
+                  roughness 1.000000
+                  metalness 0
+                }
+                geometry DEF antenna_ANN_MB Mesh {
+                  url "/home/joel/Documentos/GitHub/Robotnik_practicas/Robotnik_ws/install/robotnik_sensors/share/robotnik_sensors/meshes/gps/antenna_ANN_MB.stl"
+                }
+              }
+            ]
+            name IS robot_gps_base_link
+            boundingObject Pose {
+              translation 0.000000 0.000000 0.011250
+              children [
+                Box {
+                   size 0.060700 0.083000 0.022500
+                }
+              ]
+            }
+            physics Physics {
+              density -1
+              mass 0.200000
+              centerOfMass [ 0.000000 0.000000 0.015000 ]
+              inertiaMatrix [
+                1.243500e-04 1.243500e-04 2.187000e-04
+                0.000000e+00 0.000000e+00 0.000000e+00
+              ]
+            }
+          }
+          Solid {
+            translation -0.119240 0.000000 0.386090
+            children [
+              Shape {
+                appearance DEF blackgray_color PBRAppearance {
+                  baseColor 0.250000 0.250000 0.250000
+                  roughness 1.000000
+                  metalness 0
+                }
+                geometry DEF helios_16p Mesh {
+                  url "/home/joel/Documentos/GitHub/Robotnik_practicas/Robotnik_ws/install/robotnik_sensors/share/robotnik_sensors/meshes/3d_lidar/robotsense/helios_16p.stl"
+                }
+              }
+              Solid {
+                translation 0.000000 0.000000 0.063500
+                children [
+                  Lidar {
+                    name IS robot_top_3d_laser
+                    fieldOfView 6.283185
+                    verticalFieldOfView 1.483530
+                    horizontalResolution 1200
+                    numberOfLayers 16
+                    minRange 0.300000
+                    maxRange 100.000000
+                    near 0.3
+                    resolution 0.001000
+                  }
+                ]
+                name IS robot_top_3d_laserlink
+              }
+            ]
+            name IS robot_top_3d_laserbase_link
+            boundingObject USE helios_16p
+            physics Physics {
+              density -1
+              mass 0.840000
+              centerOfMass [ 0.000000 0.000000 0.041350 ]
+              inertiaMatrix [
+                1.310420e-03 1.310420e-03 1.663340e-03
+                0.000000e+00 0.000000e+00 0.000000e+00
+              ]
+            }
+          }
+          Solid {
+            translation -0.241240 0.000000 0.311090
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.500000 0.500000 0.500000
+                  roughness 1.000000
+                  metalness 0
+                }
+                geometry DEF antena_wifi_2J7A747Bc Mesh {
+                  url "/home/joel/Documentos/GitHub/Robotnik_practicas/Robotnik_ws/install/robot_description/share/robot_description/meshes/others/antena_wifi_2J7A747Bc.stl"
+                }
+              }
+            ]
+            name IS robot_antenna_base_link
+            boundingObject USE antena_wifi_2J7A747Bc
+            physics Physics {
+            }
+          }
+          Solid {
+            translation -0.118080 0.000000 0.554290
+            children [
+              Transform {
+                translation -0.070000 -0.070000 -0.045000
+                scale 0.001000 0.001000 0.001000
+                children [
+                  Shape {
+                    appearance DEF grey_color PBRAppearance {
+                      baseColor 0.100000 0.100000 0.100000
+                      roughness 1.000000
+                      metalness 0
+                    }
+                    geometry DEF link_750_base Mesh {
+                      url "/home/joel/Documentos/GitHub/Robotnik_practicas/Robotnik_ws/install/robotnik_sensors/share/robotnik_sensors/meshes/link_750_base.stl"
+                    }
+                  }
+                ]
+              }
+              HingeJoint {
+                jointParameters HingeJointParameters {
+                  axis 0.000000 0.000000 1.000000
+                  anchor 0.000000 0.000000 0.031800
+                }
+                device [
+                  RotationalMotor {
+                    name "robot_top_ptz_camera_pan_joint"
+                    maxVelocity 1.0
+                    minPosition -3.1416
+                    maxPosition 3.1416
+                    maxTorque 10000.0
+                  }
+                  PositionSensor {
+                    name "robot_top_ptz_camera_pan_joint_sensor"
+                  }
+                ]
+                endPoint Solid {
+                  translation 0.000000 0.000000 0.031800
+                  children [
+                    Shape {
+                      appearance USE grey_color
+                      geometry DEF link_750_pan Mesh {
+                        url "/home/joel/Documentos/GitHub/Robotnik_practicas/Robotnik_ws/install/robotnik_sensors/share/robotnik_sensors/meshes/link_750_pan.stl"
+                      }
+                    }
+                    HingeJoint {
+                      jointParameters HingeJointParameters {
+                        axis 0.000000 -1.000000 0.000000
+                        anchor 0.000000 0.000000 0.102000
+                      }
+                      device [
+                        RotationalMotor {
+                          name "robot_top_ptz_camera_tilt_joint"
+                          maxVelocity 1.0
+                          minPosition -1.5708
+                          maxPosition 1.5708
+                          maxTorque 10000.0
+                        }
+                        PositionSensor {
+                          name "robot_top_ptz_camera_tilt_joint_sensor"
+                        }
+                      ]
+                      endPoint Solid {
+                        translation 0.000000 0.000000 0.102000
+                        rotation 1.000000 0.000000 0.000000 1.570796
+                        children [
+                          Pose {
+                            rotation 1.000000 0.000000 0.000000 1.570796
+                            children [
+                              Shape {
+                                appearance USE grey_color
+                                geometry DEF link_750_tilt Mesh {
+                                  url "/home/joel/Documentos/GitHub/Robotnik_practicas/Robotnik_ws/install/robotnik_sensors/share/robotnik_sensors/meshes/link_750_tilt.stl"
+                                }
+                              }
+                            ]
+                          }
+                          Solid {
+                            translation 0.050000 0.025000 0.000000
+                            rotation -1.000000 0.000000 0.000000 1.570796
+                            children [
+                              Pose {
+                                translation 0.01 0 0
+                                rotation 0 0 0 0
+                                children [
+                                  Camera {
+                                    name IS robot_top_ptz_camera_sensor
+                                    fieldOfView 1.047198
+                                    width 640
+                                    height 480
+                                  }
+                                ]
+                              }
+                              Solid {
+                                rotation -0.577350 0.577350 -0.577350 2.094395
+                                children [
+                                  SliderJoint {
+                                    jointParameters JointParameters {
+                                      axis 0.000000 0.000000 1.000000
+                                    }
+                                    device [
+                                      LinearMotor {
+                                        name "robot_top_ptz_camera_zoom_color_joint"
+                                        maxVelocity 5.0
+                                        maxPosition 10000.0
+                                        maxForce 10000.0
+                                      }
+                                      PositionSensor {
+                                        name "robot_top_ptz_camera_zoom_color_joint_sensor"
+                                      }
+                                    ]
+                                    endPoint Solid {
+                                      name IS robot_top_ptz_camera_zoom_color_link
+                                      physics Physics {
+                                        density -1
+                                        mass 0.000010
+                                        centerOfMass [ 0.000000 0.000000 0.000000 ]
+                                        inertiaMatrix [
+                                          1.841667e-08 1.841667e-08 2.016667e-08
+                                          0.000000e+00 0.000000e+00 0.000000e+00
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ]
+                                name IS robot_top_ptz_camera_optical_frame_link
+                                physics Physics {
+                                  density -1
+                                  mass 0.100000
+                                  centerOfMass [ 0.000000 0.000000 0.000000 ]
+                                  inertiaMatrix [
+                                    1.841667e-04 1.841667e-04 2.016667e-04
+                                    0.000000e+00 0.000000e+00 0.000000e+00
+                                  ]
+                                }
+                              }
+                            ]
+                            name IS robot_top_ptz_camera_frame_link
+                            physics Physics {
+                              density -1
+                              mass 0.100000
+                              centerOfMass [ 0.000000 0.000000 0.000000 ]
+                              inertiaMatrix [
+                                1.841667e-04 1.841667e-04 2.016667e-04
+                                0.000000e+00 0.000000e+00 0.000000e+00
+                              ]
+                            }
+                          }
+                          Solid {
+                            translation 0.050000 -0.025000 0.000000
+                            rotation -1.000000 0.000000 0.000000 1.570796
+                            children [
+                              Solid {
+                                rotation -0.577350 0.577350 -0.577350 2.094395
+                                children [
+                                  SliderJoint {
+                                    jointParameters JointParameters {
+                                      axis 0.000000 0.000000 1.000000
+                                    }
+                                    device [
+                                      LinearMotor {
+                                        name "robot_top_ptz_camera_zoom_thermal_joint"
+                                        maxVelocity 5.0
+                                        maxPosition 10000.0
+                                        maxForce 10000.0
+                                      }
+                                      PositionSensor {
+                                        name "robot_top_ptz_camera_zoom_thermal_joint_sensor"
+                                      }
+                                    ]
+                                    endPoint Solid {
+                                      name IS robot_top_ptz_camera_zoom_thermal_link
+                                      physics Physics {
+                                        density -1
+                                        mass 0.000010
+                                        centerOfMass [ 0.000000 0.000000 0.000000 ]
+                                        inertiaMatrix [
+                                          1.841667e-08 1.841667e-08 2.016667e-08
+                                          0.000000e+00 0.000000e+00 0.000000e+00
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ]
+                                name IS robot_top_ptz_camera_optical_thermal_frame_link
+                                physics Physics {
+                                  density -1
+                                  mass 0.100000
+                                  centerOfMass [ 0.000000 0.000000 0.000000 ]
+                                  inertiaMatrix [
+                                    1.841667e-04 1.841667e-04 2.016667e-04
+                                    0.000000e+00 0.000000e+00 0.000000e+00
+                                  ]
+                                }
+                              }
+                            ]
+                            name IS robot_top_ptz_camera_thermal_frame_link
+                            physics Physics {
+                              density -1
+                              mass 0.100000
+                              centerOfMass [ 0.000000 0.000000 0.000000 ]
+                              inertiaMatrix [
+                                1.841667e-04 1.841667e-04 2.016667e-04
+                                0.000000e+00 0.000000e+00 0.000000e+00
+                              ]
+                            }
+                          }
+                        ]
+                        name IS robot_top_ptz_camera_tilt_link
+                        boundingObject Pose {
+                          rotation 1.000000 0.000000 0.000000 1.570796
+                          children [
+                            USE link_750_tilt
+                          ]
+                        }
+                        physics Physics {
+                          density -1
+                          mass 0.100000
+                          centerOfMass [ 0.000000 0.000000 0.000000 ]
+                          inertiaMatrix [
+                            1.841667e-04 1.841667e-04 2.016667e-04
+                            0.000000e+00 0.000000e+00 0.000000e+00
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                  name IS robot_top_ptz_camera_pan_link
+                  boundingObject USE link_750_pan
+                  physics Physics {
+                    density -1
+                    mass 0.100000
+                    centerOfMass [ 0.000000 0.000000 0.000000 ]
+                    inertiaMatrix [
+                      2.016667e-04 1.841667e-04 1.841667e-04
+                      0.000000e+00 0.000000e+00 0.000000e+00
+                    ]
+                  }
+                }
+              }
+            ]
+            name IS robot_top_ptz_camera_base_link
+            physics Physics {
+              density -1
+              mass 0.800000
+              centerOfMass [ 0.066000 0.000000 0.000000 ]
+              inertiaMatrix [
+                2.976600e-03 2.976600e-03 3.630000e-03
+                0.000000e+00 0.000000e+00 0.000000e+00
+              ]
+            }
+          }
+        ]
+        name IS robot_base_link
+        boundingObject USE rbwatcher_body
+        physics Physics {
+          density -1
+          mass 50.000000
+          centerOfMass [ 0.000000 0.000000 0.000000]
+          selfCollision IS selfCollision
+          inertiaMatrix [
+            1.391000e+00 6.853000e+00 6.125000e+00
+            4.000000e-03 0.000000e+00 0.000000e+00
+          ]
+        }
+      }
+    ]
+    name IS name
+  }
+}

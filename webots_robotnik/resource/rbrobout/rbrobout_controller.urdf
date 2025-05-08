@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<robot name="Rbrobout">
+    <webots>
+        <plugin type="webots_robotnik.my_robot_driver.MyRobotDriver" />
+    </webots>
+</robot>

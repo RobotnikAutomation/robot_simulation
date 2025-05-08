@@ -1,0 +1,84 @@
+# bridge_params.yaml
+- gz_topic_name: "imu/data"
+  ros_type_name: "sensor_msgs/msg/Imu"
+  gz_type_name: "ignition.msgs.IMU"
+  direction: "GZ_TO_ROS"
+  
+
+
+#- ros_topic_name: "/robot/top_3d_laser/scan"
+ # gz_topic_name: "/robot/top_3d_laser/scan"
+  #ros_type_name: "sensor_msgs/msg/LaserScan"
+  #gz_type_name: "ignition.msgs.LaserScan"
+  #direction: "GZ_TO_ROS"
+  
+- gz_topic_name: "top_3d_laser/scan/points"
+  ros_type_name: "sensor_msgs/msg/PointCloud2"
+  gz_type_name: "ignition.msgs.PointCloudPacked"
+  direction: "GZ_TO_ROS"
+  
+- gz_topic_name: "/clock"
+  ros_type_name: "rosgraph_msgs/msg/Clock"
+  gz_type_name: "ignition.msgs.Clock"
+  direction: "GZ_TO_ROS"
+  
+- gz_topic_name: "ublox/data"
+  ros_type_name: "sensor_msgs/msg/NavSatFix"
+  gz_type_name: "ignition.msgs.NavSat"
+  direction: "GZ_TO_ROS"
+
+
+
+- gz_topic_name: "front_camera_color/color/camera_info"
+  ros_type_name: "sensor_msgs/msg/CameraInfo"
+  gz_type_name: "ignition.msgs.CameraInfo"
+  direction: "GZ_TO_ROS"
+
+- gz_topic_name: "front_camera_color/color/image_raw"
+  ros_type_name: "sensor_msgs/msg/Image"
+  gz_type_name: "gz.msgs.Image"
+  direction: "GZ_TO_ROS"
+
+#- ros_topic_name: "/robot/front_camera_depth/depth/image_raw/points"
+ # gz_topic_name: "/robot/front_camera_depth/depth/image_raw/points"
+ # ros_type_name: "sensor_msgs/msg/PointCloud2"
+ # gz_type_name: "ignition.msgs.PointCloudPacked"
+ # direction: "GZ_TO_ROS"
+  
+- gz_topic_name: "rear_camera_color/color/camera_info"
+  ros_type_name: "sensor_msgs/msg/CameraInfo"
+  gz_type_name: "ignition.msgs.CameraInfo"
+  direction: "GZ_TO_ROS"
+
+- gz_topic_name: "rear_camera_color/color/image_raw"
+  ros_type_name: "sensor_msgs/msg/Image"
+  gz_type_name: "gz.msgs.Image"
+  direction: "GZ_TO_ROS"
+
+#- ros_topic_name: "/robot/rear_camera_depth/depth/image_raw/points"
+ # gz_topic_name: "/robot/rear_camera_depth/depth/image_raw/points"
+ # ros_type_name: "sensor_msgs/msg/PointCloud2"
+ # gz_type_name: "ignition.msgs.PointCloudPacked"
+ # direction: "GZ_TO_ROS"
+  
+- gz_topic_name: "top_ptz_camera/color/camera_info"
+  ros_type_name: "sensor_msgs/msg/CameraInfo"
+  gz_type_name: "ignition.msgs.CameraInfo"
+  direction: "GZ_TO_ROS"
+
+- gz_topic_name: "top_ptz_camera/color/image_raw"
+  ros_type_name: "sensor_msgs/msg/Image"
+  gz_type_name: "gz.msgs.Image"
+  direction: "GZ_TO_ROS"
+  
+- gz_topic_name: "top_ptz_camera/thermal/camera_info"
+  ros_type_name: "sensor_msgs/msg/CameraInfo"
+  gz_type_name: "ignition.msgs.CameraInfo"
+  direction: "GZ_TO_ROS"
+
+- gz_topic_name: "top_ptz_camera/thermal/image_raw"
+  ros_type_name: "sensor_msgs/msg/Image"
+  gz_type_name: "gz.msgs.Image"
+  direction: "GZ_TO_ROS"
+  
+

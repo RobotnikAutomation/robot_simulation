@@ -42,23 +42,34 @@ def generate_launch_description():
     world = LaunchConfiguration('world')
 
     arg = ExtendedArgument(
+        name='namespace',
+        description='Namespace',
+        default_value='robot',
+        use_env=True,
+        environment='NAMESPACE',
+    )
+    add_to_launcher.add_arg(arg)
+
+    arg = ExtendedArgument(
         name='world',
         description='world in gazebo classic',
-        default_value='demo.sdf.world',
+        default_value='demo',
     )
     add_to_launcher.add_arg(arg)
 
     arg = ExtendedArgument(
         name='world_path',
         description='world path in gazebo classic',
-        default_value=[FindPackageShare('robotnik_gazebo_ignition'), '/worlds/', world],
+        default_value=[FindPackageShare('robotnik_gazebo_ignition'), '/worlds/ignition/', world, '.sdf.world'],
     )
     add_to_launcher.add_arg(arg)
 
     params = add_to_launcher.process_arg()
+    
 
     gazebo_ignition_launch_group = GroupAction(
         actions=[
+            PushRosNamespace(namespace=params['namespace']),
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(
                     os.path.join(
@@ -76,7 +87,6 @@ def generate_launch_description():
                         '-s ',
                         #'-v4 ', #verbose level
                         params['world_path']
-                        # 'empty.sdf'
                     ], 
                     'on_exit_shutdown':'true'
                 }.items(),
@@ -101,8 +111,20 @@ def generate_launch_description():
             )
         ]
     )
-
+    
     ld.add_action(gazebo_ignition_launch_group)
+    
+    imuclock_gz_bridge = Node(
+            package='ros_gz_bridge',
+            executable='parameter_bridge',
+            name='ros_gz_clock_bridge',
+            namespace=params['namespace'],
+            output='screen',
+            arguments=[
+            '/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock'],
+        )
+    
+    ld.add_action(imuclock_gz_bridge)
 
     return ld
 
