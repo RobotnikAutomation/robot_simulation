@@ -1,0 +1,27 @@
+{
+    "values": [
+        {
+            "$type": "{41DCBEAB-203C-4A05-96FA-98E1D8A96FA1} ImportGroup"
+        },
+        {
+            "$type": "{07B356B7-3635-40B5-878A-FAC4EFD5AD86} MeshGroup",
+            "name": "sick_microscan3",
+            "nodeSelectionList": {
+                "selectedNodes": [
+                    "VisualSceneNode",
+                    "VisualSceneNode.node",
+                    "VisualSceneNode.node.DefaultMaterial",
+                    "VisualSceneNode.node.transform"
+                ]
+            },
+            "rules": {
+                "rules": [
+                    {
+                        "$type": "UVsRule"
+                    }
+                ]
+            },
+            "id": "{497E1006-8032-4A6F-AC8C-D552C5F10731}"
+        }
+    ]
+}

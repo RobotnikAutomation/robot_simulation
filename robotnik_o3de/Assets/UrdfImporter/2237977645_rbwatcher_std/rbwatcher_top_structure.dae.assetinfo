@@ -1,0 +1,27 @@
+{
+    "values": [
+        {
+            "$type": "{41DCBEAB-203C-4A05-96FA-98E1D8A96FA1} ImportGroup"
+        },
+        {
+            "$type": "{07B356B7-3635-40B5-878A-FAC4EFD5AD86} MeshGroup",
+            "name": "rbwatcher_top_structure",
+            "nodeSelectionList": {
+                "selectedNodes": [
+                    "VisualSceneNode",
+                    "VisualSceneNode.node",
+                    "VisualSceneNode.node.DefaultMaterial",
+                    "VisualSceneNode.node.transform"
+                ]
+            },
+            "rules": {
+                "rules": [
+                    {
+                        "$type": "UVsRule"
+                    }
+                ]
+            },
+            "id": "{43A50622-5614-4C07-9F87-84A888AEC159}"
+        }
+    ]
+}

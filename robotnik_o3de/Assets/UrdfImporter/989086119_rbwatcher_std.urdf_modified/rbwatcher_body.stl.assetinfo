@@ -1,0 +1,29 @@
+{
+    "values": [
+        {
+            "$type": "{41DCBEAB-203C-4A05-96FA-98E1D8A96FA1} ImportGroup"
+        },
+        {
+            "$type": "{5B03C8E6-8CEE-4DA0-A7FA-CD88689DD45B} MeshGroup",
+            "id": "{66DFDF0B-420E-4B50-BC72-A1AB248B8AB8}",
+            "name": "rbwatcher_body",
+            "NodeSelectionList": {
+                "selectedNodes": [
+                    "<STL_BINARY>",
+                    "<STL_BINARY>.unnamed",
+                    "<STL_BINARY>.unnamed.DefaultMaterial",
+                    "<STL_BINARY>.unnamed.transform"
+                ]
+            },
+            "export method": 1,
+            "DecomposeMeshes": true,
+            "PhysicsMaterialSlots": {
+                "Slots": [
+                    {
+                        "Name": "DefaultMaterial"
+                    }
+                ]
+            }
+        }
+    ]
+}

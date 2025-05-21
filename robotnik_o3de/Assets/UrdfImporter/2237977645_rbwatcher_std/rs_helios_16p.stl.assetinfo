@@ -1,0 +1,28 @@
+{
+    "values": [
+        {
+            "$type": "{41DCBEAB-203C-4A05-96FA-98E1D8A96FA1} ImportGroup"
+        },
+        {
+            "$type": "{07B356B7-3635-40B5-878A-FAC4EFD5AD86} MeshGroup",
+            "name": "rs_helios_16p",
+            "nodeSelectionList": {
+                "selectedNodes": [
+                    "<STL_BINARY>",
+                    "<STL_BINARY>.unnamed",
+                    "<STL_BINARY>.unnamed.Col0",
+                    "<STL_BINARY>.unnamed.DefaultMaterial",
+                    "<STL_BINARY>.unnamed.transform"
+                ]
+            },
+            "rules": {
+                "rules": [
+                    {
+                        "$type": "UVsRule"
+                    }
+                ]
+            },
+            "id": "{FAEFD561-7B5F-404F-9512-CFB16B41F713}"
+        }
+    ]
+}

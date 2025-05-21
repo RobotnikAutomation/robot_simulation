@@ -1,0 +1,456 @@
+Panels:
+  - Class: rviz_common/Displays
+    Help Height: 78
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Global Options1
+        - /Status1
+        - /PointCloud21
+        - /PointCloud21/Status1
+        - /PointCloud21/Topic1
+        - /TF1
+        - /TF1/Frames1
+        - /TF1/Tree1
+        - /topcamera1
+        - /topcamera1/Topic1
+        - /depthfrontcamera1
+        - /depthfrontcamera1/Topic1
+        - /frontcamera1
+        - /frontcamera1/Topic1
+      Splitter Ratio: 0.5
+    Tree Height: 240
+  - Class: rviz_common/Selection
+    Name: Selection
+  - Class: rviz_common/Tool Properties
+    Expanded:
+      - /2D Goal Pose1
+      - /Publish Point1
+    Name: Tool Properties
+    Splitter Ratio: 0.5886790156364441
+  - Class: rviz_common/Views
+    Expanded:
+      - /Current View1
+    Name: Views
+    Splitter Ratio: 0.5
+  - Class: rviz_common/Time
+    Experimental: false
+    Name: Time
+    SyncMode: 0
+    SyncSource: PointCloud2
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 0.5
+      Cell Size: 1
+      Class: rviz_default_plugins/Grid
+      Color: 160; 160; 164
+      Enabled: true
+      Line Style:
+        Line Width: 0.029999999329447746
+        Value: Lines
+      Name: Grid
+      Normal Cell Count: 0
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Plane: XY
+      Plane Cell Count: 10
+      Reference Frame: <Fixed Frame>
+      Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 6.4197998046875
+        Min Value: -5.285618782043457
+        Value: true
+      Axis: Z
+      Channel Name: z
+      Class: rviz_default_plugins/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: Intensity
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 6.812288284301758
+      Min Color: 0; 0; 0
+      Min Intensity: -0.5495924949645996
+      Name: PointCloud2
+      Position Transformer: XYZ
+      Selectable: false
+      Size (Pixels): 1
+      Size (m): 0.05000000074505806
+      Style: Points
+      Topic:
+        Depth: 1
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /robot_base_footprint/robot_antenna_base_link/robot_top_3d_laser_base_link/robot_top_3d_laser_link/robot_top_3d_laser_sensor_sensor/rb_watcher_LIDAR_3D
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+    - Class: rviz_default_plugins/TF
+      Enabled: true
+      Filter (blacklist): ""
+      Filter (whitelist): ""
+      Frame Timeout: 15
+      Frames:
+        All Enabled: false
+        rbrobout_base_footprint//rbrobout_front_rgbd_camera_color_optical_frame:
+          Value: false
+        rbrobout_base_footprint//rbrobout_rear_laser_link:
+          Value: false
+        rbrobout_base_footprint//rbrobout_rear_rgbd_camera_color_optical_frame:
+          Value: false
+        rbrobout_base_footprint/odom:
+          Value: false
+        rbrobout_base_footprint/rbrobout_back_left_wheel_link:
+          Value: false
+        rbrobout_base_footprint/rbrobout_back_right_wheel_link:
+          Value: false
+        rbrobout_base_footprint/rbrobout_base_footprint:
+          Value: false
+        rbrobout_base_footprint/rbrobout_base_link:
+          Value: false
+        rbrobout_base_footprint/rbrobout_front_laser_base_link:
+          Value: false
+        rbrobout_base_footprint/rbrobout_front_laser_link:
+          Value: true
+        rbrobout_base_footprint/rbrobout_front_left_wheel_link:
+          Value: false
+        rbrobout_base_footprint/rbrobout_front_rgbd_camera_base_link:
+          Value: false
+        rbrobout_base_footprint/rbrobout_front_rgbd_camera_color_frame:
+          Value: false
+        rbrobout_base_footprint/rbrobout_front_rgbd_camera_color_optical_frame:
+          Value: false
+        rbrobout_base_footprint/rbrobout_front_rgbd_camera_depth_frame:
+          Value: false
+        rbrobout_base_footprint/rbrobout_front_rgbd_camera_depth_optical_frame:
+          Value: false
+        rbrobout_base_footprint/rbrobout_front_rgbd_camera_infra1_frame:
+          Value: false
+        rbrobout_base_footprint/rbrobout_front_rgbd_camera_infra1_optical_frame:
+          Value: false
+        rbrobout_base_footprint/rbrobout_front_rgbd_camera_infra2_frame:
+          Value: false
+        rbrobout_base_footprint/rbrobout_front_rgbd_camera_infra2_optical_frame:
+          Value: false
+        rbrobout_base_footprint/rbrobout_front_rgbd_camera_link:
+          Value: true
+        rbrobout_base_footprint/rbrobout_front_right_wheel_link:
+          Value: false
+        rbrobout_base_footprint/rbrobout_imu_imu_sensor_sensor:
+          Value: true
+        rbrobout_base_footprint/rbrobout_imu_link:
+          Value: false
+        rbrobout_base_footprint/rbrobout_rear_laser_base_link:
+          Value: false
+        rbrobout_base_footprint/rbrobout_rear_laser_link:
+          Value: true
+        rbrobout_base_footprint/rbrobout_rear_rgbd_camera_base_link:
+          Value: false
+        rbrobout_base_footprint/rbrobout_rear_rgbd_camera_color_frame:
+          Value: false
+        rbrobout_base_footprint/rbrobout_rear_rgbd_camera_color_optical_frame:
+          Value: false
+        rbrobout_base_footprint/rbrobout_rear_rgbd_camera_depth_frame:
+          Value: false
+        rbrobout_base_footprint/rbrobout_rear_rgbd_camera_depth_optical_frame:
+          Value: false
+        rbrobout_base_footprint/rbrobout_rear_rgbd_camera_infra1_frame:
+          Value: false
+        rbrobout_base_footprint/rbrobout_rear_rgbd_camera_infra1_optical_frame:
+          Value: false
+        rbrobout_base_footprint/rbrobout_rear_rgbd_camera_infra2_frame:
+          Value: false
+        rbrobout_base_footprint/rbrobout_rear_rgbd_camera_infra2_optical_frame:
+          Value: false
+        rbrobout_base_footprint/rbrobout_rear_rgbd_camera_link:
+          Value: true
+        rbrobout_base_footprint/sensor_frame:
+          Value: false
+        robot_base_footprint/odom:
+          Value: false
+        robot_base_footprint/robot_antenna_base_link/robot_antenna_base_link:
+          Value: true
+        robot_base_footprint/robot_antenna_base_link/robot_top_3d_laser_base_link/robot_top_3d_laser_base_link:
+          Value: true
+        robot_base_footprint/robot_antenna_base_link/robot_top_3d_laser_base_link/robot_top_3d_laser_link/robot_top_3d_laser_link:
+          Value: true
+        robot_base_footprint/robot_antenna_base_link/robot_top_3d_laser_base_link/robot_top_3d_laser_link/robot_top_3d_laser_sensor_sensor/robot_top_3d_laser_sensor:
+          Value: true
+        robot_base_footprint/robot_back_left_wheel/robot_back_left_wheel:
+          Value: true
+        robot_base_footprint/robot_back_right_wheel/robot_back_right_wheel:
+          Value: true
+        robot_base_footprint/robot_base_docking_contact_link/robot_base_docking_contact_link:
+          Value: true
+        robot_base_footprint/robot_base_footprint:
+          Value: false
+        robot_base_footprint/robot_base_link:
+          Value: true
+        robot_base_footprint/robot_front_left_wheel/robot_front_left_wheel:
+          Value: true
+        robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_base_link:
+          Value: true
+        robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_camera_color_frame/robot_front_rgbd_camera_color_frame:
+          Value: true
+        robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_camera_color_frame/robot_front_rgbd_camera_color_optical_frame/robot_front_rgbd_camera_color_optical_frame:
+          Value: true
+        robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_camera_depth_frame/robot_front_rgbd_camera_depth_frame:
+          Value: true
+        robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_camera_depth_frame/robot_front_rgbd_camera_depth_optical_frame/robot_front_rgbd_camera_depth_optical_frame:
+          Value: true
+        robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_camera_infra1_frame/robot_front_rgbd_camera_infra1_frame:
+          Value: true
+        robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_camera_infra1_frame/robot_front_rgbd_camera_infra1_optical_frame/robot_front_rgbd_camera_infra1_optical_frame:
+          Value: true
+        robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_camera_infra2_frame/robot_front_rgbd_camera_infra2_frame:
+          Value: true
+        robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_camera_infra2_frame/robot_front_rgbd_camera_infra2_optical_frame:
+          Value: true
+        robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_camera_link:
+          Value: true
+        robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_cameracolor_sensor//robot_front_rgbd_camera_color_optical_frame:
+          Value: true
+        robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_cameradepth_sensor/sensor_frame:
+          Value: true
+        robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_cameraired1_sensor/sensor_frame:
+          Value: true
+        robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_cameraired2_sensor/sensor_frame:
+          Value: true
+        robot_base_footprint/robot_front_right_wheel/robot_front_right_wheel:
+          Value: true
+        robot_base_footprint/robot_gps_base_link:
+          Value: true
+        robot_base_footprint/robot_gps_link:
+          Value: true
+        robot_base_footprint/robot_imu_link/robot_imu_link:
+          Value: true
+        robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_base_link:
+          Value: true
+        robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_pan_link/robot_top_ptz_camera_pan_link:
+          Value: true
+        robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_pan_link/robot_top_ptz_camera_tilt_link/robot_top_ptz_camera_frame_link/robot_top_ptz_camera_frame_link:
+          Value: true
+        robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_pan_link/robot_top_ptz_camera_tilt_link/robot_top_ptz_camera_frame_link/robot_top_ptz_camera_optical_frame_link/robot_top_ptz_camera_optical_frame_link:
+          Value: true
+        robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_pan_link/robot_top_ptz_camera_tilt_link/robot_top_ptz_camera_frame_link/robot_top_ptz_camera_optical_frame_link/robot_top_ptz_camera_zoom_color_link/robot_top_ptz_camera_zoom_color_link:
+          Value: true
+        robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_pan_link/robot_top_ptz_camera_tilt_link/robot_top_ptz_camera_frame_link/robot_top_ptz_camera_sensor_sensor/robot_top_ptz_camera_optical_frame_link:
+          Value: true
+        robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_pan_link/robot_top_ptz_camera_tilt_link/robot_top_ptz_camera_frame_link/thermal_robot_top_ptz_camera_sensor_sensor/robot_top_ptz_camera_thermal_frame_link:
+          Value: true
+        robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_pan_link/robot_top_ptz_camera_tilt_link/robot_top_ptz_camera_thermal_frame_link/robot_top_ptz_camera_thermal_frame_link:
+          Value: true
+        robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_pan_link/robot_top_ptz_camera_tilt_link/robot_top_ptz_camera_thermal_frame_link/robot_top_ptz_camera_zoom_thermal_link/robot_top_ptz_camera_zoom_thermal_link:
+          Value: true
+        robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_pan_link/robot_top_ptz_camera_tilt_link/robot_top_ptz_camera_tilt_link:
+          Value: true
+        robot_base_footprint/robot_top_structure_link/robot_top_structure_link:
+          Value: true
+      Marker Scale: 1
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: false
+      Tree:
+        robot_base_footprint/odom:
+          robot_base_footprint/robot_base_footprint:
+            robot_base_footprint/robot_base_link:
+              robot_base_footprint/robot_antenna_base_link/robot_antenna_base_link:
+                robot_base_footprint/robot_antenna_base_link/robot_top_3d_laser_base_link/robot_top_3d_laser_base_link:
+                  robot_base_footprint/robot_antenna_base_link/robot_top_3d_laser_base_link/robot_top_3d_laser_link/robot_top_3d_laser_link:
+                    robot_base_footprint/robot_antenna_base_link/robot_top_3d_laser_base_link/robot_top_3d_laser_link/robot_top_3d_laser_sensor_sensor/robot_top_3d_laser_sensor:
+                      {}
+              robot_base_footprint/robot_back_left_wheel/robot_back_left_wheel:
+                {}
+              robot_base_footprint/robot_back_right_wheel/robot_back_right_wheel:
+                {}
+              robot_base_footprint/robot_base_docking_contact_link/robot_base_docking_contact_link:
+                {}
+              robot_base_footprint/robot_front_left_wheel/robot_front_left_wheel:
+                {}
+              robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_base_link:
+                robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_camera_link:
+                  robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_camera_color_frame/robot_front_rgbd_camera_color_frame:
+                    robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_camera_color_frame/robot_front_rgbd_camera_color_optical_frame/robot_front_rgbd_camera_color_optical_frame:
+                      {}
+                  robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_camera_depth_frame/robot_front_rgbd_camera_depth_frame:
+                    robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_camera_depth_frame/robot_front_rgbd_camera_depth_optical_frame/robot_front_rgbd_camera_depth_optical_frame:
+                      {}
+                  robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_camera_infra1_frame/robot_front_rgbd_camera_infra1_frame:
+                    robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_camera_infra1_frame/robot_front_rgbd_camera_infra1_optical_frame/robot_front_rgbd_camera_infra1_optical_frame:
+                      {}
+                  robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_camera_infra2_frame/robot_front_rgbd_camera_infra2_frame:
+                    robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_camera_infra2_frame/robot_front_rgbd_camera_infra2_optical_frame:
+                      {}
+                  robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_cameracolor_sensor//robot_front_rgbd_camera_color_optical_frame:
+                    {}
+                  robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_cameradepth_sensor/sensor_frame:
+                    {}
+                  robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_cameraired1_sensor/sensor_frame:
+                    {}
+                  robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_cameraired2_sensor/sensor_frame:
+                    {}
+              robot_base_footprint/robot_front_right_wheel/robot_front_right_wheel:
+                {}
+              robot_base_footprint/robot_gps_base_link:
+                robot_base_footprint/robot_gps_link:
+                  {}
+              robot_base_footprint/robot_imu_link/robot_imu_link:
+                {}
+              robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_base_link:
+                robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_pan_link/robot_top_ptz_camera_pan_link:
+                  robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_pan_link/robot_top_ptz_camera_tilt_link/robot_top_ptz_camera_tilt_link:
+                    robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_pan_link/robot_top_ptz_camera_tilt_link/robot_top_ptz_camera_frame_link/robot_top_ptz_camera_frame_link:
+                      robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_pan_link/robot_top_ptz_camera_tilt_link/robot_top_ptz_camera_frame_link/robot_top_ptz_camera_optical_frame_link/robot_top_ptz_camera_optical_frame_link:
+                        robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_pan_link/robot_top_ptz_camera_tilt_link/robot_top_ptz_camera_frame_link/robot_top_ptz_camera_optical_frame_link/robot_top_ptz_camera_zoom_color_link/robot_top_ptz_camera_zoom_color_link:
+                          {}
+                      robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_pan_link/robot_top_ptz_camera_tilt_link/robot_top_ptz_camera_frame_link/robot_top_ptz_camera_sensor_sensor/robot_top_ptz_camera_optical_frame_link:
+                        {}
+                      robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_pan_link/robot_top_ptz_camera_tilt_link/robot_top_ptz_camera_frame_link/thermal_robot_top_ptz_camera_sensor_sensor/robot_top_ptz_camera_thermal_frame_link:
+                        {}
+                    robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_pan_link/robot_top_ptz_camera_tilt_link/robot_top_ptz_camera_thermal_frame_link/robot_top_ptz_camera_thermal_frame_link:
+                      robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_pan_link/robot_top_ptz_camera_tilt_link/robot_top_ptz_camera_thermal_frame_link/robot_top_ptz_camera_zoom_thermal_link/robot_top_ptz_camera_zoom_thermal_link:
+                        {}
+              robot_base_footprint/robot_top_structure_link/robot_top_structure_link:
+                {}
+      Update Interval: 0
+      Value: true
+    - Class: rviz_default_plugins/Image
+      Enabled: true
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: topcamera
+      Normalize Range: true
+      Topic:
+        Depth: 5
+        Durability Policy: System Default
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_pan_link/robot_top_ptz_camera_tilt_link/robot_top_ptz_camera_frame_link/robot_top_ptz_camera_sensor_sensor/rb_watcher_top_camera
+      Value: true
+    - Class: rviz_default_plugins/Image
+      Enabled: true
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: depthfrontcamera
+      Normalize Range: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_cameradepth_sensor/camera_image_depth
+      Value: true
+    - Class: rviz_default_plugins/Image
+      Enabled: true
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: frontcamera
+      Normalize Range: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_cameracolor_sensor/rb_watcher_front_camera_color
+      Value: true
+  Enabled: true
+  Global Options:
+    Background Color: 48; 48; 48
+    Fixed Frame: robot_base_footprint/robot_antenna_base_link/robot_top_3d_laser_base_link/robot_top_3d_laser_base_link
+    Frame Rate: 20
+  Name: root
+  Tools:
+    - Class: rviz_default_plugins/Interact
+      Hide Inactive Objects: true
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+    - Class: rviz_default_plugins/FocusCamera
+    - Class: rviz_default_plugins/Measure
+      Line color: 128; 128; 0
+    - Class: rviz_default_plugins/SetInitialPose
+      Covariance x: 0.25
+      Covariance y: 0.25
+      Covariance yaw: 0.06853891909122467
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /initialpose
+    - Class: rviz_default_plugins/SetGoal
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /goal_pose
+    - Class: rviz_default_plugins/PublishPoint
+      Single click: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /clicked_point
+  Transformation:
+    Current:
+      Class: rviz_default_plugins/TF
+  Value: true
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 23.48159408569336
+      Enable Stereo Rendering:
+        Stereo Eye Separation: 0.05999999865889549
+        Stereo Focal Distance: 1
+        Swap Stereo Eyes: false
+        Value: false
+      Focal Point:
+        X: 1.7596180438995361
+        Y: -0.6355442404747009
+        Z: -0.574065625667572
+      Focal Shape Fixed Size: true
+      Focal Shape Size: 0.05000000074505806
+      Invert Z Axis: false
+      Name: Current View
+      Near Clip Distance: 0.009999999776482582
+      Pitch: 0.9447970390319824
+      Target Frame: <Fixed Frame>
+      Value: Orbit (rviz)
+      Yaw: 4.070457935333252
+    Saved: ~
+Window Geometry:
+  Displays:
+    collapsed: false
+  Height: 1011
+  Hide Left Dock: false
+  Hide Right Dock: false
+  QMainWindow State: 000000ff00000000fd0000000400000000000002b100000355fc020000000bfb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003d0000017b000000c900fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb000000120074006f007000630061006d00650072006101000001be000000980000001600fffffffb0000001600660072006f006e007400630061006d006500720061010000025c000000ac0000001600fffffffb000000200064006500700074006800660072006f006e007400630061006d006500720061010000030e000000840000001600ffffff000000010000010000000355fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073010000003d00000355000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000006940000003efc0100000002fb0000000800540069006d00650100000000000006940000026f00fffffffb0000000800540069006d00650100000000000004500000000000000000000002d70000035500000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Selection:
+    collapsed: false
+  Time:
+    collapsed: false
+  Tool Properties:
+    collapsed: false
+  Views:
+    collapsed: false
+  Width: 1684
+  X: 66
+  Y: 32
+  depthfrontcamera:
+    collapsed: false
+  frontcamera:
+    collapsed: false
+  topcamera:
+    collapsed: false

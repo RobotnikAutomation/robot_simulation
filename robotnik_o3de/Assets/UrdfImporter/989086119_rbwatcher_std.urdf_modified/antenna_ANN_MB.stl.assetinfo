@@ -1,0 +1,28 @@
+{
+    "values": [
+        {
+            "$type": "{41DCBEAB-203C-4A05-96FA-98E1D8A96FA1} ImportGroup"
+        },
+        {
+            "$type": "{07B356B7-3635-40B5-878A-FAC4EFD5AD86} MeshGroup",
+            "name": "antenna_ANN_MB",
+            "nodeSelectionList": {
+                "selectedNodes": [
+                    "<STL_BINARY>",
+                    "<STL_BINARY>.unnamed",
+                    "<STL_BINARY>.unnamed.Col0",
+                    "<STL_BINARY>.unnamed.DefaultMaterial",
+                    "<STL_BINARY>.unnamed.transform"
+                ]
+            },
+            "rules": {
+                "rules": [
+                    {
+                        "$type": "UVsRule"
+                    }
+                ]
+            },
+            "id": "{51FEE71C-FA62-4D71-9F98-7C1FAF24BBDC}"
+        }
+    ]
+}

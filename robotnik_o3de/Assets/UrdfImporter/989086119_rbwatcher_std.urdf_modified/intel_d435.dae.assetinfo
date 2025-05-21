@@ -1,0 +1,29 @@
+{
+    "values": [
+        {
+            "$type": "{41DCBEAB-203C-4A05-96FA-98E1D8A96FA1} ImportGroup"
+        },
+        {
+            "$type": "{07B356B7-3635-40B5-878A-FAC4EFD5AD86} MeshGroup",
+            "name": "intel_d435",
+            "nodeSelectionList": {
+                "selectedNodes": [
+                    "MeshMixerScene",
+                    "MeshMixerScene.Model",
+                    "MeshMixerScene.Model.mesh1",
+                    "MeshMixerScene.Model.mesh1.Col0",
+                    "MeshMixerScene.Model.mesh1.DefaultMaterial",
+                    "MeshMixerScene.Model.mesh1.transform"
+                ]
+            },
+            "rules": {
+                "rules": [
+                    {
+                        "$type": "UVsRule"
+                    }
+                ]
+            },
+            "id": "{4EA5EE58-1D9C-4AD2-8827-FCAE8842567D}"
+        }
+    ]
+}

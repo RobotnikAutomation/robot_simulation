@@ -1,0 +1,28 @@
+{
+    "values": [
+        {
+            "$type": "{41DCBEAB-203C-4A05-96FA-98E1D8A96FA1} ImportGroup"
+        },
+        {
+            "$type": "{07B356B7-3635-40B5-878A-FAC4EFD5AD86} MeshGroup",
+            "name": "rubber_wheel_v2_right",
+            "nodeSelectionList": {
+                "selectedNodes": [
+                    "VisualSceneNode",
+                    "VisualSceneNode.node",
+                    "VisualSceneNode.node.Col0",
+                    "VisualSceneNode.node.DefaultMaterial",
+                    "VisualSceneNode.node.transform"
+                ]
+            },
+            "rules": {
+                "rules": [
+                    {
+                        "$type": "UVsRule"
+                    }
+                ]
+            },
+            "id": "{283A276F-F827-4371-A2FE-D6DB6BA7434A}"
+        }
+    ]
+}

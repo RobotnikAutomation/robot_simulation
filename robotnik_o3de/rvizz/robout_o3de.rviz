@@ -1,0 +1,506 @@
+Panels:
+  - Class: rviz_common/Displays
+    Help Height: 70
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Global Options1
+        - /Status1
+        - /TF1
+        - /TF1/Frames1
+        - /TF1/Tree1
+        - /rearlaser1
+        - /rearlaser1/Status1
+        - /rearlaser1/Topic1
+        - /frontlaser1
+        - /frontlaser1/Topic1
+        - /frontdepth1
+        - /frontdepth1/Topic1
+        - /frontrgb1
+        - /frontrgb1/Status1
+        - /frontrgb1/Topic1
+        - /rearrgb1
+        - /rearrgb1/Topic1
+        - /reardepth1
+        - /reardepth1/Topic1
+      Splitter Ratio: 0.5
+    Tree Height: 70
+  - Class: rviz_common/Selection
+    Name: Selection
+  - Class: rviz_common/Tool Properties
+    Expanded:
+      - /2D Goal Pose1
+      - /Publish Point1
+    Name: Tool Properties
+    Splitter Ratio: 0.5886790156364441
+  - Class: rviz_common/Views
+    Expanded:
+      - /Current View1
+    Name: Views
+    Splitter Ratio: 0.5
+  - Class: rviz_common/Time
+    Experimental: false
+    Name: Time
+    SyncMode: 0
+    SyncSource: rearlaser
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 0.5
+      Cell Size: 1
+      Class: rviz_default_plugins/Grid
+      Color: 160; 160; 164
+      Enabled: true
+      Line Style:
+        Line Width: 0.029999999329447746
+        Value: Lines
+      Name: Grid
+      Normal Cell Count: 0
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Plane: XY
+      Plane Cell Count: 10
+      Reference Frame: <Fixed Frame>
+      Value: true
+    - Class: rviz_default_plugins/TF
+      Enabled: true
+      Filter (blacklist): ""
+      Filter (whitelist): ""
+      Frame Timeout: 15
+      Frames:
+        All Enabled: false
+        rbrobout_base_footprint//rbrobout_front_rgbd_camera_color_optical_frame:
+          Value: true
+        rbrobout_base_footprint//rbrobout_rear_laser_link:
+          Value: true
+        rbrobout_base_footprint//rbrobout_rear_rgbd_camera_color_optical_frame:
+          Value: true
+        rbrobout_base_footprint/odom:
+          Value: true
+        rbrobout_base_footprint/rbrobout_back_left_wheel_link:
+          Value: true
+        rbrobout_base_footprint/rbrobout_back_right_wheel_link:
+          Value: true
+        rbrobout_base_footprint/rbrobout_base_footprint:
+          Value: true
+        rbrobout_base_footprint/rbrobout_base_link:
+          Value: true
+        rbrobout_base_footprint/rbrobout_front_laser_base_link:
+          Value: true
+        rbrobout_base_footprint/rbrobout_front_laser_link:
+          Value: true
+        rbrobout_base_footprint/rbrobout_front_left_wheel_link:
+          Value: true
+        rbrobout_base_footprint/rbrobout_front_rgbd_camera_base_link:
+          Value: true
+        rbrobout_base_footprint/rbrobout_front_rgbd_camera_color_frame:
+          Value: true
+        rbrobout_base_footprint/rbrobout_front_rgbd_camera_color_optical_frame:
+          Value: true
+        rbrobout_base_footprint/rbrobout_front_rgbd_camera_depth_frame:
+          Value: true
+        rbrobout_base_footprint/rbrobout_front_rgbd_camera_depth_optical_frame:
+          Value: true
+        rbrobout_base_footprint/rbrobout_front_rgbd_camera_infra1_frame:
+          Value: true
+        rbrobout_base_footprint/rbrobout_front_rgbd_camera_infra1_optical_frame:
+          Value: true
+        rbrobout_base_footprint/rbrobout_front_rgbd_camera_infra2_frame:
+          Value: true
+        rbrobout_base_footprint/rbrobout_front_rgbd_camera_infra2_optical_frame:
+          Value: true
+        rbrobout_base_footprint/rbrobout_front_rgbd_camera_link:
+          Value: true
+        rbrobout_base_footprint/rbrobout_front_right_wheel_link:
+          Value: true
+        rbrobout_base_footprint/rbrobout_imu_imu_sensor_sensor:
+          Value: true
+        rbrobout_base_footprint/rbrobout_imu_link:
+          Value: true
+        rbrobout_base_footprint/rbrobout_rear_laser_base_link:
+          Value: true
+        rbrobout_base_footprint/rbrobout_rear_laser_link:
+          Value: true
+        rbrobout_base_footprint/rbrobout_rear_rgbd_camera_base_link:
+          Value: true
+        rbrobout_base_footprint/rbrobout_rear_rgbd_camera_color_frame:
+          Value: true
+        rbrobout_base_footprint/rbrobout_rear_rgbd_camera_color_optical_frame:
+          Value: true
+        rbrobout_base_footprint/rbrobout_rear_rgbd_camera_depth_frame:
+          Value: true
+        rbrobout_base_footprint/rbrobout_rear_rgbd_camera_depth_optical_frame:
+          Value: true
+        rbrobout_base_footprint/rbrobout_rear_rgbd_camera_infra1_frame:
+          Value: true
+        rbrobout_base_footprint/rbrobout_rear_rgbd_camera_infra1_optical_frame:
+          Value: true
+        rbrobout_base_footprint/rbrobout_rear_rgbd_camera_infra2_frame:
+          Value: true
+        rbrobout_base_footprint/rbrobout_rear_rgbd_camera_infra2_optical_frame:
+          Value: true
+        rbrobout_base_footprint/rbrobout_rear_rgbd_camera_link:
+          Value: true
+        rbrobout_base_footprint/sensor_frame:
+          Value: true
+        robot_base_footprint/odom:
+          Value: true
+        robot_base_footprint/robot_antenna_base_link/robot_antenna_base_link:
+          Value: true
+        robot_base_footprint/robot_antenna_base_link/robot_top_3d_laser_base_link/robot_top_3d_laser_base_link:
+          Value: true
+        robot_base_footprint/robot_antenna_base_link/robot_top_3d_laser_base_link/robot_top_3d_laser_link/robot_top_3d_laser_link:
+          Value: true
+        robot_base_footprint/robot_antenna_base_link/robot_top_3d_laser_base_link/robot_top_3d_laser_link/robot_top_3d_laser_sensor_sensor/robot_top_3d_laser_sensor:
+          Value: true
+        robot_base_footprint/robot_back_left_wheel/robot_back_left_wheel:
+          Value: true
+        robot_base_footprint/robot_back_right_wheel/robot_back_right_wheel:
+          Value: true
+        robot_base_footprint/robot_base_docking_contact_link/robot_base_docking_contact_link:
+          Value: true
+        robot_base_footprint/robot_base_footprint:
+          Value: true
+        robot_base_footprint/robot_base_link:
+          Value: true
+        robot_base_footprint/robot_front_left_wheel/robot_front_left_wheel:
+          Value: true
+        robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_base_link:
+          Value: true
+        robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_camera_color_frame/robot_front_rgbd_camera_color_frame:
+          Value: true
+        robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_camera_color_frame/robot_front_rgbd_camera_color_optical_frame/robot_front_rgbd_camera_color_optical_frame:
+          Value: true
+        robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_camera_depth_frame/robot_front_rgbd_camera_depth_frame:
+          Value: true
+        robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_camera_depth_frame/robot_front_rgbd_camera_depth_optical_frame/robot_front_rgbd_camera_depth_optical_frame:
+          Value: true
+        robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_camera_infra1_frame/robot_front_rgbd_camera_infra1_frame:
+          Value: true
+        robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_camera_infra1_frame/robot_front_rgbd_camera_infra1_optical_frame/robot_front_rgbd_camera_infra1_optical_frame:
+          Value: true
+        robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_camera_infra2_frame/robot_front_rgbd_camera_infra2_frame:
+          Value: true
+        robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_camera_infra2_frame/robot_front_rgbd_camera_infra2_optical_frame:
+          Value: true
+        robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_camera_link:
+          Value: true
+        robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_cameracolor_sensor//robot_front_rgbd_camera_color_optical_frame:
+          Value: true
+        robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_cameradepth_sensor/sensor_frame:
+          Value: true
+        robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_cameraired1_sensor/sensor_frame:
+          Value: true
+        robot_base_footprint/robot_front_rgbd_camera_base_link/robot_front_rgbd_camera_link/robot_front_rgbd_cameraired2_sensor/sensor_frame:
+          Value: true
+        robot_base_footprint/robot_front_right_wheel/robot_front_right_wheel:
+          Value: true
+        robot_base_footprint/robot_gps_base_link:
+          Value: true
+        robot_base_footprint/robot_gps_link:
+          Value: true
+        robot_base_footprint/robot_imu_link/robot_imu_link:
+          Value: true
+        robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_base_link:
+          Value: true
+        robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_pan_link/robot_top_ptz_camera_pan_link:
+          Value: true
+        robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_pan_link/robot_top_ptz_camera_tilt_link/robot_top_ptz_camera_frame_link/robot_top_ptz_camera_frame_link:
+          Value: true
+        robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_pan_link/robot_top_ptz_camera_tilt_link/robot_top_ptz_camera_frame_link/robot_top_ptz_camera_optical_frame_link/robot_top_ptz_camera_optical_frame_link:
+          Value: true
+        robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_pan_link/robot_top_ptz_camera_tilt_link/robot_top_ptz_camera_frame_link/robot_top_ptz_camera_optical_frame_link/robot_top_ptz_camera_zoom_color_link/robot_top_ptz_camera_zoom_color_link:
+          Value: true
+        robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_pan_link/robot_top_ptz_camera_tilt_link/robot_top_ptz_camera_frame_link/robot_top_ptz_camera_sensor_sensor/robot_top_ptz_camera_optical_frame_link:
+          Value: true
+        robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_pan_link/robot_top_ptz_camera_tilt_link/robot_top_ptz_camera_frame_link/thermal_robot_top_ptz_camera_sensor_sensor/robot_top_ptz_camera_thermal_frame_link:
+          Value: true
+        robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_pan_link/robot_top_ptz_camera_tilt_link/robot_top_ptz_camera_thermal_frame_link/robot_top_ptz_camera_thermal_frame_link:
+          Value: true
+        robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_pan_link/robot_top_ptz_camera_tilt_link/robot_top_ptz_camera_thermal_frame_link/robot_top_ptz_camera_zoom_thermal_link/robot_top_ptz_camera_zoom_thermal_link:
+          Value: true
+        robot_base_footprint/robot_top_ptz_camera_base_link/robot_top_ptz_camera_pan_link/robot_top_ptz_camera_tilt_link/robot_top_ptz_camera_tilt_link:
+          Value: true
+        robot_base_footprint/robot_top_structure_link/robot_top_structure_link:
+          Value: true
+      Marker Scale: 1
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: false
+      Tree:
+        rbrobout_base_footprint/odom:
+          rbrobout_base_footprint/rbrobout_base_footprint:
+            rbrobout_base_footprint/rbrobout_base_link:
+              rbrobout_base_footprint/rbrobout_back_left_wheel_link:
+                {}
+              rbrobout_base_footprint/rbrobout_back_right_wheel_link:
+                {}
+              rbrobout_base_footprint/rbrobout_front_laser_base_link:
+                rbrobout_base_footprint/rbrobout_front_laser_link:
+                  {}
+              rbrobout_base_footprint/rbrobout_front_left_wheel_link:
+                {}
+              rbrobout_base_footprint/rbrobout_front_rgbd_camera_base_link:
+                rbrobout_base_footprint/rbrobout_front_rgbd_camera_link:
+                  rbrobout_base_footprint//rbrobout_front_rgbd_camera_color_optical_frame:
+                    {}
+                  rbrobout_base_footprint/rbrobout_front_rgbd_camera_color_frame:
+                    rbrobout_base_footprint/rbrobout_front_rgbd_camera_color_optical_frame:
+                      {}
+                  rbrobout_base_footprint/rbrobout_front_rgbd_camera_depth_frame:
+                    rbrobout_base_footprint/rbrobout_front_rgbd_camera_depth_optical_frame:
+                      {}
+                  rbrobout_base_footprint/rbrobout_front_rgbd_camera_infra1_frame:
+                    rbrobout_base_footprint/rbrobout_front_rgbd_camera_infra1_optical_frame:
+                      {}
+                  rbrobout_base_footprint/rbrobout_front_rgbd_camera_infra2_frame:
+                    rbrobout_base_footprint/rbrobout_front_rgbd_camera_infra2_optical_frame:
+                      {}
+                  rbrobout_base_footprint/sensor_frame:
+                    {}
+              rbrobout_base_footprint/rbrobout_front_right_wheel_link:
+                {}
+              rbrobout_base_footprint/rbrobout_imu_link:
+                rbrobout_base_footprint/rbrobout_imu_imu_sensor_sensor:
+                  {}
+              rbrobout_base_footprint/rbrobout_rear_laser_base_link:
+                rbrobout_base_footprint/rbrobout_rear_laser_link:
+                  rbrobout_base_footprint//rbrobout_rear_laser_link:
+                    {}
+              rbrobout_base_footprint/rbrobout_rear_rgbd_camera_base_link:
+                rbrobout_base_footprint/rbrobout_rear_rgbd_camera_link:
+                  rbrobout_base_footprint//rbrobout_rear_rgbd_camera_color_optical_frame:
+                    {}
+                  rbrobout_base_footprint/rbrobout_rear_rgbd_camera_color_frame:
+                    rbrobout_base_footprint/rbrobout_rear_rgbd_camera_color_optical_frame:
+                      {}
+                  rbrobout_base_footprint/rbrobout_rear_rgbd_camera_depth_frame:
+                    rbrobout_base_footprint/rbrobout_rear_rgbd_camera_depth_optical_frame:
+                      {}
+                  rbrobout_base_footprint/rbrobout_rear_rgbd_camera_infra1_frame:
+                    rbrobout_base_footprint/rbrobout_rear_rgbd_camera_infra1_optical_frame:
+                      {}
+                  rbrobout_base_footprint/rbrobout_rear_rgbd_camera_infra2_frame:
+                    rbrobout_base_footprint/rbrobout_rear_rgbd_camera_infra2_optical_frame:
+                      {}
+      Update Interval: 0
+      Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz_default_plugins/LaserScan
+      Color: 255; 255; 255
+      Color Transformer: Intensity
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 4096
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: rearlaser
+      Position Transformer: XYZ
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.009999999776482582
+      Style: Points
+      Topic:
+        Depth: 3
+        Durability Policy: Volatile
+        Filter size: 1
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /rbrobout_base_footprint/rbrobout_rear_scan
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz_default_plugins/LaserScan
+      Color: 255; 255; 255
+      Color Transformer: Intensity
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 4096
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: frontlaser
+      Position Transformer: XYZ
+      Selectable: true
+      Size (Pixels): 2
+      Size (m): 0.019999999552965164
+      Style: Points
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /rbrobout_base_footprint/rbrobout_front_scan
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+    - Class: rviz_default_plugins/Image
+      Enabled: true
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: frontdepth
+      Normalize Range: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /rbrobout_base_footprint/rb_robout_front_depth_camera
+      Value: true
+    - Class: rviz_default_plugins/Image
+      Enabled: true
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: frontrgb
+      Normalize Range: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /rbrobout_base_footprint/rb_robout_front_rgb_camera_image
+      Value: true
+    - Class: rviz_default_plugins/Image
+      Enabled: true
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: rearrgb
+      Normalize Range: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /rbrobout_base_footprint/rb_robout_rear_rgb_camera_image
+      Value: true
+    - Class: rviz_default_plugins/Image
+      Enabled: true
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: reardepth
+      Normalize Range: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /rbrobout_base_footprint/rb_robout_rear_depth_camera_image
+      Value: true
+  Enabled: true
+  Global Options:
+    Background Color: 48; 48; 48
+    Fixed Frame: rbrobout_base_footprint/rbrobout_front_laser_base_link
+    Frame Rate: 10
+  Name: root
+  Tools:
+    - Class: rviz_default_plugins/Interact
+      Hide Inactive Objects: true
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+    - Class: rviz_default_plugins/FocusCamera
+    - Class: rviz_default_plugins/Measure
+      Line color: 128; 128; 0
+    - Class: rviz_default_plugins/SetInitialPose
+      Covariance x: 0.25
+      Covariance y: 0.25
+      Covariance yaw: 0.06853891909122467
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /initialpose
+    - Class: rviz_default_plugins/SetGoal
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /goal_pose
+    - Class: rviz_default_plugins/PublishPoint
+      Single click: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /clicked_point
+  Transformation:
+    Current:
+      Class: rviz_default_plugins/TF
+  Value: true
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 18.668781280517578
+      Enable Stereo Rendering:
+        Stereo Eye Separation: 0.05999999865889549
+        Stereo Focal Distance: 1
+        Swap Stereo Eyes: false
+        Value: false
+      Focal Point:
+        X: -2.1495628356933594
+        Y: 0.6005833745002747
+        Z: -0.9954342842102051
+      Focal Shape Fixed Size: true
+      Focal Shape Size: 0.05000000074505806
+      Invert Z Axis: false
+      Name: Current View
+      Near Clip Distance: 0.009999999776482582
+      Pitch: 0.809796929359436
+      Target Frame: <Fixed Frame>
+      Value: Orbit (rviz)
+      Yaw: 6.010492324829102
+    Saved: ~
+Window Geometry:
+  Displays:
+    collapsed: false
+  Height: 900
+  Hide Left Dock: false
+  Hide Right Dock: false
+  QMainWindow State: 000000ff00000000fd00000004000000000000018d000002e6fc020000000ffb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003d000000c9000000c900fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000001400660072006f006e007400640065007000740068010000010c000000390000001600fffffffb0000001000660072006f006e0074007200670062010000014b000000550000001600fffffffb0000000e007200650061007200720067006201000001a6000000980000001600fffffffb000000120072006500610072006400650070007400680100000244000000df0000001600fffffffb000000120074006f007000630061006d00650072006101000002d5000000160000000000000000fb0000001600660072006f006e007400630061006d00650072006101000002f1000000160000000000000000fb000000200064006500700074006800660072006f006e007400630061006d006500720061010000030d0000001600000000000000000000000100000100000002e6fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073010000003d000002e6000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004ab0000003efc0100000002fb0000000800540069006d00650100000000000004ab0000026f00fffffffb0000000800540069006d0065010000000000000450000000000000000000000212000002e600000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Selection:
+    collapsed: false
+  Time:
+    collapsed: false
+  Tool Properties:
+    collapsed: false
+  Views:
+    collapsed: false
+  Width: 1195
+  X: 90
+  Y: 93
+  frontdepth:
+    collapsed: false
+  frontrgb:
+    collapsed: false
+  reardepth:
+    collapsed: false
+  rearrgb:
+    collapsed: false
