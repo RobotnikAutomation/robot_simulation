@@ -40,7 +40,7 @@ repositories:
   src/robotnik_common:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_common.git
-    version: ros2-devel
+    version: jazzy-devel
   src/robotnik_interfaces:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_interfaces.git
