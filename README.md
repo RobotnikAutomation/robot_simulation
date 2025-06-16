@@ -6,7 +6,7 @@
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-<!-- [![Unlicense License][license-shield]][license-url] -->
+[![Unlicense License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 
@@ -143,13 +143,14 @@ Then continue with the installation of packages.
 
   git clone https://github.com/RobotnikAutomation/robotnik_interfaces.git -b humble-devel
 
-  git clone https://github.com/RobotnikAutomation/robotnik_simulation.git -b humble
+  git clone https://github.com/RobotnikAutomation/robotnik_simulation.git -b humble-devel
   
   ```
 
 Install the [robotnik_controller](./debs/) within the debs folder:
 
 ```sh
+cd ~/ros_ws/src/
 sudo dpkg -i ./robotnik_simulation/debs/ros-humble-robotnik-controllers*.deb
 ```
 
@@ -373,6 +374,7 @@ Topic type sensor_msgs/msg/JointState.
 I recommend to use teleop_twist_keyboard to control by cmd_vel:
 
 ```sh
+sudo apt install ros-${ROS_DISTRO}-teleop-twist-keyboard
 ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=/robot/robotnik_base_controller/cmd_vel -p stamped:=true
 ```
 
