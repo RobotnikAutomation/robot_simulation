@@ -1,6 +1,6 @@
 ARG base_image="robotnik/ros"
 ARG ros_distro="jazzy"
-ARG image_base_version="0.6.1"
+ARG image_base_version="0.6.2"
 ARG ros_mirror="ros.mirror.robotnik.ws"
 
 FROM ${base_image}:${ros_distro}-builder-${image_base_version} AS builder
