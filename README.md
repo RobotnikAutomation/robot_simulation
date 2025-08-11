@@ -129,7 +129,7 @@ Then continue with the installation of packages.
 
   ```sh
   git clone https://github.com/RobotnikAutomation/robotnik_description.git -b jazzy-devel
-  
+
   git clone https://github.com/RobotnikAutomation/robotnik_sensors.git -b jazzy-devel
 
   git clone https://github.com/RobotnikAutomation/robotnik_common.git -b ros2-devel
@@ -139,17 +139,16 @@ Then continue with the installation of packages.
   git clone https://github.com/RobotnikAutomation/Universal_Robots_ROS2_Description.git -b fix/gazebo-control-jazzy
 
   git clone https://github.com/RobotnikAutomation/robotnik_simulation.git -b jazzy-devel
-  
+
   ```
 
-Install the [robotnik_controller](./debs/ros-jazzy-robotnik-controllers_1.0.0-20250407.075635-7bed613_amd64.deb) within the debs folder:
+Install precompiled debs for simulation. Please, change directory to the root of the repository and run the following command:
 
 ```sh
-sudo dpkg -i ./robotnik_simulation/debs/ros-jazzy-robotnik-controllers_1.0.0-20250407.075635-7bed613_amd64.deb
-
+sudo apt-get install -y ./debs/*.deb
 ```
 
-Install dependencies:
+Install missing dependencies with rosdep:
 ```sh
 cd ~/ros2_ws
 rosdep update
