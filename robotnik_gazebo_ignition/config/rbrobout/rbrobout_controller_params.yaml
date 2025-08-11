@@ -7,7 +7,7 @@
       joint_state_broadcaster:
         type: joint_state_broadcaster/JointStateBroadcaster
 
-      robotnik_base_controller:
+      robotnik_base_control:
         type: robotnik_controllers/RBKairosController
 
       joint_trajectory_controller:
@@ -44,7 +44,7 @@
       allow_partial_joints_goal: false
       open_loop_control: true
 
-  robotnik_base_controller:
+  robotnik_base_control:
     ros__parameters:
       use_sim_time: true
       publish_rate: 200

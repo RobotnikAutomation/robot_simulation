@@ -241,20 +241,20 @@ Then, the arguments _x_, _y_ and _z_ selects the position respect the world fram
 
 #### Control the robot
 
-All the controllers for the robots work with a TwistStamped topic called /namespace/robotnik_base_controller/cmd_vel, the default topic is:
+All the controllers for the robots work with a TwistStamped topic called /namespace/robotnik_base_control/cmd_vel, the default topic is:
 
 ```sh
-/robot/robotnik_base_controller/cmd_vel
+/robot/robotnik_base_control/cmd_vel
 ```
 Also it can be used a Twist topic:
 ```sh
-/robot/robotnik_base_controller/cmd_vel_unstamped
+/robot/robotnik_base_control/cmd_vel_unstamped
 ```
 
 This topic will move the robot acording to the velocity demanded but it can be also controller by joint commands, using the topic:
 
 ```sh
-/robot/robotnik_base_controller/cmd_joint
+/robot/robotnik_base_control/cmd_joint
 ```
 
 Topic type sensor_msgs/msg/JointState.
@@ -264,7 +264,7 @@ I recommend to use teleop_twist_keyboard to control by cmd_vel:
 ```sh
 sudo apt install ros-jazzy-teleop-twist-keyboard
 
-ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=/robot/robotnik_base_controller/cmd_vel -p stamped:=true
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=/robot/robotnik_base_control/cmd_vel -p stamped:=true
 ```
 
 ### Mobile robots with manipulators

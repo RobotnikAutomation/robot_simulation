@@ -198,7 +198,7 @@ def generate_launch_description():
     robotnik_controller= Node(
         package='controller_manager',
         executable='spawner',
-        arguments=['robotnik_base_controller'],
+        arguments=['robotnik_base_control'],
         output='screen',
         emulate_tty=True,
         namespace=params['namespace']
