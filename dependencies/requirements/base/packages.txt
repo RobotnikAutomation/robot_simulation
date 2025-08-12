@@ -9,3 +9,4 @@ ros-jazzy-joint-trajectory-controller
 ros-jazzy-rqt-joint-trajectory-controller
 ros-jazzy-joint-state-publisher
 ros-jazzy-joint-state-publisher-gui
+ros-jazzy-plotjuggler-ros

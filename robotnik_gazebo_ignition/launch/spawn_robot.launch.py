@@ -188,7 +188,7 @@ def generate_launch_description():
         OnProcessExit(
             target_action=joint_state_broadcaster,
             on_exit=[
-                LogInfo(msg='Joint States spawned'),
+                LogInfo(msg='JointStateBroadcaster spawned, launching JointTrajectoryController'),
                 joint_trajectory_controller
             ]
         )
@@ -208,7 +208,7 @@ def generate_launch_description():
         OnProcessExit(
             target_action=joint_state_broadcaster,
             on_exit=[
-                LogInfo(msg='Joint States spawned'),
+                LogInfo(msg='JointStateBroadcaster spawned, launching RobotnikBaseController'),
                 robotnik_controller
             ]
         )
