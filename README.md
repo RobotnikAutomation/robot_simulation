@@ -11,7 +11,7 @@
 
 
 <!-- PROJECT LOGO -->
-![Logo Robotnik](./img/LOGO%20BLANCO-ROJO.png)
+![Logo Robotnik](./docs/assets/img/LOGO%20BLANCO-ROJO.png)
 
 <br />
 <div align="center">
@@ -290,7 +290,7 @@ ros2 run rqt_joint_trajectory_controller rqt_joint_trajectory_controller --ros-a
 
 #### Enjoy!
 
-![rbvogui_gif](img/RBVogui_Docking.gif)
+![rbvogui_gif](docs/assets/img/RBVogui_Docking.gif)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -387,4 +387,4 @@ Project Link: [https://github.com/RobotnikAutomation](https://github.com/Robotni
 [license-url]: https://github.com/RobotnikAutomation/robot_simulation/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/company/robotnik-automation/
-[product-screenshot]: img/ignition_simulation_view.png
+[product-screenshot]: docs/assets/img/ignition_simulation_view.png

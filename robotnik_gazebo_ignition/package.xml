@@ -5,7 +5,7 @@
   <version>0.0.0</version>
   <description>Package to simulate robots in Gazebo
 </description>
-  <maintainer email="cgascon@robotnik.es">Carlos Gascon</maintainer>
+  <maintainer email="support@robotnik.es">Robotnik Support</maintainer>
   <license>Apache-2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
@@ -26,7 +26,6 @@
 
   <export>
     <build_type>ament_cmake</build_type>
-    <gazebo_ros gazebo_model_path="${prefix}/../../../robotnik_description/share"/>
+    <!-- <gazebo_ros gazebo_model_path="${prefix}/../../../robotnik_description/share"/> -->
   </export>
 </package>
-<!-- This package was generated using the Turtle Nest ROS 2 package creator -->
