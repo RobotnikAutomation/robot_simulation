@@ -145,7 +145,7 @@ Then continue with the installation of packages.
 Install precompiled debs for simulation. Please, change directory to the root of the repository and run the following command:
 
 ```sh
-sudo apt-get install -y ./debs/*.deb
+sudo apt-get install -y ./debs/ros-${ROS_DISTRO}-*.deb
 ```
 
 Install missing dependencies with rosdep:

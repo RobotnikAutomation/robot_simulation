@@ -43,7 +43,7 @@ target=/tmp/common.repo.yml,ro \
 # Generate deb packages
 RUN generate_debs.sh
 
-RUN cp /home/robot/robot_ws/src/robotnik_simulation/debs/*.deb /home/robot/robot_ws/debs
+RUN cp /home/robot/robot_ws/src/robotnik_simulation/debs/ros-${ROS_DISTRO}-*.deb /home/robot/robot_ws/debs
 WORKDIR /home/robot/robot_ws/debs
 # Generate Packages.gz
 RUN dpkg-scanpackages . | gzip -9c > Packages.gz

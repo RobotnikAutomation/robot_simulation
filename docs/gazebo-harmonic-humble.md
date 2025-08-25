@@ -70,7 +70,7 @@ vcs import --input-file dependencies.repos src
 ```bash
 sudo apt-get update
 cd robotnik_simulation
-sudo apt-get install -y ./debs/*.deb
+sudo apt-get install -y ./debs/ros-${ROS_DISTRO}-*.deb
 rosdep install --from-paths src --ignore-src -r -y
 ```
 
