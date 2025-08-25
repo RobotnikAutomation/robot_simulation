@@ -73,3 +73,10 @@ cd robotnik_simulation
 sudo apt-get install -y ./debs/*.deb
 rosdep install --from-paths src --ignore-src -r -y
 ```
+
+6. Compile workspace
+
+```bash
+export GZ_VERSION=harmonic
+colcon build --symlink-install
+```
