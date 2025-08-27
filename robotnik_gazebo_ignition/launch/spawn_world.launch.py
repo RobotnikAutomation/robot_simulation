@@ -71,14 +71,14 @@ def generate_launch_description():
                         ),
                         'gz_sim.launch.py')
                 ),
-                launch_arguments={                    
+                launch_arguments={
                     'gz_args':[
                         '-r ',
                         '-s ',
                         #'-v4 ', #verbose level
                         params['world_path']
                         # 'empty.sdf'
-                    ], 
+                    ],
                     'on_exit_shutdown':'true'
                 }.items(),
             ),

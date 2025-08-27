@@ -5,7 +5,6 @@
       <max_step_size>0.003</max_step_size>
       <real_time_factor>1.0</real_time_factor>
       <real_time_update_rate>1000</real_time_update_rate>
-      <gravity>0 0 -9.8</gravity>
     </physics>
     <plugin name='gz::sim::systems::Physics' filename='libgz-sim-physics-system.so'/>
     <plugin name='gz::sim::systems::UserCommands' filename='libgz-sim-user-commands-system.so'/>
