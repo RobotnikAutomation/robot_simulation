@@ -39,6 +39,10 @@ gz_ros2_control:
   type: git
   url: https://github.com/ros-controls/gz_ros2_control.git
   version: 0.7.16
+visualization_tutorials:
+  type: git
+  url: https://github.com/ros-visualization/visualization_tutorials.git
+  version: b43b3f6a867b1d799af3edba673c56d37178e847  # ros2
 robotnik_common:
   type: git
   url: https://github.com/RobotnikAutomation/robotnik_common.git
