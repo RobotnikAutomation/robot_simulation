@@ -54,7 +54,7 @@ robotnik_interfaces:
 robotnik_sensors:
   type: git
   url: https://github.com/RobotnikAutomation/robotnik_sensors.git
-  version: a83a9831d7fc08343f28381ff99a8451d2c38604  # Waiting for upstream release
+  version: faaab6e1db429a6708c65d7311b148bba592fd1a  # humble-devel
 robotnik_simulation:
   type: git
   url: https://github.com/RobotnikAutomation/robotnik_simulation.git
