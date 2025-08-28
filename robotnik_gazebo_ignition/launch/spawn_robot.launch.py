@@ -50,6 +50,8 @@ from launch.utilities.typing_file_path import FilePath
 from launch.substitution import Substitution
 from launch import LaunchContext
 
+
+# TODO: move this utility class into robotnik_common
 class ConfigFile(Substitution):
     """Substitution to get the path of the configuration file."""
 
@@ -152,6 +154,7 @@ def launch_setup(context, params):
         bridge_raw = [
             ("clock", "/clock", "rosgraph_msgs/msg/Clock", "gz.msgs.Clock", "GZ_TO_ROS"),
             (f"/{robot_id}/imu/data", f"/{robot_id}/imu/data", "sensor_msgs/msg/Imu", "ignition.msgs.IMU", "GZ_TO_ROS"),
+            (f"/{robot_id}/gps/data", f"/{robot_id}/gps/fix", "sensor_msgs/msg/NavSatFix", "ignition.msgs.NavSat", "GZ_TO_ROS"),
         ]
         def add_camera(camera_name):
             bridge_raw.extend([
@@ -176,7 +179,6 @@ def launch_setup(context, params):
         bridge_config = [{"ros_topic_name": ros, "gz_topic_name": gz, "ros_type_name": ros_type, "gz_type_name": gz_type, "direction": direction} for gz, ros, ros_type, gz_type, direction in bridge_raw]
         with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp:
             yaml.dump(bridge_config, tmp)
-            print(f"Bridge config file: {tmp.name}")
             return tmp.name
 
     bridge_yaml = generate_bridge_yaml(params)
@@ -204,7 +206,6 @@ def launch_setup(context, params):
          robot_controller_config, # type: ignore
     )
 
-    print("Controllers to load:", robot_controller_config)
     ret.append(Node(
         package='controller_manager',
         executable='spawner',
@@ -214,27 +215,31 @@ def launch_setup(context, params):
     ))
 
     # RViz
-    rviz_config = [FindPackageShare('robotnik_gazebo_ignition'),'/config/rviz_config.rviz']
     ret.append(Node(
         package="rviz2",
         executable="rviz2",
         namespace=params['robot_id'],
-        arguments=['-d', rviz_config],
+        arguments=[
+            '-d', [FindPackageShare('robotnik_gazebo_ignition'), '/config/rviz_config.rviz'],
+            # Fixed frame
+            '-f', [params['robot_id'], '_odom'],
+            # Window name
+            '-t', [params['robot_id'], ' - ', params['robot_model'], ' - RViz']
+        ]
     ))
-
     return ret
 
 
 def generate_launch_description():
     raw_args = [
-        ("robot_id", "Robot ID", "robot", "ROBOT_ID"),
-        ("robot", "Robot Model", "", "ROBOT"),
-        ("robot_model", "Robot Type", LaunchConfiguration('robot'), "ROBOT_MODEL"),
-        ("robot_xacro", "Robot Xacro File Path", [FindPackageShare('robotnik_description'), '/robots/', LaunchConfiguration('robot'), '/', LaunchConfiguration('robot_model'), '.urdf.xacro'], "ROBOT_XACRO"),
-        ("x", "X Position", "0.0", "X"),
-        ("y", "Y Position", "0.0", "Y"),
-        ("z", "Z Position", "0.0", "Z"),
-        ("has_arm", "Has Arm", "False", "HAS_ARM"),
+        ("robot_id", "Unique Robot Identifier", "robot", "ROBOT_ID"),
+        ("robot", "Robot Model Name", "", "ROBOT"),
+        ("robot_model", "Robot Variant or Type", LaunchConfiguration('robot'), "ROBOT_MODEL"),
+        ("robot_xacro", "Path to Robot Xacro File", [FindPackageShare('robotnik_description'), '/robots/', LaunchConfiguration('robot'), '/', LaunchConfiguration('robot_model'), '.urdf.xacro'], "ROBOT_XACRO"),
+        ("x", "Initial X Coordinate", "0.0", "X"),
+        ("y", "Initial Y Coordinate", "0.0", "Y"),
+        ("z", "Initial Z Coordinate", "0.0", "Z"),
+        ("has_arm", "Enable Arm Controller", "False", "HAS_ARM"),
     ]
 
     ld = LaunchDescription()

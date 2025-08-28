@@ -44,15 +44,14 @@ def generate_launch_description():
     arg = ExtendedArgument(
         name='world',
         description='world in gazebo classic',
-        default_value='demo.sdf.world',
-        # default_value='warehouse_big.sdf',
+        default_value='demo',
     )
     add_to_launcher.add_arg(arg)
 
     arg = ExtendedArgument(
         name='world_path',
         description='world path in gazebo classic',
-        default_value=[FindPackageShare('robotnik_gazebo_ignition'), '/worlds/ignition/', world],
+        default_value=[FindPackageShare('robotnik_gazebo_ignition'), '/worlds/ignition/', world, '.world'], # type: ignore
     )
     add_to_launcher.add_arg(arg)
 
@@ -75,9 +74,7 @@ def generate_launch_description():
                     'gz_args':[
                         '-r ',
                         '-s ',
-                        #'-v4 ', #verbose level
                         params['world_path']
-                        # 'empty.sdf'
                     ],
                     'on_exit_shutdown':'true'
                 }.items(),
