@@ -1,10 +1,11 @@
 <?xml version="1.0"?>
-<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<?xml-model
+  href="http://download.ros.org/schema/package_format3.xsd"
+  schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>robotnik_gazebo_ignition</name>
   <version>0.0.0</version>
-  <description>Package to simulate robots in Gazebo
-</description>
+  <description>Package to simulate robots in Gazebo</description>
   <maintainer email="support@robotnik.es">Robotnik Support</maintainer>
   <license>Apache-2.0</license>
 
@@ -20,6 +21,9 @@
   <depend>joint_trajectory_controller</depend>
   <depend>teleop_twist_keyboard</depend>
   <depend>rqt_joint_trajectory_controller</depend>
+
+  <exec_depend>robotnik_description</exec_depend>
+  <exec_depend>robotnik_sensors</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>

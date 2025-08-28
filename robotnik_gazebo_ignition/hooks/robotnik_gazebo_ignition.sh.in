@@ -1,0 +1,39 @@
+#!/usr/bin/env sh
+
+# This hook adds robotnik gazebo resources to the appropriate environment variables
+_GZ_PKGS=${GZ_RESOURCE_PKGS:-"robotnik_gazebo_ignition robotnik_description robotnik_sensors ur_description"}
+
+
+_prepend_unique_value() {
+  eval _cur="\${$1}"
+  case ":$_cur:" in *":$2:"*) return 0;; esac
+  if [ -n "$_cur" ]; then eval export "$1=\"$2:$_cur\""; else eval export "$1=\"$2\""; fi
+}
+
+_get_parent_abs_path() {
+  echo "$(CDPATH= cd -- "$(dirname "$1")" 2>/dev/null && pwd)"
+}
+
+if [ -n "$AMENT_CURRENT_PREFIX" ]; then
+  _self_prefix="$AMENT_CURRENT_PREFIX"
+else
+  _hook_dir="$(CDPATH= cd -- "$(dirname "$0")" 2>/dev/null && pwd)"
+  _self_prefix="$(CDPATH= cd -- "$_hook_dir/../../.." 2>/dev/null && pwd)"
+fi
+
+_prefixes="$AMENT_PREFIX_PATH"
+case ":$_prefixes:" in *":$_self_prefix:"*) : ;; *) _prefixes="$_self_prefix${_prefixes:+:$_prefixes}";; esac
+
+for _prefix in $(printf %s "$_prefixes" | tr ':' ' '); do
+  for _pkg in $_GZ_PKGS; do
+    _p="$_prefix/share/$_pkg"
+    if [ -d "$_p" ]; then
+      _prepend_unique_value GZ_SIM_RESOURCE_PATH "$(_get_parent_abs_path "$_p")"
+      _prepend_unique_value IGN_GAZEBO_RESOURCE_PATH "$(_get_parent_abs_path "$_p")"
+      _prepend_unique_value GAZEBO_RESOURCE_PATH "$(_get_parent_abs_path "$_p")"
+    fi
+  done
+done
+
+unset _prefix _pkg _p _prefixes _self_prefix _hook_dir _GZ_PKGS
+unset -f _prepend_unique_value _get_parent_abs_path
