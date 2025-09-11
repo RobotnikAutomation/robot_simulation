@@ -192,16 +192,59 @@ def launch_setup(context, params):
         namespace=params['robot_id'],
     ))
 
+    def extract_controllers_from_yaml(yaml_path):
+
+        data = {}
+        existing_controllers = []
+        # Load the YAML file
+        with open(yaml_path, 'r') as f:
+             
+            # Read the file content
+            content = f.read()
+            # Remove the string "---\n/**:" if it exists at the beginning
+            if content.startswith('---\n/**:'):
+                content = content[len('---\n/**:'):]
+            # Move file pointer back to start for yaml.safe_load
+            f.seek(0)
+            f = tempfile.SpooledTemporaryFile(mode='w+')
+            f.write(content)
+            f.seek(0)
+            
+            try:
+                data = yaml.safe_load(f)
+            except Exception:
+                raise RuntimeError('The ros2_control.yaml file is not a valid yaml file')
+
+        for controller in data:
+            existing_controllers.append(controller)
+        return existing_controllers
+
+    def get_ros2_control_yaml_path(params):
+        return str( 
+            Path(
+                FindPackageShare('robotnik_gazebo_ignition').perform(context)
+            )
+            / 'config'
+            / 'profile'
+            / substitute_param_context(params['robot'], context)
+            / 'ros2_control.yaml'
+        )
+
+    path = get_ros2_control_yaml_path(params)
+    new_controllers = extract_controllers_from_yaml(path)
+
     # ROS2 control
-    controllers = ['joint_state_broadcaster', 'robotnik_base_control']
-    has_arm = substitute_param_context(params['has_arm'], context).lower() == 'true'
-    if has_arm:
-        controllers.append('joint_trajectory_controller')
+    controllers = ['joint_state_broadcaster']
+    controllers.extend(new_controllers)
+    print("Controllers to be spawned:", controllers)
+    
     robot_controller_config = ConfigFile(
         [
             FindPackageShare('robotnik_gazebo_ignition'), '/config/profile/', LaunchConfiguration('robot'), '/ros2_control.yaml',
         ],
     )
+    
+    
     controllers.append('--param-file')
     controllers.append(
          robot_controller_config, # type: ignore
