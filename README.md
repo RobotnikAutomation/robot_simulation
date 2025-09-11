@@ -208,7 +208,6 @@ Once you have the simulation running, you can spawn the robot in the world. For 
 | x                | 0.0                          | position x in the Gazebo world to spawn the robot                                              |
 | y                | 0.0                          | position y in the Gazebo world to spawn the robot                                              |
 | z                | 0.0                          | position z in the Gazebo world to spawn the robot                                              |
-| has_arm          | false                        | If the robot has arm or not to initilize joint_trajectory_controller                           |
 
 With the arguments described above, the launcher creates the robot that you want in Gazebo. As default, it will spawn a RBKairos robot, but you can changed it.
 
@@ -286,12 +285,12 @@ There are two mobile bases with a manipulator that can be used:
 To use them launch the spawn of the robot as follows:
 
 ```sh
-ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos_plus has_arm:=true
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos_plus
 ```
 
 
 ```sh
-ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbrobout robot_model:=rbrobout_plus has_arm:=true
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbrobout robot_model:=rbrobout_plus
 ```
 
 The arm has a joint_trajectory_controller configured that can be used with rqt_joint_trajectory_controller:
