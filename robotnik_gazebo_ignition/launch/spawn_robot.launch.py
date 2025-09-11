@@ -212,8 +212,8 @@ def launch_setup(context, params):
             
             try:
                 data = yaml.safe_load(f)
-            except Exception:
-                raise RuntimeError('The ros2_control.yaml file is not a valid yaml file')
+            except Exception as e:
+                raise RuntimeError(f"Failed to parse YAML file '{yaml_path}': {e}")
 
         for controller in data:
             existing_controllers.append(controller)
