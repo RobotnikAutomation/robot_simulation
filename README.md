@@ -219,25 +219,35 @@ Available robots
 - rbsummit
 - rbkairos
 - rbrobout
+- rbwatcher
+- rbfiqus
 
 Available robot_model
 
 - rbkairos_plus
 - rbrobout_plus
 
-Example:
+Examples:
 ```sh
 ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbvogui
+
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbtheron
+
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbsummit
+
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos
+
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbrobout robot_model:=rbrobout
+
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbwatcher robot_model:=rbwatcher
+
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbfiqus robot_model:=rbfiqus
 ```
+
+Additionally, the arguments _x_, _y_ and _z_ selects the position respect the world frame to spawn the robot.
 
 In case that your robot has a variation (check robots folder in robotnik_description package), you can select it by the argument **robot_model**.
 
-Example:
-```sh
-ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos_plus has_arm:=true
-```
-
-Then, the arguments _x_, _y_ and _z_ selects the position respect the world frame to spawn the robot.
 
 #### Control the robot
 
@@ -277,6 +287,11 @@ To use them launch the spawn of the robot as follows:
 
 ```sh
 ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos_plus has_arm:=true
+```
+
+
+```sh
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbrobout robot_model:=rbrobout_plus has_arm:=true
 ```
 
 The arm has a joint_trajectory_controller configured that can be used with rqt_joint_trajectory_controller:
