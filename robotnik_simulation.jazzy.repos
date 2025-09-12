@@ -17,7 +17,7 @@ repositories:
   robotnik/robotnik_description:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_description.git
-    version: 48c4f1be10751fa7fd04d3e0564d6542bb63481e  # Waiting for release (feat/jazzy/gz-webhook)
+    version: 2.1.0
   robotnik/robotnik_interfaces:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_interfaces.git
@@ -25,8 +25,8 @@ repositories:
   robotnik/robotnik_sensors:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_sensors.git
-    version: a904966011cada1d3b76508080438029b6fe2f09  # Waiting for release (chore/jazzy/apply-linter)
+    version: 2.1.0
   robotnik/robotnik_simulation:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_simulation.git
-    version: feat/humble/add-harmonic-gz  # TODO: change before merging
+    version: jazzy-devel 
