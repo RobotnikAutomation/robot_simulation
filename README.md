@@ -11,7 +11,7 @@
 
 
 <!-- PROJECT LOGO -->
-![Logo Robotnik](./img/LOGO%20BLANCO-ROJO.png)
+![Logo Robotnik](./docs/assets/img/LOGO%20BLANCO-ROJO.png)
 
 <br />
 <div align="center">
@@ -145,7 +145,7 @@ Then continue with the installation of packages.
 Install precompiled debs for simulation. Please, change directory to the root of the repository and run the following command:
 
 ```sh
-sudo apt-get install -y ./debs/*.deb
+sudo apt-get install -y ./debs/ros-${ROS_DISTRO}-*.deb
 ```
 
 Install missing dependencies with rosdep:
@@ -208,7 +208,6 @@ Once you have the simulation running, you can spawn the robot in the world. For 
 | x                | 0.0                          | position x in the Gazebo world to spawn the robot                                              |
 | y                | 0.0                          | position y in the Gazebo world to spawn the robot                                              |
 | z                | 0.0                          | position z in the Gazebo world to spawn the robot                                              |
-| has_arm          | false                        | If the robot has arm or not to initilize joint_trajectory_controller                           |
 
 With the arguments described above, the launcher creates the robot that you want in Gazebo. As default, it will spawn a RBKairos robot, but you can changed it.
 
@@ -219,25 +218,35 @@ Available robots
 - rbsummit
 - rbkairos
 - rbrobout
+- rbwatcher
+- rbfiqus
 
 Available robot_model
 
 - rbkairos_plus
 - rbrobout_plus
 
-Example:
+Examples:
 ```sh
 ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbvogui
+
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbtheron
+
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbsummit
+
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos
+
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbrobout robot_model:=rbrobout
+
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbwatcher robot_model:=rbwatcher
+
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbfiqus robot_model:=rbfiqus
 ```
+
+Additionally, the arguments _x_, _y_ and _z_ selects the position respect the world frame to spawn the robot.
 
 In case that your robot has a variation (check robots folder in robotnik_description package), you can select it by the argument **robot_model**.
 
-Example:
-```sh
-ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos_plus has_arm:=true
-```
-
-Then, the arguments _x_, _y_ and _z_ selects the position respect the world frame to spawn the robot.
 
 #### Control the robot
 
@@ -276,7 +285,12 @@ There are two mobile bases with a manipulator that can be used:
 To use them launch the spawn of the robot as follows:
 
 ```sh
-ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos_plus has_arm:=true
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos_plus
+```
+
+
+```sh
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbrobout robot_model:=rbrobout_plus
 ```
 
 The arm has a joint_trajectory_controller configured that can be used with rqt_joint_trajectory_controller:
@@ -290,7 +304,7 @@ ros2 run rqt_joint_trajectory_controller rqt_joint_trajectory_controller --ros-a
 
 #### Enjoy!
 
-![rbvogui_gif](img/RBVogui_Docking.gif)
+![rbvogui_gif](docs/assets/img/RBVogui_Docking.gif)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -387,4 +401,4 @@ Project Link: [https://github.com/RobotnikAutomation](https://github.com/Robotni
 [license-url]: https://github.com/RobotnikAutomation/robot_simulation/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/company/robotnik-automation/
-[product-screenshot]: img/ignition_simulation_view.png
+[product-screenshot]: docs/assets/img/ignition_simulation_view.png

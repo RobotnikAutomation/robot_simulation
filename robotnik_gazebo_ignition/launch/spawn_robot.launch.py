@@ -1,4 +1,4 @@
-# Copyright (c) 2022, Robotnik Automation S.L.L.
+# Copyright (c) 2025, Robotnik Automation S.L.L.
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -22,209 +22,288 @@
 # ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-import os
+import tempfile
+import yaml
+
+
 from launch import LaunchDescription
-from launch.actions import GroupAction, IncludeLaunchDescription
-from launch.substitutions import LaunchConfiguration, Command, FindExecutable
-from launch_ros.actions import Node, PushRosNamespace
-from launch_ros.substitutions import FindPackageShare
-from launch_ros.descriptions import ParameterValue
-from robotnik_common.launch import ExtendedArgument, AddArgumentParser
+from launch.actions import IncludeLaunchDescription, OpaqueFunction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.conditions import IfCondition
+from launch_ros.parameter_descriptions import ParameterFile
+from launch.substitutions import LaunchConfiguration
 
-from ament_index_python.packages import get_package_share_directory
+from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
 
-from launch.event_handlers import (OnExecutionComplete, OnProcessExit,
-                                OnProcessIO, OnProcessStart, OnShutdown)
-from launch.actions import (DeclareLaunchArgument, EmitEvent, ExecuteProcess,
-                            LogInfo, RegisterEventHandler, TimerAction)
+from robotnik_common.launch import AddArgumentParser, ExtendedArgument
 
 
-def generate_launch_description():
+from pathlib import Path
+from tempfile import NamedTemporaryFile
+from typing import Union, Optional
 
-    ld = LaunchDescription()
-    add_to_launcher = AddArgumentParser(ld)
+from launch import SomeSubstitutionsType, SomeSubstitutionsType_types_tuple
+from launch.substitutions import SubstitutionFailure
+from launch.frontend.parse_substitution import parse_substitution
+from launch.utilities import normalize_to_list_of_substitutions, perform_substitutions
+from launch.utilities.typing_file_path import FilePath
+from launch.substitution import Substitution
+from launch import LaunchContext
 
-    arg = ExtendedArgument(
-        name='namespace',
-        description='Namespace',
-        default_value='robot',
-        use_env=True,
-        environment='NAMESPACE',
-    )
-    add_to_launcher.add_arg(arg)
 
-    arg = ExtendedArgument(
-        name='robot',
-        description='Robot model (rbvogui, rbkairos, rbtheron, rbsummit)',
-        default_value='',
-        use_env=True,
-        environment='ROBOT',
-    )
-    add_to_launcher.add_arg(arg)
-    robot = LaunchConfiguration('robot')
-    
-    arg = ExtendedArgument(
-        name='robot_model',
-        description='Robot type variation (rbvogui, rbvogui_6w, rbvogui_ackermann)',
-        default_value=robot,
-        use_env=True,
-        environment='ROBOT_MODEL',
-    )
-    add_to_launcher.add_arg(arg)
-    robot_model = LaunchConfiguration('robot_model')
+# TODO: move this utility class into robotnik_common
+class ConfigFile(Substitution):
+    """Substitution to get the path of the configuration file."""
 
-    arg = ExtendedArgument(
-        name='robot_xacro_file',
-        description='Name of the xacro file',
-        default_value=[robot, '/', robot_model, '.urdf.xacro'],
-        use_env=True,
-        environment='ROBOT_XACRO_FILE',
-    )
-    add_to_launcher.add_arg(arg)
+    def __init__(
+        self,
+        param_file: Union[FilePath, SomeSubstitutionsType],
+    ) -> None:
+        """
+        Construct a parameter file description.
 
-    robot_xacro_file = LaunchConfiguration('robot_xacro_file')
-    arg = ExtendedArgument(
-        name='robot_xacro_path',
-        description='Path to the xacro file',
-        default_value=[FindPackageShare('robotnik_description'), '/robots/', robot_xacro_file],
-        use_env=True,
-        environment='ROBOT_XACRO_PATH',
-    )
-    add_to_launcher.add_arg(arg)
+        :param param_file: The path to the parameter file or a substitution that resolves to it.
+        """
+        self.__evaluated_param_file: Optional[Path] = None
+        self.__created_tmp_file = False
 
-    arg = ExtendedArgument(
-        name='x',
-        description='x position in world',
-        default_value='0.0',
-    )
-    add_to_launcher.add_arg(arg)
+        self.__param_file = param_file
+        if isinstance(param_file, SomeSubstitutionsType_types_tuple):
+            self.__param_file = normalize_to_list_of_substitutions(param_file)  # type: ignore
 
-    arg = ExtendedArgument(
-        name='y',
-        description='y position in world',
-        default_value='0.0',
-    )
-    add_to_launcher.add_arg(arg)
+    def perform(self, context: LaunchContext) -> str:
+        """Substitute the parameter file path."""
+        param_file = self.__param_file
+        if isinstance(param_file, list):
+            # list of substitutions
+            param_file = perform_substitutions(context, self.__param_file)  # type: ignore
 
-    arg = ExtendedArgument(
-        name='z',
-        description='z position in world',
-        default_value='0.0',
-    )
-    add_to_launcher.add_arg(arg)
-    
-    arg = ExtendedArgument(
-        name='has_arm',
-        description='If robot has an arm to start controller',
-        default_value='False',
-    )
-    add_to_launcher.add_arg(arg)
-    params = add_to_launcher.process_arg()
+        param_file_path: Path = Path(param_file)  # type: ignore
+        with open(param_file_path, 'r') as f, NamedTemporaryFile(
+                mode='w', prefix='launch_params_', delete=False
+            ) as h:
+                parsed = perform_substitutions(context, parse_substitution(f.read()))  # type: ignore
+                try:
+                    yaml.safe_load(parsed)
+                except Exception:
+                    raise SubstitutionFailure(
+                        'The substituted parameter file is not a valid yaml file')
+                h.write(parsed)
+                param_file_path = Path(h.name)
+                self.__created_tmp_file = True
+        self.__evaluated_param_file = param_file_path
+        return str(param_file_path)
 
-    robot_dir = os.path.join(get_package_share_directory('robotnik_description'), 'launch')
+    def cleanup(self) -> None:
+        """Remove the temporary file if it was created."""
+        if self.__created_tmp_file and self.__evaluated_param_file is not None:
+            try:
+                self.__evaluated_param_file.unlink()
+            except FileNotFoundError:
+                # The file may have been deleted already, ignore this error
+                pass
+            self.__evaluated_param_file = None
 
-    robot_state = IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(
-                os.path.join(robot_dir, 'robot_description.launch.py')
-            ),
-            launch_arguments={
-                'verbose': 'false',
-                'robot_xacro_file': robot_xacro_file,
-                'namespace': params['namespace'],
-                'gazebo_ignition': 'true',
-            }.items(),
-    )
+    def __del__(self):
+        """Clean up the temporary file when the object is deleted."""
+        self.cleanup()
 
-    ld.add_action(robot_state)
 
-    robot_spawner = Node(
-            package='ros_gz_sim',
-            executable='create',
-            arguments=[
-                '-name', [params['namespace'], '/', params['robot']],
-                '-topic', "robot_description",
-                '-robot_namespace', params['namespace'],
-                '-x', params['x'],
-                '-y', params['y'],
-                '-z', params['z'],
-            ],
-            output='screen',
-            namespace=params['namespace']
-    )
-    ld.add_action(robot_spawner)
+def substitute_param_context(param, context):
+    """Resolve a parameter if it is a LaunchConfiguration."""
+    if isinstance(param, LaunchConfiguration):
+        return param.perform(context)
+    return param
 
-    bridge_params = [get_package_share_directory('robotnik_gazebo_ignition'),'/config/', robot,'/bridge.yaml']
-    ros_gz_bridge = Node(
+def launch_setup(context, params):
+    ret = []
+
+    # Robot Description
+    ret.append(IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([
+            FindPackageShare('robotnik_description'), '/launch/robot_description.launch.py'
+        ]),
+        launch_arguments={
+            'verbose': 'false',
+            'robot_xacro_file': params['robot_xacro'],
+            'frame_prefix': [params['robot_id'], '_'],
+            'namespace': params['robot_id'],
+            'gazebo_ignition': 'true',
+        }.items(),
+    ))
+
+    # Spawner
+    ret.append(Node(
+        package='ros_gz_sim',
+        executable='create',
+        namespace=params['robot_id'],
+        arguments=[
+            '-name', params['robot_id'],
+            '-topic', "robot_description",
+            '-robot_namespace', params['robot_id'],
+            '-x', params['x'],
+            '-y', params['y'],
+            '-z', params['z'],
+        ],
+        output='screen',
+    ))
+
+    # Gazebo bridge
+    def generate_bridge_yaml(params) -> str:
+        robot_id = substitute_param_context(params['robot_id'], context)
+        bridge_raw = [
+            ("clock", "/clock", "rosgraph_msgs/msg/Clock", "gz.msgs.Clock", "GZ_TO_ROS"),
+            (f"/{robot_id}/imu/data", f"/{robot_id}/imu/data", "sensor_msgs/msg/Imu", "ignition.msgs.IMU", "GZ_TO_ROS"),
+            (f"/{robot_id}/gps/data", f"/{robot_id}/gps/fix", "sensor_msgs/msg/NavSatFix", "ignition.msgs.NavSat", "GZ_TO_ROS"),
+        ]
+        def add_camera(camera_name):
+            bridge_raw.extend([
+                (f"/{robot_id}/{camera_name}_camera_color/color/camera_info", f"/{robot_id}/{camera_name}_rgbd_camera/color/camera_info", "sensor_msgs/msg/CameraInfo", "gz.msgs.CameraInfo", "GZ_TO_ROS"),
+                (f"/{robot_id}/{camera_name}_camera_color/color/image_raw", f"/{robot_id}/{camera_name}_rgbd_camera/color/image_raw", "sensor_msgs/msg/Image", "gz.msgs.Image", "GZ_TO_ROS"),
+            ])
+        def add_laser(laser_name):
+            bridge_raw.extend([
+                (f"/{robot_id}/{laser_name}_laser/scan", f"/{robot_id}/{laser_name}_laser/scan", "sensor_msgs/msg/LaserScan", "gz.msgs.LaserScan", "GZ_TO_ROS"),
+            ])
+        def add_pointcloud(points_name):
+            bridge_raw.extend([
+                ( f"/{robot_id}/{points_name}_lidar/scan/points", f"/{robot_id}/{points_name}_laser/points", "sensor_msgs/msg/PointCloud2", "gz.msgs.PointCloudPacked", "GZ_TO_ROS"),
+            ])
+
+        def add_depth_camera(camera_name):
+            bridge_raw.extend([
+                (f"/{robot_id}/{camera_name}_camera_depth/depth/camera_info", f"/{robot_id}/{camera_name}_rgbd_camera/depth/camera_info", "sensor_msgs/msg/CameraInfo", "gz.msgs.CameraInfo", "GZ_TO_ROS"),
+                (f"/{robot_id}/{camera_name}_camera_depth/depth/image_raw", f"/{robot_id}/{camera_name}_rgbd_camera/depth/image_raw", "sensor_msgs/msg/Image", "gz.msgs.Image", "GZ_TO_ROS"),
+            ])
+
+        add_camera("front")
+        add_camera("rear")
+        add_camera("top_ptz")
+        #add_depth_camera("front")
+        add_laser("front")
+        add_laser("rear")
+        add_pointcloud("top")
+
+        bridge_config = [{"ros_topic_name": ros, "gz_topic_name": gz, "ros_type_name": ros_type, "gz_type_name": gz_type, "direction": direction} for gz, ros, ros_type, gz_type, direction in bridge_raw]
+        with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp:
+            yaml.dump(bridge_config, tmp)
+            return tmp.name
+
+    bridge_yaml = generate_bridge_yaml(params)
+    ret.append(Node(
         package="ros_gz_bridge",
         executable="parameter_bridge",
         parameters=[
-            {'config_file': bridge_params},
+            {'config_file': bridge_yaml},
         ],
-        namespace=params['namespace']
-    )
-    ld.add_action(ros_gz_bridge)
+        namespace=params['robot_id'],
+    ))
 
-    joint_state_broadcaster = Node(
-        package='controller_manager',
-        executable='spawner',
-        arguments=['joint_state_broadcaster'],
-        namespace=params['namespace']
-    )
-    ld.add_action(joint_state_broadcaster)
-    
-    joint_trajectory_controller= Node(
-        package='controller_manager',
-        executable='spawner',
-        arguments=['joint_trajectory_controller'],
-        output='screen',
-        emulate_tty=True,
-        namespace=params['namespace'],
-        condition=IfCondition(params['has_arm'])
-    )
+    def extract_controllers_from_yaml(yaml_path):
 
-    init_joint_trajectory_controller = RegisterEventHandler(
-        OnProcessExit(
-            target_action=joint_state_broadcaster,
-            on_exit=[
-                LogInfo(msg='JointStateBroadcaster spawned, launching JointTrajectoryController'),
-                joint_trajectory_controller
-            ]
+        data = {}
+        existing_controllers = []
+        # Load the YAML file
+        with open(yaml_path, 'r') as f:
+             
+            # Read the file content
+            content = f.read()
+            # Remove the string "---\n/**:" if it exists at the beginning
+            if content.startswith('---\n/**:'):
+                content = content[len('---\n/**:'):]
+            # Move file pointer back to start for yaml.safe_load
+            f.seek(0)
+            f = tempfile.SpooledTemporaryFile(mode='w+')
+            f.write(content)
+            f.seek(0)
+            
+            try:
+                data = yaml.safe_load(f)
+            except Exception as e:
+                raise RuntimeError(f"Failed to parse YAML file '{yaml_path}': {e}")
+
+        for controller in data:
+            existing_controllers.append(controller)
+        return existing_controllers
+
+    def get_ros2_control_yaml_path(params):
+        return str( 
+            Path(
+                FindPackageShare('robotnik_gazebo_ignition').perform(context)
+            )
+            / 'config'
+            / 'profile'
+            / substitute_param_context(params['robot'], context)
+            / 'ros2_control.yaml'
         )
-    )
-    ld.add_action(init_joint_trajectory_controller)
 
-    robotnik_controller= Node(
+    path = get_ros2_control_yaml_path(params)
+    new_controllers = extract_controllers_from_yaml(path)
+
+    # ROS2 control
+    controllers = ['joint_state_broadcaster']
+    controllers.extend(new_controllers)
+    print("Controllers to be spawned:", controllers)
+    
+    robot_controller_config = ConfigFile(
+        [
+            FindPackageShare('robotnik_gazebo_ignition'), '/config/profile/', LaunchConfiguration('robot'), '/ros2_control.yaml',
+        ],
+    )
+    
+    
+    controllers.append('--param-file')
+    controllers.append(
+         robot_controller_config, # type: ignore
+    )
+
+    ret.append(Node(
         package='controller_manager',
         executable='spawner',
-        arguments=['robotnik_base_controller'],
+        namespace=params['robot_id'],
+        arguments=controllers,
         output='screen',
-        emulate_tty=True,
-        namespace=params['namespace']
-    )
+    ))
 
-    init_robotnik_controller = RegisterEventHandler(
-        OnProcessExit(
-            target_action=joint_state_broadcaster,
-            on_exit=[
-                LogInfo(msg='JointStateBroadcaster spawned, launching RobotnikBaseController'),
-                robotnik_controller
-            ]
-        )
-    )
-    ld.add_action(init_robotnik_controller)
-    
-    rviz2_config = [get_package_share_directory('robotnik_gazebo_ignition'),'/config/', robot,'/rviz_config.rviz']
-    
-    rviz2 = Node(
+    # RViz
+    ret.append(Node(
         package="rviz2",
         executable="rviz2",
-        namespace=params['namespace'],
-        arguments=['-d', rviz2_config]
+        namespace=params['robot_id'],
+        arguments=[
+            '-d', [FindPackageShare('robotnik_gazebo_ignition'), '/config/rviz_config.rviz'],
+            # Fixed frame
+            '-f', [params['robot_id'], '_odom'],
+            # Window name
+            '-t', [params['robot_id'], ' - ', params['robot_model'], ' - RViz']
+        ]
+    ))
+    return ret
 
-    )
-    ld.add_action(rviz2)
 
+def generate_launch_description():
+    raw_args = [
+        ("robot_id", "Unique Robot Identifier", "robot", "ROBOT_ID"),
+        ("robot", "Robot Model Name", "", "ROBOT"),
+        ("robot_model", "Robot Variant or Type", LaunchConfiguration('robot'), "ROBOT_MODEL"),
+        ("robot_xacro", "Path to Robot Xacro File", [FindPackageShare('robotnik_description'), '/robots/', LaunchConfiguration('robot'), '/', LaunchConfiguration('robot_model'), '.urdf.xacro'], "ROBOT_XACRO"),
+        ("x", "Initial X Coordinate", "0.0", "X"),
+        ("y", "Initial Y Coordinate", "0.0", "Y"),
+        ("z", "Initial Z Coordinate", "0.0", "Z"),
+        ("has_arm", "Enable Arm Controller", "False", "HAS_ARM"),
+    ]
+
+    ld = LaunchDescription()
+    add_to_launcher = AddArgumentParser(ld)
+    for arg in raw_args:
+        extended_arg = ExtendedArgument(
+            name=arg[0],
+            description=arg[1],
+            default_value=arg[2],
+            use_env=True,
+            environment=arg[3],
+        )
+        add_to_launcher.add_arg(extended_arg)
+    params = add_to_launcher.process_arg()
+    ld.add_action(OpaqueFunction(function=launch_setup, args=[params]))
     return ld
-
