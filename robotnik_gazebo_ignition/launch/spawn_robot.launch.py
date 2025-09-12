@@ -170,9 +170,16 @@ def launch_setup(context, params):
                 ( f"/{robot_id}/{points_name}_lidar/scan/points", f"/{robot_id}/{points_name}_laser/points", "sensor_msgs/msg/PointCloud2", "gz.msgs.PointCloudPacked", "GZ_TO_ROS"),
             ])
 
+        def add_depth_camera(camera_name):
+            bridge_raw.extend([
+                (f"/{robot_id}/{camera_name}_camera_depth/depth/camera_info", f"/{robot_id}/{camera_name}_rgbd_camera/depth/camera_info", "sensor_msgs/msg/CameraInfo", "gz.msgs.CameraInfo", "GZ_TO_ROS"),
+                (f"/{robot_id}/{camera_name}_camera_depth/depth/image_raw", f"/{robot_id}/{camera_name}_rgbd_camera/depth/image_raw", "sensor_msgs/msg/Image", "gz.msgs.Image", "GZ_TO_ROS"),
+            ])
+
         add_camera("front")
         add_camera("rear")
         add_camera("top_ptz")
+        #add_depth_camera("front")
         add_laser("front")
         add_laser("rear")
         add_pointcloud("top")
