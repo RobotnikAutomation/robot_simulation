@@ -81,8 +81,8 @@
             joint_name: $(var frame_prefix)left_wheel_joint
             limits:
               velocity:
-                min: -270.7
-                max: 270.7
+                min: -27.7
+                max: 27.7
               acceleration:
                 min: -100.0
                 max: 100.0
