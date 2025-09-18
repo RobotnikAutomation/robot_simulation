@@ -3,7 +3,7 @@ repositories:
   ros-control/gz_ros2_control:
     type: git
     url: https://github.com/ros-controls/gz_ros2_control.git
-    version: 1.2.15
+    version: 0.7.16
   ros-visualization/visualization_tutorials:
     type: git
     url: https://github.com/ros-visualization/visualization_tutorials.git
@@ -29,4 +29,4 @@ repositories:
   robotnik/robotnik_simulation:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_simulation.git
-    version: humble-devel
+    version: jazzy-devel 
