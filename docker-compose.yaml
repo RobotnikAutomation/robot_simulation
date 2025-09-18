@@ -1,63 +1,31 @@
+x-gazebo-simulation: &simulation
+  image: test
+  build:
+    context: .
+    args:
+      ros_distro: jazzy
+  network_mode: host
+  privileged: true
+  runtime: nvidia
+  environment:
+    ROS_DOMAIN_ID: 0
+    DISPLAY: ${DISPLAY}  # Forward X11 display
+    NVIDIA_DRIVER_CAPABILITIES: compute,utility,graphics  # Allow GPU access
+    NVIDIA_VISIBLE_DEVICES: all  # Expose all GPUs
+    GZ_VERSION: harmonic
+  devices:
+    - "/dev/dri:/dev/dri"
+    - /tmp/.X11-unix:/tmp/.X11-unix
+  volumes:
+    - tmp:/tmp  # shared tmp directory
+
 services:
-  robotnik_simulator:
-    container_name: robotnik_simulator
-    image: test
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-      args:
-        ros_distro: jazzy
-    network_mode: host
-    privileged: true
-    runtime: nvidia
-    environment:
-      ROS_DOMAIN_ID: 0
-      DISPLAY: ${DISPLAY}  # Forward X11 display
-      NVIDIA_DRIVER_CAPABILITIES: compute,utility,graphics  # Allow GPU access
-      NVIDIA_VISIBLE_DEVICES: all  # Expose all GPUs
-      GZ_VERSION: harmonic
-    devices:
-      - "/dev/dri:/dev/dri"  # Allow OpenGL rendering
-      - /tmp/.X11-unix:/tmp/.X11-unix
+  world:
+    <<: *simulation
     command: ros2 launch robotnik_gazebo_ignition spawn_world.launch.py
   spawn:
-    image: test
-    network_mode: host
-    privileged: true
-    runtime: nvidia
-    environment:
-      ROS_DOMAIN_ID: 0
-      DISPLAY: ${DISPLAY}  # Forward X11 display
-      NVIDIA_DRIVER_CAPABILITIES: compute,utility,graphics  # Allow GPU access
-      NVIDIA_VISIBLE_DEVICES: all  # Expose all GPUs
-      GZ_VERSION: harmonic
-    devices:
-      - "/dev/dri:/dev/dri"  # Allow OpenGL rendering
-      - /tmp/.X11-unix:/tmp/.X11-unix
+    <<: *simulation
     command: ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=robot_a robot:=rbwatcher
 
-  # robotnik_robot_spawner:
-  #   container_name: robotnik_robot_spawner
-  #   image: robotnik_simulation-robotnik_simulation:latest
-  #   network_mode: host
-  #   privileged: true
-  #   runtime: nvidia
-  #   env_file:
-  #     - env/robot.env
-  #   environment:
-  #     ROS_DOMAIN_ID: 0
-  #     DISPLAY: ${DISPLAY}  # Forward X11 display
-  #     NVIDIA_DRIVER_CAPABILITIES: compute,utility,graphics  # Allow GPU access
-  #     NVIDIA_VISIBLE_DEVICES: all  # Expose all GPUs
-  #     ROS_BU_LAUNCH: spawn_robot.launch.py robot:=$${ROBOT} robot_model:=$${ROBOT_MODEL} has_arm:=$${HAS_ARM}
-  #   devices:
-  #     - "/dev/dri:/dev/dri"  # Allow OpenGL rendering
-  #     - /tmp/.X11-unix:/tmp/.X11-unix
-  #   depends_on:
-  #     robotnik_simulator:
-  #       condition: service_healthy
-
-  #   volumes:
-  #     - ./entrypoint.sh:/usr/local/bin/ros_entrypoint.sh
-   
-
+volumes:
+  tmp:
