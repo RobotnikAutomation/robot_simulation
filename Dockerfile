@@ -1,27 +1,26 @@
 ARG base_image="robotnik/ros"
 ARG ros_distro="jazzy"
 ARG image_base_version="0.6.2"
-ARG ros_mirror="ros.mirror.robotnik.ws"
 
 FROM ${base_image}:${ros_distro}-builder-${image_base_version} AS builder
 
+ARG ros_distro
+
 ENV DEBIAN_FRONTEND=noninteractive
+ENV GZ_VERSION=harmonic
 
 USER root
 
-# Install compiled packages
+# Install compiled packages and dependencies
+RUN curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/gazebo-stable.list
+
 RUN --mount=type=bind,\
 target=/tmp/requirements.txt,\
 source=dependencies/requirements/builder/packages.txt \
-    true \
-    && if \
-        timeout 2 curl -IsS http://${ros_mirror} &>/dev/null; \
-        then \
-        sed -i \
-            "s#packages.ros.org#${ros_mirror}#" \
-            /etc/apt/sources.list.d/ros-latest.list ;\
-        fi \
-    && apt-fast update \
+    apt-fast update \
+    && apt-get remove -y ros-${ROS_DISTRO}-ros-gz* \
+    && apt-get upgrade -y \
     && apt-fast install -q -y \
         --no-install-recommends \
         $(eval "echo $(cat /tmp/requirements.txt | xargs)") \
@@ -33,17 +32,23 @@ source=dependencies/requirements/builder/packages.txt \
 USER ${USER_NAME}
 
 RUN --mount=type=bind,\
-source=./dependencies/repos/common.repo.yml,\
+source=./robotnik_simulation.${ros_distro}.repos,\
 target=/tmp/common.repo.yml,ro \
-        vcs import \
+    vcs import \
         --input /tmp/common.repo.yml  \
-        --shallow
+        --shallow src
 
+RUN wget -O ${USER_HOME}/.ros/gazebo_rosdep.yaml \
+    https://raw.githubusercontent.com/osrf/osrf-rosdep/refs/heads/master/gz/gazebo.yaml \
+    && echo "yaml file://${USER_HOME}/.ros/gazebo_rosdep.yaml" | sudo tee -a /etc/ros/rosdep/sources.list.d/50-gazebo-latest.list
+
+# remove   <depend>ros_gz*</depend> exec_depend, depends and build_depend from package.xml files
+RUN find src/ -type f -name 'package.xml' -exec sed -i 's/<depend>ros_gz.*<\/depend>//g; s/<exec_depend>ros_gz.*<\/exec_depend>//g; s/<build_depend>ros_gz.*<\/build_depend>//g' {} +
 
 # Generate deb packages
 RUN generate_debs.sh
 
-RUN cp /home/robot/robot_ws/src/robotnik_simulation/debs/ros-${ROS_DISTRO}-*.deb /home/robot/robot_ws/debs
+RUN cp /home/robot/robot_ws/src/robotnik/robotnik_simulation/debs/ros-${ROS_DISTRO}-*.deb /home/robot/robot_ws/debs
 WORKDIR /home/robot/robot_ws/debs
 # Generate Packages.gz
 RUN dpkg-scanpackages . | gzip -9c > Packages.gz
@@ -52,11 +57,14 @@ RUN dpkg-scanpackages . | gzip -9c > Packages.gz
 # BASE
 FROM ${base_image}:${ros_distro}-base-${image_base_version} AS base
 
-# Add Gazebo GPG key
-RUN sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'\
-    && wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
-
 USER root
+
+# Add Gazebo GPG key
+RUN curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/gazebo-stable.list
+
+ENV GZ_VERSION=harmonic
+
 # Install compiled packages and dependencies
 RUN \
     --mount=\
@@ -69,33 +77,30 @@ type=bind,\
 target=/tmp/requirements.txt,\
 source=dependencies/requirements/base/packages.txt \
     true \
-    && if \
-        timeout 2 curl -IsS http://${ros_mirror} &>/dev/null; \
-        then \
-        sed -i \
-            "s#packages.ros.org#${ros_mirror}#" \
-            /etc/apt/sources.list.d/ros-latest.list ;\
-        fi \
     && echo "deb [trusted=yes] file:///tmp/debs/ ./" | tee /etc/apt/sources.list.d/debs.list \
-    #&& cp /etc/apt/sources.list.d/debs.list /home/robot/robot_ws/ && cp -r /tmp/debs /home/robot/robot_ws/ \
     && apt-get update \
+    && apt-get upgrade -y \
+    && apt-get remove -y ros-${ROS_DISTRO}-ros-gz* \
     && apt-fast install -q -y \
         --no-install-recommends \
         $(eval "echo $(cat /tmp/requirements.txt | xargs)") \
-    #&& sed -i "s#${ros_mirror}#packages.ros.org#" /etc/apt/sources.list.d/ros-latest.list \
-    && dpkg -i $(find /tmp/debs -name "*.deb" | xargs) \
-    #&& cp -r /tmp/debs /home/robot/robot_ws/ \
+        /tmp/debs/ros-${ROS_DISTRO}-*.deb \
     && apt-get clean -q -y \
     && apt-get autoremove -q -y \
     && rm -rf /var/lib/apt/lists/* \
     && rm /etc/apt/sources.list.d/debs.list \
     && true
 
+RUN apt-get update && apt-get upgrade -y \
+    && apt-get clean -y \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/lists/*
+
 USER ${USER_NAME}
 
-# The image is built to run gazebo ignition by default if no other setup is provided.
-ENV STARTUP_TYPE="launch"
-ENV ROS_BU_PKG="robotnik_gazebo_ignition"
-ENV ROS_BU_LAUNCH="spawn_world.launch.py"
+# # # The image is built to run gazebo ignition by default if no other setup is provided.
+# # ENV STARTUP_TYPE="launch"
+# # ENV ROS_BU_PKG="robotnik_gazebo_ignition"
+# # ENV ROS_BU_LAUNCH="spawn_world.launch.py"
 
-ENV QT_X11_NO_MITSHM=1
+# # ENV QT_X11_NO_MITSHM=1
