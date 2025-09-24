@@ -104,3 +104,25 @@
               acceleration:
                 min: -10.0
                 max: 10.0
+
+  # HAS PTZ
+  joint_trajectory_controller:
+    ros__parameters:
+      publish_rate: 50
+      joints:
+        - $(var frame_prefix)top_ptz_camera_pan_joint
+        - $(var frame_prefix)top_ptz_camera_tilt_joint
+        - $(var frame_prefix)top_ptz_camera_zoom_color_joint
+
+      command_interfaces:
+        - position
+
+      state_interfaces:
+        - position
+        - velocity
+
+      state_publish_rate: 50.0
+      action_monitor_rate: 20.0
+
+      allow_partial_joints_goal: false
+      open_loop_control: true

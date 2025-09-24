@@ -4,7 +4,7 @@
   schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>robotnik_gazebo_ignition</name>
-  <version>0.0.0</version>
+  <version>1.0.0</version>
   <description>Package to simulate robots in Gazebo</description>
   <maintainer email="support@robotnik.es">Robotnik Support</maintainer>
   <license>Apache-2.0</license>

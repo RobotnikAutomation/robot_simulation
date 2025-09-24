@@ -83,16 +83,3 @@ rosdep install --from-paths src --ignore-src -r -y
 ```bash
 export GZ_VERSION=harmonic
 colcon build --symlink-install
-```
-
-
-7. Create setup.bash
-
-```
-export GZ_SIM_RESOURCE_PATH=./resources
-export DISPLAY=:0
-export GZ_VERSION=harmonic
-
-source /opt/ros/humble/setup.bash
-source /home/robotnik/workspaces/rmartin_ws/install/local_setup.bash
-```

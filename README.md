@@ -208,7 +208,6 @@ Once you have the simulation running, you can spawn the robot in the world. For 
 | x                | 0.0                          | position x in the Gazebo world to spawn the robot                                              |
 | y                | 0.0                          | position y in the Gazebo world to spawn the robot                                              |
 | z                | 0.0                          | position z in the Gazebo world to spawn the robot                                              |
-| has_arm          | false                        | If the robot has arm or not to initilize joint_trajectory_controller                           |
 
 With the arguments described above, the launcher creates the robot that you want in Gazebo. As default, it will spawn a RBKairos robot, but you can changed it.
 
@@ -219,25 +218,35 @@ Available robots
 - rbsummit
 - rbkairos
 - rbrobout
+- rbwatcher
+- rbfiqus
 
 Available robot_model
 
 - rbkairos_plus
 - rbrobout_plus
 
-Example:
+Examples:
 ```sh
 ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbvogui
+
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbtheron
+
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbsummit
+
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos
+
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbrobout robot_model:=rbrobout
+
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbwatcher robot_model:=rbwatcher
+
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbfiqus robot_model:=rbfiqus
 ```
+
+Additionally, the arguments _x_, _y_ and _z_ selects the position respect the world frame to spawn the robot.
 
 In case that your robot has a variation (check robots folder in robotnik_description package), you can select it by the argument **robot_model**.
 
-Example:
-```sh
-ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos_plus has_arm:=true
-```
-
-Then, the arguments _x_, _y_ and _z_ selects the position respect the world frame to spawn the robot.
 
 #### Control the robot
 
@@ -276,7 +285,12 @@ There are two mobile bases with a manipulator that can be used:
 To use them launch the spawn of the robot as follows:
 
 ```sh
-ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos_plus has_arm:=true
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos_plus
+```
+
+
+```sh
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbrobout robot_model:=rbrobout_plus
 ```
 
 The arm has a joint_trajectory_controller configured that can be used with rqt_joint_trajectory_controller:
