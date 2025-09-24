@@ -40,19 +40,26 @@
             </plane>
           </geometry>
         </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>
       </link>
     </model>
 
-    <!-- <include>
-      <uri>model://robotnik_gazebo_ignition/models/gz_warehouse</uri>
-      <name>warehouse</name>
-      <pose>0 0 0 0 0 0</pose>
-    </include>
-
     <include>
-      <uri>model://robotnik_gazebo_ignition/models/robotnik_charging_station</uri>
-      <name>charging_station</name>
-      <pose>5 0 1 0 0 0</pose>
-    </include> -->
+      <uri>model://robotnik_gazebo_ignition/models/warehouse_simple</uri>
+      <name>warehouse</name>
+      <pose>-2 0 0 0 0 1.57</pose>
+    </include>
   </world>
 </sdf>
