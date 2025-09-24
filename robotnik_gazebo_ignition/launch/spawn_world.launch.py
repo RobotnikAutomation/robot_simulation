@@ -51,7 +51,7 @@ def generate_launch_description():
     arg = ExtendedArgument(
         name='world_path',
         description='world path in gazebo classic',
-        default_value=[FindPackageShare('robotnik_gazebo_ignition'), '/worlds/ignition/', world, '.world'], # type: ignore
+        default_value=[FindPackageShare('robotnik_gazebo_ignition'), '/worlds/', world, '.world'], # type: ignore
     )
     add_to_launcher.add_arg(arg)
 

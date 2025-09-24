@@ -4,7 +4,7 @@
   <world name="industrial-warehouse">
     <physics name="fast" type="ignored">
       <max_step_size>0.004</max_step_size>
-      <real_time_factor>1</real_time_factor>
+      <real_time_factor>1.0</real_time_factor>
     </physics>
     <gui fullscreen="0">
       <plugin filename="MinimalScene" name="3D View">
