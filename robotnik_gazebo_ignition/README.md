@@ -41,12 +41,12 @@ ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=<unique_nam
 | `x` `y` `z` | no | Spawn position in meters | `0.0 0.0 0.0` |
 
 ### Types vs. models
-- **Robot type**: Category such as `rbwatcher`, `summit_xl`. See the package `robots/` folder for available types.
-- **Robot model**: Concrete variant inside a type. If omitted, the default model for that type is used.
+Description package is [robotnik_description](https://github.com/RobotnikAutomation/robotnik_description), which contains all robot types and models. The distinction is:
+- **Robot type**: Category such as `rbwatcher`, `summit_xl`. See the package `robots/` folder for available types. [List of supported robots](https://github.com/RobotnikAutomation/robotnik_description/tree/jazzy-devel/robots).
+- **Robot model**: Concrete variant inside a type. If omitted, the default model for that type is used. See the package `robots/<robot>/models/` folder for available models. [Example models for rbwatcher](https://github.com/RobotnikAutomation/robotnik_description/tree/jazzy-devel/robots/rbwatcher).
 
 ### Notes
 - Use a unique `robot_id` when spawning multiple robots.
-- Coordinates are in world frame meters; `z` should place the base above ground to avoid collisions.
 
 ## Control the Robot
 
