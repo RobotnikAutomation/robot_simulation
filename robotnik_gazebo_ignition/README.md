@@ -14,23 +14,39 @@ Available worlds are located in the `worlds` folder of this package. You can rep
 
 ## Spawn Robot
 
-Once you have the simulation up and running, you can spawn a robot into the Gazebo environment. For that, there is a launch file that starts all the nodes.
+Use the launch file to insert a robot into the Gazebo (Ignition) world.
 
+### Basic
 ```bash
 ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbwatcher
 ```
 
-Replace `<robot_name>` with the name of the robot you want to spawn (e.g., `turtlebot3_burger`, `turtlebot3_waffle`, etc.) and `<namespace>` with the desired namespace for the robot (e.g., `tb3_0`, `tb3_1`, etc.).
+### Advanced
+```bash
+# Specific ID and pose
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=robot_a robot:=rbwatcher robot_model:=rbwatcher x:=0.0 y:=0.0 z:=0.0
+```
 
-| Parameter | Description | Default |
-| --------- | ----------- | ------- |
-| `robot_id` | Unique identifier for the robot, useful when spawning multiple robots | `robot` |
-| `robot` | Robot type desired to be spawned, no default value | None |
-| `robot_model` | Robot model, if not specified, it will be set according to the `robot` parameter | _same as robot_ |
-| `x` | X position where the robot will be spawned | `0.0` |
-| `y` | Y position where the robot will be spawned | `0.0` |
-| `z` | Z position where the robot will be spawned | `0.0` |
+```bash
+# Generic pattern
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=<unique_name> robot:=<robot_type> robot_model:=<robot_model> x:=<m> y:=<m> z:=<m>
+```
 
+### Parameters
+| Name | Required | Purpose | Example |
+|---|---|---|---|
+| `robot_id` | no | Instance name for the spawned robot | `robot_a` |
+| `robot` | yes | Robot **type** to spawn | `rbwatcher` |
+| `robot_model` | no | Specific **model** within the type | `rbwatcher` |
+| `x` `y` `z` | no | Spawn position in meters | `0.0 0.0 0.0` |
+
+### Types vs. models
+- **Robot type**: Category such as `rbwatcher`, `summit_xl`. See the package `robots/` folder for available types.
+- **Robot model**: Concrete variant inside a type. If omitted, the default model for that type is used.
+
+### Notes
+- Use a unique `robot_id` when spawning multiple robots.
+- Coordinates are in world frame meters; `z` should place the base above ground to avoid collisions.
 
 ## Control the Robot
 
