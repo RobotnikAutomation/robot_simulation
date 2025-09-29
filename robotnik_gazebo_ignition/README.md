@@ -24,7 +24,7 @@ ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbwatcher
 ### Advanced
 ```bash
 # Specific ID and pose
-ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=robot_a robot:=rbwatcher robot_model:=rbwatcher x:=0.0 y:=0.0 z:=0.0
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=robot_a robot:=rbwatcher robot_model:=rbwatcher x:=0.0 y:=0.0 z:=0.0 run_rviz:=true
 ```
 
 ```bash
@@ -39,6 +39,7 @@ ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=<unique_nam
 | `robot` | yes | Robot **type** to spawn | `rbwatcher` |
 | `robot_model` | no | Specific **model** within the type | `rbwatcher` |
 | `x` `y` `z` | no | Spawn position in meters | `0.0 0.0 0.0` |
+| `run_rviz` | no | Launch RViz2 with a predefined configuration | `true` or `false` |
 
 ### Types vs. models
 Description package is [robotnik_description](https://github.com/RobotnikAutomation/robotnik_description), which contains all robot types and models. The distinction is:
