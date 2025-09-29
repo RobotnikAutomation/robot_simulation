@@ -1,9 +1,36 @@
+<?xml version="1.0" ?>
 <sdf version='1.6'>
   <world name='default'>
+    <physics type='ode'>
+      <max_step_size>0.02</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+      <real_time_update_rate>50</real_time_update_rate>
+    </physics>
+    <plugin name='gz::sim::systems::Physics' filename='libgz-sim-physics-system.so'/>
+    <plugin name='gz::sim::systems::UserCommands' filename='libgz-sim-user-commands-system.so'/>
+    <plugin name='gz::sim::systems::SceneBroadcaster' filename='libgz-sim-scene-broadcaster-system.so'/>
+    <plugin name="gz::sim::systems::Sensors" filename="libgz-sim-sensors-system.so">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+    <plugin name="gz::sim::systems::Imu" filename="libgz-sim-imu-system.so"/>
+    <plugin name="gz::sim::systems::NavSat" filename="libgz-sim-navsat-system.so"/>
+
+    <scene>
+      <ambient>1 1 1 1</ambient>
+      <background>0.3 0.7 0.9 1</background>
+      <shadows>0</shadows>
+      <grid>false</grid>
+      <sky>
+        <clouds>
+          <speed>12</speed>
+        </clouds>
+      </sky>
+      <shadows>1</shadows>
+    </scene>
     <light name='sun' type='directional'>
       <cast_shadows>1</cast_shadows>
-      <pose frame=''>0 0 10 0 -0 0</pose>
-      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <pose>0 0 10 0 -0 0</pose>
+      <diffuse>1.0 1.0 1.0 1</diffuse>
       <specular>0.2 0.2 0.2 1</specular>
       <attenuation>
         <range>1000</range>
@@ -11,79 +38,103 @@
         <linear>0.01</linear>
         <quadratic>0.001</quadratic>
       </attenuation>
-      <direction>-0.5 0.1 -0.9</direction>
+      <direction>-0.5 0.5 -1.0</direction>
     </light>
-    <model name='ground_plane'>
-      <static>1</static>
-      <link name='link'>
-        <collision name='collision'>
-          <geometry>
-            <plane>
-              <normal>0 0 1</normal>
-              <size>100 100</size>
-            </plane>
-          </geometry>
-          <surface>
-            <contact>
-              <collide_bitmask>65535</collide_bitmask>
-              <ode/>
-            </contact>
-            <friction>
-              <ode>
-                <mu>100</mu>
-                <mu2>50</mu2>
-              </ode>
-              <torsional>
-                <ode/>
-              </torsional>
-            </friction>
-            <bounce/>
-          </surface>
-          <max_contacts>10</max_contacts>
-        </collision>
-        <visual name='visual'>
-          <cast_shadows>0</cast_shadows>
-          <geometry>
-            <plane>
-              <normal>0 0 1</normal>
-              <size>100 100</size>
-            </plane>
-          </geometry>
-          <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-          </material>
-        </visual>
-        <self_collide>0</self_collide>
-        <enable_wind>0</enable_wind>
-        <kinematic>0</kinematic>
-      </link>
+
+    <!-- Robotnik site: Valencia, Spain -->
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <latitude_deg>39.551908</latitude_deg>
+      <longitude_deg>-0.468661</longitude_deg>
+      <elevation>108</elevation>
+      <heading_deg>0</heading_deg>
+    </spherical_coordinates>
+
+    <model name="ground_plane">
+        <static>true</static>
+        <link name="link">
+            <collision name="collision">
+            <geometry>
+                <plane>
+                <normal>0 0 1</normal>
+                </plane>
+            </geometry>
+            </collision>
+            <visual name="visual">
+            <geometry>
+                <plane>
+                <normal>0 0 1</normal>
+                <size>100 100</size>
+                </plane>
+            </geometry>
+            <material>
+                <ambient>0.8 0.8 0.8 1</ambient>
+                <diffuse>0.8 0.8 0.8 1</diffuse>
+                <specular>0.8 0.8 0.8 1</specular>
+            </material>
+            </visual>
+        </link>
     </model>
+
     <gravity>0 0 -9.8</gravity>
     <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
     <atmosphere type='adiabatic'/>
-    <physics name='default_physics' default='0' type='ode'>
-      <max_step_size>0.001</max_step_size>
-      <real_time_factor>1</real_time_factor>
-      <real_time_update_rate>1000</real_time_update_rate>
-    </physics>
-    <scene>
-      <ambient>0.4 0.4 0.4 1</ambient>
-      <background>0.7 0.7 0.7 1</background>
-      <shadows>1</shadows>
-    </scene>
     <wind/>
-    <spherical_coordinates>
-      <surface_model>EARTH_WGS84</surface_model>
-      <latitude_deg>0</latitude_deg>
-      <longitude_deg>0</longitude_deg>
-      <elevation>0</elevation>
-      <heading_deg>0</heading_deg>
-    </spherical_coordinates>
+
+    <model name="origin_axes">
+      <static>true</static>
+      <link name="linkX">
+        <!-- Eje X -->
+        <visual name="x_axis">
+          <pose>0.5 0 0 0 1.57 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.02</radius>
+              <length>1</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>1 0 0 1</ambient> <!-- Rojo -->
+            <diffuse>1 0 0 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <link name="linkY">
+        <!-- Eje Y -->
+        <visual name="y_axis">
+          <pose>0 0.5 0 -1.57 0 0</pose> <!-- Invertido con -1.5708 -->
+          <geometry>
+            <cylinder>
+              <radius>0.02</radius>
+              <length>1</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0 1 0 1</ambient> <!-- Verde -->
+            <diffuse>0 1 0 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <link name="linkZ">
+        <!-- Eje Y -->
+        <visual name="z_axis">
+          <pose>0 0 0.5 0 0 1.57</pose> <!-- Invertido con -1.5708 -->
+          <geometry>
+            <cylinder>
+              <radius>0.02</radius>
+              <length>1</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0 0 1 1</ambient> <!-- Verde -->
+            <diffuse>0 0 1 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
     <model name='demo'>
-      <pose frame=''>0.446728 1.67861 0 0 -0 0</pose>
+      <pose frame=''>0.446728 2 0 0 0 1.57</pose>
       <link name='Wall_10'>
         <collision name='Wall_10_Collision'>
           <geometry>
@@ -114,11 +165,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -159,11 +207,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -204,11 +249,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -249,11 +291,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -294,11 +333,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -339,11 +375,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -384,11 +417,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -429,11 +459,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -474,11 +501,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -519,11 +543,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -564,11 +585,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -609,11 +627,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -654,11 +669,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -699,11 +711,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -744,11 +753,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -789,11 +795,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -834,11 +837,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -879,11 +879,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -924,11 +921,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -969,11 +963,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -1014,11 +1005,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -1059,11 +1047,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -1104,11 +1089,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -1149,11 +1131,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -1194,11 +1173,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -1239,11 +1215,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -1284,11 +1257,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -1329,11 +1299,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -1374,11 +1341,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -1419,11 +1383,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -1464,11 +1425,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -1509,11 +1467,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -1554,11 +1509,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -1599,11 +1551,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -1644,11 +1593,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -1689,11 +1635,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -1734,11 +1677,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -1779,11 +1719,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -1824,11 +1761,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -1869,11 +1803,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -1914,11 +1845,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -1959,11 +1887,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -2004,11 +1929,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -2049,11 +1971,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -2094,11 +2013,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -2139,11 +2055,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -2184,11 +2097,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -2229,11 +2139,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -2274,11 +2181,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -2319,11 +2223,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -2364,11 +2265,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -2409,11 +2307,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -2454,11 +2349,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -2499,11 +2391,8 @@
             </box>
           </geometry>
           <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            <ambient>1 1 1 1</ambient>
+            <ambient>1 1 1 1</ambient>   <!-- Blanco -->
+            <diffuse>1 1 1 1</diffuse>   <!-- Blanco -->
           </material>
           <meta>
             <layer>0</layer>
@@ -2516,6 +2405,7 @@
       </link>
       <static>1</static>
     </model>
+
     <state world_name='default'>
       <sim_time>95 560000000</sim_time>
       <real_time>96 21539812</real_time>
@@ -2849,26 +2739,13 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='ground_plane'>
-        <pose frame=''>0 0 0 0 -0 0</pose>
-        <scale>1 1 1</scale>
-        <link name='link'>
-          <pose frame=''>0 0 0 0 -0 0</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-      </model>
-      <light name='sun'>
-        <pose frame=''>0 0 10 0 -0 0</pose>
-      </light>
     </state>
-    <gui fullscreen='0'>
+    <!--gui fullscreen='0'>
       <camera name='user_camera'>
         <pose frame=''>10.4424 7.27736 7.91302 0 0.5498 -2.56</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
-    </gui>
+    </gui-->
   </world>
 </sdf>
