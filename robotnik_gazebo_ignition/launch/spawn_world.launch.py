@@ -96,6 +96,13 @@ def generate_launch_description():
                     ],
                     'on_exit_shutdown':'true'
                 }.items(),
+            ),
+            Node(
+                package="ros_gz_bridge",
+                executable="parameter_bridge",
+                name="gz_clock_bridge",
+                output="screen",
+                arguments=["/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock"],
             )
         ]
     )
@@ -103,4 +110,3 @@ def generate_launch_description():
     ld.add_action(gazebo_ignition_launch_group)
 
     return ld
-

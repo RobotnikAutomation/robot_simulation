@@ -152,7 +152,6 @@ def launch_setup(context, params):
     def generate_bridge_yaml(params) -> str:
         robot_id = substitute_param_context(params['robot_id'], context)
         bridge_raw = [
-            ("clock", "/clock", "rosgraph_msgs/msg/Clock", "gz.msgs.Clock", "GZ_TO_ROS"),
             (f"/{robot_id}/imu/data", f"/{robot_id}/imu/data", "sensor_msgs/msg/Imu", "ignition.msgs.IMU", "GZ_TO_ROS"),
             (f"/{robot_id}/gps/data", f"/{robot_id}/gps/fix", "sensor_msgs/msg/NavSatFix", "ignition.msgs.NavSat", "GZ_TO_ROS"),
         ]
@@ -206,7 +205,7 @@ def launch_setup(context, params):
         existing_controllers = []
         # Load the YAML file
         with open(yaml_path, 'r') as f:
-             
+
             # Read the file content
             content = f.read()
             # Remove the string "---\n/**:" if it exists at the beginning
@@ -217,7 +216,7 @@ def launch_setup(context, params):
             f = tempfile.SpooledTemporaryFile(mode='w+')
             f.write(content)
             f.seek(0)
-            
+
             try:
                 data = yaml.safe_load(f)
             except Exception as e:
@@ -228,7 +227,7 @@ def launch_setup(context, params):
         return existing_controllers
 
     def get_ros2_control_yaml_path(params):
-        return str( 
+        return str(
             Path(
                 FindPackageShare('robotnik_gazebo_ignition').perform(context)
             )
