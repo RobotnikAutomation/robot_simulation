@@ -49,6 +49,7 @@ from launch.utilities import normalize_to_list_of_substitutions, perform_substit
 from launch.utilities.typing_file_path import FilePath
 from launch.substitution import Substitution
 from launch import LaunchContext
+from launch.conditions import IfCondition
 
 
 # TODO: move this utility class into robotnik_common
@@ -152,7 +153,6 @@ def launch_setup(context, params):
     def generate_bridge_yaml(params) -> str:
         robot_id = substitute_param_context(params['robot_id'], context)
         bridge_raw = [
-            ("clock", "/clock", "rosgraph_msgs/msg/Clock", "gz.msgs.Clock", "GZ_TO_ROS"),
             (f"/{robot_id}/imu/data", f"/{robot_id}/imu/data", "sensor_msgs/msg/Imu", "ignition.msgs.IMU", "GZ_TO_ROS"),
             (f"/{robot_id}/gps/data", f"/{robot_id}/gps/fix", "sensor_msgs/msg/NavSatFix", "ignition.msgs.NavSat", "GZ_TO_ROS"),
         ]
@@ -199,13 +199,14 @@ def launch_setup(context, params):
         namespace=params['robot_id'],
     ))
 
+
     def extract_controllers_from_yaml(yaml_path):
 
         data = {}
         existing_controllers = []
         # Load the YAML file
         with open(yaml_path, 'r') as f:
-             
+
             # Read the file content
             content = f.read()
             # Remove the string "---\n/**:" if it exists at the beginning
@@ -216,7 +217,7 @@ def launch_setup(context, params):
             f = tempfile.SpooledTemporaryFile(mode='w+')
             f.write(content)
             f.seek(0)
-            
+
             try:
                 data = yaml.safe_load(f)
             except Exception as e:
@@ -227,7 +228,7 @@ def launch_setup(context, params):
         return existing_controllers
 
     def get_ros2_control_yaml_path(params):
-        return str( 
+        return str(
             Path(
                 FindPackageShare('robotnik_gazebo_ignition').perform(context)
             )
@@ -244,14 +245,13 @@ def launch_setup(context, params):
     controllers = ['joint_state_broadcaster']
     controllers.extend(new_controllers)
     print("Controllers to be spawned:", controllers)
-    
+
     robot_controller_config = ConfigFile(
         [
             FindPackageShare('robotnik_gazebo_ignition'), '/config/profile/', LaunchConfiguration('robot'), '/ros2_control.yaml',
         ],
     )
-    
-    
+
     controllers.append('--param-file')
     controllers.append(
          robot_controller_config, # type: ignore
@@ -275,8 +275,9 @@ def launch_setup(context, params):
             # Fixed frame
             '-f', [params['robot_id'], '_odom'],
             # Window name
-            '-t', [params['robot_id'], ' - ', params['robot_model'], ' - RViz']
-        ]
+            '-t', [params['robot_id'], ' - ', params['robot_model'], ' - RViz'],
+        ],
+        condition=IfCondition(params['run_rviz'])
     ))
     return ret
 
@@ -291,6 +292,7 @@ def generate_launch_description():
         ("y", "Initial Y Coordinate", "0.0", "Y"),
         ("z", "Initial Z Coordinate", "0.0", "Z"),
         ("has_arm", "Enable Arm Controller", "False", "HAS_ARM"),
+        ("run_rviz", "Run RViz", "True", "RUN_RVIZ"),
     ]
 
     ld = LaunchDescription()

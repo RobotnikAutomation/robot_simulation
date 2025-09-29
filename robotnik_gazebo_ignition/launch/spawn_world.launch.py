@@ -51,7 +51,7 @@ def generate_launch_description():
     arg = ExtendedArgument(
         name='world_path',
         description='world path in gazebo classic',
-        default_value=[FindPackageShare('robotnik_gazebo_ignition'), '/worlds/ignition/', world, '.world'], # type: ignore
+        default_value=[FindPackageShare('robotnik_gazebo_ignition'), '/worlds/', world, '.world'], # type: ignore
     )
     add_to_launcher.add_arg(arg)
 
@@ -96,6 +96,13 @@ def generate_launch_description():
                     ],
                     'on_exit_shutdown':'true'
                 }.items(),
+            ),
+            Node(
+                package="ros_gz_bridge",
+                executable="parameter_bridge",
+                name="gz_clock_bridge",
+                output="screen",
+                arguments=["/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock"],
             )
         ]
     )
@@ -103,4 +110,3 @@ def generate_launch_description():
     ld.add_action(gazebo_ignition_launch_group)
 
     return ld
-
