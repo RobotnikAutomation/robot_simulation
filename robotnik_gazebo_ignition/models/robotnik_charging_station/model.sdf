@@ -1,0 +1,182 @@
+<?xml version='1.0'?>
+<sdf version='1.6'>
+  <model name='robotnik_charging_station'>
+    <static>true</static>
+    <canonical_link>charging_station_link</canonical_link>
+    <allow_auto_disable>true</allow_auto_disable>
+
+    <!-- Main dock -->
+    <link name='charging_station_link'>
+      <pose>-0.071684 0.000885 0.135 0 0 0</pose>
+      <self_collide>false</self_collide>
+      <enable_wind>false</enable_wind>
+
+      <visual name='charging_station_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/summit_docking_station.stl</uri>
+            <scale>1 1 1</scale>
+          </mesh>
+        </geometry>
+        <material>
+          <lighting>true</lighting>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Grey</name>
+          </script>
+          <ambient>0.2 0.2 0.2 1</ambient>
+          <diffuse>0.7 0.7 0.7 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+        </material>
+        <transparency>0.0</transparency>
+        <cast_shadows>true</cast_shadows>
+      </visual>
+
+      <collision name='charging_station_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/summit_docking_station.stl</uri>
+            <scale>1 1 1</scale>
+          </mesh>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.0</mu>
+              <mu2>1.0</mu2>
+              <slip1>0</slip1>
+              <slip2>0</slip2>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <soft_cfm>0</soft_cfm>
+              <soft_erp>0.2</soft_erp>
+              <max_vel>0.05</max_vel>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <bounce>
+            <restitution_coefficient>0</restitution_coefficient>
+            <threshold>1e6</threshold>
+          </bounce>
+        </surface>
+        <max_contacts>10</max_contacts>
+      </collision>
+    </link>
+
+    <!-- Retroreflective left strip -->
+    <link name='left_reflector'>
+      <pose>0.07 -0.18 0.36 0 0 0</pose>
+      <self_collide>false</self_collide>
+      <enable_wind>false</enable_wind>
+
+      <visual name='left_reflector_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.071 0.12</size>
+          </box>
+        </geometry>
+        <material>
+          <lighting>true</lighting>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/White</name>
+          </script>
+        </material>
+        <transparency>0.0</transparency>
+        <cast_shadows>true</cast_shadows>
+      </visual>
+
+      <collision name='left_reflector_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.071 0.12</size>
+          </box>
+        </geometry>
+        <laser_retro>200</laser_retro>
+        <surface>
+          <friction><ode><mu>0.8</mu><mu2>0.8</mu2></ode></friction>
+          <contact><ode><soft_erp>0.2</soft_erp><soft_cfm>0</soft_cfm></ode></contact>
+        </surface>
+        <max_contacts>10</max_contacts>
+      </collision>
+    </link>
+
+    <!-- Retroreflective right strip -->
+    <link name='right_reflector'>
+      <pose>0.07 0.18 0.36 0 0 0</pose>
+      <self_collide>false</self_collide>
+      <enable_wind>false</enable_wind>
+
+      <visual name='right_reflector_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.071 0.12</size>
+          </box>
+        </geometry>
+        <material>
+          <lighting>true</lighting>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/White</name>
+          </script>
+        </material>
+        <transparency>0.0</transparency>
+        <cast_shadows>true</cast_shadows>
+      </visual>
+
+      <collision name='right_reflector_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.001 0.071 0.12</size>
+          </box>
+        </geometry>
+        <laser_retro>200</laser_retro>
+        <surface>
+          <friction><ode><mu>0.8</mu><mu2>0.8</mu2></ode></friction>
+          <contact><ode><soft_erp>0.2</soft_erp><soft_cfm>0</soft_cfm></ode></contact>
+        </surface>
+        <max_contacts>10</max_contacts>
+      </collision>
+    </link>
+
+    <!-- Fiducial marker as nested static model -->
+    <model name='marker1_border_12cm'>
+      <static>true</static>
+      <pose>0.071684 -0.000885 0.355 0 0 0</pose>
+      <link name='marker1_border_12cm'>
+        <visual name='marker_visual'>
+          <geometry>
+            <box>
+              <size>0.001 0.14 0.14</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>material/scripts</uri>
+              <name>ARtrack/marker1_border_12cm</name>
+            </script>
+          </material>
+        </visual>
+        <collision name='marker_collision'>
+          <geometry>
+            <box>
+              <size>0.001 0.14 0.14</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction><ode><mu>0.6</mu><mu2>0.6</mu2></ode></friction>
+          </surface>
+        </collision>
+      </link>
+    </model>
+
+  </model>
+</sdf>

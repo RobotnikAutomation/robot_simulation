@@ -1,0 +1,59 @@
+<?xml version="1.0" ?>
+<sdf version="1.9">
+  <world name='robotnik_simple'>
+    <physics type='ode'>
+      <max_step_size>0.02</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+    <plugin name='gz::sim::systems::Physics' filename='libgz-sim-physics-system.so'/>
+    <plugin name='gz::sim::systems::UserCommands' filename='libgz-sim-user-commands-system.so'/>
+    <plugin name='gz::sim::systems::SceneBroadcaster' filename='libgz-sim-scene-broadcaster-system.so'/>
+    <plugin name="gz::sim::systems::Sensors" filename="libgz-sim-sensors-system.so">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+    <plugin name="gz::sim::systems::Imu" filename="libgz-sim-imu-system.so"/>
+    <plugin name="gz::sim::systems::NavSat" filename="libgz-sim-navsat-system.so"/>
+
+    <scene>
+      <ambient>1 1 1</ambient>
+      <grid>false</grid>
+      <sky></sky>
+    </scene>
+
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 20 -1.3 0 0.5</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.01 0.01 0.01 1</specular>
+      <intensity>2</intensity>
+      <visualize>false</visualize>
+    </light>
+
+
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+  </world>
+</sdf>

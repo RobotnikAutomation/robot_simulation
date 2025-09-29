@@ -1,0 +1,403 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<sdf version="1.9">
+  <world name="industrial-warehouse">
+    <physics name="fast" type="ignored">
+      <max_step_size>0.02</max_step_size>
+      <real_time_factor>1</real_time_factor>
+    </physics>
+    <gui fullscreen="0">
+      <plugin filename="MinimalScene" name="3D View">
+        <gz-gui>
+          <title>3D View</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="string" key="state">docked</property>
+        </gz-gui>
+
+        <engine>ogre2</engine>
+        <scene>scene</scene>
+        <sky></sky>
+        <camera_clip>
+          <near>0.01</near>
+          <far>500</far>
+        </camera_clip>
+        <camera_pose>-5.4 -1.15 1.75 0.0 0.11 0.73</camera_pose>
+      </plugin>
+
+      <!-- Plugins that add functionality to the scene -->
+      <plugin filename="GlobalIlluminationVct" name="GI">
+        <gz-gui>
+          <property type="string" key="state">docked_collapsed</property>
+        </gz-gui>
+        <enabled>true</enabled>
+        <highQuality>true</highQuality>
+        <resolution>64 32 16</resolution>
+        <octantCount>1 1 1</octantCount>
+        <conserveMemory>true</conserveMemory>
+        <thinWallCounter>1.0</thinWallCounter>
+        <anisotropic>true</anisotropic>
+        <bounceCount>9</bounceCount>
+      </plugin>
+      <plugin filename="EntityContextMenuPlugin" name="Entity context menu">
+        <gz-gui>
+          <property key="state" type="string">floating</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="GzSceneManager" name="Scene Manager">
+        <gz-gui>
+          <property key="resizable" type="bool">false</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="InteractiveViewControl" name="Interactive view control">
+        <gz-gui>
+          <property key="resizable" type="bool">false</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="CameraTracking" name="Camera Tracking">
+        <gz-gui>
+          <property key="resizable" type="bool">false</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="MarkerManager" name="Marker manager">
+        <gz-gui>
+          <property key="resizable" type="bool">false</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="SelectEntities" name="Select Entities">
+        <gz-gui>
+          <anchors target="Select entities">
+            <line own="right" target="right"/>
+            <line own="top" target="top"/>
+          </anchors>
+          <property key="resizable" type="bool">false</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="VisualizationCapabilities" name="Visualization Capabilities">
+        <gz-gui>
+          <property key="resizable" type="bool">false</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </gz-gui>
+      </plugin>
+
+      <plugin filename="Spawn" name="Spawn Entities">
+        <gz-gui>
+          <anchors target="Select entities">
+            <line own="right" target="right"/>
+            <line own="top" target="top"/>
+          </anchors>
+          <property key="resizable" type="bool">false</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </gz-gui>
+      </plugin>
+
+      <!-- World control -->
+      <plugin filename="WorldControl" name="World control">
+        <gz-gui>
+          <title>World control</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="bool" key="resizable">false</property>
+          <property type="double" key="height">72</property>
+          <property type="double" key="z">1</property>
+
+          <property type="string" key="state">floating</property>
+          <anchors target="3D View">
+            <line own="left" target="left"/>
+            <line own="bottom" target="bottom"/>
+          </anchors>
+        </gz-gui>
+
+        <play_pause>true</play_pause>
+        <step>true</step>
+        <start_paused>true</start_paused>
+        <use_event>true</use_event>
+
+      </plugin>
+
+      <!-- World statistics -->
+      <plugin filename="WorldStats" name="World stats">
+        <gz-gui>
+          <title>World stats</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="bool" key="resizable">false</property>
+          <property type="double" key="height">110</property>
+          <property type="double" key="width">290</property>
+          <property type="double" key="z">1</property>
+
+          <property type="string" key="state">floating</property>
+          <anchors target="3D View">
+            <line own="right" target="right"/>
+            <line own="bottom" target="bottom"/>
+          </anchors>
+        </gz-gui>
+
+        <sim_time>true</sim_time>
+        <real_time>true</real_time>
+        <real_time_factor>true</real_time_factor>
+        <iterations>true</iterations>
+      </plugin>
+
+      <!-- Insert simple shapes -->
+      <plugin filename="Shapes" name="Shapes">
+        <gz-gui>
+          <property key="resizable" type="bool">false</property>
+          <property key="x" type="double">0</property>
+          <property key="y" type="double">0</property>
+          <property key="width" type="double">250</property>
+          <property key="height" type="double">50</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+          <property key="cardBackground" type="string">#666666</property>
+        </gz-gui>
+      </plugin>
+
+      <!-- Insert lights -->
+      <plugin filename="Lights" name="Lights">
+        <gz-gui>
+          <property key="resizable" type="bool">false</property>
+          <property key="x" type="double">250</property>
+          <property key="y" type="double">0</property>
+          <property key="width" type="double">150</property>
+          <property key="height" type="double">50</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+          <property key="cardBackground" type="string">#666666</property>
+        </gz-gui>
+      </plugin>
+
+      <!-- Translate / rotate -->
+      <plugin filename="TransformControl" name="Transform control">
+        <gz-gui>
+          <property key="resizable" type="bool">false</property>
+          <property key="x" type="double">0</property>
+          <property key="y" type="double">50</property>
+          <property key="width" type="double">250</property>
+          <property key="height" type="double">50</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+          <property key="cardBackground" type="string">#777777</property>
+        </gz-gui>
+      </plugin>
+
+      <!-- Screenshot -->
+      <plugin filename="Screenshot" name="Screenshot">
+        <gz-gui>
+          <property key="resizable" type="bool">false</property>
+          <property key="x" type="double">250</property>
+          <property key="y" type="double">50</property>
+          <property key="width" type="double">50</property>
+          <property key="height" type="double">50</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+          <property key="cardBackground" type="string">#777777</property>
+        </gz-gui>
+      </plugin>
+
+      <!-- Video recorder -->
+      <plugin filename="VideoRecorder" name="VideoRecorder">
+        <gz-gui>
+          <property key="resizable" type="bool">false</property>
+          <property key="x" type="double">300</property>
+          <property key="y" type="double">50</property>
+          <property key="width" type="double">50</property>
+          <property key="height" type="double">50</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+          <property key="cardBackground" type="string">#777777</property>
+        </gz-gui>
+
+        <record_video>
+          <use_sim_time>true</use_sim_time>
+          <lockstep>false</lockstep>
+          <bitrate>4000000</bitrate>
+        </record_video>
+      </plugin>
+
+      <!-- Inspector -->
+      <plugin filename="ComponentInspector" name="Component inspector">
+        <gz-gui>
+          <property type="string" key="state">docked_collapsed</property>
+        </gz-gui>
+      </plugin>
+
+      <!-- Entity tree -->
+      <plugin filename="EntityTree" name="Entity tree">
+        <gz-gui>
+          <property type="string" key="state">docked_collapsed</property>
+        </gz-gui>
+      </plugin>
+
+      <!-- View angle -->
+      <plugin filename="ViewAngle" name="View angle">
+        <gz-gui>
+          <property type="string" key="state">docked_collapsed</property>
+        </gz-gui>
+      </plugin>
+    </gui>
+
+    <plugin
+      filename="gz-sim-physics-system"
+      name="gz::sim::systems::Physics">
+    </plugin>
+    <plugin
+      filename="gz-sim-sensors-system"
+      name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+    <plugin
+      filename="gz-sim-user-commands-system"
+      name="gz::sim::systems::UserCommands">
+    </plugin>
+    <plugin
+      filename="gz-sim-scene-broadcaster-system"
+      name="gz::sim::systems::SceneBroadcaster">
+    </plugin>
+    <plugin
+      filename="gz-sim-imu-system"
+      name="gz::sim::systems::Imu">
+    </plugin>
+    <plugin
+      filename="gz-sim-navsat-system"
+      name="gz::sim::systems::NavSat">
+    </plugin>
+
+    <scene>
+      <ambient>0 0 0</ambient>
+      <grid>false</grid>
+      <sky></sky>
+    </scene>
+
+    <light type="spot" name="spot_grid">
+      <pose>-3 0.5 2.7 0 0 0</pose>
+      <diffuse>1 1 1 1</diffuse>
+      <specular>1 1 1 1</specular>
+      <intensity>1</intensity>
+      <attenuation>
+        <range>12</range>
+        <linear>0.3</linear>
+        <constant>0.2</constant>
+        <quadratic>0.0</quadratic>
+      </attenuation>
+      <direction>0 0 -1</direction>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>2.5</outer_angle>
+        <falloff>1</falloff>
+      </spot>
+      <cast_shadows>true</cast_shadows>
+      <visualize>false</visualize>
+    </light>
+
+    <light type="spot" name="spot_middle">
+      <pose>4 1.8 2.5 0 0 0</pose>
+      <diffuse>1 1 1 1</diffuse>
+      <specular>1 1 1 1</specular>
+      <intensity>1</intensity>
+      <attenuation>
+        <range>12</range>
+        <linear>0.3</linear>
+        <constant>0.2</constant>
+        <quadratic>0.0</quadratic>
+      </attenuation>
+      <direction>0 0 -1</direction>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>2.5</outer_angle>
+        <falloff>1</falloff>
+      </spot>
+      <cast_shadows>true</cast_shadows>
+      <visualize>false</visualize>
+    </light>
+
+    <light type="spot" name="spot_longtable">
+      <pose>9 1 2.75 0 0 0</pose>
+      <diffuse>1 1 1 1</diffuse>
+      <specular>1 1 1 1</specular>
+      <intensity>1</intensity>
+      <attenuation>
+        <range>12</range>
+        <linear>0.3</linear>
+        <constant>0.2</constant>
+        <quadratic>0.0</quadratic>
+      </attenuation>
+      <direction>0 0 -1</direction>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>2.5</outer_angle>
+        <falloff>1</falloff>
+      </spot>
+      <cast_shadows>true</cast_shadows>
+      <visualize>false</visualize>
+    </light>
+
+    <light type="point" name="point_column_01">
+      <pose>0 1.75 1.75 0 0 0</pose>
+      <diffuse>1 1 1 1</diffuse>
+      <specular>1 1 1 1</specular>
+      <intensity>1</intensity>
+      <attenuation>
+        <range>20</range>
+        <linear>0.2</linear>
+        <constant>0.8</constant>
+        <quadratic>0.5</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+      <visualize>false</visualize>
+    </light>
+
+    <light type="point" name="point_column_02">
+      <pose>7.4 3.4 1.71 0 0 0</pose>
+      <diffuse>1 1 1 1</diffuse>
+      <specular>1 1 1 1</specular>
+      <intensity>1</intensity>
+      <attenuation>
+        <range>20</range>
+        <linear>0.2</linear>
+        <constant>0.8</constant>
+        <quadratic>0.5</quadratic>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+      <visualize>false</visualize>
+    </light>
+
+    <include>
+      <name>Interior</name>
+      <pose>0 0 0 0 0 0</pose>
+      <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/Ionic interior</uri>
+    </include>
+
+    <include>
+      <name>Ionic Mascot</name>
+      <pose>3.67 0.35 1.18 0 0 3.14</pose>
+      <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/Ionic Mascot</uri>
+    </include>
+  </world>
+</sdf>
