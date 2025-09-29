@@ -49,6 +49,7 @@ from launch.utilities import normalize_to_list_of_substitutions, perform_substit
 from launch.utilities.typing_file_path import FilePath
 from launch.substitution import Substitution
 from launch import LaunchContext
+from launch.conditions import IfCondition
 
 
 # TODO: move this utility class into robotnik_common
@@ -274,8 +275,9 @@ def launch_setup(context, params):
             # Fixed frame
             '-f', [params['robot_id'], '_odom'],
             # Window name
-            '-t', [params['robot_id'], ' - ', params['robot_model'], ' - RViz']
-        ]
+            '-t', [params['robot_id'], ' - ', params['robot_model'], ' - RViz'],
+        ],
+        condition=IfCondition(params['run_rviz'])
     ))
     return ret
 
@@ -290,6 +292,7 @@ def generate_launch_description():
         ("y", "Initial Y Coordinate", "0.0", "Y"),
         ("z", "Initial Z Coordinate", "0.0", "Z"),
         ("has_arm", "Enable Arm Controller", "False", "HAS_ARM"),
+        ("run_rviz", "Run RViz", "True", "RUN_RVIZ"),
     ]
 
     ld = LaunchDescription()
