@@ -1,292 +1,246 @@
 <a id="readme-top"></a>
 
-
-<!-- PROJECT SHIELDS -->
+<!-- SHIELDS -->
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-[![Unlicense License][license-shield]][license-url]
+[![License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
+<!-- LOGO -->
+<p align="center">
+  <img src="./docs/assets/img/LOGO%20BLANCO-ROJO.png" alt="Robotnik logo" height="80">
+</p>
 
-<!-- PROJECT LOGO -->
-![Logo Robotnik](./docs/assets/img/LOGO%20BLANCO-ROJO.png)
+<h1 align="center">Robotnik - ROS 2 Simulation</h1>
 
-<br />
-<div align="center">
-=======
+<p align="center">
+  ROS 2 simulation of Robotnik Automation robots.
+  <br />
+  <a href="https://github.com/RobotnikAutomation/robot_simulation"><strong>Browse the docs »</strong></a>
+  <br /><br />
+  <a href="#demo">View demo</a>
+  ·
+  <a href="https://github.com/RobotnikAutomation/robot_simulation/issues/new?labels=bug&template=bug-report---.md">Report bug</a>
+  ·
+  <a href="https://github.com/RobotnikAutomation/robot_simulation/issues/new?labels=enhancement&template=feature-request---.md">Request feature</a>
+</p>
 
-  <h1 align="center">robot_simulation</h1>
+---
 
-  <p align="center">
-    Simulation of Robotnik Automation robots in ROS2!
-    <br />
-    <a href="https://github.com/RobotnikAutomation/robot_simulation"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="#enjoy">View Demo</a>
-    &middot;
-    <a href="https://github.com/RobotnikAutomation/robot_simulation/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
-    &middot;
-    <a href="https://github.com/RobotnikAutomation/robot_simulation/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
-  </p>
-</div>
+## Table of contents
+- [About](#about)
+- [Quick start](#quick-start)
+  - [Prerequisites](#prerequisites)
+  - [Install](#install)
+  - [Build](#build)
+- [Usage](#usage)
+- [Docker](#docker)
+  - [Setup](#setup)
+- [Custom simulation](#custom-simulation)
+  - [Custom robot model](#custom-robot-model)
+  - [Custom control](#custom-control)
+  - [Custom world](#custom-world)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+- [Demo](#demo)
 
+---
 
-
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li>
-        <a href="#usage">Usage</a>
-      <ul>
-        <li>
-            <a href="#gazebo-ignition">Gazebo Ignition</a>
-        <ul>
-            <li><a href="#launch-gazebo">Launch Gazebo</a></li>
-            <li><a href="#spawn-robot">Spawn Robot</a></li>
-            <li><a href="#control-the-robot">Control the Robot</a></li>
-        </ul>
-        </li>
-      </ul>
-    </li>
-    <li>
-        <a href="#custom-simulation">Custom Simulation</a>
-      <ul>
-        <li><a href="#custom-robot-model">Custom Robot Model</a></li>
-        <li><a href="#custom-world">Custom World</a></li>
-        <li><a href="#custom-control">Custom Control</a></li>
-      </ul>
-    </li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ol>
-</details>
-
-
-
-<!-- ABOUT THE PROJECT -->
-## About The Project
-
-[![Simulation View][product-screenshot]](https://github.com/RobotnikAutomation/robot_simulation)
-
-This package will combine the different Robotnik packages in ROS2 to simulate the robots in the different available platforms, as Gazebo Sim 8.9.0, etc.
-
-This README will guide you to the simulation usage and the custom simulations that you can build for your own projects.
-
-
+## About
+This repository provides Gazebo Sim–based environments and launch assets for simulating Robotnik platforms in ROS 2. It also points to the required Robotnik packages used across simulations.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- GETTING STARTED -->
-## Getting Started
-
-This package works with the different packages that Robotnik developed for the robots. You will need to install some of these packages first.
+## Quick start
 
 ### Prerequisites
+- ROS 2 **Jazzy**
+- Gazebo **Sim Harmonic 8.9.0** (a.k.a. Ignition)
+- `ros_gz` bridge
 
-#### - Gazebo Sim 8.9.0
-#### - ROS2 Jazzy
-
-First, be sure that you have all the [Gazebo packages](https://gazebosim.org/docs/harmonic/install_ubuntu/) installed for ROS2.
-
-
+Install Gazebo Sim and bridge (Ubuntu):
 ```sh
+sudo apt update
 sudo apt install ros-jazzy-ros-gz
-```
+````
 
-### Installation
+### Install
 
-Then, let's procede with the installation of the Robotnik packages.
-First, create the workspace to work with:
-
-```
-mkdir -p ~/ros2_ws/src
-cd ~/ros2_ws/src/
-```
-Then continue with the installation of packages.
-
-1. [robotnik_description](https://github.com/RobotnikAutomation/robotnik_description/tree/jazzy-devel)
-2. [robotnik_sensors](https://github.com/RobotnikAutomation/robotnik_sensors/tree/jazzy-devel)
-3. [robotnik_common](https://github.com/RobotnikAutomation/robotnik_common)
-4. [robotnik_interfaces](https://github.com/RobotnikAutomation/robotnik_interfaces)
-5. [ur_description](https://github.com/RobotnikAutomation/Universal_Robots_ROS2_Description/tree/fix/gazebo-control-jazzy#)
-6. [robotnik_simulation](https://github.com/RobotnikAutomation/robotnik_simulation.git#)
-
-  ```sh
-  git clone https://github.com/RobotnikAutomation/robotnik_description.git -b jazzy-devel
-
-  git clone https://github.com/RobotnikAutomation/robotnik_sensors.git -b jazzy-devel
-
-  git clone https://github.com/RobotnikAutomation/robotnik_common.git -b ros2-devel
-
-  git clone https://github.com/RobotnikAutomation/robotnik_interfaces.git -b jazzy-devel
-
-  git clone https://github.com/RobotnikAutomation/Universal_Robots_ROS2_Description.git -b fix/gazebo-control-jazzy
-
-  git clone https://github.com/RobotnikAutomation/robotnik_simulation.git -b jazzy-devel
-
-  ```
-
-Install precompiled debs for simulation. Please, change directory to the root of the repository and run the following command:
+Create a workspace and clone needed packages:
 
 ```sh
+# Workspace
+mkdir -p ~/ros2_ws/src
+cd ~/ros2_ws
+
+# Robotnik and related packages (ROS 2 Jazzy)
+vcs import --input https://raw.githubusercontent.com/RobotnikAutomation/robotnik_simulation/jazzy-devel/robotnik_simulation.jazzy.repos src/
+```
+
+Install prebuilt simulation debs from this repo (run at repo root):
+
+```sh
+cd ~/ros2_ws/src/robotnik_simulation
 sudo apt-get install -y ./debs/ros-${ROS_DISTRO}-*.deb
 ```
 
-Install missing dependencies with rosdep:
+Resolve dependencies:
+
 ```sh
 cd ~/ros2_ws
 rosdep update
 rosdep install --from-paths src --ignore-src -r -y
 ```
 
-Finally, compile workspace:
-```
+### Build
+
+```sh
 source /opt/ros/jazzy/setup.bash
-cd ~/ros2_ws && colcon build
+cd ~/ros2_ws
+colcon build
 source install/setup.bash
 ```
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Usage
+
+See each package for details:
+
+* [`robotnik_gazebo_ignition`](robotnik_gazebo_ignition/README.md)
+
+Typical flow:
+
+```sh
+# Launch Gazebo with a world
+ros2 launch robotnik_gazebo_ignition spawn_world.launch.py world_path:=<path/to/world.sdf>
+
+# Spawn a robot (example)
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_xacro_path:=<path/to/robot.urdf.xacro>
+
+# Control example (publish to cmd_vel)
+ros2 topic pub /cmd_vel geometry_msgs/Twist "{linear: {x: 0.2}, angular: {z: 0.0}}"
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Docker
-If you want to use Docker, you can use the docker-compose file that is in the root of the repository. This will create a container with all the dependencies installed and ready to use.
 
-To start the containers, run the following command:
+Use the compose file in the repo root to run a preconfigured simulator container.
 
 ```sh
 docker compose up
 ```
-This will build a robotnik_simulator image the first time you run it. After that, it will use the cached image.
+
+The first run builds the `robotnik_simulator` image. Subsequent runs reuse the cache.
 
 ### Setup
-You can configure the simulation based on docker images editing the environment in the env/robot.env file. You will need to uncomment the specific variables related to desired robot to simulate and comment or delete the others.
 
-Make sure that the environment variables (ROBOT, ROBOT_MODEL, HAS_ARM) are set correctly before running the containers.
+Configure the environment via `env/robot.env`. Set:
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+* `ROBOT`
+* `ROBOT_MODEL`
+* `HAS_ARM`
 
-<!-- USAGE EXAMPLES -->
-## Usage
-
-See each package for more details.
-
-- [robotnik_gazebo_ignition](robotnik_gazebo_ignition/README.md)
-
-
-#### Enjoy!
-
-![rbvogui_gif](docs/assets/img/RBVogui_Docking.gif)
+Uncomment only the variables for the robot you want to simulate.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Custom simulation
 
-<!-- CUSTOMIZATION -->
-## Custom Simulation
+If your robot, world, or controller is not provided, create a thin overlay package and supply custom assets.
 
-In case that the robot model that you want to simulate is not in robotnik_description package, or the world, or you want to use a different controller, you will have to create your own simulaiton files.
+### Custom robot model
 
-This will guide you to create your custom simulation.
+1. Create a new package for your project.
+2. Create a URDF/XACRO. Use the template in `robotnik_description` as a starting point:
+   `robotnik_description/robots/robot_template.urdf.xacro`
+3. See `robotnik_description/README.md` for a brief guide to composing robots.
+4. Add sensors, arms, and components as needed.
+5. Spawn with `robot_xacro_path`:
 
-### Custom Robot Model
+   ```sh
+   ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_xacro_path:=<your_robot.urdf.xacro>
+   ```
 
-1. First, create your own package for the project.
-2. In this package, create your URDF file. You can base in the [template file](robotnik_pkgs/robotnik_description/robots/robot_template.urdf.xacro) that are in robotnik_description package.
-3. In the README of [robotnik_description](robotnik_pkgs/robotnik_description/README.md) there is a brief descripiton on how to create a robot.
-4. On this file you can modify and add all the sensors, arms and any other component.
-5. Then, launch the spawn_robot with the argument _robot_xacro_path_.
+### Custom control
 
-### Custom Control
-
-In case that you want to modify the velocity, topics, frames and everything related to the control, you can find the files in [robotnik_gazebo_ignition/config folder](robotnik_gazebo_ignition/config/).
-There is a file for each robot that you can modify.
+Edit the robot-specific config files in:
+`robotnik_gazebo_ignition/config/`
+You can adjust topics, frames, velocity limits, and controllers.
 
 ### Custom world
 
-To launch a custom file, you can use the _world_path_ argument that it's in the spawn_world launch. See <a href="#launch-gazebo">Launch Gazebo</a>.
+Pass a custom world file via `world_path`:
 
-<!-- ROADMAP -->
-## Roadmap
-
-- [x] Add Gazebo Ignition
-- [ ] Add more worlds
-- [ ] Add multi robot support
-
-See the [open issues](https://github.com/RobotnikAutomation/robot_simulation/issues) for a full list of proposed features (and known issues).
+```sh
+ros2 launch robotnik_gazebo_ignition spawn_world.launch.py world_path:=<your_world.sdf>
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Roadmap
 
+* [x] Gazebo Sim support
+* [ ] More worlds
+* [ ] Multi-robot support
 
-<!-- CONTRIBUTING -->
+See [open issues][issues-url] for planned work and known problems.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ## Contributing
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+Contributions are welcome.
 
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
+1. Fork the repo
+2. Create a feature branch: `git checkout -b feature/AmazingFeature`
+3. Commit: `git commit -m "Add AmazingFeature"`
+4. Push: `git push origin feature/AmazingFeature`
+5. Open a PR
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+Top contributors:
 
-### Top contributors:
-
-<a href="https://github.com/RobotnikAutomation/robot_simulation/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=RobotnikAutomation/robot_simulation" alt="contrib.rocks image" />
+<a href="https://github.com/RobotnikAutomation/robotnik_simulation/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=RobotnikAutomation/robotnik_simulation" alt="Contributors graph" />
 </a>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
-<!-- LICENSE -->
 ## License
 
-Distributed under the Unlicense License. See `LICENSE.txt` for more information.
+Distributed under **BSD-3**. See [`LICENSE.txt`][license-url].
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
-<!-- CONTACT -->
 ## Contact
 
-Project Link: [https://github.com/RobotnikAutomation](https://github.com/RobotnikAutomation)
+Project link: [https://github.com/RobotnikAutomation/robotnik_simulation](https://github.com/RobotnikAutomation/robotnik_simulation)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Demo
 
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/RobotnikAutomation/robot_simulation.svg?style=for-the-badge
-[contributors-url]: https://github.com/RobotnikAutomation/robot_simulation/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/RobotnikAutomation/robot_simulation.svg?style=for-the-badge
-[forks-url]: https://github.com/RobotnikAutomation/robot_simulation/network/members
-[stars-shield]: https://img.shields.io/github/stars/RobotnikAutomation/robot_simulation.svg?style=for-the-badge
-[stars-url]: https://github.com/RobotnikAutomation/robot_simulation/stargazers
-[issues-shield]: https://img.shields.io/github/issues/RobotnikAutomation/robot_simulation.svg?style=for-the-badge
-[issues-url]: https://github.com/RobotnikAutomation/robot_simulation/issues
-[license-shield]: https://img.shields.io/github/license/RobotnikAutomation/robot_simulation.svg?style=for-the-badge
-[license-url]: https://github.com/RobotnikAutomation/robot_simulation/blob/master/LICENSE.txt
+[![Simulation view][product-screenshot]](https://github.com/RobotnikAutomation/robotnik_simulation)
+
+---
+
+<!-- LINK REFS -->
+
+[contributors-shield]: https://img.shields.io/github/contributors/RobotnikAutomation/robotnik_simulation.svg?style=for-the-badge
+[contributors-url]: https://github.com/RobotnikAutomation/robotnik_simulation/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/RobotnikAutomation/robotnik_simulation.svg?style=for-the-badge
+[forks-url]: https://github.com/RobotnikAutomation/robotnik_simulation/network/members
+[stars-shield]: https://img.shields.io/github/stars/RobotnikAutomation/robotnik_simulation.svg?style=for-the-badge
+[stars-url]: https://github.com/RobotnikAutomation/robotnik_simulation/stargazers
+[issues-shield]: https://img.shields.io/github/issues/RobotnikAutomation/robotnik_simulation.svg?style=for-the-badge
+[issues-url]: https://github.com/RobotnikAutomation/robotnik_simulation/issues
+[license-shield]: https://img.shields.io/github/license/RobotnikAutomation/robotnik_simulation.svg?style=for-the-badge
+[license-url]: https://github.com/RobotnikAutomation/robotnik_simulation/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/company/robotnik-automation/
 [product-screenshot]: docs/assets/img/ignition_simulation_view.png
