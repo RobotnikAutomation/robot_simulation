@@ -67,3 +67,87 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=/rob
 Make sure to replace `/robot/robotnik_base_control/cmd_vel` with the appropriate topic name based on the `robot_id` you used when spawning the robot.
 
 Also, you can use RViz plugin on the bottom right to control the robot by clicking on the arrows.
+
+
+## Installation
+
+1. Setup sources and keys.
+```sh
+sudo apt update
+sudo apt-get install curl lsb-release gnupg
+sudo curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
+```
+
+2. Install Gazebo Harmonic.
+```sh
+sudo apt-get update
+sudo apt-get install gz-harmonic
+```
+
+3. Install ROS 2 Jazzy and ROS-GZ bridge.
+```sh
+sudo apt install ros-jazzy-ros-gz
+```
+
+4. Set up workspace and install dependencies:
+
+```sh
+# Workspace
+mkdir -p ~/ros2_ws/src
+cd ~/ros2_ws
+
+# Robotnik and related packages (ROS 2 Jazzy)
+vcs import --input https://raw.githubusercontent.com/RobotnikAutomation/robotnik_simulation/jazzy-devel/robotnik_simulation.jazzy.repos src/
+
+# Install prebuilt simulation debs from this repo (run at repo root)
+cd ~/ros2_ws/src/robotnik/robotnik_simulation
+sudo apt-get install -y ./debs/ros-${ROS_DISTRO}-*.deb
+
+# Resolve dependencies
+source /opt/ros/jazzy/setup.bash
+cd ~/ros2_ws
+rosdep update
+rosdep install --from-paths src --ignore-src -r -y
+```
+
+5. Build the workspace:
+
+```sh
+cd ~/ros2_ws
+colcon build --symlink-install
+source install/setup.bash
+```
+
+## Enjoy
+
+Example of RBVogui executing docking procedure in Gazebo Ignition:
+
+![rbvogui_gif](../docs/assets/img/RBVogui_Docking.gif)
+
+## Custom robot model
+
+1. Create a new package for your project.
+2. Create a URDF/XACRO. Use the template in `robotnik_description` as a starting point:
+   `robotnik_description/robots/robot_template.urdf.xacro`
+3. See `robotnik_description/README.md` for a brief guide to composing robots.
+4. Add sensors, arms, and components as needed.
+5. Spawn with `robot_xacro_path`:
+
+```sh
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_xacro_path:=<your_robot.urdf.xacro>
+```
+
+## Custom control
+
+Edit the robot-specific config files in:
+`robotnik_gazebo_ignition/config/`
+You can adjust topics, frames, velocity limits, and controllers.
+
+### Custom world
+
+Pass a custom world file via `world_path`:
+
+```sh
+ros2 launch robotnik_gazebo_ignition spawn_world.launch.py world_path:=<your_world.sdf>
+```
