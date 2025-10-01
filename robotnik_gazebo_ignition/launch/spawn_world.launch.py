@@ -25,10 +25,11 @@
 import os
 from launch import LaunchDescription
 from launch.actions import GroupAction, IncludeLaunchDescription
-from launch.substitutions import LaunchConfiguration, Command, FindExecutable
-from launch_ros.actions import Node, PushRosNamespace
+from launch.substitutions import LaunchConfiguration
+from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
-from launch_ros.descriptions import ParameterValue
+from launch.conditions import IfCondition
+from launch.substitutions import PythonExpression
 from robotnik_common.launch import ExtendedArgument, AddArgumentParser
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 
@@ -52,6 +53,13 @@ def generate_launch_description():
         name='world_path',
         description='world path in gazebo classic',
         default_value=[FindPackageShare('robotnik_gazebo_ignition'), '/worlds/', world, '.world'], # type: ignore
+    )
+    add_to_launcher.add_arg(arg)
+
+    arg = ExtendedArgument(
+        name='gui',
+        description='Set to true to enable gazebo gui, headless mode (default: true)',
+        default_value='true',
     )
     add_to_launcher.add_arg(arg)
 
@@ -96,6 +104,8 @@ def generate_launch_description():
                     ],
                     'on_exit_shutdown':'true'
                 }.items(),
+                # gui is in (true, 1, yes, on) (case insensitive)
+                condition = IfCondition(PythonExpression(["'", params['gui'], "'.strip().lower() in ('true','1','yes','on')"])),
             ),
             Node(
                 package="ros_gz_bridge",
