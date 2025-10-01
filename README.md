@@ -1,5 +1,3 @@
-
-<!-- SHIELDS -->
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
@@ -7,7 +5,6 @@
 [![License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
-<!-- LOGO -->
 <p align="center">
   <img src="./docs/assets/img/LOGO%20BLANCO-ROJO.png" alt="Robotnik logo" height="80">
 </p>
@@ -64,17 +61,6 @@ This repository contains the following simulation packages:
 * [`robotnik_gazebo_ignition`](robotnik_gazebo_ignition/README.md)
 
 
-## Docker
-🚧 Work in progress. 🚧
-
-Use the compose file in the repo root to run a preconfigured simulator container.
-
-```sh
-docker compose up
-```
-
-> **Note**: The first time will take a while as it builds the image. Subsequent runs will be faster.
-
 ## Roadmap
 
 * [x] Gazebo Sim support
@@ -102,7 +88,7 @@ Special thanks to all contributors!
 
 ## License
 
-Distributed under **BSD-3**. See [`LICENSE.txt`][license-url].
+Distributed under **BSD-3**. See [`LICENSE`][license-url].
 
 ## Contact
 
@@ -121,7 +107,7 @@ Project link: [https://github.com/RobotnikAutomation/robotnik_simulation](https:
 [issues-shield]: https://img.shields.io/github/issues/RobotnikAutomation/robotnik_simulation.svg?style=for-the-badge
 [issues-url]: https://github.com/RobotnikAutomation/robotnik_simulation/issues
 [license-shield]: https://img.shields.io/github/license/RobotnikAutomation/robotnik_simulation.svg?style=for-the-badge
-[license-url]: https://github.com/RobotnikAutomation/robotnik_simulation/blob/master/LICENSE.txt
+[license-url]: https://github.com/RobotnikAutomation/robotnik_simulation/blob/master/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/company/robotnik-automation/
 [product-screenshot]: docs/assets/img/ignition_simulation_view.png

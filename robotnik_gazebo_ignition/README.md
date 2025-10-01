@@ -2,6 +2,8 @@
 
 This package provides Gazebo Ignition plugins and resources for Robotnik robots.
 
+> **⚠️ Prerequisites**: Make sure to complete the [Installation](#installation) section before running any of the commands below.
+
 ## Launch Gazebo
 
 Fist step to use this simulation is launch world where the robot will be spawned. For example, to launch the `empty` world, use the following command:
@@ -151,3 +153,14 @@ Pass a custom world file via `world_path`:
 ```sh
 ros2 launch robotnik_gazebo_ignition spawn_world.launch.py world_path:=<your_world.sdf>
 ```
+
+## Docker
+🚧 Work in progress. 🚧
+
+Use the compose file in the repo root to run a preconfigured simulator container.
+
+```sh
+docker compose up
+```
+
+> **Note**: The first time will take a while as it builds the image. Subsequent runs will be faster.
