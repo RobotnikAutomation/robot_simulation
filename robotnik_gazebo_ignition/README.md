@@ -12,6 +12,8 @@ ros2 launch robotnik_gazebo_ignition spawn_world.launch.py world:=empty
 
 Available worlds are located in the `worlds` folder of this package. You can replace `empty` with the name of any other world file (without the `.world` extension) to launch a different world.
 
+Also, you can enable or disable the Gazebo GUI by setting the `gui:=true` or `gui:=false` parameter. By default, the GUI is enabled.
+
 ## Spawn Robot
 
 Use the launch file to insert a robot into the Gazebo (Ignition) world.
