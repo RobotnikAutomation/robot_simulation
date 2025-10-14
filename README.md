@@ -48,17 +48,13 @@
 
 ---
 
-## About
-This repository provides Gazebo Sim–based environments and launch assets for simulating Robotnik platforms in ROS 2. It also points to the required Robotnik packages used across simulations.
+## Overview
+Simulation-based environments and launch assets for Robotnik platforms on ROS 2.
 
-[![Simulation view][product-screenshot]](https://github.com/RobotnikAutomation/robotnik_simulation)
-![rbvogui_gif](docs/assets/img/RBVogui_Docking.gif)
 
-## Quick start
+## Supported simulators
 
-This repository contains the following simulation packages:
-
-* [`robotnik_gazebo_ignition`](robotnik_gazebo_ignition/README.md)
+- **Gazebo (Ignition/Gazebo Sim):** see [`robotnik_gazebo_ignition/README.md`](robotnik_gazebo_ignition/README.md)
 
 
 ## Roadmap
