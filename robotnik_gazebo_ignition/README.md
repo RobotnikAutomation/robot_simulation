@@ -4,7 +4,7 @@
 
 This package provides Gazebo Ignition plugins and resources for Robotnik robots.
 
-## Installation
+## 📥 Installation
 
 1. Setup sources and keys for Gazebo packages:
 ```sh
@@ -54,7 +54,7 @@ colcon build --symlink-install
 source install/setup.bash
 ```
 
-## Usage
+## 🚀 Usage
 
 ### Launch Gazebo
 
