@@ -18,15 +18,15 @@ Simulation-based environments and launch assets for Robotnik platforms on ROS 2.
 
 | Robot | Robot Model | Photo |
 |-------|-------------|-------|
-| [RB-Watcher](https://robotnik.eu/robotnik-robots/rb-watcher/) | rbwatcher | ![RB-Watcher](docs/assets/robots/rb-watcher.png) |
-| [RB-Summit-XL](https://robotnik.eu/robotnik-robots/rb-summit-xl/) | rbsummit | ![RB-Summit-XL](docs/assets/robots/rb-summit-xl.png) |
-| [RB-Vogui](https://robotnik.eu/robotnik-robots/rb-vogui/) | rbvogui, rbvogui_plus | ![RB-Vogui](docs/assets/robots/rb-vogui.png) |
-| [RB-Vogui-XL](https://robotnik.eu/robotnik-robots/rb-vogui-xl/) | rbvogui_xl | ![RB-Vogui-XL](docs/assets/robots/rb-vogui-xl.png) |
-| [RB-Fiqus](https://robotnik.eu/robotnik-robots/rb-fiqus/) | rbfiqus | ![RB-Fiqus](docs/assets/robots/rb-fiqus.png) |
-| [RB-Kairos](https://robotnik.eu/robotnik-robots/rb-kairos/) | rbkairos, rbkairos_plus | ![RB-Kairos](docs/assets/robots/rb-kairos.png) |
-| [RB-Robout](https://robotnik.eu/robotnik-robots/rb-robout/) | rbrobout, rbrobout_plus | ![RB-Robout](docs/assets/robots/rb-robout.png) |
-| [RB-1](https://robotnik.eu/robotnik-robots/rb-1/) | rb1 | ![RB-1](docs/assets/robots/rb-1.png) |
-| [RB-Theron](https://robotnik.eu/robotnik-robots/rb-theron/) | rbtheron, rbtheron_plus | ![RB-Theron](docs/assets/robots/rb-theron.png) |
+| [RB-Watcher](https://robotnik.eu/robotnik-robots/rb-watcher/) | rbwatcher | <img src="docs/assets/robots/rb-watcher.png" alt="RB-Watcher" width=100> |
+| [RB-Summit-XL](https://robotnik.eu/robotnik-robots/rb-summit-xl/) | rbsummit | <img src="docs/assets/robots/rb-summit-xl.png" alt="RB-Summit-XL" width=100> |
+| [RB-Vogui](https://robotnik.eu/robotnik-robots/rb-vogui/) | rbvogui, rbvogui_plus | <img src="docs/assets/robots/rb-vogui.png" alt="RB-Vogui" width=100> |
+| [RB-Vogui-XL](https://robotnik.eu/robotnik-robots/rb-vogui-xl/) | rbvogui_xl | <img src="docs/assets/robots/rb-vogui-xl.png" alt="RB-Vogui-XL" width=100> |
+| [RB-Fiqus](https://robotnik.eu/robotnik-robots/rb-fiqus/) | rbfiqus | <img src="docs/assets/robots/rb-fiqus.png" alt="RB-Fiqus" width=100> |
+| [RB-Kairos](https://robotnik.eu/robotnik-robots/rb-kairos/) | rbkairos, rbkairos_plus | <img src="docs/assets/robots/rb-kairos.png" alt="RB-Kairos" width=100> |
+| [RB-Robout](https://robotnik.eu/robotnik-robots/rb-robout/) | rbrobout, rbrobout_plus | <img src="docs/assets/robots/rb-robout.png" alt="RB-Robout" width=100> |
+| [RB-1](https://robotnik.eu/robotnik-robots/rb-1/) | rb1 | <img src="docs/assets/robots/rb-1.png" alt="RB-1" width=100> |
+| [RB-Theron](https://robotnik.eu/robotnik-robots/rb-theron/) | rbtheron, rbtheron_plus | <img src="docs/assets/robots/rb-theron.png" alt="RB-Theron" width=100> |
 
 
 ## Gazebo (Ignition/Gazebo Sim)
