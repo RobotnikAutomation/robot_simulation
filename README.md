@@ -31,7 +31,9 @@ Simulation-based environments and launch assets for Robotnik platforms on ROS 2.
 
 ## Simulator Gazebo (Ignition/Gazebo Sim)
 
-This package provides simulation assets for Robotnik robots using Gazebo (Ignition/Gazebo Sim) simulator. To run simulations, please refer to the instructions in the [`robotnik_gazebo_ignition` ](robotnik_gazebo_ignition/README.md) package.
+This package provides simulation assets for Robotnik robots using Gazebo (Ignition/Gazebo Sim) simulator. To run simulations, refer to the instructions in the main README:
+
+- [robotnik_gazebo_ignition](robotnik_gazebo_ignition/README.md)
 
 <img src="docs/assets/img/ignition_simulation_view.png" alt="Robotnik Gazebo Ignition Simulation View" height=300>
 
