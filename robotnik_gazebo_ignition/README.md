@@ -93,6 +93,23 @@ ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=<unique_nam
 | `x` `y` `z` | no | Spawn position in meters | `0.0 0.0 0.0` |
 | `run_rviz` | no | Launch RViz2 with a predefined configuration | `true` or `false` |
 
+#### Supported Robots
+
+| robot          | robot_model options     | Notes                   |
+| -------------- | ----------------------- | ----------------------- |
+| rbwatcher      | rbwatcher               | Supported |
+| rb1            | rb1                     | Not well tested |
+| rbfiqus        | rbfiqus                 | Not well tested |
+| rbkairos       | rbkairos, rbkairos_plus | Not well tested |
+| rbrobout       | rbrobout, rbrobout_plus | Not well tested |
+| rbsummit       | rbsummit                | Not well tested |
+| rbsummit_steel | rbsummit_steel          | Not well tested |
+| rbtheron       | rbtheron, rbtheron_plus | Not well tested |
+| rbvogui        | rbvogui, rbvogui_plus   | Not well tested |
+| rbvogui_xl     | rbvogui_xl              | Not well tested |
+
+Note: "not well tested" means that the robot has been integrated but may require further validation and adjustments to ensure optimal performance in the simulation environment.
+
 #### Types vs. models
 Description package is [robotnik_description](https://github.com/RobotnikAutomation/robotnik_description), which contains all robot types and models. The distinction is:
 - **Robot type**: Category such as `rbwatcher`, `summit_xl`. See the package `robots/` folder for available types. [List of supported robots](https://github.com/RobotnikAutomation/robotnik_description/tree/jazzy-devel/robots).

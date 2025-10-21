@@ -52,9 +52,11 @@
 Simulation-based environments and launch assets for Robotnik platforms on ROS 2.
 
 
-## Supported simulators
+## Gazebo (Ignition/Gazebo Sim)
 
-- **Gazebo (Ignition/Gazebo Sim):** see [`robotnik_gazebo_ignition/README.md`](robotnik_gazebo_ignition/README.md)
+More details can be found in [`robotnik_gazebo_ignition/README.md`](robotnik_gazebo_ignition/README.md)
+
+![robotnik_gazebo_ignition](docs/assets/img/ignition_simulation_view.png)
 
 
 ## Roadmap
