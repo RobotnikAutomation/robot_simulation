@@ -88,10 +88,10 @@ ros2 launch robotnik_gazebo_ignition spawn_world.launch.py world:=<world_name> g
 
 | Name | Description | Thumbnail |
 |------|-------------|-----------|
-| `empty` | An empty world with a flat ground plane | ![empty_world](docs/assets/img/empty_world.png) |
-| `demo` | A demo world with obstacles and ramps for testing robot navigation | ![demo_world](docs/assets/img/demo_world.png) |
-| `ionic` | Demo world from Gazebo to show ionic simulation features | ![ionic_world](docs/assets/img/ionic_world.png) |
-| `lightweight_scene` | A lightweight scene for performance testing | ![lightweight_scene_world](docs/assets/img/lightweight_scene_world.png) |
+| `empty` | An empty world with a flat ground plane | <img src="../docs/assets/world/empty.png" alt="empty_world" height=100> |
+| `demo` | A demo world with obstacles and ramps for testing robot navigation | <img src="../docs/assets/world/demo.png" alt="demo_world" height=100> |
+| `ionic` | Demo world from Gazebo to show ionic simulation features | <img src="../docs/assets/world/ionic.png" alt="ionic_world" height=100> |
+| `lightweight_scene` | A lightweight scene for performance testing | <img src="../docs/assets/world/lightweight_scene.png" alt="lightweight_scene_world" height=100> |
 
 
 ### 🤖 Spawn Robot
