@@ -29,26 +29,17 @@ Simulation-based environments and launch assets for Robotnik platforms on ROS 2.
 | [RB-Theron](https://robotnik.eu/robotnik-robots/rb-theron/) | rbtheron, rbtheron_plus | <img src="docs/assets/robots/rb-theron.png" alt="RB-Theron" width=100> |
 
 
-## Gazebo (Ignition/Gazebo Sim)
+## Simulator Gazebo (Ignition/Gazebo Sim)
 
-More details can be found in [`robotnik_gazebo_ignition/README.md`](robotnik_gazebo_ignition/README.md)
+This package provides simulation assets for Robotnik robots using Gazebo (Ignition/Gazebo Sim) simulator. To run simulations, please refer to the instructions in the [`robotnik_gazebo_ignition` ](robotnik_gazebo_ignition/README.md) package.
 
-![robotnik_gazebo_ignition](docs/assets/img/ignition_simulation_view.png)
-
-
-## Roadmap
-
-* [x] Gazebo Sim support
-* [ ] More worlds
-* [ ] Multi-robot support
-
-See [open issues][issues-url] for planned work and known problems.
+<img src="docs/assets/img/ignition_simulation_view.png" alt="Robotnik Gazebo Ignition Simulation View" height=300>
 
 ## Contributing
 
 Contributions are welcome.
 
-1. Fork the repo
+1. Fork the repository
 2. Create a feature branch: `git checkout -b feature/jazzy/AmazingFeature`
 3. Commit: `git commit -m "Add AmazingFeature"`
 4. Push: `git push origin feature/AmazingFeature`
@@ -64,12 +55,6 @@ Special thanks to all contributors!
 ## License
 
 Distributed under **BSD-3**. See [`LICENSE`][license-url].
-
-## Contact
-
-Project link: [https://github.com/RobotnikAutomation/robotnik_simulation](https://github.com/RobotnikAutomation/robotnik_simulation)
-
----
 
 <!-- LINK REFS -->
 
