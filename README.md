@@ -29,13 +29,12 @@ Simulation-based environments and launch assets for Robotnik platforms on ROS 2.
 | [RB-Theron](https://robotnik.eu/robotnik-robots/rb-theron/) | rbtheron, rbtheron_plus | <img src="docs/assets/robots/rb-theron.png" alt="RB-Theron" width=100> |
 
 
-## Simulator Gazebo (Ignition/Gazebo Sim)
+## Available Simulators
 
-This package provides simulation assets for Robotnik robots using Gazebo (Ignition/Gazebo Sim) simulator. To run simulations, refer to the instructions in the main README:
+| Simulator | Description |
+|-----------|-------------|
+| <a href="robotnik_gazebo_ignition/README.md"><img src="docs/assets/img/gazebo-logo.png" alt="Ignition Gazebo Logo" height=50></a> | `robotnik_gazebo_ignition`: Gazebo Ignition simulator with ROS 2 integration. |
 
-- [robotnik_gazebo_ignition](robotnik_gazebo_ignition/README.md)
-
-<img src="docs/assets/img/ignition_simulation_view.png" alt="Robotnik Gazebo Ignition Simulation View" height=300>
 
 ## Contributing
 

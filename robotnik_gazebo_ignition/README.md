@@ -56,31 +56,58 @@ source install/setup.bash
 
 ## 🚀 Usage
 
-### Launch Gazebo
+To use the simulation, you need to spawn a world and then spawn at least one robot. Continue reading for instructions.
 
-Fist step to use this simulation is launch world where the robot will be spawned. For example, to launch the `empty` world, use the following command:
+### 🗺️ Spawn World
 
+First step to use this simulation is launch world where the robot will be spawned. For example, to launch the `empty` world, use the following command:
+
+#### Basic
 ```bash
+# Basic
 ros2 launch robotnik_gazebo_ignition spawn_world.launch.py world:=empty
+
+# With GUI disabled
+ros2 launch robotnik_gazebo_ignition spawn_world.launch.py world:=empty gui:=false
 ```
 
-Available worlds are located in the `worlds` folder of this package. You can replace `empty` with the name of any other world file (without the `.world` extension) to launch a different world. Also, you can enable or disable the Gazebo GUI by setting the `gui:=true` or `gui:=false` parameter. By default, the GUI is enabled.
+#### Advanced
+```bash
+# Generic pattern
+ros2 launch robotnik_gazebo_ignition spawn_world.launch.py world:=<world_name> gui:=<true|false>
+```
 
-### Spawn Robot
+#### Parameters
+| Name | Required | Purpose | Example |
+|---|---|---|---|
+| `world` | no | Name of the world file (without the `.world` extension) | `empty` |
+| `world_path` | no | Full path to a custom world file (overrides `world` parameter) | `/path/to/custom_world.sdf` |
+| `gui` | no | Enable or disable Gazebo GUI | `true` or `false` |
+
+#### Supported Worlds
+
+| Name | Description | Thumbnail |
+|------|-------------|-----------|
+| `empty` | An empty world with a flat ground plane | ![empty_world](docs/assets/img/empty_world.png) |
+| `demo` | A demo world with obstacles and ramps for testing robot navigation | ![demo_world](docs/assets/img/demo_world.png) |
+| `ionic` | Demo world from Gazebo to show ionic simulation features | ![ionic_world](docs/assets/img/ionic_world.png) |
+| `lightweight_scene` | A lightweight scene for performance testing | ![lightweight_scene_world](docs/assets/img/lightweight_scene_world.png) |
+
+
+### 🤖 Spawn Robot
 
 Use the launch file to insert a robot into the Gazebo (Ignition) world.
 
 #### Basic
 ```bash
+# Basic RB-Watcher
 ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbwatcher
-```
 
-#### Advanced
-```bash
 # Specific ID and pose
 ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=robot_a robot:=rbwatcher robot_model:=rbwatcher x:=0.0 y:=0.0 z:=0.0 run_rviz:=true
 ```
 
+#### Advanced
 ```bash
 # Generic pattern
 ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=<unique_name> robot:=<robot_type> robot_model:=<robot_model> x:=<m> y:=<m> z:=<m>
@@ -97,18 +124,18 @@ ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=<unique_nam
 
 #### Supported Robots
 
-| robot          | robot_model options     | Notes                   |
-| -------------- | ----------------------- | ----------------------- |
+| robot          | robot_model options     | Notes |
+| -------------- | ----------------------- | --- |
 | rbwatcher      | rbwatcher               | Supported |
-| rb1            | rb1                     | Not well tested |
-| rbfiqus        | rbfiqus                 | Not well tested |
-| rbkairos       | rbkairos, rbkairos_plus | Not well tested |
-| rbrobout       | rbrobout, rbrobout_plus | Not well tested |
-| rbsummit       | rbsummit                | Not well tested |
-| rbsummit_steel | rbsummit_steel          | Not well tested |
-| rbtheron       | rbtheron, rbtheron_plus | Not well tested |
-| rbvogui        | rbvogui, rbvogui_plus   | Not well tested |
-| rbvogui_xl     | rbvogui_xl              | Not well tested |
+| rb1            | rb1                     | Limited |
+| rbfiqus        | rbfiqus                 | Limited |
+| rbkairos       | rbkairos, rbkairos_plus | Limited |
+| rbrobout       | rbrobout, rbrobout_plus | Limited |
+| rbsummit       | rbsummit                | Limited |
+| rbsummit_steel | rbsummit_steel          | Limited |
+| rbtheron       | rbtheron, rbtheron_plus | Limited |
+| rbvogui        | rbvogui, rbvogui_plus   | Limited |
+| rbvogui_xl     | rbvogui_xl              | Limited |
 
 Note: "not well tested" means that the robot has been integrated but may require further validation and adjustments to ensure optimal performance in the simulation environment.
 
@@ -118,7 +145,7 @@ Description package is [robotnik_description](https://github.com/RobotnikAutomat
 - **Robot model**: Concrete variant inside a type. If omitted, the default model for that type is used. See the package `robots/<robot>/models/` folder for available models. [Example models for rbwatcher](https://github.com/RobotnikAutomation/robotnik_description/tree/jazzy-devel/robots/rbwatcher).
 
 #### Notes
-- Use a unique `robot_id` when spawning multiple robots.
+- Use a unique `robot_id` when spawning multiple robots in the same world to avoid name conflicts in topics and frames.
 
 ## 🎮 Control the Robot
 
@@ -139,40 +166,32 @@ Make sure to replace `/robot/robotnik_base_control/cmd_vel` with the appropriate
 
 Also, you can use RViz plugin on the bottom right to control the robot by clicking on the arrows.
 
-## Enjoy
+## 🎉 Enjoy
 
 Example of RBVogui executing docking procedure in Gazebo Ignition. Currently, only for demonstration purposes, no docking controller is provided.
 
 ![rbvogui_gif](../docs/assets/img/RBVogui_Docking.gif)
 
-## Custom robot model
+## Customization
 
-1. Create a new package for your project.
-2. Create a URDF/XACRO. Use the template in `robotnik_description` as a starting point:
-   `robotnik_description/robots/robot_template.urdf.xacro`
-3. See `robotnik_description/README.md` for a brief guide to composing robots.
-4. Add sensors, arms, and components as needed.
-5. Spawn with `robot_xacro_path`:
+### Edit robot model
+
+Specific robot models can be customized by creating your own URDF/XACRO files based on the existing ones in the `robotnik_description` package.
+
+1. Copy the existing robot folder from `robotnik_description/robots/<robot>/` to a new folder, e.g., `robotnik_description/robots/my_robot/`.
+2. Modify the URDF/XACRO files in the new folder to add or change components as needed.
+3. Update any necessary configuration files for sensors, arms, or other components.
+4. Spawn the customized robot using the `robot_xacro_path` parameter:
 
 ```sh
 ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_xacro_path:=<your_robot.urdf.xacro>
 ```
 
-## Custom control
+### Custom control configuration
 
-Edit the robot-specific config files in:
-`robotnik_gazebo_ignition/config/`
-You can adjust topics, frames, velocity limits, and controllers.
+Inside the simulation package `robotnik_gazebo_ignition/config/profile`, you can find different control profiles for various Robotnik robots. You can adjust topics, frames, velocities, and controllers there.
 
-### Custom world
-
-Pass a custom world file via `world_path`:
-
-```sh
-ros2 launch robotnik_gazebo_ignition spawn_world.launch.py world_path:=<your_world.sdf>
-```
-
-## Docker
+## 🐳 Docker
 🚧 Work in progress. 🚧
 
 Use the compose file in the repo root to run a preconfigured simulator container.
