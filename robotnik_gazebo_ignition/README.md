@@ -90,8 +90,8 @@ ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=<unique_nam
 | Name | Required | Purpose | Example |
 |---|---|---|---|
 | `robot_id` | no | Instance name for the spawned robot | `robot_a` |
-| `robot` | yes | Robot **type** to spawn | `rbwatcher` |
-| `robot_model` | no | Specific **model** within the type | `rbwatcher` |
+| `robot` | yes | Robot **type** to spawn, see `supported_robots` | `rbwatcher` |
+| `robot_model` | no | Specific **model** within the type, see `supported_robots` | `rbwatcher` |
 | `x` `y` `z` | no | Spawn position in meters | `0.0 0.0 0.0` |
 | `run_rviz` | no | Launch RViz2 with a predefined configuration | `true` or `false` |
 
