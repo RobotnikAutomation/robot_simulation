@@ -120,7 +120,7 @@ Description package is [robotnik_description](https://github.com/RobotnikAutomat
 #### Notes
 - Use a unique `robot_id` when spawning multiple robots.
 
-## Control the Robot
+## 🎮 Control the Robot
 
 After spawning the robot, you can control it using command velocity messages. The two main topics for controlling the robot are:
 - `/<robot-id>/robotnik_base_control/cmd_vel`: This topic is used to send velocity commands to the robot. The messages should be of type `geometry_msgs/msg/TwistStamped`.
@@ -141,7 +141,7 @@ Also, you can use RViz plugin on the bottom right to control the robot by clicki
 
 ## Enjoy
 
-Example of RBVogui executing docking procedure in Gazebo Ignition:
+Example of RBVogui executing docking procedure in Gazebo Ignition. Currently, only for demonstration purposes, no docking controller is provided.
 
 ![rbvogui_gif](../docs/assets/img/RBVogui_Docking.gif)
 
