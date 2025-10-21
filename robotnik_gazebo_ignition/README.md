@@ -1,10 +1,12 @@
 # Robotnik Gazebo Ignition
 
+![robotnik_gazebo_ignition](../docs/assets/img/ignition_simulation_view.png)
+
 This package provides Gazebo Ignition plugins and resources for Robotnik robots.
 
 ## Installation
 
-1. Setup sources and keys.
+1. Setup sources and keys for Gazebo packages:
 ```sh
 sudo apt update
 sudo apt-get install curl lsb-release gnupg
