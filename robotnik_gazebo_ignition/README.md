@@ -1,6 +1,6 @@
 # Robotnik Gazebo Ignition
 
-![robotnik_gazebo_ignition](../docs/assets/img/ignition_simulation_view.png)
+<img src="../docs/assets/img/ignition_simulation_view.png" alt="Robotnik Gazebo Ignition Simulation View" height=300>
 
 This package provides Gazebo Ignition plugins and resources for Robotnik robots.
 
