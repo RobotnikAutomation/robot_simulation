@@ -14,6 +14,10 @@
 ## Overview
 Simulation-based environments and launch assets for Robotnik platforms on ROS 2.
 
+<p align="center">
+  <img src="./docs/assets/img/RBVogui_Docking.gif" alt="RBVogui Docking Simulation" height="300">
+</p>
+
 ## Supported Robots
 
 | Robot | Robot Model | Kinematics | Photos |
@@ -31,9 +35,9 @@ Simulation-based environments and launch assets for Robotnik platforms on ROS 2.
 
 ## Available Simulators
 
-| Simulator | Package | Guide |
-|-----------|---------|-------|
-| <a href="robotnik_gazebo/README.md"><img src="docs/assets/img/gazebo-logo.png" alt="Gazebo Logo" height=50></a> | `robotnik_gazebo_ignition` | [robotnik_gazebo README](robotnik_gazebo_ignition/README.md) |
+| Simulator | Package | Instructions |
+|-----------|---------|--------------|
+| <a href="robotnik_gazebo/README.md"><img src="docs/assets/img/gazebo-logo.png" alt="Gazebo Logo" height=50></a> | `robotnik_gazebo_ignition` | [README](robotnik_gazebo_ignition/README.md) |
 
 ## Contributing
 
