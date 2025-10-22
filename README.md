@@ -19,7 +19,7 @@ Simulation-based environments and launch assets for Robotnik platforms on ROS 2.
 | Robot | Robot Model | Photo |
 |-------|-------------|-------|
 | [RB-Watcher](https://robotnik.eu/robotnik-robots/rb-watcher/) | rbwatcher | <img src="docs/assets/robots/rb-watcher.png" alt="RB-Watcher" width=100> |
-| [RB-Summit-XL](https://robotnik.eu/robotnik-robots/rb-summit-xl/) | rbsummit | <img src="docs/assets/robots/rb-summit-xl.png" alt="RB-Summit-XL" width=100> |
+| [RB-Summit-XL](https://robotnik.eu/products/mobile-robots/rb-summit/) | rbsummit | <img src="docs/assets/robots/rb-summit-xl.png" alt="RB-Summit-XL" width=100> |
 | [RB-Vogui](https://robotnik.eu/robotnik-robots/rb-vogui/) | rbvogui, rbvogui_plus | <img src="docs/assets/robots/rb-vogui.png" alt="RB-Vogui" width=100> |
 | [RB-Vogui-XL](https://robotnik.eu/robotnik-robots/rb-vogui-xl/) | rbvogui_xl | <img src="docs/assets/robots/rb-vogui-xl.png" alt="RB-Vogui-XL" width=100> |
 | [RB-Fiqus](https://robotnik.eu/robotnik-robots/rb-fiqus/) | rbfiqus | <img src="docs/assets/robots/rb-fiqus.png" alt="RB-Fiqus" width=100> |
