@@ -16,17 +16,17 @@ Simulation-based environments and launch assets for Robotnik platforms on ROS 2.
 
 ## Supported Robots
 
-| Robot | Robot Model | Photo |
-|-------|-------------|-------|
-| [RB-Watcher](https://robotnik.eu/robotnik-robots/rb-watcher/) | rbwatcher | <img src="docs/assets/robots/rb-watcher.png" alt="RB-Watcher" width=100> |
-| [RB-Summit-XL](https://robotnik.eu/robotnik-robots/rb-summit-xl/) | rbsummit | <img src="docs/assets/robots/rb-summit-xl.png" alt="RB-Summit-XL" width=100> |
-| [RB-Vogui](https://robotnik.eu/robotnik-robots/rb-vogui/) | rbvogui, rbvogui_plus | <img src="docs/assets/robots/rb-vogui.png" alt="RB-Vogui" width=100> |
-| [RB-Vogui-XL](https://robotnik.eu/robotnik-robots/rb-vogui-xl/) | rbvogui_xl | <img src="docs/assets/robots/rb-vogui-xl.png" alt="RB-Vogui-XL" width=100> |
-| [RB-Fiqus](https://robotnik.eu/robotnik-robots/rb-fiqus/) | rbfiqus | <img src="docs/assets/robots/rb-fiqus.png" alt="RB-Fiqus" width=100> |
-| [RB-Kairos](https://robotnik.eu/robotnik-robots/rb-kairos/) | rbkairos, rbkairos_plus | <img src="docs/assets/robots/rb-kairos.png" alt="RB-Kairos" width=100> |
-| [RB-Robout](https://robotnik.eu/robotnik-robots/rb-robout/) | rbrobout, rbrobout_plus | <img src="docs/assets/robots/rb-robout.png" alt="RB-Robout" width=100> |
-| [RB-1](https://robotnik.eu/robotnik-robots/rb-1/) | rb1 | <img src="docs/assets/robots/rb-1.png" alt="RB-1" width=100> |
-| [RB-Theron](https://robotnik.eu/robotnik-robots/rb-theron/) | rbtheron, rbtheron_plus | <img src="docs/assets/robots/rb-theron.png" alt="RB-Theron" width=100> |
+| Robot | Robot Model | Kinematics | Photos |
+|-------|-------------|------------|-------|
+| [RB-Watcher](https://robotnik.eu/robotnik-robots/rb-watcher/) | rbwatcher | `skid-steering` | <img src="docs/assets/robots/rb-watcher.png" alt="RB-Watcher" width=100> |
+| [RB-Summit-XL](https://robotnik.eu/robotnik-robots/rb-summit-xl/) | rbsummit | `skid-steering` | <img src="docs/assets/robots/rb-summit-xl.png" alt="RB-Summit-XL" width=100> |
+| [RB-Vogui](https://robotnik.eu/robotnik-robots/rb-vogui/) | rbvogui, rbvogui_plus | `omni-directional`, `ackermann` | <img src="docs/assets/robots/rb-vogui.png" alt="RB-Vogui" width=100> |
+| [RB-Vogui-XL](https://robotnik.eu/robotnik-robots/rb-vogui-xl/) | rbvogui_xl | `omni-directional`, `ackermann` | <img src="docs/assets/robots/rb-vogui-xl.png" alt="RB-Vogui-XL" width=100> |
+| [RB-Fiqus](https://robotnik.eu/robotnik-robots/rb-fiqus/) | rbfiqus | `omni-directional`, `ackermann` | <img src="docs/assets/robots/rb-fiqus.png" alt="RB-Fiqus" width=100> |
+| [RB-Kairos](https://robotnik.eu/robotnik-robots/rb-kairos/) | rbkairos, rbkairos_plus | `omni-directional` | <img src="docs/assets/robots/rb-kairos.png" alt="RB-Kairos" width=100> |
+| [RB-Robout](https://robotnik.eu/robotnik-robots/rb-robout/) | rbrobout, rbrobout_plus | `omni-directional` | <img src="docs/assets/robots/rb-robout.png" alt="RB-Robout" width=100> |
+| [RB-1](https://robotnik.eu/robotnik-robots/rb-1/) | rb1 | `differential` | <img src="docs/assets/robots/rb-1.png" alt="RB-1" width=100> |
+| [RB-Theron](https://robotnik.eu/robotnik-robots/rb-theron/) | rbtheron, rbtheron_plus | `differential` | <img src="docs/assets/robots/rb-theron.png" alt="RB-Theron" width=100> |
 
 
 ## Available Simulators
