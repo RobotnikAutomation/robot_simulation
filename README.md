@@ -6,7 +6,7 @@
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 <p align="center">
-  <img src="./docs/assets/img/LOGO%20BLANCO-ROJO.png" alt="Robotnik logo" height="80">
+  <img src="./docs/assets/img/robotnik-logo.png" alt="Robotnik logo" height="80">
 </p>
 
 <h1 align="center"></h1>
@@ -31,10 +31,9 @@ Simulation-based environments and launch assets for Robotnik platforms on ROS 2.
 
 ## Available Simulators
 
-| Simulator | Description |
-|-----------|-------------|
-| <a href="robotnik_gazebo_ignition/README.md"><img src="docs/assets/img/gazebo-logo.png" alt="Ignition Gazebo Logo" height=50></a> | `robotnik_gazebo_ignition`: Gazebo Ignition simulator with ROS 2 integration. |
-
+| Simulator | Package | Guide |
+|-----------|---------|-------|
+| <a href="robotnik_gazebo/README.md"><img src="docs/assets/img/gazebo-logo.png" alt="Gazebo Logo" height=50></a> | `robotnik_gazebo_ignition` | [robotnik_gazebo README](robotnik_gazebo_ignition/README.md) |
 
 ## Contributing
 
@@ -68,7 +67,7 @@ Distributed under **BSD-3**. See [`LICENSE`][license-url].
 [issues-shield]: https://img.shields.io/github/issues/RobotnikAutomation/robotnik_simulation.svg?style=for-the-badge
 [issues-url]: https://github.com/RobotnikAutomation/robotnik_simulation/issues
 [license-shield]: https://img.shields.io/github/license/RobotnikAutomation/robotnik_simulation.svg?style=for-the-badge
-[license-url]: https://github.com/RobotnikAutomation/robotnik_simulation/blob/master/LICENSE
+[license-url]: LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/company/robotnik-automation/
 [product-screenshot]: docs/assets/img/ignition_simulation_view.png
