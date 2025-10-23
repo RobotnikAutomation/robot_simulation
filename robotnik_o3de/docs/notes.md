@@ -19,6 +19,9 @@ export PROJECT_NAME=robotnik_roscon25
 export PROJECT_PATH=${HOME}/projects/${PROJECT_NAME}
 
 
+## Create environment
+TODO
+
 ## Build environment
 cd $PROJECT_PATH
 cmake -B build/linux -G "Ninja Multi-Config" -DLY_DISABLE_TEST_MODULES=ON -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DLY_STRIP_DEBUG_SYMBOLS=ON
@@ -37,5 +40,4 @@ cd $PROJECT_PATH
 cmake --build build/linux --config profile --target ${PROJECT_NAME} ${PROJECT_NAME}.Assets ${PROJECT_NAME}.GameLauncher
 
 2. Run
-./build/linux/bin/profile/robotnik_roscon25.GameLauncher"
-
+./build/linux/bin/profile/robotnik_roscon25.GameLauncher
