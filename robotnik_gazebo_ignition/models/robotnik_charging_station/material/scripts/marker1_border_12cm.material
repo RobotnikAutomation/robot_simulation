@@ -1,0 +1,18 @@
+material ARtrack/marker1_border_12cm
+{
+  technique
+  {
+    pass
+    {
+      lighting off
+      scene_blend alpha_blend
+      depth_write on
+      texture_unit
+      {
+        texture marker1_border_12cm.png
+        filtering anisotropic
+        max_anisotropy 4
+      }
+    }
+  }
+}

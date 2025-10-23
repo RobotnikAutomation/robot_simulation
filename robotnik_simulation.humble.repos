@@ -1,0 +1,32 @@
+repositories:
+  # Dependencies
+  ros-control/gz_ros2_control:
+    type: git
+    url: https://github.com/ros-controls/gz_ros2_control.git
+    version: 0.7.16
+  ros-visualization/visualization_tutorials:
+    type: git
+    url: https://github.com/ros-visualization/visualization_tutorials.git
+    version: b43b3f6a867b1d799af3edba673c56d37178e847  # ros2
+
+  # Robotnik
+  robotnik/robotnik_common:
+    type: git
+    url: https://github.com/RobotnikAutomation/robotnik_common.git
+    version: 1.2.0
+  robotnik/robotnik_description:
+    type: git
+    url: https://github.com/RobotnikAutomation/robotnik_description.git
+    version: 2.1.0
+  robotnik/robotnik_interfaces:
+    type: git
+    url: https://github.com/RobotnikAutomation/robotnik_interfaces.git
+    version: 1.1.0
+  robotnik/robotnik_sensors:
+    type: git
+    url: https://github.com/RobotnikAutomation/robotnik_sensors.git
+    version: 2.1.0
+  robotnik/robotnik_simulation:
+    type: git
+    url: https://github.com/RobotnikAutomation/robotnik_simulation.git
+    version: humble-devel
