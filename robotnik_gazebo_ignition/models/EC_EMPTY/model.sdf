@@ -1,0 +1,76 @@
+<?xml version='1.0'?>
+<sdf version="1.6">
+  <model name="EC-EMPTY">
+    <static>true</static>
+    <pose>0 0 0 0 0 0</pose>
+    
+    <link name="base_link">
+      <inertial>
+        <mass>1.0</mass>
+        <inertia> <!-- inertias are tricky to compute -->
+          <!-- http://gazebosim.org/tutorials?tut=inertia&cat=build_robot -->
+          <ixx>0.083</ixx>       <!-- for a box: ixx = 0.083 * mass * (y*y + z*z) -->
+          <ixy>0.0</ixy>         <!-- for a box: ixy = 0 -->
+          <ixz>0.0</ixz>         <!-- for a box: ixz = 0 -->
+          <iyy>0.083</iyy>       <!-- for a box: iyy = 0.083 * mass * (x*x + z*z) -->
+          <iyz>0.0</iyz>         <!-- for a box: iyz = 0 -->
+          <izz>0.083</izz>       <!-- for a box: izz = 0.083 * mass * (x*x + y*y) -->
+        </inertia>
+      </inertial>
+
+      <visual name="base_visual">
+          <geometry>
+            <mesh>
+              <uri>source/model.obj</uri>
+            </mesh>
+          </geometry>
+      </visual>
+
+      <collision name="base_collision">
+        <geometry>
+          <mesh>
+              <uri>source/model.obj</uri>
+          </mesh>
+        </geometry>
+      </collision>
+
+    </link>
+    
+<!-- 
+    <link name="windows_link">
+      <inertial>
+        <mass>1.0</mass>
+        <inertia> 
+          <ixy>0.0</ixy>      
+          <ixz>0.0</ixz>        
+          <iyz>0.0</iyz>       
+        </inertia>
+      </inertial>
+
+      <visual name="windows_visual">
+          <geometry>
+            <mesh>
+              <uri>source/windows.obj</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.1 0.1 0.1 0.2</ambient>
+            <diffuse>0.5 0.8 1.0 0.2</diffuse>    
+            <specular>0.9 0.9 0.9 1.0</specular>
+          </material>
+          <transparency>0.1</transparency>        
+      </visual>
+
+      <collision name="windows_collision">
+        <geometry>
+          <mesh>
+              <uri>source/windows.obj</uri>
+          </mesh>
+        </geometry>
+      </collision>
+
+    </link> -->
+
+  </model>
+  
+</sdf>
