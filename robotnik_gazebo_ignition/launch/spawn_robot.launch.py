@@ -282,6 +282,7 @@ def launch_setup(context, params):
             # Window name
             '-t', [params['robot_id'], ' - ', params['robot_model'], ' - RViz'],
         ],
+        parameters=[{'use_sim_time': True}],
         condition=IfCondition(params['run_rviz'])
     ))
     return ret
@@ -298,6 +299,7 @@ def generate_launch_description():
         ("z", "Initial Z Coordinate", "0.05", "Z"),
         ("has_arm", "Enable Arm Controller", "False", "HAS_ARM"),
         ("run_rviz", "Run RViz", "True", "RUN_RVIZ"),
+        ("use_sim_time", "Use simulation time", "True", "USE_SIM_TIME"),
         ("rviz_config", "RViz configuration file", [FindPackageShare('robotnik_gazebo_ignition'), '/config/rviz_config.rviz'], "CONFIG_RVIZ"),
     ]
 
