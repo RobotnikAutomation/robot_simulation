@@ -39,6 +39,15 @@ Simulation-based environments and launch assets for Robotnik platforms on ROS 2.
 |-----------|---------|--------------|
 | <a href="robotnik_gazebo/README.md"><img src="docs/assets/img/gazebo-logo.png" alt="Gazebo Logo" height=50></a> | `robotnik_gazebo_ignition` | [README](robotnik_gazebo_ignition/README.md) |
 
+## Related projects
+
+Projects built upon this repository:
+
+- 🕹️ [`robotnik_o3de`](https://github.com/RobotnikAutomation/robotnik_o3de): [O3DE](https://o3de.org/)-based simulation.
+- 🐞 [`robotnik_webots`](https://github.com/RobotnikAutomation/robotnik_webots): [Webots](https://cyberbotics.com/) based simulation.
+- TBD 🟢 [`robotnik_isaac`](https://github.com/RobotnikAutomation/): [Isaac Sim](https://developer.nvidia.com/isaac-sim) based simulation.
+- TBD 🎮 [`robotnik_unity`](https://github.com/RobotnikAutomation/): [Unity](https://unity.com/) based simulation.
+
 ## Contributing
 
 Contributions are welcome.
