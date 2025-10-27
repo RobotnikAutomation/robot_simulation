@@ -45,8 +45,8 @@ Projects built upon this repository:
 
 - 🕹️ [`robotnik_o3de`](https://github.com/RobotnikAutomation/robotnik_o3de): [O3DE](https://o3de.org/)-based simulation.
 - 🐞 [`robotnik_webots`](https://github.com/RobotnikAutomation/robotnik_webots): [Webots](https://cyberbotics.com/) based simulation.
-- TBD 🟢 [`robotnik_isaac`](https://github.com/RobotnikAutomation/): [Isaac Sim](https://developer.nvidia.com/isaac-sim) based simulation.
-- TBD 🎮 [`robotnik_unity`](https://github.com/RobotnikAutomation/): [Unity](https://unity.com/) based simulation.
+- 🟢 [`robotnik_isaac`](https://github.com/RobotnikAutomation/robotnik_isaac): [Isaac Sim](https://developer.nvidia.com/isaac-sim) based simulation.
+- 🎮 [`robotnik_unity`](https://github.com/RobotnikAutomation/robotnik_unity): [Unity](https://unity.com/) based simulation.
 
 ## Contributing
 
