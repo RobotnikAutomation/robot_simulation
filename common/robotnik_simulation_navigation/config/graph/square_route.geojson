@@ -1,0 +1,60 @@
+{
+  "type": "FeatureCollection",
+  "name": "triangle_graph",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:EPSG::3857"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "id": 0 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [0.0, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": 1 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [2.0, 0.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": 2 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [1.0, 2.0]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": 10, "startid": 0, "endid": 1 },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[0.0, 0.0], [2.0, 0.0]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": 11, "startid": 1, "endid": 2 },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[2.0, 0.0], [1.0, 2.0]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "id": 12, "startid": 2, "endid": 0 },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[1.0, 2.0], [0.0, 0.0]]
+      }
+    }
+  ]
+}
