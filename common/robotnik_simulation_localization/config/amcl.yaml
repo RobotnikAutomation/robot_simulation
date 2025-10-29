@@ -41,7 +41,7 @@
       save_pose_rate: 0.5
       sigma_hit: 0.2
       tf_broadcast: true
-      transform_tolerance: 0.1
+      transform_tolerance: 0.2
       update_min_a: 0.2
       update_min_d: 0.25
       z_hit: 0.5

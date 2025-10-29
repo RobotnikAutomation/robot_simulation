@@ -23,44 +23,67 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-from launch import LaunchDescription
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
-from launch_ros.substitutions import FindPackageShare
 from launch_ros.actions import Node
+from launch import LaunchDescription
 from launch.substitutions import LaunchConfiguration
+from launch_ros.actions import PushRosNamespace
+from launch.actions import GroupAction, DeclareLaunchArgument
+from launch.substitutions import PathJoinSubstitution
+from launch_ros.substitutions import FindPackageShare
 from launch.actions import GroupAction
+from launch.substitutions import PythonExpression
 
 def generate_launch_description():
 
+    declared_arguments = []
+
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "robot_id",
+            default_value="robot",
+            description="Name for launch and config resources"
+        )
+    )
+
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "use_sim",
+            default_value="true",
+            description="Enable simulation"
+        )
+    )
+
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "rviz_name",
+            default_value="rviz_nav",
+            description="Rviz config name"
+        )
+    )
+
     robot_id = LaunchConfiguration("robot_id")
     use_sim = LaunchConfiguration("use_sim")
+    rviz_name = LaunchConfiguration("rviz_name")
 
-    pointcloud_to_laserscan = Node(
-        package='pointcloud_to_laserscan',
-        executable='pointcloud_to_laserscan_node',
-        name='pointcloud_to_laserscan',
+    rviz_config_path = PathJoinSubstitution([
+        FindPackageShare('robotnik_simulation_bringup'),
+        'config',
+        PythonExpression(["'", rviz_name, ".rviz'"])
+    ])
+
+    rviz = Node(
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
         output='screen',
-        remappings=[
-            ('cloud_in', '/robot/top_laser/points'),
-            ('scan', '/robot/front_laser/scan')
-        ],
-        parameters=[{
-            'target_frame': 'robot_base_link',
-            'transform_tolerance': 0.01,
-            'min_height': 0.0,
-            'max_height': 1.0,
-            'angle_min': -3.14,
-            'angle_max': 3.14,
-            'angle_increment': 0.0087,
-            'range_min': 0.1,
-            'range_max': 30.0,
-            'use_inf': True,
-            'inf_epsilon': 1.0
-        }]
+        parameters=[{'use_sim_time': use_sim}],
+        arguments=['-d', rviz_config_path]
     )
 
     group = GroupAction([
-        pointcloud_to_laserscan,
+        # Namespace needed for Navigation 2 panel to work properly   
+        PushRosNamespace(LaunchConfiguration('robot_id')),
+        rviz
     ])
 
-    return LaunchDescription([group])
+    return LaunchDescription(declared_arguments + [group])

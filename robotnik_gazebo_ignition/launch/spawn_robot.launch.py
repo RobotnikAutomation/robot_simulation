@@ -130,6 +130,7 @@ def launch_setup(context, params):
             'frame_prefix': [params['robot_id'], '_'],
             'namespace': params['robot_id'],
             'gazebo_ignition': 'true',
+            'low_performance_simulation': params['low_performance_simulation']
         }.items(),
     ))
 
@@ -180,7 +181,7 @@ def launch_setup(context, params):
         add_camera("rear")
         add_camera("top_ptz")
         #add_depth_camera("front")
-        add_laser("front")
+        #add_laser("front")
         add_laser("rear")
         add_pointcloud("top")
 
@@ -293,6 +294,8 @@ def generate_launch_description():
         ("z", "Initial Z Coordinate", "0.0", "Z"),
         ("has_arm", "Enable Arm Controller", "False", "HAS_ARM"),
         ("run_rviz", "Run RViz", "True", "RUN_RVIZ"),
+        ("low_performance_simulation", "Enable Low Performance Simulation", "False", "LOW_PERFORMANCE_SIMULATION")
+
     ]
 
     ld = LaunchDescription()
