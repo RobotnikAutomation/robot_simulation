@@ -1,5 +1,5 @@
 x-gazebo-simulation: &simulation
-  image: test
+  image: robotnik/simulation-gz:jazzy
   build:
     context: .
     args:

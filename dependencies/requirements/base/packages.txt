@@ -7,4 +7,5 @@ ros-${ROS_DISTRO}-joint-state-publisher
 ros-${ROS_DISTRO}-joint-state-publisher-gui
 ros-${ROS_DISTRO}-plotjuggler-ros
 gz-harmonic
-ros-${ROS_DISTRO}-ros-gzharmonic
+ros-${ROS_DISTRO}-ros-gz-sim
+ros-${ROS_DISTRO}-ros-gz
