@@ -15,7 +15,7 @@
       odom_frame: robot_odom
       map_frame: robot_map
       base_frame: robot_base_footprint
-      map_name: robot_map
+      map_name: map
       scan_topic: /robot/front_laser/scan
 
       # localization
