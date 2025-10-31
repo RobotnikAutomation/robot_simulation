@@ -28,12 +28,23 @@ for _prefix in $(printf %s "$_prefixes" | tr ':' ' '); do
   for _pkg in $_GZ_PKGS; do
     _p="$_prefix/share/$_pkg"
     if [ -d "$_p" ]; then
-      _prepend_unique_value GZ_SIM_RESOURCE_PATH "$(_get_parent_abs_path "$_p")"
-      _prepend_unique_value IGN_GAZEBO_RESOURCE_PATH "$(_get_parent_abs_path "$_p")"
-      _prepend_unique_value GAZEBO_RESOURCE_PATH "$(_get_parent_abs_path "$_p")"
+      _parent_path="$(_get_parent_abs_path "$_p")"
+      _model_path="${_parent_path}/$_pkg/models"
+
+      # Always add the parent path
+      _prepend_unique_value GZ_SIM_RESOURCE_PATH "$_parent_path"
+      _prepend_unique_value IGN_GAZEBO_RESOURCE_PATH "$_parent_path"
+      _prepend_unique_value GAZEBO_RESOURCE_PATH "$_parent_path"
+
+      # If 'models' subfolder exists, add that too
+      if [ -d "$_model_path" ]; then
+        _prepend_unique_value GZ_SIM_RESOURCE_PATH "$_model_path"
+        _prepend_unique_value IGN_GAZEBO_RESOURCE_PATH "$_model_path"
+        _prepend_unique_value GAZEBO_RESOURCE_PATH "$_model_path"
+      fi
     fi
   done
 done
 
-unset _prefix _pkg _p _prefixes _self_prefix _hook_dir _GZ_PKGS
+unset _prefix _pkg _p _prefixes _self_prefix _hook_dir _GZ_PKGS _parent_path _model_path
 unset -f _prepend_unique_value _get_parent_abs_path
