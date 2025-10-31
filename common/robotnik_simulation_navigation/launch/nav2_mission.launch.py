@@ -36,17 +36,17 @@ def generate_launch_description():
     use_sim = LaunchConfiguration("use_sim")
 
     waypoint_config = PathJoinSubstitution([
-        FindPackageShare('nano_atom_navigation'),
+        FindPackageShare('robotnik_simulation_navigation'),
         'config/waypoint_follower.yaml'
     ])
 
     route_config = PathJoinSubstitution([
-        FindPackageShare('nano_atom_navigation'),
+        FindPackageShare('robotnik_simulation_navigation'),
         'config/route_server.yaml'
     ])
 
     route_graph_filepath = PathJoinSubstitution([
-        FindPackageShare('nano_atom_navigation'),
+        FindPackageShare('robotnik_simulation_navigation'),
         'config/graph/demo_map_graph.geojson'
     ])
 

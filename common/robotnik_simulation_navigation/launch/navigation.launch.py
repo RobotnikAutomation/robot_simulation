@@ -77,7 +77,7 @@ def generate_launch_description():
     group = GroupAction([
         PushRosNamespace(LaunchConfiguration('robot_id')),
         nav2_task,
-        #nav2_mission
+        nav2_mission
     ])
 
     return LaunchDescription(declared_arguments + [group])
