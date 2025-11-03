@@ -175,7 +175,11 @@ def launch_setup(context, params):
                 (f"/{robot_id}/{camera_name}_camera_depth/depth/camera_info", f"/{robot_id}/{camera_name}_rgbd_camera/depth/camera_info", "sensor_msgs/msg/CameraInfo", "gz.msgs.CameraInfo", "GZ_TO_ROS"),
                 (f"/{robot_id}/{camera_name}_camera_depth/depth/image_raw", f"/{robot_id}/{camera_name}_rgbd_camera/depth/image_raw", "sensor_msgs/msg/Image", "gz.msgs.Image", "GZ_TO_ROS"),
             ])
-
+        # Pose from gz simulator
+        def add_pose():
+            bridge_raw.extend([
+                ( f"/model/robot/pose", f"/model/robot/pose", "geometry_msgs/msg/PoseStamped", "gz.msgs.Pose", "GZ_TO_ROS"),
+            ])
         add_camera("front")
         add_camera("rear")
         add_camera("top_ptz")
@@ -183,6 +187,7 @@ def launch_setup(context, params):
         add_laser("front")
         add_laser("rear")
         add_pointcloud("top")
+        add_pose()
 
         bridge_config = [{"ros_topic_name": ros, "gz_topic_name": gz, "ros_type_name": ros_type, "gz_type_name": gz_type, "direction": direction} for gz, ros, ros_type, gz_type, direction in bridge_raw]
         with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp:
@@ -271,12 +276,13 @@ def launch_setup(context, params):
         executable="rviz2",
         namespace=params['robot_id'],
         arguments=[
-            '-d', [FindPackageShare('robotnik_gazebo_ignition'), '/config/rviz_config.rviz'],
+            '-d', [params['rviz_config']],
             # Fixed frame
-            '-f', [params['robot_id'], '_odom'],
+            # '-f', [params['robot_id'], '_odom'],
             # Window name
             '-t', [params['robot_id'], ' - ', params['robot_model'], ' - RViz'],
         ],
+        parameters=[{'use_sim_time': True}],
         condition=IfCondition(params['run_rviz'])
     ))
     return ret
@@ -288,11 +294,13 @@ def generate_launch_description():
         ("robot", "Robot Model Name", "", "ROBOT"),
         ("robot_model", "Robot Variant or Type", LaunchConfiguration('robot'), "ROBOT_MODEL"),
         ("robot_xacro", "Path to Robot Xacro File", [FindPackageShare('robotnik_description'), '/robots/', LaunchConfiguration('robot'), '/', LaunchConfiguration('robot_model'), '.urdf.xacro'], "ROBOT_XACRO"),
-        ("x", "Initial X Coordinate", "0.0", "X"),
-        ("y", "Initial Y Coordinate", "0.0", "Y"),
-        ("z", "Initial Z Coordinate", "0.0", "Z"),
+        ("x", "Initial X Coordinate", "-11.058", "X"),
+        ("y", "Initial Y Coordinate", "-78.487", "Y"),
+        ("z", "Initial Z Coordinate", "0.05", "Z"),
         ("has_arm", "Enable Arm Controller", "False", "HAS_ARM"),
         ("run_rviz", "Run RViz", "True", "RUN_RVIZ"),
+        ("use_sim_time", "Use simulation time", "True", "USE_SIM_TIME"),
+        ("rviz_config", "RViz configuration file", [FindPackageShare('robotnik_gazebo_ignition'), '/config/rviz_config.rviz'], "CONFIG_RVIZ"),
     ]
 
     ld = LaunchDescription()
