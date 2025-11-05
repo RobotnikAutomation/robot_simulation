@@ -121,6 +121,7 @@ ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=<unique_nam
 | `robot_model` | no | Specific **model** within the type, see `supported_robots` | `rbwatcher` |
 | `x` `y` `z` | no | Spawn position in meters | `0.0 0.0 0.0` |
 | `run_rviz` | no | Launch RViz2 with a predefined configuration | `true` or `false` |
+| `rviz_config` | no | Full path to a custom RViz2 configuration file (overrides default config and fixed frame must be set in config) | `/path/to/custom_config.rviz` |
 
 #### Supported Robots
 

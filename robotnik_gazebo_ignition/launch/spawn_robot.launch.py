@@ -265,12 +265,33 @@ def launch_setup(context, params):
         output='screen',
     ))
 
+    # Check if rviz config path is modified, if not use default fixed frame
+    rviz_config_default = str(
+        Path(
+            FindPackageShare('robotnik_gazebo_ignition').perform(context)
+        )
+        / 'config'
+        / 'rviz_config.rviz'
+    )
+    use_fixed_frame = False
+    # Determine if fixed frame should be used
+    if isinstance(params['rviz_config'], LaunchConfiguration):
+        rviz_config_value = params['rviz_config'].perform(context)
+        use_fixed_frame = (rviz_config_value == "")
+    else:
+        use_fixed_frame = (params['rviz_config'] == "")
+
+    if use_fixed_frame:
+        params['rviz_config'] = rviz_config_default
+
     # RViz
     ret.append(Node(
         package="rviz2",
         executable="rviz2",
         namespace=params['robot_id'],
         arguments=[
+            # Fixed frame
+            ['-f ', params['robot_id'], '_odom'] if use_fixed_frame else [],
             # Config file
             '-d', [params['rviz_config']],
             # Window name
@@ -293,7 +314,7 @@ def generate_launch_description():
         ("z", "Initial Z Coordinate", "0.0", "Z"),
         ("has_arm", "Enable Arm Controller", "False", "HAS_ARM"),
         ("run_rviz", "Run RViz", "True", "RUN_RVIZ"),
-        ("rviz_config", "RViz configuration file", [FindPackageShare('robotnik_gazebo_ignition'), '/config/rviz_config.rviz'], "CONFIG_RVIZ"),
+        ("rviz_config", "RViz configuration file", "", "CONFIG_RVIZ"),
         ("use_sim_time", "Use simulation time", "True", "USE_SIM_TIME"),
 
     ]
