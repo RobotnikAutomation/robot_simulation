@@ -38,7 +38,7 @@ Simulation-based environments and launch assets for Robotnik platforms on ROS 2.
 
 | Simulator | Package | Instructions |
 |-----------|---------|--------------|
-| <a href="robotnik_gazebo/README.md"><img src="docs/assets/img/gazebo-logo.png" alt="Gazebo Logo" height=50></a> | `robotnik_gazebo_ignition` | [README](robotnik_gazebo_ignition/README.md) |
+| <a href="robotnik_gazebo_ignition/README.md"><img src="docs/assets/img/gazebo-logo.png" alt="Gazebo Logo" height=50></a> | `robotnik_gazebo_ignition` | [README](robotnik_gazebo_ignition/README.md) |
 
 ## Related projects
 
