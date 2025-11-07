@@ -291,7 +291,7 @@ def launch_setup(context, params):
         namespace=params['robot_id'],
         arguments=[
             # Fixed frame
-            ['-f ', params['robot_id'], '_odom'] if use_fixed_frame else [],
+            ['-f', params['robot_id'], '_odom'] if use_fixed_frame else [],
             # Config file
             '-d', [params['rviz_config']],
             # Window name
