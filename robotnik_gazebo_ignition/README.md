@@ -192,12 +192,37 @@ ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_xacro_path:=<yo
 Inside the simulation package `robotnik_gazebo_ignition/config/profile`, you can find different control profiles for various Robotnik robots. You can adjust topics, frames, velocities, and controllers there.
 
 ## 🐳 Docker
-🚧 Work in progress. 🚧
 
-Use the compose file in the repo root to run a preconfigured simulator container.
+### Prerequisites
+
+- Linux (tested on Ubuntu 24.04).
+- Install [Docker](https://docs.docker.com/get-docker/).
+- (Optional) Install [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html).
+
+### Run Simulation
+
+1. Pull the image:
 
 ```sh
-docker compose up
+docker compose pull
 ```
 
-> **Note**: The first time will take a while as it builds the image. Subsequent runs will be faster.
+2. (Option 1) Run with GPU acceleration:
+
+```sh
+docker compose -f compose-gpu.yaml up
+```
+
+3. (Option 2) Run without GPU acceleration:
+
+```sh
+docker compose -f compose.yaml up
+```
+
+4. Access the container shell:
+
+```sh
+docker exec -it robotnik_simulation-world-1 bash
+```
+
+> **Note**: There is a prebuilt Docker image available on [Docker Hub](https://hub.docker.com/r/robotnik/simulation-gz), tagged by ROS distribution, e.g., `robotnik/simulation-gz:jazzy`. If you prefer to build the image locally, you can use the provided `Dockerfile` in this repository.

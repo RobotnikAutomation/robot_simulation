@@ -1,23 +1,11 @@
 x-gazebo-simulation: &simulation
-  image: robotnik/simulation-gz:jazzy
-  build:
-    context: .
-    args:
-      ros_distro: jazzy
-  network_mode: host
-  privileged: true
+  extends:
+    file: compose.yaml
+    service: world
   runtime: nvidia
   environment:
-    ROS_DOMAIN_ID: 0
-    DISPLAY: ${DISPLAY}  # Forward X11 display
     NVIDIA_DRIVER_CAPABILITIES: compute,utility,graphics  # Allow GPU access
     NVIDIA_VISIBLE_DEVICES: all  # Expose all GPUs
-    GZ_VERSION: harmonic
-  devices:
-    - "/dev/dri:/dev/dri"
-    - /tmp/.X11-unix:/tmp/.X11-unix
-  volumes:
-    - tmp:/tmp  # shared tmp directory
 
 services:
   world:

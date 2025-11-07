@@ -1,0 +1,28 @@
+x-gazebo-simulation: &simulation
+  image: robotnik/simulation-gz:jazzy
+  build:
+    context: .
+    args:
+      ros_distro: jazzy
+  network_mode: host
+  privileged: true
+  environment:
+    ROS_DOMAIN_ID: 0
+    DISPLAY: ${DISPLAY}  # Forward X11 display
+    GZ_VERSION: harmonic
+  devices:
+    - "/dev/dri:/dev/dri"
+    - /tmp/.X11-unix:/tmp/.X11-unix
+  volumes:
+    - tmp:/tmp  # shared tmp directory
+
+services:
+  world:
+    <<: *simulation
+    command: ros2 launch robotnik_gazebo_ignition spawn_world.launch.py
+  spawn:
+    <<: *simulation
+    command: ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=robot_a robot:=rbwatcher
+
+volumes:
+  tmp:
