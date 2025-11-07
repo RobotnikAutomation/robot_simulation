@@ -306,7 +306,7 @@ def launch_setup(context, params):
 def generate_launch_description():
     raw_args = [
         ("robot_id", "Unique Robot Identifier", "robot", "ROBOT_ID"),
-        ("robot", "Robot Model Name", "", "ROBOT"),
+        ("robot", "Robot Model Name", "rbwatcher", "ROBOT"),
         ("robot_model", "Robot Variant or Type", LaunchConfiguration('robot'), "ROBOT_MODEL"),
         ("robot_xacro", "Path to Robot Xacro File", [FindPackageShare('robotnik_description'), '/robots/', LaunchConfiguration('robot'), '/', LaunchConfiguration('robot_model'), '.urdf.xacro'], "ROBOT_XACRO"),
         ("x", "Initial X Coordinate", "0.0", "X"),
