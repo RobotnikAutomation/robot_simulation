@@ -23,15 +23,15 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import os
 from launch import LaunchDescription
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, PythonExpression
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.actions import PushRosNamespace
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.actions import GroupAction, DeclareLaunchArgument, IncludeLaunchDescription
 from launch.conditions import IfCondition, UnlessCondition
 from launch.actions import TimerAction
+from launch.substitutions import EqualsSubstitution, OrSubstitution
 
 def generate_launch_description():
 
@@ -42,28 +42,47 @@ def generate_launch_description():
             description="Name for launch and config resources"
         ),
         DeclareLaunchArgument(
-            "use_sim",
+            "robot_model",
+            default_value="rbsummit",
+            description="Set robot model"
+        ),
+        DeclareLaunchArgument(
+            "use_gui",
             default_value="true",
-            description="Enable simulation"
-        )
+            description="Enable simulation gui"
+        ),
+        DeclareLaunchArgument(
+            "use_rviz",
+            default_value="true",
+            description="Enable rviz gui"
+        ),
+        DeclareLaunchArgument(
+            "world_path",
+            default_value=PathJoinSubstitution([
+                #FindPackageShare('electrical_substation_world'), 'worlds/electrical_substation.world'
+                FindPackageShare('robotnik_gazebo_ignition'), 'worlds/demo.world',
+            ]),
+            description="Path to the world file"
+        ),
     ]
 
     robot_id = LaunchConfiguration("robot_id")
-    use_sim = LaunchConfiguration("use_sim")
+    robot_model = LaunchConfiguration("robot_model")
+    use_gui = LaunchConfiguration("use_gui")
+    world_path = LaunchConfiguration("world_path")
+    use_rviz = LaunchConfiguration("use_rviz")
 
     gazebo_world = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution([
-                 FindPackageShare('robotnik_gazebo_ignition'), 'launch/spawn_world.launch.py'
+                FindPackageShare('robotnik_gazebo_ignition'), 'launch/spawn_world.launch.py'
             ])
         ),
         launch_arguments={
             'robot_id': robot_id,
-            'use_sim': use_sim,
-            'gui': 'true',
-            'world_path': PathJoinSubstitution([
-                 FindPackageShare('electrical_substation_world'), 'worlds/electrical_substation.world'
-            ])
+            'use_sim': 'true',
+            'gui': use_gui,
+            'world_path': world_path
         }.items()
     )
 
@@ -75,14 +94,17 @@ def generate_launch_description():
         ),
         launch_arguments={
             'robot_id': robot_id,
-            'use_sim': use_sim,
-            'robot': 'rbwatcher',
+            'use_sim': 'true',
+            'robot': robot_model,
             'low_performance_simulation': 'true',
             'run_rviz': 'false'
         }.items()
     )
 
-
+    # In spawn_robot.launch.py the add_laser("front") is defined for any robot model
+    # This causes two publishers to /robot/front_laser/scan when laser filters are enabled
+    # In rbsummit and rbwatcher is not an issue because front laser is not available
+    # but in other robot models that have front laser, it causes conflict.
     laser_filters = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution([
@@ -91,8 +113,14 @@ def generate_launch_description():
         ),
         launch_arguments={
             'robot_id': robot_id,
-            'use_sim': use_sim,
-        }.items()
+            'use_sim': 'true',
+        }.items(),
+        condition=IfCondition(
+            OrSubstitution(
+                EqualsSubstitution(robot_model, 'rbsummit'),
+                EqualsSubstitution(robot_model, 'rbwatcher'),
+            )
+        )
     )
 
     localization = IncludeLaunchDescription(
@@ -103,7 +131,7 @@ def generate_launch_description():
         ),
         launch_arguments={
             'robot_id': robot_id,
-            'use_sim': use_sim,
+            'use_sim': 'true',
         }.items()
     )
 
@@ -120,7 +148,7 @@ def generate_launch_description():
         ),
         launch_arguments={
             'robot_id': robot_id,
-            'use_sim': use_sim,
+            'use_sim': 'true',
         }.items()
     )
 
@@ -129,12 +157,27 @@ def generate_launch_description():
         actions=[navigation]
     )
 
+    rviz = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution([
+                 FindPackageShare('robotnik_simulation_bringup'), 'launch/rviz.launch.py'
+            ])
+        ),
+        condition=IfCondition(use_rviz)
+    )
+
+    delayed_rviz = TimerAction(
+        period=20.0,
+        actions=[rviz]
+    )
+
     group = GroupAction([
         gazebo_world,
         gazebo_robot,
         laser_filters,
         delayed_localization,
-        delayed_navigation
+        delayed_navigation,
+        delayed_rviz
     ])
 
     return LaunchDescription(declared_arguments + [group])

@@ -181,7 +181,7 @@ def launch_setup(context, params):
         add_camera("rear")
         add_camera("top_ptz")
         #add_depth_camera("front")
-        #add_laser("front")
+        add_laser("front")
         add_laser("rear")
         add_pointcloud("top")
 

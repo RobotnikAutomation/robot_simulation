@@ -58,7 +58,7 @@ def generate_launch_description():
         parameters=[waypoint_config, {'use_sim_time': use_sim}]
     )
 
-    # Not available in Jazzy from apt
+    # No full available in Jazzy
     route_server = Node(
         package='nav2_route',
         executable='route_server',
@@ -82,7 +82,7 @@ def generate_launch_description():
         parameters=[
             {
                 'use_sim_time': use_sim,
-                'autostart': True,
+                'autostart': False,
                 'node_names': [
                     'waypoint_follower',
                     #'route_server'

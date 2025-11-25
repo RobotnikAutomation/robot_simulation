@@ -49,8 +49,8 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "run_mapping",
             default_value="false",
-            description="Enable mapping"
-        )
+            description="Run mapping instead of localization"
+        ),
     ]
 
     robot_id = LaunchConfiguration("robot_id")
@@ -80,7 +80,6 @@ def generate_launch_description():
             'robot_id': robot_id,
             'use_sim': use_sim,
         }.items(),
-        condition=IfCondition(run_mapping)
     )
 
     group = GroupAction([

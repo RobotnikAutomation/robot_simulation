@@ -56,6 +56,17 @@ def generate_launch_description():
         ]
     )
 
+    map_saver = Node(
+            package='nav2_map_server',
+            executable='map_saver_server',
+            name='map_saver',
+            output='screen',
+            parameters=[
+            {
+                'use_sim_time': use_sim
+            }]
+        )
+
     lifecycle_manager_mapping = Node(
         package='nav2_lifecycle_manager',
         executable='lifecycle_manager',
@@ -64,8 +75,11 @@ def generate_launch_description():
         parameters=[
             {
                 'use_sim_time': use_sim,
-                'autostart': True,
-                'node_names': ['slam_toolbox_mapping'],
+                'autostart': False,
+                'node_names': [
+                    'slam_toolbox_mapping',
+                    'map_saver'
+                ],
                 'bond_timeout': 4.0
             }
         ]
@@ -73,6 +87,7 @@ def generate_launch_description():
 
     group = GroupAction([
         slam_toolbox_mapping,
+        map_saver,
         lifecycle_manager_mapping
     ])
 
