@@ -2,7 +2,7 @@
 
 ![alt text](docs/summit-gz.png)
 
-## Quick start
+## Bringup
 
 Launch complete simulation
 
@@ -27,7 +27,7 @@ ros2 launch  robotnik_simulation_bringup rviz.launch.py
 
 ![alt text](docs/summit-rviz.png)
 
-## Bringup
+## Create and use a new map
 
 ### 1. Run simulation
 

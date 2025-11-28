@@ -42,7 +42,11 @@ Simulation-based environments and launch assets for Robotnik platforms on ROS 2.
 
 ## Quick start
 
-For a complete description of available parameters and files, refer to the `robotnik_simulation_bringup` [README](common/robotnik_simulation_bringup/README.md).
+### Installation
+
+Before launching the simulation, ensure that the installation steps for one of the available simulators listed above have been completed.
+
+### Bringup
 
 Launch complete simulation:
 
@@ -51,6 +55,11 @@ ros2 launch  robotnik_simulation_bringup bringup_complete.launch.py robot_model:
 ```
 
 ![alt text](common/robotnik_simulation_bringup/docs/summit-rviz.png)
+
+### Additional Configuration
+
+For a complete description of available parameters and files, refer to the `robotnik_simulation_bringup` [README](common/robotnik_simulation_bringup/README.md).
+
 
 ## Related projects
 
