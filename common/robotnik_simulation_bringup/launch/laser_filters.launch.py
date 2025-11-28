@@ -53,7 +53,7 @@ def generate_launch_description():
             'angle_min': -2.3,
             'angle_max': 2.3,
             'angle_increment': 0.008694,
-            'range_min': 0.1,
+            'range_min': 0.4,
             'range_max': 30.0,
             'use_inf': True,
             'inf_epsilon': 1.0,

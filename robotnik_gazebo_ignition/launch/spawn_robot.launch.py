@@ -244,6 +244,10 @@ def launch_setup(context, params):
 
     # ROS2 control
     controllers = ['joint_state_broadcaster']
+    # Replace default joint_state_broadcaster by the one defined in the specific
+    # ros2_control.yamlrobot model
+    if 'joint_state_broadcaster' in new_controllers:
+        controllers.remove('joint_state_broadcaster')
     controllers.extend(new_controllers)
     print("Controllers to be spawned:", controllers)
 
