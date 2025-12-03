@@ -1,4 +1,4 @@
-image: electrical_substation_map.pgm
+image: electrical_substation_map.png
 mode: trinary
 resolution: 0.050
 origin: [-29.371, -60.367, 0]

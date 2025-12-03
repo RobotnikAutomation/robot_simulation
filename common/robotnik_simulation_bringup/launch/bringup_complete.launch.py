@@ -24,12 +24,11 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 from launch import LaunchDescription
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, PythonExpression
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
-from launch_ros.actions import PushRosNamespace
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.actions import GroupAction, DeclareLaunchArgument, IncludeLaunchDescription
-from launch.conditions import IfCondition, UnlessCondition
+from launch.conditions import IfCondition
 from launch.actions import TimerAction
 from launch.substitutions import EqualsSubstitution, OrSubstitution
 
@@ -52,6 +51,11 @@ def generate_launch_description():
             description="Enable simulation gui"
         ),
         DeclareLaunchArgument(
+            "low_performance_simulation",
+            default_value="true",
+            description="Enable smooth simulation for low performance computers"
+        ),
+        DeclareLaunchArgument(
             "use_rviz",
             default_value="true",
             description="Enable rviz gui"
@@ -69,6 +73,7 @@ def generate_launch_description():
     robot_id = LaunchConfiguration("robot_id")
     robot_model = LaunchConfiguration("robot_model")
     use_gui = LaunchConfiguration("use_gui")
+    low_performance_simulation = LaunchConfiguration("low_performance_simulation")
     world_path = LaunchConfiguration("world_path")
     use_rviz = LaunchConfiguration("use_rviz")
 
@@ -80,7 +85,6 @@ def generate_launch_description():
         ),
         launch_arguments={
             'robot_id': robot_id,
-            'use_sim': 'true',
             'gui': use_gui,
             'world_path': world_path
         }.items()
@@ -94,9 +98,8 @@ def generate_launch_description():
         ),
         launch_arguments={
             'robot_id': robot_id,
-            'use_sim': 'true',
             'robot': robot_model,
-            'low_performance_simulation': 'true',
+            'low_performance_simulation': low_performance_simulation,
             'run_rviz': 'false'
         }.items()
     )

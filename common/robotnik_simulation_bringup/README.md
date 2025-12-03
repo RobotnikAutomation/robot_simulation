@@ -16,6 +16,7 @@ ros2 launch  robotnik_simulation_bringup bringup_complete.launch.py robot_model:
 | `robot_id` | no | Name for launch and config resources | `robot` |
 | `robot_model` | no | Name of the robot model | `rbsummit` |
 | `use_gui` | no | Enable simulation graphical interface | `true` |
+| `low_performance_simulation` | no | Enable smooth simulation for low performance computers | `true` |
 | `use_rviz` | no | Launch rviz | `false` |
 | `world_path` | no | Path of the world file | `/path/worlds/demo.world` |
 
@@ -37,11 +38,7 @@ Launch the demo world:
 ros2 launch robotnik_gazebo_ignition spawn_world.launch.py gui:=true
 ```
 
-Enable low performance simulation and spawn the robot:
-
-```
-export LOW_PERFORMANCE_SIMULATION=true
-```
+Spawn the robot:
 
 ```
 ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py \

@@ -6,7 +6,7 @@
   <name>robotnik_simulation_localization</name>
   <version>1.0.0</version>
   <description>Package to simulation localization</description>
-  <maintainer email="support@robotnik.es">Robotnik Support</maintainer>
+  <maintainer email="ros-developers@robotnik.es">Robotnik Developers</maintainer>
   <license>Apache-2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
