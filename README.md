@@ -38,7 +38,29 @@ Simulation-based environments and launch assets for Robotnik platforms on ROS 2.
 
 | Simulator | Package | Instructions |
 |-----------|---------|--------------|
-| <a href="robotnik_gazebo_ignition/README.md"><img src="docs/assets/img/gazebo-logo.png" alt="Gazebo Logo" height=50></a> | `robotnik_gazebo_ignition` | [README](robotnik_gazebo_ignition/README.md) |
+| <a href="robotnik_gazebo_ignition/README.md"><img src="docs/assets/img/gazebo-logo.png" alt="Gazebo Logo" height=50></a> | `robotnik_gazebo_ignition` | [README](robotnik_gazebo_ignition/README.md)
+
+
+## Quick start
+
+### Installation
+
+Before launching the simulation, ensure that the installation steps for one of the available simulators listed above have been completed.
+
+### Bringup
+
+Launch complete simulation:
+
+```
+ros2 launch  robotnik_simulation_bringup bringup_complete.launch.py robot_model:=rbsummit
+```
+
+![alt text](common/robotnik_simulation_bringup/docs/summit-rviz.png)
+
+### Additional Configuration
+
+For a complete description of available parameters and files, refer to the `robotnik_simulation_bringup` [README](common/robotnik_simulation_bringup/README.md).
+
 
 ## Related projects
 

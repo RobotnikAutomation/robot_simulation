@@ -130,6 +130,7 @@ def launch_setup(context, params):
             'frame_prefix': [params['robot_id'], '_'],
             'namespace': params['robot_id'],
             'gazebo_ignition': 'true',
+            'low_performance_simulation': params['low_performance_simulation']
         }.items(),
     ))
 
@@ -243,6 +244,10 @@ def launch_setup(context, params):
 
     # ROS2 control
     controllers = ['joint_state_broadcaster']
+    # Replace default joint_state_broadcaster by the one defined in the specific
+    # ros2_control.yamlrobot model
+    if 'joint_state_broadcaster' in new_controllers:
+        controllers.remove('joint_state_broadcaster')
     controllers.extend(new_controllers)
     print("Controllers to be spawned:", controllers)
 
@@ -316,7 +321,7 @@ def generate_launch_description():
         ("run_rviz", "Run RViz", "True", "RUN_RVIZ"),
         ("rviz_config", "RViz configuration file", "", "CONFIG_RVIZ"),
         ("use_sim_time", "Use simulation time", "True", "USE_SIM_TIME"),
-
+        ("low_performance_simulation", "Enable Low Performance Simulation", "False", "LOW_PERFORMANCE_SIMULATION"),
     ]
 
     ld = LaunchDescription()
