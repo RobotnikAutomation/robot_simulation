@@ -121,3 +121,33 @@
               acceleration:
                 min: -10.0
                 max:  10.0
+  # HAS ARM
+  joint_trajectory_controller:
+    ros__parameters:
+      publish_rate: 50
+      joints:
+        - $(var frame_prefix)arm1_shoulder_pan_joint
+        - $(var frame_prefix)arm1_shoulder_lift_joint
+        - $(var frame_prefix)arm1_elbow_joint
+        - $(var frame_prefix)arm1_wrist_1_joint
+        - $(var frame_prefix)arm1_wrist_2_joint
+        - $(var frame_prefix)arm1_wrist_3_joint
+        #- $(var frame_prefix)arm2_shoulder_pan_joint
+        #- $(var frame_prefix)arm2_shoulder_lift_joint
+        #- $(var frame_prefix)arm2_elbow_joint
+        #- $(var frame_prefix)arm2_wrist_1_joint
+        #- $(var frame_prefix)arm2_wrist_2_joint
+        #- $(var frame_prefix)arm2_wrist_3_joint
+
+      command_interfaces:
+        - position
+
+      state_interfaces:
+        - position
+        - velocity
+
+      state_publish_rate: 50.0
+      action_monitor_rate: 20.0
+
+      allow_partial_joints_goal: false
+      open_loop_control: true
