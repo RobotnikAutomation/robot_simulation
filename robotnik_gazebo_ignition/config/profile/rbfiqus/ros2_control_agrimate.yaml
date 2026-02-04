@@ -19,7 +19,7 @@
       use_2D_odom: true
 
       #Kinematics Params
-      wheel_radius: 0.195
+      wheel_radius: 0.1745
       wheel_base:   1.34
       track_width:  1.23
       min_turning_ratio:  1.0
@@ -32,7 +32,7 @@
       joint_control_topic: ~/joint_control_command
 
       # RBVogui XL Controller Params
-      max_steering_position_error: 0.17
+      max_steering_position_error: 0.3
 
       #Cartesian and wheels limits
       base:
@@ -74,8 +74,8 @@
             joint_name: $(var frame_prefix)front_right_steering_joint
             limits:
               velocity:
-                min: -2.5
-                max:  2.5
+                min: -1.0
+                max:  1.0
               position:
                 min: -2.8
                 max:  2.8
@@ -94,8 +94,8 @@
             joint_name: $(var frame_prefix)front_left_steering_joint
             limits:
               velocity:
-                min: -2.5
-                max:  2.5
+                min: -1.0
+                max:  1.0
               position:
                 min: -2.8
                 max:  2.8

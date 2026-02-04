@@ -1,5 +1,27 @@
-/**:
-  controller_server:
+amcl:
+  ros__parameters:
+    use_sim_time: true
+
+bt_navigator:
+    ros__parameters:
+      global_frame: robot_map
+      robot_base_frame: robot_base_link
+      bt_loop_duration: 10
+      default_server_timeout: 20
+      wait_for_service_timeout: 1000
+      action_server_result_timeout: 900.0
+
+      navigators: ["navigate_to_pose","navigate_through_poses"]
+      navigate_to_pose:
+        plugin: "nav2_bt_navigator::NavigateToPoseNavigator"
+      navigate_through_poses:
+        plugin: "nav2_bt_navigator::NavigateThroughPosesNavigator"
+
+      error_code_name_prefixes:
+        - compute_path_error_code
+        - follow_path_error_code
+
+controller_server:
     ros__parameters:
       enable_stamped_cmd_vel: True
       controller_frequency: 5.0
@@ -65,18 +87,57 @@
         short_circuit_trajectory_evaluation: true
         stateful: true
         critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
-        BaseObstacle.scale: 2.0
+        BaseObstacle.scale: 0.02
         PathAlign.scale: 32.0
         PathAlign.forward_point_distance: 0.1
-        GoalAlign.scale: 8.0
+        GoalAlign.scale: 24.0
         GoalAlign.forward_point_distance: 0.1
-        PathDist.scale: 8.0
-        GoalDist.scale: 20.0
+        PathDist.scale: 32.0
+        GoalDist.scale: 64.0
         RotateToGoal.scale: 32.0
         RotateToGoal.slowing_factor: 5.0
         RotateToGoal.lookahead_time: -1.0
 
-  local_costmap:
+
+planner_server:
+    ros__parameters:
+      expected_planner_frequency: 0.2
+      planner_plugins: ["GridBased"]
+      costmap_update_timeout: 1.0
+      GridBased:
+        plugin: "nav2_navfn_planner::NavfnPlanner"
+        tolerance: 0.5
+        use_astar: false
+        allow_unknown: true
+
+map_server:
+  ros__parameters:
+    use_sim_time: true
+
+global_costmap:
+    global_costmap:
+      ros__parameters:
+        update_frequency: 1.0
+        publish_frequency: 1.0
+        global_frame: robot_map
+        robot_base_frame: robot_base_link
+        footprint: "[[0.4,-0.35],[0.4,0.35],[-0.4,0.35],[-0.4,-0.35]]"
+        footprint_padding: 0.05
+        # robot_radius: 0.6 #0.60
+        resolution: 0.05 # resolution: 0.025
+        track_unknown_space: true
+        plugins: ["static_layer", "inflation_layer"]
+        static_layer:
+          map_topic: /robot/map
+          plugin: "nav2_costmap_2d::StaticLayer"
+          map_subscribe_transient_local: true
+        inflation_layer:
+          plugin: "nav2_costmap_2d::InflationLayer"
+          cost_scaling_factor: 4.00
+          inflation_radius: 1.5
+        always_send_full_costmap: true
+
+local_costmap:
     local_costmap:
       ros__parameters:
         use_sim_time: true
@@ -120,6 +181,7 @@
           group_connectivity_type: 16
         inflation_layer:
           plugin: "nav2_costmap_2d::InflationLayer"
-          cost_scaling_factor: 6.0
-          inflation_radius: 0.85
+          cost_scaling_factor: 10.0
+          inflation_radius: 0.7
         always_send_full_costmap: true
+

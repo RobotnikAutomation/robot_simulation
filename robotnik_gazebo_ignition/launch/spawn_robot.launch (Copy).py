@@ -31,7 +31,6 @@ from launch.actions import IncludeLaunchDescription, OpaqueFunction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.parameter_descriptions import ParameterFile
 from launch.substitutions import LaunchConfiguration
-from launch.substitutions import PythonExpression
 
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
@@ -50,7 +49,7 @@ from launch.utilities import normalize_to_list_of_substitutions, perform_substit
 from launch.utilities.typing_file_path import FilePath
 from launch.substitution import Substitution
 from launch import LaunchContext
-from launch.conditions import IfCondition, UnlessCondition
+from launch.conditions import IfCondition
 
 
 # TODO: move this utility class into robotnik_common
@@ -178,16 +177,13 @@ def launch_setup(context, params):
                 (f"/{robot_id}/{camera_name}_camera_depth/depth/image_raw", f"/{robot_id}/{camera_name}_rgbd_camera/depth/image_raw", "sensor_msgs/msg/Image", "gz.msgs.Image", "GZ_TO_ROS"),
             ])
 
-        #add_camera("front")
-        #add_camera("rear")
-        #add_camera("top_ptz")
+        add_camera("front")
+        add_camera("rear")
+        add_camera("top_ptz")
         #add_depth_camera("front")
-        #add_laser("front")
-        #add_laser("rear")
+        add_laser("front")
+        add_laser("rear")
         add_pointcloud("top")
-        #add_pointcloud("left")
-        #add_pointcloud("right")
-        add_pointcloud("back")
 
         bridge_config = [{"ros_topic_name": ros, "gz_topic_name": gz, "ros_type_name": ros_type, "gz_type_name": gz_type, "direction": direction} for gz, ros, ros_type, gz_type, direction in bridge_raw]
         with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp:
@@ -320,93 +316,26 @@ def launch_setup(context, params):
             launch_arguments={
                 'use_sim_time': 'true',
                 'slam_params_file': params['slam_params'],
-                'namespace': params['robot_id']
+                'namespace': params['robot_id'],
             }.items(),
             condition=IfCondition(params['slam'])
         )
     )
     
-    robot_id = substitute_param_context(params['robot_id'], context)
-
-    ret.append(
-        Node(
-            package='topic_tools',
-            executable='relay',
-            name='map_relay',
-            arguments=[
-                '/map',
-                f'/{robot_id}/map',
-                '--qos-durability', 'transient_local'
-            ],
-            output='screen'
-        )
-    )
-    
     # Nav2
-    
-    navigation_launch = str(
-        Path(
-            FindPackageShare('robotnik_simulation_navigation').perform(context)
-        )
-        / 'launch'
-        / 'navigation.launch.py'
-    )
-
     ret.append(
         IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(navigation_launch),
-        condition=IfCondition(params['run_nav2']),
-        launch_arguments={'robot_id': params['robot_id']}.items()
-        )
-      )
-    
-    #Localizacón
-    
-    localization_launch = str(
-        Path(
-            FindPackageShare('robotnik_simulation_localization').perform(context)
-        )
-        / 'launch'
-        / 'localization_2d.launch.py'
-    )
-    
-    ret.append(IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(localization_launch),
-        condition=IfCondition(
-            PythonExpression([
-                params['run_nav2'],
-                ' and not ',
-                params['slam']
-            ])
-        ),
-        launch_arguments={
-            'robot_id': params['robot_id'],
-            'use_sim': params['use_sim_time'],
-        }.items(),
-      )
-    )
-    
-    # Convert PointCloud2 -> LaserScan
-    ret.append(
-        Node(
-            package='pointcloud_to_laserscan',
-            executable='pointcloud_to_laserscan_node',
-            name='pointcloud_to_laserscan',
-            namespace=params['robot_id'],
-            parameters=[{
-                'target_frame': 'robot_base_link',
-                'transform_tolerance': 0.01,
-                'min_height': -0.05,
-                'max_height': 0.2,
-                'angle_min': -3.14159,
-                'angle_max': 3.14159,
-                'angle_increment': 0.0058,  # ~0.33°
-                'use_inf': True,
-            }],
-            remappings=[
-                ('cloud_in', 'top_laser/points'),
-                ('scan', 'front_laser/scan'),
-            ],
+            PythonLaunchDescriptionSource([
+                FindPackageShare('nav2_bringup'),
+                '/launch/navigation_launch.py'
+            ]),
+            launch_arguments={
+                'namespace': params['robot_id'],
+                'use_sim_time': 'true',
+                'params_file': params['nav2_params'],
+                'autostart': 'true',
+            }.items(),
+            condition=IfCondition(params['run_nav2'])
         )
     )
 

@@ -65,13 +65,13 @@
         short_circuit_trajectory_evaluation: true
         stateful: true
         critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
-        BaseObstacle.scale: 2.0
+        BaseObstacle.scale: 0.02
         PathAlign.scale: 32.0
         PathAlign.forward_point_distance: 0.1
-        GoalAlign.scale: 8.0
+        GoalAlign.scale: 24.0
         GoalAlign.forward_point_distance: 0.1
-        PathDist.scale: 8.0
-        GoalDist.scale: 20.0
+        PathDist.scale: 32.0
+        GoalDist.scale: 64.0
         RotateToGoal.scale: 32.0
         RotateToGoal.slowing_factor: 5.0
         RotateToGoal.lookahead_time: -1.0
@@ -120,6 +120,6 @@
           group_connectivity_type: 16
         inflation_layer:
           plugin: "nav2_costmap_2d::InflationLayer"
-          cost_scaling_factor: 6.0
-          inflation_radius: 0.85
+          cost_scaling_factor: 10.0
+          inflation_radius: 0.7
         always_send_full_costmap: true

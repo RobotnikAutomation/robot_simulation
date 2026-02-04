@@ -100,7 +100,8 @@ def generate_launch_description():
                 ),
                 launch_arguments={
                     'gz_args':[
-                        '-g '
+                        '-g ',
+                        "-v4"
                     ],
                     'on_exit_shutdown':'true'
                 }.items(),
