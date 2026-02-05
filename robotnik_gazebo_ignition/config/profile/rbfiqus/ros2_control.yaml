@@ -132,12 +132,12 @@
         - $(var frame_prefix)arm1_wrist_1_joint
         - $(var frame_prefix)arm1_wrist_2_joint
         - $(var frame_prefix)arm1_wrist_3_joint
-        #- $(var frame_prefix)arm2_shoulder_pan_joint
-        #- $(var frame_prefix)arm2_shoulder_lift_joint
-        #- $(var frame_prefix)arm2_elbow_joint
-        #- $(var frame_prefix)arm2_wrist_1_joint
-        #- $(var frame_prefix)arm2_wrist_2_joint
-        #- $(var frame_prefix)arm2_wrist_3_joint
+        - $(var frame_prefix)arm2_shoulder_pan_joint
+        - $(var frame_prefix)arm2_shoulder_lift_joint
+        - $(var frame_prefix)arm2_elbow_joint
+        - $(var frame_prefix)arm2_wrist_1_joint
+        - $(var frame_prefix)arm2_wrist_2_joint
+        - $(var frame_prefix)arm2_wrist_3_joint
 
       command_interfaces:
         - position
