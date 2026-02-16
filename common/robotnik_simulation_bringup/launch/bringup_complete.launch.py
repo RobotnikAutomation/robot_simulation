@@ -64,7 +64,7 @@ def generate_launch_description():
             "world_path",
             default_value=PathJoinSubstitution([
                 #FindPackageShare('electrical_substation_world'), 'worlds/electrical_substation.world'
-                FindPackageShare('robotnik_gazebo_ignition'), 'worlds/demo.world',
+                FindPackageShare('robotnik_gazebo_ignition'), 'worlds/empty.world',
             ]),
             description="Path to the world file"
         ),
@@ -100,7 +100,7 @@ def generate_launch_description():
             'robot_id': robot_id,
             'robot': robot_model,
             'low_performance_simulation': low_performance_simulation,
-            'run_rviz': 'false'
+            'run_rviz': 'true'
         }.items()
     )
 
@@ -177,10 +177,10 @@ def generate_launch_description():
     group = GroupAction([
         gazebo_world,
         gazebo_robot,
-        laser_filters,
-        delayed_localization,
-        delayed_navigation,
-        delayed_rviz
+        # laser_filters,
+        # delayed_localization,
+        # delayed_navigation,
+        # delayed_rviz
     ])
 
     return LaunchDescription(declared_arguments + [group])

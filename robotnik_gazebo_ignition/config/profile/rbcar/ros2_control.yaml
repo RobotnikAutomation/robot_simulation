@@ -1,0 +1,17 @@
+---
+/**:
+  joint_state_broadcaster:
+    ros__parameters:
+      frame_id: robot_base_link
+      joints:
+        - robot_left_front_shock
+        - robot_right_front_shock
+        - robot_left_rear_shock
+        - robot_right_rear_shock
+        - robot_left_steering_joint
+        - robot_right_steering_joint
+        - robot_left_front_axle
+        - robot_right_front_axle
+        - robot_left_rear_axle
+        - robot_right_rear_axle
+        - robot_rear_axle_joint
