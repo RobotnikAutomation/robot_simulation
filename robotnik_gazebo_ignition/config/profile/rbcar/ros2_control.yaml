@@ -4,14 +4,29 @@
     ros__parameters:
       frame_id: robot_base_link
       joints:
+        # Estas joints, son para simular las suspensiones del robot
         - robot_left_front_shock
         - robot_right_front_shock
         - robot_left_rear_shock
         - robot_right_rear_shock
+        # Estas joints son para un control tipo ackermann en ROS1 (https://github.com/RobotnikAutomation/rbcar_common/tree/feat/hyperimage_simulation, rbcar_common --> rbcar_control --> config --> rbcar_control)
         - robot_left_steering_joint
         - robot_right_steering_joint
         - robot_left_front_axle
         - robot_right_front_axle
         - robot_left_rear_axle
         - robot_right_rear_axle
-        - robot_rear_axle_joint
+        # Esta joint parace que es para un antiguo control de traccion en ROS1 (https://github.com/RobotnikAutomation/rbcar_common/tree/feat/hyperimage_simulation, rbcar_common --> rbcar_control --> config --> simple_control)
+        # - robot_rear_axle_joint
+
+  ackermann_steering_controller:
+    ros__parameters:
+      reference_timeout: 2.0
+      open_loop: false
+      velocity_rolling_window_size: 10
+      position_feedback: false
+      traction_joints_names: [robot_left_rear_axle, robot_right_rear_axle]
+      steering_joints_names: [robot_left_steering_joint, robot_right_steering_joint]
+      wheelbase: 1.83
+      traction_track_width: 0.8
+      traction_wheels_radius: 0.45
