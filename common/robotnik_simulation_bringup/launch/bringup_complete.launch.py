@@ -24,13 +24,22 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 from launch import LaunchDescription
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
-from launch_ros.substitutions import FindPackageShare
-from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.actions import GroupAction, DeclareLaunchArgument, IncludeLaunchDescription
+from launch.actions import (
+    DeclareLaunchArgument,
+    GroupAction,
+    IncludeLaunchDescription,
+    TimerAction,
+)
 from launch.conditions import IfCondition
-from launch.actions import TimerAction
-from launch.substitutions import EqualsSubstitution, OrSubstitution
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.substitutions import (
+    EqualsSubstitution,
+    LaunchConfiguration,
+    OrSubstitution,
+    PathJoinSubstitution,
+)
+from launch_ros.substitutions import FindPackageShare
+
 
 def generate_launch_description():
 
@@ -38,39 +47,40 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "robot_id",
             default_value="robot",
-            description="Name for launch and config resources"
+            description="Name for launch and config resources",
         ),
         DeclareLaunchArgument(
-            "robot_model",
-            default_value="rbsummit",
-            description="Set robot model"
+            "robot", default_value="rbsummit", description="Robot Model Name"
         ),
         DeclareLaunchArgument(
-            "use_gui",
-            default_value="true",
-            description="Enable simulation gui"
+            "robot_model", default_value="rbsummit", description="Set robot model"
+        ),
+        DeclareLaunchArgument(
+            "use_gui", default_value="true", description="Enable simulation gui"
         ),
         DeclareLaunchArgument(
             "low_performance_simulation",
             default_value="true",
-            description="Enable smooth simulation for low performance computers"
+            description="Enable smooth simulation for low performance computers",
         ),
         DeclareLaunchArgument(
-            "use_rviz",
-            default_value="true",
-            description="Enable rviz gui"
+            "use_rviz", default_value="true", description="Enable rviz gui"
         ),
         DeclareLaunchArgument(
             "world_path",
-            default_value=PathJoinSubstitution([
-                #FindPackageShare('electrical_substation_world'), 'worlds/electrical_substation.world'
-                FindPackageShare('robotnik_gazebo_ignition'), 'worlds/demo.world',
-            ]),
-            description="Path to the world file"
+            default_value=PathJoinSubstitution(
+                [
+                    # FindPackageShare('electrical_substation_world'), 'worlds/electrical_substation.world'
+                    FindPackageShare("robotnik_gazebo_ignition"),
+                    "worlds/demo.world",
+                ]
+            ),
+            description="Path to the world file",
         ),
     ]
 
     robot_id = LaunchConfiguration("robot_id")
+    robot = LaunchConfiguration("robot")
     robot_model = LaunchConfiguration("robot_model")
     use_gui = LaunchConfiguration("use_gui")
     low_performance_simulation = LaunchConfiguration("low_performance_simulation")
@@ -79,30 +89,39 @@ def generate_launch_description():
 
     gazebo_world = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            PathJoinSubstitution([
-                FindPackageShare('robotnik_gazebo_ignition'), 'launch/spawn_world.launch.py'
-            ])
+            PathJoinSubstitution(
+                [
+                    FindPackageShare("robotnik_gazebo_ignition"),
+                    "launch/spawn_world.launch.py",
+                ]
+            )
         ),
         launch_arguments={
-            'robot_id': robot_id,
-            'gui': use_gui,
-            'world_path': world_path
-        }.items()
+            "robot_id": robot_id,
+            "gui": use_gui,
+            "world_path": world_path,
+        }.items(),
     )
 
     gazebo_robot = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            PathJoinSubstitution([
-                 FindPackageShare('robotnik_gazebo_ignition'), 'launch/spawn_robot.launch.py'
-            ])
+            PathJoinSubstitution(
+                [
+                    FindPackageShare("robotnik_gazebo_ignition"),
+                    "launch/spawn_robot.launch.py",
+                ]
+            )
         ),
         launch_arguments={
-            'robot_id': robot_id,
-            'robot': robot_model,
-            'low_performance_simulation': low_performance_simulation,
-            'run_rviz': 'false'
-        }.items()
+            "robot_id": robot_id,
+            "robot": robot,
+            "robot_model": robot_model,
+            "low_performance_simulation": low_performance_simulation,
+            "run_rviz": "false",
+            "has_arm": "true",
+        }.items(),
     )
+    delayed_spawn_robot = TimerAction(period=5.0, actions=[gazebo_robot])
 
     # In spawn_robot.launch.py the add_laser("front") is defined for any robot model
     # This causes two publishers to /robot/front_laser/scan when laser filters are enabled
@@ -110,77 +129,85 @@ def generate_launch_description():
     # but in other robot models that have front laser, it causes conflict.
     laser_filters = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            PathJoinSubstitution([
-                 FindPackageShare('robotnik_simulation_bringup'), 'launch/laser_filters.launch.py'
-            ])
+            PathJoinSubstitution(
+                [
+                    FindPackageShare("robotnik_simulation_bringup"),
+                    "launch/laser_filters.launch.py",
+                ]
+            )
         ),
         launch_arguments={
-            'robot_id': robot_id,
-            'use_sim': 'true',
+            "robot_id": robot_id,
+            "use_sim": "true",
         }.items(),
         condition=IfCondition(
             OrSubstitution(
-                EqualsSubstitution(robot_model, 'rbsummit'),
-                EqualsSubstitution(robot_model, 'rbwatcher'),
+                EqualsSubstitution(robot_model, "rbsummit"),
+                EqualsSubstitution(robot_model, "rbwatcher"),
             )
-        )
+        ),
     )
+    delayed_laser_filters = TimerAction(period=6.0, actions=[laser_filters])
 
     localization = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            PathJoinSubstitution([
-                 FindPackageShare('robotnik_simulation_localization'), 'launch/localization.launch.py'
-            ])
+            PathJoinSubstitution(
+                [
+                    FindPackageShare("robotnik_simulation_localization"),
+                    "launch/localization.launch.py",
+                ]
+            )
         ),
         launch_arguments={
-            'robot_id': robot_id,
-            'use_sim': 'true',
-        }.items()
+            "robot_id": robot_id,
+            "use_sim": "true",
+        }.items(),
     )
 
-    delayed_localization = TimerAction(
-        period=10.0,
-        actions=[localization]
-    )
+    delayed_localization = TimerAction(period=10.0, actions=[localization])
 
     navigation = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            PathJoinSubstitution([
-                 FindPackageShare('robotnik_simulation_navigation'), 'launch/navigation.launch.py'
-            ])
+            PathJoinSubstitution(
+                [
+                    FindPackageShare("robotnik_simulation_navigation"),
+                    "launch/navigation.launch.py",
+                ]
+            )
         ),
         launch_arguments={
-            'robot_id': robot_id,
-            'use_sim': 'true',
-        }.items()
+            "robot_id": robot_id,
+            "use_sim": "true",
+        }.items(),
     )
 
-    delayed_navigation = TimerAction(
-        period=15.0,
-        actions=[navigation]
-    )
+    delayed_navigation = TimerAction(period=15.0, actions=[navigation])
 
     rviz = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            PathJoinSubstitution([
-                 FindPackageShare('robotnik_simulation_bringup'), 'launch/rviz.launch.py'
-            ])
+            PathJoinSubstitution(
+                [
+                    FindPackageShare("robotnik_simulation_bringup"),
+                    "launch/rviz.launch.py",
+                ]
+            )
         ),
-        condition=IfCondition(use_rviz)
+        condition=IfCondition(use_rviz),
     )
 
-    delayed_rviz = TimerAction(
-        period=20.0,
-        actions=[rviz]
-    )
+    delayed_rviz = TimerAction(period=20.0, actions=[rviz])
 
-    group = GroupAction([
-        gazebo_world,
-        gazebo_robot,
-        laser_filters,
-        delayed_localization,
-        delayed_navigation,
-        delayed_rviz
-    ])
+    group = GroupAction(
+        [
+            gazebo_world,
+            delayed_spawn_robot,
+            delayed_laser_filters,
+            # gazebo_robot,
+            # laser_filters,
+            delayed_localization,
+            delayed_navigation,
+            delayed_rviz,
+        ]
+    )
 
     return LaunchDescription(declared_arguments + [group])

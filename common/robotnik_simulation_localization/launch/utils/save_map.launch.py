@@ -115,7 +115,7 @@ def generate_launch_description():
         arguments=[
             '-f', [maps_path, '/', map_folder_name, '/', map_name], # /tmp/demo_map/demo_map.file
             '--fmt', 'pgm',        # Map format                  
-            '-t', "robot_map"      # Map topic
+            '-t', "map",      # Map topic
         ]
     )
 
