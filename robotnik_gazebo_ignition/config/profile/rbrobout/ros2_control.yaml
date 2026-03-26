@@ -114,5 +114,7 @@
       state_publish_rate: 50.0
       action_monitor_rate: 20.0
 
-      allow_partial_joints_goal: false
+      # MoveIt plans only the 6 UR arm joints for the "arm" group, while this
+      # controller also exposes the lift joint.
+      allow_partial_joints_goal: true
       open_loop_control: true
