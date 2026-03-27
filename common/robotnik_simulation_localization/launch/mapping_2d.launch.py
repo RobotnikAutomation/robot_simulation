@@ -75,7 +75,7 @@ def generate_launch_description():
         parameters=[
             {
                 'use_sim_time': use_sim,
-                'autostart': True,
+                'autostart': False,
                 'node_names': [
                     'slam_toolbox_mapping',
                     'map_saver'

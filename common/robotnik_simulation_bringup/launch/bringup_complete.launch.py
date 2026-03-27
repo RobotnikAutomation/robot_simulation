@@ -50,13 +50,19 @@ def generate_launch_description():
             description="Name for launch and config resources",
         ),
         DeclareLaunchArgument(
-            "robot", default_value="rbsummit", description="Robot Model Name"
+            "robot",
+            default_value="rbsummit",
+            description="Robot Model Name",
         ),
         DeclareLaunchArgument(
-            "robot_model", default_value="rbsummit", description="Set robot model"
+            "robot_model",
+            default_value="rbsummit",
+            description="Set robot model",
         ),
         DeclareLaunchArgument(
-            "use_gui", default_value="true", description="Enable simulation gui"
+            "use_gui",
+            default_value="true",
+            description="Enable simulation gui",
         ),
         DeclareLaunchArgument(
             "low_performance_simulation",
@@ -64,7 +70,9 @@ def generate_launch_description():
             description="Enable smooth simulation for low performance computers",
         ),
         DeclareLaunchArgument(
-            "use_rviz", default_value="true", description="Enable rviz gui"
+            "use_rviz",
+            default_value="true",
+            description="Enable rviz gui",
         ),
         DeclareLaunchArgument(
             "world_path",
@@ -77,6 +85,11 @@ def generate_launch_description():
             ),
             description="Path to the world file",
         ),
+        DeclareLaunchArgument(
+            "has_arm",
+            default_value="false",
+            description="Enable Arm Controller",
+        ),
     ]
 
     robot_id = LaunchConfiguration("robot_id")
@@ -86,6 +99,7 @@ def generate_launch_description():
     low_performance_simulation = LaunchConfiguration("low_performance_simulation")
     world_path = LaunchConfiguration("world_path")
     use_rviz = LaunchConfiguration("use_rviz")
+    has_arm = LaunchConfiguration("has_arm")
 
     gazebo_world = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -118,7 +132,7 @@ def generate_launch_description():
             "robot_model": robot_model,
             "low_performance_simulation": low_performance_simulation,
             "run_rviz": "false",
-            "has_arm": "true",
+            "has_arm": has_arm,
         }.items(),
     )
     delayed_spawn_robot = TimerAction(period=5.0, actions=[gazebo_robot])
