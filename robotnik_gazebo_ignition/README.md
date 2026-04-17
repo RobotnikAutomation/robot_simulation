@@ -20,9 +20,9 @@ sudo apt-get update
 sudo apt-get install gz-harmonic
 ```
 
-3. Install ROS 2 Jazzy and ROS-GZ bridge.
+3. Install ROS 2 Jazzy and ROS-GZ bridge and manipulation dependencies.
 ```sh
-sudo apt install ros-jazzy-ros-gz
+sudo apt install -y ros-jazzy-ros-gz ros-$ROS_DISTRO-moveit* ros-$ROS_DISTRO-chomp-motion-planner* ros-$ROS_DISTRO-kdl* ros-$ROS_DISTRO-joint-trajectory-controller* ros-$ROS_DISTRO-ompl* ros-$ROS_DISTRO-pick-ik* ros-$ROS_DISTRO-pilz-industrial-motion-planner* ros-$ROS_DISTRO-trac-ik* ros-$ROS_DISTRO-stomp* ros-$ROS_DISTRO-spacenav* ros-$ROS_DISTRO-warehouse-ros-sqlite* ros-$ROS_DISTRO-ros2-control ros-$ROS_DISTRO-moveit-configs-utils
 ```
 
 4. Set up workspace and install dependencies:
@@ -110,7 +110,7 @@ ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=robot_a rob
 #### Advanced
 ```bash
 # Generic pattern
-ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=<unique_name> robot:=<robot_type> robot_model:=<robot_model> x:=<m> y:=<m> z:=<m>
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=<unique_name> robot:=<robot_type> robot_model:=<robot_model> x:=<m> y:=<m> z:=<m> has_arm:=<true/false> arm_type:=<arm_name> run_rviz:=<true/false> run_moveit:=<true/false> moveit_config_name:=<moveit_config_package_name>
 ```
 
 #### Parameters
@@ -122,6 +122,10 @@ ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=<unique_nam
 | `x` `y` `z` | no | Spawn position in meters | `0.0 0.0 0.0` |
 | `run_rviz` | no | Launch RViz2 with a predefined configuration | `true` or `false` |
 | `rviz_config` | no | Full path to a custom RViz2 configuration file (overrides default config and fixed frame must be set in config) | `/path/to/custom_config.rviz` |
+| `has_arm` | no | Flag stating if platform should be spawned with robotic arm | `true` or `false` |
+| `arm_type` | no | Name of supported robotic arm  | `arm_name` |
+| `run_moveit` | no | Flag stating if to run MoveIt to control the robotic arm | `true` or `false` |
+| `moveit_config_name` | no | Name of MoveIt configuration package | `moveit_config_package_name` |
 
 #### Supported Robots
 
@@ -166,6 +170,25 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=/rob
 Make sure to replace `/robot/robotnik_base_control/cmd_vel` with the appropriate topic name based on the `robot_id` you used when spawning the robot.
 
 Also, you can use RViz plugin on the bottom right to control the robot by clicking on the arrows.
+
+## 🦾 MoveIt compatibility
+
+It is possible to use [MoveIt](https://moveit.picknik.ai/main/index.html) to control robotic arms mounted on supported platforms.
+
+Warning!!! MoveIt support works correctly only with `robot_id:=robot`. If different robot_id will be used, then it is not possible to interact with move_group from Rviz2.
+
+Example launch:
+
+```bash
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=robot robot:=rbkairos robot_model:=rbkairos_plus has_arm:=true arm_type:=ur10e x:=0.0 y:=0.0 z:=0.0 run_rviz:=true run_moveit:=true moveit_config_name:=rbkairos_moveit_config
+```
+
+Robots with mobile manipulation available right now:
+ - rbkairos
+ - rbrobout (additionally available lift)
+ - rbtheron
+ - rbvogui
+ - rbfiqus (bi arm setup)(WIP)
 
 ## 🎉 Enjoy
 
