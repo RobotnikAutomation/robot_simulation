@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+<sdf version="1.9">
+  <model name="blue_box">
+    <link name="link">
+      <inertial>
+        <mass>1.0</mass>
+        <inertia>
+          <ixx>0.0108333333</ixx>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyy>0.0166666667</iyy>
+          <iyz>0.0</iyz>
+          <izz>0.0208333333</izz>
+        </inertia>
+      </inertial>
+      <collision name="collision">
+        <pose>0 0 0.1 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.4 0.3 0.2</size>
+          </box>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.0</mu>
+              <mu2>1.0</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>meshes/blue_box.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>

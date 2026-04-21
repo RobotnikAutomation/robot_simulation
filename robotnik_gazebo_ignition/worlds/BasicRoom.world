@@ -169,5 +169,24 @@
       <pose>0.0352 2.9313 0.2525 -0.0032 0.0138 0</pose>
     </include>
 
+    <!-- Nuevas cajas sobre la mesa libre table_4 -->
+    <include>
+      <uri>model://blue_box</uri>
+      <name>blue_box_1</name>
+      <pose>2.7200 -0.0800 0.6700 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://red_box</uri>
+      <name>red_box_1</name>
+      <pose>3.3200 0.0800 0.6700 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://blue_box</uri>
+      <name>blue_box_2</name>
+      <pose>-3.0000 0.0000 0.6700 0 0 0</pose>
+    </include>
+
   </world>
 </sdf>
