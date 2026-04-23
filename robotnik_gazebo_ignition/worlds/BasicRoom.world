@@ -150,6 +150,13 @@
       <pose>0.5159 0.0714 0.6667 0.0019 0.0112 0</pose>
     </include>
 
+    <!-- Modelo 2b: Damaged box -->
+    <include>
+      <uri>model://damaged_box</uri>
+      <name>damaged_box_1</name>
+      <pose>1.2200 -0.1200 0.6678 0 0 0</pose>
+    </include>
+
     <!-- Modelo 3: Medium box (CORREGIDO: eliminado el duplicado que estaba en estanteria_5) -->
     <include>
       <uri>model://medium box</uri>
