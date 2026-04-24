@@ -49,6 +49,14 @@ repositories:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_moveit_configs.git
     version: jazzy-devel
+  src/ros-control/gz_ros2_control:
+    type: git
+    url: https://github.com/ros-controls/gz_ros2_control.git
+    version: 1.2.15
+  src/ros-visualization/visualization_tutorials:
+    type: git
+    url: https://github.com/ros-visualization/visualization_tutorials.git
+    version: b43b3f6a867b1d799af3edba673c56d37178e847  # ros2
   src/Universal_Robots_ROS2_Description:
     type: git
     url: https://github.com/UniversalRobots/Universal_Robots_ROS2_Description.git
