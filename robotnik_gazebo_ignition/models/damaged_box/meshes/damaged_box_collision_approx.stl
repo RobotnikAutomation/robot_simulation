@@ -1,0 +1,86 @@
+solid damaged_box_collision_approx
+  facet normal 0 0 -1
+    outer loop
+      vertex -0.150000 -0.127339 -0.061829
+      vertex 0.150000 0.127339 -0.061829
+      vertex 0.150000 -0.127339 -0.061829
+    endloop
+  endfacet
+  facet normal 0 0 -1
+    outer loop
+      vertex -0.150000 -0.127339 -0.061829
+      vertex -0.150000 0.127339 -0.061829
+      vertex 0.150000 0.127339 -0.061829
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex -0.150000 -0.127339 0.061829
+      vertex 0.150000 -0.127339 0.061829
+      vertex 0.150000 0.127339 0.061829
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex -0.150000 -0.127339 0.061829
+      vertex 0.150000 0.127339 0.061829
+      vertex -0.150000 0.127339 0.061829
+    endloop
+  endfacet
+  facet normal 1 0 0
+    outer loop
+      vertex 0.150000 -0.127339 -0.061829
+      vertex 0.150000 0.127339 -0.061829
+      vertex 0.150000 0.127339 0.061829
+    endloop
+  endfacet
+  facet normal 1 0 0
+    outer loop
+      vertex 0.150000 -0.127339 -0.061829
+      vertex 0.150000 0.127339 0.061829
+      vertex 0.150000 -0.127339 0.061829
+    endloop
+  endfacet
+  facet normal -1 0 0
+    outer loop
+      vertex -0.150000 -0.127339 -0.061829
+      vertex -0.150000 0.127339 0.061829
+      vertex -0.150000 0.127339 -0.061829
+    endloop
+  endfacet
+  facet normal -1 0 0
+    outer loop
+      vertex -0.150000 -0.127339 -0.061829
+      vertex -0.150000 -0.127339 0.061829
+      vertex -0.150000 0.127339 0.061829
+    endloop
+  endfacet
+  facet normal 0 1 0
+    outer loop
+      vertex -0.150000 0.127339 -0.061829
+      vertex -0.150000 0.127339 0.061829
+      vertex 0.150000 0.127339 0.061829
+    endloop
+  endfacet
+  facet normal 0 1 0
+    outer loop
+      vertex -0.150000 0.127339 -0.061829
+      vertex 0.150000 0.127339 0.061829
+      vertex 0.150000 0.127339 -0.061829
+    endloop
+  endfacet
+  facet normal 0 -1 0
+    outer loop
+      vertex -0.150000 -0.127339 -0.061829
+      vertex 0.150000 -0.127339 0.061829
+      vertex -0.150000 -0.127339 0.061829
+    endloop
+  endfacet
+  facet normal 0 -1 0
+    outer loop
+      vertex -0.150000 -0.127339 -0.061829
+      vertex 0.150000 -0.127339 -0.061829
+      vertex 0.150000 -0.127339 0.061829
+    endloop
+  endfacet
+endsolid damaged_box_collision_approx

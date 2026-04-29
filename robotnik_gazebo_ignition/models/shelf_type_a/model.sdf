@@ -1,0 +1,131 @@
+<?xml version="1.0" ?>
+<sdf version="1.9">
+  <model name="shelf_type_a">
+    <static>false</static>
+
+    <link name="estanteria_link">
+      <pose>0 0 0 0 0 0</pose>
+
+      <inertial>
+        <pose>0 0 1.001000 0 0 0</pose>
+        <mass>15.000</mass>
+        <inertia>
+          <ixx>5.475130</ixx>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyy>8.170130</iyy>
+          <iyz>0.0</iyz>
+          <izz>3.625250</izz>
+        </inertia>
+      </inertial>
+
+      <visual name="visual">
+        <pose>0.121365 -0.813724 1.456763 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://shelf_type_a/meshes/estanteria.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <collision name="collision_1">
+        <pose>-0.765000 -0.283500 0.015000 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.060000 0.043000 0.030000</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="collision_2">
+        <pose>-0.765000 0.283500 0.015000 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.060000 0.043000 0.030000</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="collision_3">
+        <pose>0.765000 -0.283500 0.015000 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.060000 0.043000 0.030000</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="collision_4">
+        <pose>0.765000 0.283500 0.015000 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.060000 0.043000 0.030000</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="collision_5">
+        <pose>-0.765000 -0.285000 1.002000 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.030000 0.030000 2.000000</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="collision_6">
+        <pose>-0.765000 0.285000 1.002000 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.030000 0.030000 2.000000</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="collision_7">
+        <pose>0.765000 -0.285000 1.002000 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.030000 0.030000 2.000000</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="collision_8">
+        <pose>0.765000 0.285000 1.002000 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.030000 0.030000 2.000000</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="collision_9">
+        <pose>0 0 0.213493 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.541180 0.610000 0.080000</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="collision_10">
+        <pose>0 0 1.125000 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.541180 0.610000 0.080000</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <collision name="collision_11">
+        <pose>0 0 1.910315 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.541180 0.610000 0.080000</size>
+          </box>
+        </geometry>
+      </collision>
+    </link>
+  </model>
+</sdf>

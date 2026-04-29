@@ -1,0 +1,199 @@
+<?xml version="1.0" ?>
+<sdf version="1.9">
+  <world name="BasicRoom">
+    <physics type='ode'>
+      <max_step_size>0.02</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+    <plugin name='gz::sim::systems::Physics' filename='libgz-sim-physics-system.so'/>
+    <plugin name='gz::sim::systems::UserCommands' filename='libgz-sim-user-commands-system.so'/>
+    <plugin name='gz::sim::systems::SceneBroadcaster' filename='libgz-sim-scene-broadcaster-system.so'/>
+    <plugin name="gz::sim::systems::Sensors" filename="libgz-sim-sensors-system.so">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+    <plugin name="gz::sim::systems::Imu" filename="libgz-sim-imu-system.so"/>
+    <plugin name="gz::sim::systems::NavSat" filename="libgz-sim-navsat-system.so"/>
+    <plugin name="gz::sim::systems::Contact" filename="libgz-sim-contact-system.so"/>
+
+    <scene>
+      <ambient>1 1 1</ambient>
+      <grid>false</grid>
+      <sky></sky>
+    </scene>
+
+    <light name="sun" type="directional">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.8 0.8 0.8 1</specular>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <!-- Habitación -->
+    <include>
+      <uri>model://BasicRoom</uri>
+      <name>BasicRoom</name>
+      <pose>0 0 0 0 0 0</pose>
+    </include>
+
+    <!-- Mesas -->
+    <include>
+      <uri>model://table</uri>
+      <name>table_3</name>
+      <pose>-3.0 0 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://table</uri>
+      <name>table_1</name>
+      <pose>-1.0 0 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://table</uri>
+      <name>table_2</name>
+      <pose>1.0 0 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://table</uri>
+      <name>table_4</name>
+      <pose>3.0 0 0 0 0 0</pose>
+    </include>
+
+    <!-- Pallet -->
+    <include>
+      <uri>model://pallet_box_mobile</uri>
+      <name>pallet_box</name>
+      <pose>5.0 0 0 0 0 0</pose>
+    </include>
+
+    <!-- Estanterías -->
+    <include>
+      <uri>model://shelf_type_b</uri>
+      <name>shelf_type_b_1</name>
+      <pose>-4 7 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://shelf_type_b</uri>
+      <name>shelf_type_b_2</name>
+      <pose>-4 5 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://shelf_type_b</uri>
+      <name>shelf_type_b_3</name>
+      <pose>-1 5 0 0 0 3.1416</pose>
+    </include>
+
+    <include>
+      <uri>model://shelf_type_b</uri>
+      <name>shelf_type_b_4</name>
+      <pose>0 7 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://shelf_type_b</uri>
+      <name>shelf_type_b_5</name>
+      <pose>3 7 0 0 0 3.1416</pose>
+    </include>
+
+    <include>
+      <uri>model://shelf_type_b</uri>
+      <name>shelf_type_b_6</name>
+      <pose>4 5 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://shelf_type_a</uri>
+      <name>shelf_type_a_1</name>
+      <pose>0 3 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://shelf_type_a</uri>
+      <name>shelf_type_a_2</name>
+      <pose>-2 3 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://shelf_type_a</uri>
+      <name>shelf_type_a_3</name>
+      <pose>2 3 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://shelf_type_a</uri>
+      <name>shelf_type_a_4</name>
+      <pose>4 3 0 0 0 0</pose>
+    </include>
+
+    <!-- CORREGIDO: estanteria_5 tenía el include de brown_bag_1 metido dentro del <name> -->
+    <include>
+      <uri>model://shelf_type_a</uri>
+      <name>shelf_type_a_5</name>
+      <pose>-4 3 0 0 0 0</pose>
+    </include>
+
+    <!-- Modelo 1: Cardboard box -->
+    <include>
+      <uri>model://Cardboard box</uri>
+      <name>cardboard_box_1</name>
+      <pose>-1.2500 -0.0821 0.8178 0 0 0</pose>
+    </include>
+
+    <!-- Modelo 2: Flat box -->
+    <include>
+      <uri>model://flat_box</uri>
+      <name>flat_box_1</name>
+      <pose>0.5159 0.0714 0.6667 0.0019 0.0112 0</pose>
+    </include>
+
+    <!-- Modelo 2b: Damaged box -->
+    <include>
+      <uri>model://damaged_box</uri>
+      <name>damaged_box_1</name>
+      <pose>1.2200 -0.1200 0.6678 0 0 0</pose>
+    </include>
+
+    <!-- Modelo 3: Medium box (CORREGIDO: eliminado el duplicado que estaba en estanteria_5) -->
+    <include>
+      <uri>model://medium box</uri>
+      <name>medium_box_1</name>
+      <pose>-0.6602 -0.0930 0.6660 -0.0032 0.0138 0</pose>
+    </include>
+
+    <include>
+      <uri>model://medium box</uri>
+      <name>medium_box_2</name>
+      <pose>-0.3365 2.9313 0.2525 -0.0032 0.0138 0</pose>
+    </include>
+
+    <include>
+      <uri>model://medium box</uri>
+      <name>medium_box_3</name>
+      <pose>0.0352 2.9313 0.2525 -0.0032 0.0138 0</pose>
+    </include>
+
+    <!-- Nuevas cajas sobre la mesa libre table_4 -->
+    <include>
+      <uri>model://blue_box</uri>
+      <name>blue_box_1</name>
+      <pose>2.7200 -0.0800 0.6700 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://red_box</uri>
+      <name>red_box_1</name>
+      <pose>3.3200 0.0800 0.6700 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://blue_box</uri>
+      <name>blue_box_2</name>
+      <pose>-3.0000 0.0000 0.6700 0 0 0</pose>
+    </include>
+
+  </world>
+</sdf>

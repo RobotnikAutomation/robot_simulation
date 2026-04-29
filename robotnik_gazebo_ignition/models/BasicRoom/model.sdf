@@ -1,0 +1,78 @@
+<?xml version="1.0" ?>
+<sdf version="1.9">
+  <model name="BasicRoom">
+    <static>true</static>
+
+    <link name="link">
+
+      <!-- Visual -->
+      <visual name="visual">
+        <pose>0 0 0 1.5708 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/BasicRoom.glb</uri>
+            <scale>1 1 1</scale>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <!-- =========================
+           COLLISIONS (hitboxes)
+           ========================= -->
+
+      <!-- Suelo -->
+      <!-- Centro del objeto está aprox en mitad de altura -->
+      <!-- Z total = 10.2 -> mitad = 5.1 -->
+      <!-- Suelo grosor ~0.25 -->
+      <collision name="floor_collision">
+        <pose>0 0 -0.1229 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>60.0 40.0 0.25</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <!-- Pared norte (Y+) -->
+      <collision name="wall_north_collision">
+        <pose>0 20.5 0.0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>63.0 1.0 10.2</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <!-- Pared sur (Y-) -->
+      <collision name="wall_south_collision">
+        <pose>0 -20.5 0.0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>63.0 1.0 10.2</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <!-- Pared este (X+) -->
+      <collision name="wall_east_collision">
+        <pose>30.75 0 0.0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.5 42.0 10.2</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <!-- Pared oeste (X-) -->
+      <collision name="wall_west_collision">
+        <pose>-30.75 0 0.0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.5 42.0 10.2</size>
+          </box>
+        </geometry>
+      </collision>
+
+    </link>
+  </model>
+</sdf>

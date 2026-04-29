@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<sdf version="1.9">
+  <model name="table">
+    <static>true</static>
+
+    <link name="link">
+      <visual name="visual">
+        <pose>0 0 0 1.5708 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/table.glb</uri>
+            <scale>1 1 1</scale>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <!-- Hitbox global -->
+      <collision name="collision_main">
+        <pose>0 0 0.2678 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.48 0.815 0.80</size>
+          </box>
+        </geometry>
+      </collision>
+    </link>
+  </model>
+</sdf>
