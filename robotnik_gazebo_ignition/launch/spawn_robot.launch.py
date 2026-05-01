@@ -127,6 +127,12 @@ def substitute_param_context(param, context):
         return param.perform(context)
     return param
 
+
+def is_enabled(param, context):
+    """Parse common truthy values from launch parameters."""
+    value = str(substitute_param_context(param, context)).strip().lower()
+    return value in ('true', '1', 'yes', 'on')
+
 def launch_setup(context, params):
     ret = []
 
@@ -302,8 +308,7 @@ def launch_setup(context, params):
 
     use_sim_time = {"use_sim_time": True}
 
-    run_moveit_value = str(substitute_param_context(params['run_moveit'], context)).strip().lower()
-    run_moveit_enabled = run_moveit_value in ('true', '1', 'yes', 'on')
+    run_moveit_enabled = is_enabled(params['run_moveit'], context)
 
     # MoveIt related configuration
     ##################################################
@@ -361,6 +366,15 @@ def launch_setup(context, params):
         robot_description_kinematics = {
             "robot_description_kinematics": load_yaml(moveit_config_pkg, "config/kinematics.yaml")
         }
+
+        # RViz-safe kinematics: keep only solver plugin names to avoid Jazzy
+        # parameter type conflicts seen with numeric kinematics fields.
+        rviz_robot_description_kinematics = {"robot_description_kinematics": {}}
+        for group_name, group_cfg in robot_description_kinematics["robot_description_kinematics"].items():
+            if isinstance(group_cfg, dict) and "kinematics_solver" in group_cfg:
+                rviz_robot_description_kinematics["robot_description_kinematics"][group_name] = {
+                    "kinematics_solver": group_cfg["kinematics_solver"]
+                }
 
         planning_description_yaml = {
             "robot_description_planning": {
@@ -452,8 +466,7 @@ def launch_setup(context, params):
             condition=IfCondition(params['run_moveit'])
         ))
 
-        # RViz - for manipulation - There need to be two instances
-        # as putting Rviz2 in namespace breaks possibility to interact with move group
+        # RViz - manipulation
         ret.append(Node(
             package="rviz2",
             executable="rviz2",
@@ -469,6 +482,7 @@ def launch_setup(context, params):
                 use_sim_time,
                 robot_description,
                 robot_description_semantic,
+                rviz_robot_description_kinematics,
                 ],
             condition=IfCondition(params['run_rviz']),
         ))
