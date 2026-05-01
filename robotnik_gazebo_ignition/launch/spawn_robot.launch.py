@@ -362,8 +362,11 @@ def launch_setup(context, params):
             "robot_description_kinematics": load_yaml(moveit_config_pkg, "config/kinematics.yaml")
         }
 
-        joint_limits_yaml = {
-            "robot_description_planning": load_yaml(moveit_config_pkg, "config/joint_limits.yaml")
+        planning_description_yaml = {
+            "robot_description_planning": {
+                **load_yaml(moveit_config_pkg, "config/joint_limits.yaml"),
+                **load_yaml(moveit_config_pkg, "config/pilz_cartesian_limits.yaml"),
+            }
         }
 
         ompl_yaml = {
@@ -387,9 +390,6 @@ def launch_setup(context, params):
             "pilz_industrial_motion_planner": {
                 "default_planner_config": "PTP",
                 **load_yaml(default_moveit_configs, "default_configs/pilz_industrial_motion_planner_planning.yaml"),
-            },
-            "robot_description_planning": {
-                **load_yaml(moveit_config_pkg, "config/pilz_cartesian_limits.yaml"),
             }
         }
 
@@ -438,7 +438,7 @@ def launch_setup(context, params):
                 robot_description,
                 robot_description_semantic,
                 robot_description_kinematics,
-                joint_limits_yaml,
+                planning_description_yaml,
                 ompl_yaml,
                 pilz_industrial_motion_planner_yaml,
                 stomp_yaml,
@@ -469,12 +469,6 @@ def launch_setup(context, params):
                 use_sim_time,
                 robot_description,
                 robot_description_semantic,
-                robot_description_kinematics,
-                joint_limits_yaml,
-                ompl_yaml,
-                pilz_industrial_motion_planner_yaml,
-                stomp_yaml,
-                chomp_yaml
                 ],
             condition=IfCondition(params['run_rviz']),
         ))
@@ -516,7 +510,7 @@ def generate_launch_description():
         ("has_arm", "Enable Arm Controller", "False", "HAS_ARM"),
         ("run_rviz", "Run RViz", "True", "RUN_RVIZ"),
         ("rviz_config", "RViz configuration file", "", "CONFIG_RVIZ"),
-        ("moveit_rviz_config", "MoveIt RViz configuration file", "", "CONFIG_MOVEIT_RVIZ"),
+        ("moveit_rviz_config", "MoveIt RViz configuration file", [FindPackageShare('robotnik_gazebo_ignition'), '/config/moveit_rviz_config.rviz'], "CONFIG_MOVEIT_RVIZ"),
         ("use_sim_time", "Use simulation time", "True", "USE_SIM_TIME"),
         ("low_performance_simulation", "Enable Low Performance Simulation", "False", "LOW_PERFORMANCE_SIMULATION"),
         ("run_moveit", "Run MoveIt", "false", "RUN_MOVEIT"),
