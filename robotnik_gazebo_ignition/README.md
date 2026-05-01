@@ -121,11 +121,12 @@ ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=<unique_nam
 | `robot_model` | no | Specific **model** within the type, see `supported_robots` | `rbwatcher` |
 | `x` `y` `z` | no | Spawn position in meters | `0.0 0.0 0.0` |
 | `run_rviz` | no | Launch RViz2 with a predefined configuration | `true` or `false` |
-| `rviz_config` | no | Full path to a custom RViz2 configuration file (overrides default config and fixed frame must be set in config) | `/path/to/custom_config.rviz` |
+| `rviz_config` | no | Full path to a custom navigation RViz2 configuration file (overrides default config and fixed frame must be set in config) | `/path/to/custom_config.rviz` |
 | `has_arm` | no | Flag stating if platform should be spawned with robotic arm | `true` or `false` |
 | `arm_type` | no | Name of supported robotic arm  | `arm_name` |
 | `run_moveit` | no | Flag stating if to run MoveIt to control the robotic arm | `true` or `false` |
 | `moveit_config_name` | no | Name of MoveIt configuration package | `moveit_config_package_name` |
+| `moveit_rviz_config` | no | Full path to the manipulation RViz2 configuration used when `run_moveit:=true` (default points to package config) | `/path/to/moveit_config.rviz` |
 
 #### Supported Robots
 
@@ -177,11 +178,15 @@ It is possible to use [MoveIt](https://moveit.picknik.ai/main/index.html) to con
 
 Warning!!! MoveIt support works correctly only with `robot_id:=robot`. If different robot_id will be used, then it is not possible to interact with move_group from Rviz2.
 
+When `run_moveit:=true` and `run_rviz:=true`, the launch starts a manipulation RViz instance configured for MoveIt. This RViz path uses a RViz-safe kinematics parameter subset to avoid Jazzy parameter-type conflicts while preserving end-effector interactive marker support.
+
 Example launch:
 
 ```bash
 ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=robot robot:=rbkairos robot_model:=rbkairos_plus has_arm:=true arm_type:=ur10e x:=0.0 y:=0.0 z:=0.0 run_rviz:=true run_moveit:=true moveit_config_name:=rbkairos_moveit_config
 ```
+
+![moveit_rviz](../docs/assets/img/moveit-rviz.png)
 
 Robots with mobile manipulation available right now:
  - rbkairos
