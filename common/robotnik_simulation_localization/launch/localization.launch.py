@@ -80,6 +80,7 @@ def generate_launch_description():
             'robot_id': robot_id,
             'use_sim': use_sim,
         }.items(),
+        condition=IfCondition(run_mapping)
     )
 
     group = GroupAction([
