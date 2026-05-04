@@ -10,6 +10,12 @@ Launch complete simulation
 ros2 launch  robotnik_simulation_bringup bringup_complete.launch.py robot_model:=rbsummit use_gui:=true use_rviz:=false
 ```
 
+Launch complete simulation with MoveIt enabled:
+
+```
+ros2 launch robotnik_simulation_bringup bringup_complete.launch.py robot_model:=rbkairos_plus use_gui:=true use_rviz:=true run_moveit:=true
+```
+
 #### Parameters
 | Name | Required | Purpose | Example |
 |---|---|---|---|
@@ -18,7 +24,24 @@ ros2 launch  robotnik_simulation_bringup bringup_complete.launch.py robot_model:
 | `use_gui` | no | Enable simulation graphical interface | `true` |
 | `low_performance_simulation` | no | Enable smooth simulation for low performance computers | `true` |
 | `use_rviz` | no | Launch rviz | `false` |
+| `run_moveit` | no | Launch MoveIt stack after navigation startup | `false` |
 | `world_path` | no | Path of the world file | `/path/worlds/demo.world` |
+
+## MoveIt
+
+MoveIt can be launched in two modes:
+
+1. Integrated in bringup:
+
+```
+ros2 launch robotnik_simulation_bringup bringup_complete.launch.py robot_model:=rbkairos_plus run_moveit:=true
+```
+
+2. Independently from the simulation bringup pipeline:
+
+```
+ros2 launch robotnik_simulation_moveit moveit.launch.py robot_id:=robot robot:=rbkairos robot_model:=rbkairos_plus moveit_config_name:=rbkairos_moveit_config arm_type:=ur10e run_moveit_rviz:=true
+```
 
 Launch rviz for visualization:
 

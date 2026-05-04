@@ -30,7 +30,6 @@ import os
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription, OpaqueFunction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch_ros.parameter_descriptions import ParameterFile
 from launch_ros.parameter_descriptions import ParameterValue
 from launch.substitutions import LaunchConfiguration
 from launch.substitutions import SubstitutionFailure
@@ -46,8 +45,6 @@ from robotnik_common.launch import AddArgumentParser, ExtendedArgument
 from pathlib import Path
 from tempfile import NamedTemporaryFile
 from typing import Union, Optional
-from ament_index_python.packages import get_package_share_directory
-
 from launch import SomeSubstitutionsType, SomeSubstitutionsType_types_tuple
 from launch.frontend.parse_substitution import parse_substitution
 from launch.utilities import normalize_to_list_of_substitutions, perform_substitutions
@@ -308,188 +305,6 @@ def launch_setup(context, params):
 
     use_sim_time = {"use_sim_time": True}
 
-    run_moveit_enabled = is_enabled(params['run_moveit'], context)
-
-    # MoveIt related configuration
-    ##################################################
-    if run_moveit_enabled:
-        robot_id = substitute_param_context(params['robot_id'], context)
-        robot_name = substitute_param_context(params['robot'], context)
-        robot_model = substitute_param_context(params['robot_model'], context)
-        moveit_config_name = substitute_param_context(params['moveit_config_name'], context)
-        arm_type = substitute_param_context(params['arm_type'], context)
-
-        moveit_config_pkg = get_package_share_directory(moveit_config_name)
-
-        srdf_path = os.path.join(moveit_config_pkg, "config", f"{robot_model}.srdf")
-
-        default_moveit_configs = "/opt/ros/jazzy/share/moveit_configs_utils/"
-
-        # Define the path to the xacro file using the package
-        xacro_file = PathJoinSubstitution([
-            FindPackageShare("robotnik_description"),
-            "robots",
-            robot_name,
-            f"{robot_model}.urdf.xacro"
-        ])
-
-        # Create robot description using xacro
-        robot_description = {
-            "robot_description": ParameterValue(
-                Command([
-                    FindExecutable(name="xacro"),
-                    " ",
-                    xacro_file,
-                    " ",
-                    f"namespace:={robot_id}",
-                    " ",
-                    f"prefix:={robot_id}_",
-                    " ",
-                    "gazebo_ignition:=true",
-                    " ",
-                    f"ur_type:={arm_type}",
-                ]),
-                value_type=str,
-            )
-        }
-
-        robot_description_semantic = {
-            "robot_description_semantic": ParameterValue(
-                Command([
-                    FindExecutable(name="xacro"), " ", srdf_path, " ",
-                    f"namespace:={robot_id}_", # Make sure this value matches what the SRDF expects
-                ]),
-                value_type=str,
-            )
-        }
-
-        robot_description_kinematics = {
-            "robot_description_kinematics": load_yaml(moveit_config_pkg, "config/kinematics.yaml")
-        }
-
-        # RViz-safe kinematics: keep only solver plugin names to avoid Jazzy
-        # parameter type conflicts seen with numeric kinematics fields.
-        rviz_robot_description_kinematics = {"robot_description_kinematics": {}}
-        for group_name, group_cfg in robot_description_kinematics["robot_description_kinematics"].items():
-            if isinstance(group_cfg, dict) and "kinematics_solver" in group_cfg:
-                rviz_robot_description_kinematics["robot_description_kinematics"][group_name] = {
-                    "kinematics_solver": group_cfg["kinematics_solver"]
-                }
-
-        planning_description_yaml = {
-            "robot_description_planning": {
-                **load_yaml(moveit_config_pkg, "config/joint_limits.yaml"),
-                **load_yaml(moveit_config_pkg, "config/pilz_cartesian_limits.yaml"),
-            }
-        }
-
-        ompl_yaml = {
-            "ompl": {
-                "planning_plugins": ["ompl_interface/OMPLPlanner"],
-                "request_adapters": [
-                    "default_planning_request_adapters/ResolveConstraintFrames",
-                    "default_planning_request_adapters/ValidateWorkspaceBounds",
-                    "default_planning_request_adapters/CheckStartStateBounds",
-                    "default_planning_request_adapters/CheckStartStateCollision",
-                ],
-                "response_adapters": [
-                    "default_planning_response_adapters/AddTimeOptimalParameterization",
-                ],
-                "start_state_max_bounds_error": 0.1,
-                **load_yaml(default_moveit_configs, "default_configs/ompl_planning.yaml"),
-            }
-        }
-
-        pilz_industrial_motion_planner_yaml = {
-            "pilz_industrial_motion_planner": {
-                "default_planner_config": "PTP",
-                **load_yaml(default_moveit_configs, "default_configs/pilz_industrial_motion_planner_planning.yaml"),
-            }
-        }
-
-        stomp_yaml = {
-            "stomp": {
-                **load_yaml(default_moveit_configs, "default_configs/stomp_planning.yaml"),
-            }
-        }
-
-        chomp_yaml = {
-            "chomp": {
-                **load_yaml(default_moveit_configs, "default_configs/chomp_planning.yaml"),
-            }
-        }
-
-        planning_pipeline_config = {
-            "planning_pipelines": ["ompl", "chomp", "pilz_industrial_motion_planner", "stomp"],
-            "default_planning_pipeline": "pilz_industrial_motion_planner",
-        }
-
-        controllers_yaml = load_yaml(moveit_config_pkg, "config/moveit_controllers.yaml")
-
-        trajectory_execution = {
-            "moveit_manage_controllers": False,
-            "trajectory_execution.allowed_execution_duration_scaling": 1.2,
-            "trajectory_execution.allowed_goal_duration_margin": 0.5,
-            "trajectory_execution.allowed_start_tolerance": 0.01,
-        }
-
-        planning_scene_monitor_parameters = {
-            "publish_planning_scene": True,
-            "publish_geometry_updates": True,
-            "publish_state_updates": True,
-            "publish_transforms_updates": True,
-            "publish_robot_description": True,
-            "publish_robot_description_semantic": True,
-        }
-
-        ret.append(Node(
-            package="moveit_ros_move_group",
-            executable="move_group",
-            namespace=params['robot_id'],
-            output="screen",
-            parameters=[
-                use_sim_time,
-                robot_description,
-                robot_description_semantic,
-                robot_description_kinematics,
-                planning_description_yaml,
-                ompl_yaml,
-                pilz_industrial_motion_planner_yaml,
-                stomp_yaml,
-                chomp_yaml,
-                controllers_yaml,
-                planning_pipeline_config,
-                trajectory_execution,
-                planning_scene_monitor_parameters,
-            ],
-            # Condition to only launch if MoveIt is enabled
-            condition=IfCondition(params['run_moveit'])
-        ))
-
-        # RViz - manipulation
-        ret.append(Node(
-            package="rviz2",
-            executable="rviz2",
-            arguments=[
-                # Fixed frame
-                ['-f', params['robot_id'], '_odom'] if use_fixed_frame else [],
-                # Config file
-                '-d', [params['moveit_rviz_config']],
-                # Window name
-                '-t', [params['robot_id'], ' - ', params['robot_model'], ' - manipulation RViz'],
-            ],
-            parameters=[
-                use_sim_time,
-                robot_description,
-                robot_description_semantic,
-                rviz_robot_description_kinematics,
-                ],
-            condition=IfCondition(params['run_rviz']),
-        ))
-
-    ##################################################
-    # End of MoveIt related configuration
-
     # RViz
     ret.append(Node(
         package="rviz2",
@@ -524,12 +339,8 @@ def generate_launch_description():
         ("has_arm", "Enable Arm Controller", "False", "HAS_ARM"),
         ("run_rviz", "Run RViz", "True", "RUN_RVIZ"),
         ("rviz_config", "RViz configuration file", "", "CONFIG_RVIZ"),
-        ("moveit_rviz_config", "MoveIt RViz configuration file", [FindPackageShare('robotnik_gazebo_ignition'), '/config/moveit_rviz_config.rviz'], "CONFIG_MOVEIT_RVIZ"),
         ("use_sim_time", "Use simulation time", "True", "USE_SIM_TIME"),
         ("low_performance_simulation", "Enable Low Performance Simulation", "False", "LOW_PERFORMANCE_SIMULATION"),
-        ("run_moveit", "Run MoveIt", "false", "RUN_MOVEIT"),
-        ("moveit_config_name", "MoveIt configuration package name", "rbkairos_moveit_config", "MOVEIT_CONFIG_NAME"),
-        ("arm_type", "Type of robotic arm", "ur10e", "ARM_TYPE"),
     ]
 
     ld = LaunchDescription()
