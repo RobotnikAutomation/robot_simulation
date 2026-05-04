@@ -71,6 +71,11 @@ def generate_launch_description():
             description="Enable MoveIt for manipulation"
         ),
         DeclareLaunchArgument(
+            "arm_type",
+            default_value="ur10e",
+            description="Type of robotic arm"
+        ),
+        DeclareLaunchArgument(
             "world_path",
             default_value=PathJoinSubstitution([
                 #FindPackageShare('electrical_substation_world'), 'worlds/electrical_substation.world'
@@ -88,6 +93,7 @@ def generate_launch_description():
     world_path = LaunchConfiguration("world_path")
     use_rviz = LaunchConfiguration("use_rviz")
     run_moveit = LaunchConfiguration("run_moveit")
+    arm_type = LaunchConfiguration("arm_type")
 
     gazebo_world = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -112,6 +118,7 @@ def generate_launch_description():
             'robot_id': robot_id,
             'robot': robot,
             'robot_model': robot_model,
+            'arm_type': arm_type,
             'low_performance_simulation': low_performance_simulation,
             'run_rviz': 'false'
         }.items()
@@ -198,6 +205,7 @@ def generate_launch_description():
             'robot': robot,
             'robot_model': robot_model,
             'moveit_config_name': [robot, '_moveit_config'],
+            'arm_type': arm_type,
             'use_sim_time': 'true',
         }.items(),
         condition=IfCondition(run_moveit),

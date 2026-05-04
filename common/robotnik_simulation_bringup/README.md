@@ -13,7 +13,7 @@ ros2 launch  robotnik_simulation_bringup bringup_complete.launch.py robot_model:
 Launch complete simulation with MoveIt enabled:
 
 ```
-ros2 launch robotnik_simulation_bringup bringup_complete.launch.py robot_model:=rbkairos_plus use_gui:=true use_rviz:=true run_moveit:=true
+ros2 launch robotnik_simulation_bringup bringup_complete.launch.py robot:=rbkairos robot_model:=rbkairos_plus arm_type:=ur10e use_gui:=true use_rviz:=true run_moveit:=true
 ```
 
 #### Parameters
@@ -25,6 +25,7 @@ ros2 launch robotnik_simulation_bringup bringup_complete.launch.py robot_model:=
 | `low_performance_simulation` | no | Enable smooth simulation for low performance computers | `true` |
 | `use_rviz` | no | Launch rviz | `false` |
 | `run_moveit` | no | Launch MoveIt stack after navigation startup | `false` |
+| `arm_type` | no | Arm type used for robots with manipulator (forwarded as xacro `ur_type`) | `ur10e` |
 | `world_path` | no | Path of the world file | `/path/worlds/demo.world` |
 
 ## MoveIt
@@ -34,7 +35,7 @@ MoveIt can be launched in two modes:
 1. Integrated in bringup:
 
 ```
-ros2 launch robotnik_simulation_bringup bringup_complete.launch.py robot_model:=rbkairos_plus run_moveit:=true
+ros2 launch robotnik_simulation_bringup bringup_complete.launch.py robot:=rbkairos robot_model:=rbkairos_plus arm_type:=ur10e run_moveit:=true
 ```
 
 2. Independently from the simulation bringup pipeline:
@@ -66,6 +67,10 @@ Spawn the robot:
 ```
 ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py \
   robot:=rbsummit run_rviz:=false
+
+# Robot with manipulator selecting arm model
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py \
+  robot:=rbkairos robot_model:=rbkairos_plus arm_type:=ur10e run_rviz:=false
 ```
 
 In case of `rbsummit` or `rbwatcher` run Pointcloud to Laserscan node

@@ -105,12 +105,15 @@ ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbwatcher
 
 # Specific ID and pose
 ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=robot_a robot:=rbwatcher robot_model:=rbwatcher x:=0.0 y:=0.0 z:=0.0 run_rviz:=true
+
+# Mobile manipulator selecting arm type
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos_plus arm_type:=ur10e run_rviz:=true
 ```
 
 #### Advanced
 ```bash
 # Generic pattern
-ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=<unique_name> robot:=<robot_type> robot_model:=<robot_model> x:=<m> y:=<m> z:=<m> has_arm:=<true/false> run_rviz:=<true/false> rviz_config:=<path/to/config.rviz>
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=<unique_name> robot:=<robot_type> robot_model:=<robot_model> arm_type:=<ur_model> x:=<m> y:=<m> z:=<m> has_arm:=<true/false> run_rviz:=<true/false> rviz_config:=<path/to/config.rviz>
 ```
 
 #### Parameters
@@ -123,6 +126,7 @@ ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=<unique_nam
 | `run_rviz` | no | Launch RViz2 with a predefined configuration | `true` or `false` |
 | `rviz_config` | no | Full path to a custom navigation RViz2 configuration file (overrides default config and fixed frame must be set in config) | `/path/to/custom_config.rviz` |
 | `has_arm` | no | Flag stating if platform should be spawned with robotic arm | `true` or `false` |
+| `arm_type` | no | Arm type forwarded to robot xacro as `ur_type` for manipulator variants | `ur10e` |
 
 #### Supported Robots
 
@@ -181,7 +185,7 @@ You can launch MoveIt in two ways:
 Example launch from bringup:
 
 ```bash
-ros2 launch robotnik_simulation_bringup bringup_complete.launch.py robot_model:=rbkairos_plus run_moveit:=true use_rviz:=true
+ros2 launch robotnik_simulation_bringup bringup_complete.launch.py robot:=rbkairos robot_model:=rbkairos_plus arm_type:=ur10e run_moveit:=true use_rviz:=true
 ```
 
 Example independent launch:
