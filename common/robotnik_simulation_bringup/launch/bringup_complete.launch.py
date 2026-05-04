@@ -41,9 +41,14 @@ def generate_launch_description():
             description="Name for launch and config resources"
         ),
         DeclareLaunchArgument(
+            "robot",
+            default_value="rbsummit",
+            description="Robot Model Name"
+        ),
+        DeclareLaunchArgument(
             "robot_model",
             default_value="rbsummit",
-            description="Set robot model"
+            description="Robot Variant or Type"
         ),
         DeclareLaunchArgument(
             "use_gui",
@@ -76,6 +81,7 @@ def generate_launch_description():
     ]
 
     robot_id = LaunchConfiguration("robot_id")
+    robot = LaunchConfiguration("robot")
     robot_model = LaunchConfiguration("robot_model")
     use_gui = LaunchConfiguration("use_gui")
     low_performance_simulation = LaunchConfiguration("low_performance_simulation")
@@ -104,7 +110,8 @@ def generate_launch_description():
         ),
         launch_arguments={
             'robot_id': robot_id,
-            'robot': robot_model,
+            'robot': robot,
+            'robot_model': robot_model,
             'low_performance_simulation': low_performance_simulation,
             'run_rviz': 'false'
         }.items()
@@ -188,7 +195,9 @@ def generate_launch_description():
         ),
         launch_arguments={
             'robot_id': robot_id,
-            'robot': robot_model,
+            'robot': robot,
+            'robot_model': robot_model,
+            'moveit_config_name': [robot, '_moveit_config'],
             'use_sim_time': 'true',
         }.items(),
         condition=IfCondition(run_moveit),
