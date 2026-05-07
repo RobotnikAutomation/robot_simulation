@@ -238,15 +238,14 @@ def launch_setup(context, params):
         return existing_controllers
 
     def get_ros2_control_yaml_path(params):
-        return str(
-            Path(
-                FindPackageShare('robotnik_gazebo_ignition').perform(context)
-            )
+        base_path = (
+            Path(FindPackageShare('robotnik_gazebo_ignition').perform(context))
             / 'config'
             / 'profile'
             / substitute_param_context(params['robot'], context)
-            / 'ros2_control.yaml'
         )
+        robot_model = substitute_param_context(params['robot_model'], context)
+        return str(base_path / f'{robot_model}_ros2_control.yaml')
 
     path = get_ros2_control_yaml_path(params)
     new_controllers = extract_controllers_from_yaml(path)
@@ -254,17 +253,13 @@ def launch_setup(context, params):
     # ROS2 control
     controllers = ['joint_state_broadcaster']
     # Replace default joint_state_broadcaster by the one defined in the specific
-    # ros2_control.yamlrobot model
+    # ros2_control.yaml for the robot model
     if 'joint_state_broadcaster' in new_controllers:
         controllers.remove('joint_state_broadcaster')
     controllers.extend(new_controllers)
     print("Controllers to be spawned:", controllers)
 
-    robot_controller_config = ConfigFile(
-        [
-            FindPackageShare('robotnik_gazebo_ignition'), '/config/profile/', LaunchConfiguration('robot'), '/ros2_control.yaml',
-        ],
-    )
+    robot_controller_config = ConfigFile(path)
 
     controllers.append('--param-file')
     controllers.append(
