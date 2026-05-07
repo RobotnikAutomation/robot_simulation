@@ -124,12 +124,6 @@ def substitute_param_context(param, context):
         return param.perform(context)
     return param
 
-
-def is_enabled(param, context):
-    """Parse common truthy values from launch parameters."""
-    value = str(substitute_param_context(param, context)).strip().lower()
-    return value in ('true', '1', 'yes', 'on')
-
 def launch_setup(context, params):
     ret = []
 
