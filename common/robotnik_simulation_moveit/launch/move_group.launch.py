@@ -43,7 +43,7 @@ def load_yaml(package_path, relative_path):
 
 def launch_setup(context, *args, **kwargs):
     robot_id = LaunchConfiguration('robot_id').perform(context)
-    robot_name = LaunchConfiguration('robot').perform(context)
+    robot = LaunchConfiguration('robot').perform(context)
     robot_model = LaunchConfiguration('robot_model').perform(context)
     moveit_config_name = LaunchConfiguration('moveit_config_name').perform(context)
     arm_type = LaunchConfiguration('arm_type').perform(context)
@@ -54,7 +54,7 @@ def launch_setup(context, *args, **kwargs):
 
     xacro_file = PathJoinSubstitution([
         FindPackageShare('robotnik_description'),
-        'robots', robot_name, f'{robot_model}.urdf.xacro',
+        'robots', robot, f'{robot_model}.urdf.xacro',
     ])
 
     robot_description = {
