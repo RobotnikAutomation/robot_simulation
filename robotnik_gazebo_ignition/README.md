@@ -105,12 +105,15 @@ ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbwatcher
 
 # Specific ID and pose
 ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=robot_a robot:=rbwatcher robot_model:=rbwatcher x:=0.0 y:=0.0 z:=0.0 run_rviz:=true
+
+# Mobile manipulator selecting arm type
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos_plus arm_type:=ur10e run_rviz:=true
 ```
 
 #### Advanced
 ```bash
 # Generic pattern
-ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=<unique_name> robot:=<robot_type> robot_model:=<robot_model> x:=<m> y:=<m> z:=<m> has_arm:=<true/false> arm_type:=<arm_name> run_rviz:=<true/false> run_moveit:=<true/false> moveit_config_name:=<moveit_config_package_name>
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=<unique_name> robot:=<robot_type> robot_model:=<robot_model> arm_type:=<ur_model> x:=<m> y:=<m> z:=<m> has_arm:=<true/false> run_rviz:=<true/false> rviz_config:=<path/to/config.rviz>
 ```
 
 #### Parameters
@@ -121,11 +124,9 @@ ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=<unique_nam
 | `robot_model` | no | Specific **model** within the type, see `supported_robots` | `rbwatcher` |
 | `x` `y` `z` | no | Spawn position in meters | `0.0 0.0 0.0` |
 | `run_rviz` | no | Launch RViz2 with a predefined configuration | `true` or `false` |
-| `rviz_config` | no | Full path to a custom RViz2 configuration file (overrides default config and fixed frame must be set in config) | `/path/to/custom_config.rviz` |
+| `rviz_config` | no | Full path to a custom navigation RViz2 configuration file (overrides default config and fixed frame must be set in config) | `/path/to/custom_config.rviz` |
 | `has_arm` | no | Flag stating if platform should be spawned with robotic arm | `true` or `false` |
-| `arm_type` | no | Name of supported robotic arm  | `arm_name` |
-| `run_moveit` | no | Flag stating if to run MoveIt to control the robotic arm | `true` or `false` |
-| `moveit_config_name` | no | Name of MoveIt configuration package | `moveit_config_package_name` |
+| `arm_type` | no | Arm type forwarded to robot xacro as `ur_type` for manipulator variants | `ur10e` |
 
 #### Supported Robots
 
@@ -177,11 +178,29 @@ It is possible to use [MoveIt](https://moveit.picknik.ai/main/index.html) to con
 
 Warning!!! MoveIt support works correctly only with `robot_id:=robot`. If different robot_id will be used, then it is not possible to interact with move_group from Rviz2.
 
-Example launch:
+You can launch MoveIt in two ways:
+1. From bringup, using `robotnik_simulation_bringup` with `run_moveit:=true`.
+2. Independently, using `robotnik_simulation_moveit`.
+
+Example launch from bringup:
 
 ```bash
-ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=robot robot:=rbkairos robot_model:=rbkairos_plus has_arm:=true arm_type:=ur10e x:=0.0 y:=0.0 z:=0.0 run_rviz:=true run_moveit:=true moveit_config_name:=rbkairos_moveit_config
+ros2 launch robotnik_simulation_bringup bringup_complete.launch.py robot:=rbkairos robot_model:=rbkairos_plus arm_type:=ur10e run_moveit:=true use_rviz:=true
 ```
+
+Example independent launch:
+
+```bash
+ros2 launch robotnik_simulation_moveit moveit.launch.py robot_id:=robot robot:=rbkairos robot_model:=rbkairos_plus arm_type:=ur10e moveit_config_name:=rbkairos_moveit_config run_moveit_rviz:=true
+```
+
+Example independent launch with custom `robot_xacro_path`:
+
+```bash
+ros2 launch robotnik_simulation_moveit moveit.launch.py robot_id:=robot robot:=rbkairos robot_model:=rbkairos_plus robot_xacro_path:=/path/to/robot.urdf.xacro arm_type:=ur10e moveit_config_name:=rbkairos_moveit_config run_moveit_rviz:=true
+```
+
+![moveit_rviz](../docs/assets/img/moveit-rviz.png)
 
 Robots with mobile manipulation available right now:
  - rbkairos
@@ -206,6 +225,12 @@ Specific robot models can be customized by creating your own URDF/XACRO files ba
 2. Modify the URDF/XACRO files in the new folder to add or change components as needed.
 3. Update any necessary configuration files for sensors, arms, or other components.
 4. Spawn the customized robot using the `robot_xacro_path` parameter:
+
+```sh
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos_plus arm_type:=ur10e
+```
+
+With custom `robot_xacro_path`:
 
 ```sh
 ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_xacro_path:=<your_robot.urdf.xacro>
