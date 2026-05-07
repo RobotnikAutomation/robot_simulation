@@ -49,6 +49,14 @@ def generate_launch_description():
             description='Robot Variant or Type',
         ),
         DeclareLaunchArgument(
+            'robot_xacro_path',
+            default_value=[
+                FindPackageShare('robotnik_description'), '/robots/',
+                LaunchConfiguration('robot'), '/', LaunchConfiguration('robot_model'), '.urdf.xacro',
+            ],
+            description='Path to Robot Xacro File',
+        ),
+        DeclareLaunchArgument(
             'moveit_config_name',
             default_value='rbkairos_moveit_config',
             description='MoveIt configuration package name',
@@ -86,6 +94,7 @@ def generate_launch_description():
         'robot_id': LaunchConfiguration('robot_id'),
         'robot': LaunchConfiguration('robot'),
         'robot_model': LaunchConfiguration('robot_model'),
+        'robot_xacro_path': LaunchConfiguration('robot_xacro_path'),
         'moveit_config_name': LaunchConfiguration('moveit_config_name'),
         'arm_type': LaunchConfiguration('arm_type'),
         'use_sim_time': LaunchConfiguration('use_sim_time'),

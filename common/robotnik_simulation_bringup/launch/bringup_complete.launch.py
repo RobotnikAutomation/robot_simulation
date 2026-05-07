@@ -51,6 +51,14 @@ def generate_launch_description():
             description="Robot Variant or Type"
         ),
         DeclareLaunchArgument(
+            "robot_xacro_path",
+            default_value=[
+                FindPackageShare('robotnik_description'), '/robots/',
+                LaunchConfiguration('robot'), '/', LaunchConfiguration('robot_model'), '.urdf.xacro',
+            ],
+            description="Path to Robot Xacro File"
+        ),
+        DeclareLaunchArgument(
             "use_gui",
             default_value="true",
             description="Enable simulation gui"
@@ -88,6 +96,7 @@ def generate_launch_description():
     robot_id = LaunchConfiguration("robot_id")
     robot = LaunchConfiguration("robot")
     robot_model = LaunchConfiguration("robot_model")
+    robot_xacro_path = LaunchConfiguration("robot_xacro_path")
     use_gui = LaunchConfiguration("use_gui")
     low_performance_simulation = LaunchConfiguration("low_performance_simulation")
     world_path = LaunchConfiguration("world_path")
@@ -118,6 +127,7 @@ def generate_launch_description():
             'robot_id': robot_id,
             'robot': robot,
             'robot_model': robot_model,
+            'robot_xacro_path': robot_xacro_path,
             'arm_type': arm_type,
             'low_performance_simulation': low_performance_simulation,
             'run_rviz': 'false'
@@ -204,6 +214,7 @@ def generate_launch_description():
             'robot_id': robot_id,
             'robot': robot,
             'robot_model': robot_model,
+            'robot_xacro_path': robot_xacro_path,
             'moveit_config_name': [robot, '_moveit_config'],
             'arm_type': arm_type,
             'use_sim_time': 'true',

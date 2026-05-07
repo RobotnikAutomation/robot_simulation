@@ -194,6 +194,12 @@ Example independent launch:
 ros2 launch robotnik_simulation_moveit moveit.launch.py robot_id:=robot robot:=rbkairos robot_model:=rbkairos_plus arm_type:=ur10e moveit_config_name:=rbkairos_moveit_config run_moveit_rviz:=true
 ```
 
+Example independent launch with custom `robot_xacro_path`:
+
+```bash
+ros2 launch robotnik_simulation_moveit moveit.launch.py robot_id:=robot robot:=rbkairos robot_model:=rbkairos_plus robot_xacro_path:=/path/to/robot.urdf.xacro arm_type:=ur10e moveit_config_name:=rbkairos_moveit_config run_moveit_rviz:=true
+```
+
 ![moveit_rviz](../docs/assets/img/moveit-rviz.png)
 
 Robots with mobile manipulation available right now:
@@ -219,6 +225,12 @@ Specific robot models can be customized by creating your own URDF/XACRO files ba
 2. Modify the URDF/XACRO files in the new folder to add or change components as needed.
 3. Update any necessary configuration files for sensors, arms, or other components.
 4. Spawn the customized robot using the `robot_xacro_path` parameter:
+
+```sh
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos_plus arm_type:=ur10e
+```
+
+With custom `robot_xacro_path`:
 
 ```sh
 ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_xacro_path:=<your_robot.urdf.xacro>

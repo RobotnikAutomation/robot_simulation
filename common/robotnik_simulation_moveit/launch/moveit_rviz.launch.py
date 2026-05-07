@@ -43,8 +43,8 @@ def load_yaml(package_path, relative_path):
 
 def launch_setup(context, *args, **kwargs):
     robot_id = LaunchConfiguration('robot_id').perform(context)
-    robot = LaunchConfiguration('robot').perform(context)
     robot_model = LaunchConfiguration('robot_model').perform(context)
+    robot_xacro_path = LaunchConfiguration('robot_xacro_path').perform(context)
     moveit_config_name = LaunchConfiguration('moveit_config_name').perform(context)
     arm_type = LaunchConfiguration('arm_type').perform(context)
     moveit_rviz_config = LaunchConfiguration('moveit_rviz_config').perform(context)
@@ -54,15 +54,10 @@ def launch_setup(context, *args, **kwargs):
     moveit_config_pkg = get_package_share_directory(moveit_config_name)
     srdf_path = os.path.join(moveit_config_pkg, 'config', f'{robot_model}.srdf')
 
-    xacro_file = PathJoinSubstitution([
-        FindPackageShare('robotnik_description'),
-        'robots', robot, f'{robot_model}.urdf.xacro',
-    ])
-
     robot_description = {
         'robot_description': ParameterValue(
             Command([
-                FindExecutable(name='xacro'), ' ', xacro_file, ' ',
+                FindExecutable(name='xacro'), ' ', robot_xacro_path, ' ',
                 f'namespace:={robot_id}', ' ',
                 f'prefix:={robot_id}_', ' ',
                 'gazebo_ignition:=true', ' ',
@@ -130,6 +125,14 @@ def generate_launch_description():
             'robot_model',
             default_value=LaunchConfiguration('robot'),
             description='Robot Variant or Type',
+        ),
+        DeclareLaunchArgument(
+            'robot_xacro_path',
+            default_value=[
+                FindPackageShare('robotnik_description'), '/robots/',
+                LaunchConfiguration('robot'), '/', LaunchConfiguration('robot_model'), '.urdf.xacro',
+            ],
+            description='Path to Robot Xacro File',
         ),
         DeclareLaunchArgument(
             'moveit_config_name',

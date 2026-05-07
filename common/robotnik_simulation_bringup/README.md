@@ -16,11 +16,19 @@ Launch complete simulation with MoveIt enabled:
 ros2 launch robotnik_simulation_bringup bringup_complete.launch.py robot:=rbkairos robot_model:=rbkairos_plus arm_type:=ur10e use_gui:=true use_rviz:=true run_moveit:=true
 ```
 
+Launch complete simulation with MoveIt and custom xacro path:
+
+```
+ros2 launch robotnik_simulation_bringup bringup_complete.launch.py robot:=rbkairos robot_model:=rbkairos_plus robot_xacro_path:=/path/to/robot.urdf.xacro arm_type:=ur10e use_gui:=true use_rviz:=true run_moveit:=true
+```
+
 #### Parameters
 | Name | Required | Purpose | Example |
 |---|---|---|---|
 | `robot_id` | no | Name for launch and config resources | `robot` |
+| `robot` | no | Robot base type used to resolve defaults | `rbsummit` |
 | `robot_model` | no | Name of the robot model | `rbsummit` |
+| `robot_xacro_path` | no | Path to robot URDF/XACRO (forwarded to spawn and MoveIt) | `/path/to/robot.urdf.xacro` |
 | `use_gui` | no | Enable simulation graphical interface | `true` |
 | `low_performance_simulation` | no | Enable smooth simulation for low performance computers | `true` |
 | `use_rviz` | no | Launch rviz | `false` |
@@ -38,10 +46,22 @@ MoveIt can be launched in two modes:
 ros2 launch robotnik_simulation_bringup bringup_complete.launch.py robot:=rbkairos robot_model:=rbkairos_plus arm_type:=ur10e run_moveit:=true
 ```
 
+Integrated in bringup with custom xacro path:
+
+```
+ros2 launch robotnik_simulation_bringup bringup_complete.launch.py robot:=rbkairos robot_model:=rbkairos_plus robot_xacro_path:=/path/to/robot.urdf.xacro arm_type:=ur10e run_moveit:=true
+```
+
 2. Independently from the simulation bringup pipeline:
 
 ```
 ros2 launch robotnik_simulation_moveit moveit.launch.py robot_id:=robot robot:=rbkairos robot_model:=rbkairos_plus moveit_config_name:=rbkairos_moveit_config arm_type:=ur10e run_moveit_rviz:=true
+```
+
+Independently with custom xacro path:
+
+```
+ros2 launch robotnik_simulation_moveit moveit.launch.py robot_id:=robot robot:=rbkairos robot_model:=rbkairos_plus robot_xacro_path:=/path/to/robot.urdf.xacro moveit_config_name:=rbkairos_moveit_config arm_type:=ur10e run_moveit_rviz:=true
 ```
 
 Launch rviz for visualization:
