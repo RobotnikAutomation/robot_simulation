@@ -134,7 +134,7 @@ def launch_setup(context, params):
         ]),
         launch_arguments={
             'verbose': 'false',
-            'robot_xacro_file': params['robot_xacro'],
+            'robot_xacro_path': params['robot_xacro_path'],
             'frame_prefix': [params['robot_id'], '_'],
             'namespace': params['robot_id'],
             'gazebo_ignition': 'true',
@@ -327,7 +327,7 @@ def generate_launch_description():
         ("robot_id", "Unique Robot Identifier", "robot", "ROBOT_ID"),
         ("robot", "Robot Model Name", "rbwatcher", "ROBOT"),
         ("robot_model", "Robot Variant or Type", LaunchConfiguration('robot'), "ROBOT_MODEL"),
-        ("robot_xacro", "Path to Robot Xacro File", [FindPackageShare('robotnik_description'), '/robots/', LaunchConfiguration('robot'), '/', LaunchConfiguration('robot_model'), '.urdf.xacro'], "ROBOT_XACRO"),
+        ("robot_xacro_path", "Path to Robot Xacro File", [FindPackageShare('robotnik_description'), '/robots/', LaunchConfiguration('robot'), '/', LaunchConfiguration('robot_model'), '.urdf.xacro'], "ROBOT_XACRO_PATH"),
         ("x", "Initial X Coordinate", "0.0", "X"),
         ("y", "Initial Y Coordinate", "0.0", "Y"),
         ("z", "Initial Z Coordinate", "0.0", "Z"),

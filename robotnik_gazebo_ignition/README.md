@@ -218,10 +218,10 @@ Specific robot models can be customized by creating your own URDF/XACRO files ba
 1. Copy the existing robot folder from `robotnik_description/robots/<robot>/` to a new folder, e.g., `robotnik_description/robots/my_robot/`.
 2. Modify the URDF/XACRO files in the new folder to add or change components as needed.
 3. Update any necessary configuration files for sensors, arms, or other components.
-4. Spawn the customized robot using the `robot_xacro` parameter:
+4. Spawn the customized robot using the `robot_xacro_path` parameter:
 
 ```sh
-ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_xacro:=<your_robot.urdf.xacro>
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_xacro_path:=<your_robot.urdf.xacro>
 ```
 
 ### Custom control configuration
