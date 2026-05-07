@@ -8,6 +8,14 @@ repositories:
     type: git
     url: https://github.com/ros-visualization/visualization_tutorials.git
     version: b43b3f6a867b1d799af3edba673c56d37178e847  # ros2
+  Universal_Robots_ROS2_Description:
+    type: git
+    url: https://github.com/UniversalRobots/Universal_Robots_ROS2_Description.git
+    version: jazzy
+  Universal_Robots_ROS2_GZ_Simulation:
+    type: git
+    url: https://github.com/UniversalRobots/Universal_Robots_ROS2_GZ_Simulation.git
+    version: ros2
 
   # Robotnik
   robotnik/robotnik_common:
@@ -29,4 +37,8 @@ repositories:
   robotnik/robotnik_simulation:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_simulation.git
-    version: jazzy-devel 
+    version: jazzy-devel
+  robotnik/robotnik_moveit_configs:
+    type: git
+    url: https://github.com/RobotnikAutomation/robotnik_moveit_configs.git
+    version: jazzy-devel

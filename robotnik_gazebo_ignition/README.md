@@ -20,9 +20,9 @@ sudo apt-get update
 sudo apt-get install gz-harmonic
 ```
 
-3. Install ROS 2 Jazzy and ROS-GZ bridge.
+3. Install ROS 2 Jazzy and ROS-GZ bridge and manipulation dependencies.
 ```sh
-sudo apt install ros-jazzy-ros-gz
+sudo apt install -y ros-jazzy-ros-gz ros-$ROS_DISTRO-moveit* ros-$ROS_DISTRO-chomp-motion-planner* ros-$ROS_DISTRO-kdl* ros-$ROS_DISTRO-joint-trajectory-controller* ros-$ROS_DISTRO-ompl* ros-$ROS_DISTRO-pick-ik* ros-$ROS_DISTRO-pilz-industrial-motion-planner* ros-$ROS_DISTRO-trac-ik* ros-$ROS_DISTRO-stomp* ros-$ROS_DISTRO-spacenav* ros-$ROS_DISTRO-warehouse-ros-sqlite* ros-$ROS_DISTRO-ros2-control ros-$ROS_DISTRO-moveit-configs-utils
 ```
 
 4. Set up workspace and install dependencies:
@@ -105,12 +105,15 @@ ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbwatcher
 
 # Specific ID and pose
 ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=robot_a robot:=rbwatcher robot_model:=rbwatcher x:=0.0 y:=0.0 z:=0.0 run_rviz:=true
+
+# Mobile manipulator selecting arm type
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos_plus arm_type:=ur10e run_rviz:=true
 ```
 
 #### Advanced
 ```bash
 # Generic pattern
-ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=<unique_name> robot:=<robot_type> robot_model:=<robot_model> x:=<m> y:=<m> z:=<m>
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=<unique_name> robot:=<robot_type> robot_model:=<robot_model> arm_type:=<ur_model> x:=<m> y:=<m> z:=<m> has_arm:=<true/false> run_rviz:=<true/false> rviz_config:=<path/to/config.rviz>
 ```
 
 #### Parameters
@@ -121,7 +124,9 @@ ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=<unique_nam
 | `robot_model` | no | Specific **model** within the type, see `supported_robots` | `rbwatcher` |
 | `x` `y` `z` | no | Spawn position in meters | `0.0 0.0 0.0` |
 | `run_rviz` | no | Launch RViz2 with a predefined configuration | `true` or `false` |
-| `rviz_config` | no | Full path to a custom RViz2 configuration file (overrides default config and fixed frame must be set in config) | `/path/to/custom_config.rviz` |
+| `rviz_config` | no | Full path to a custom navigation RViz2 configuration file (overrides default config and fixed frame must be set in config) | `/path/to/custom_config.rviz` |
+| `has_arm` | no | Flag stating if platform should be spawned with robotic arm | `true` or `false` |
+| `arm_type` | no | Arm type forwarded to robot xacro as `ur_type` for manipulator variants | `ur10e` |
 
 #### Supported Robots
 
@@ -167,6 +172,43 @@ Make sure to replace `/robot/robotnik_base_control/cmd_vel` with the appropriate
 
 Also, you can use RViz plugin on the bottom right to control the robot by clicking on the arrows.
 
+## 🦾 MoveIt compatibility
+
+It is possible to use [MoveIt](https://moveit.picknik.ai/main/index.html) to control robotic arms mounted on supported platforms.
+
+Warning!!! MoveIt support works correctly only with `robot_id:=robot`. If different robot_id will be used, then it is not possible to interact with move_group from Rviz2.
+
+You can launch MoveIt in two ways:
+1. From bringup, using `robotnik_simulation_bringup` with `run_moveit:=true`.
+2. Independently, using `robotnik_simulation_moveit`.
+
+Example launch from bringup:
+
+```bash
+ros2 launch robotnik_simulation_bringup bringup_complete.launch.py robot:=rbkairos robot_model:=rbkairos_plus arm_type:=ur10e run_moveit:=true use_rviz:=true
+```
+
+Example independent launch:
+
+```bash
+ros2 launch robotnik_simulation_moveit moveit.launch.py robot_id:=robot robot:=rbkairos robot_model:=rbkairos_plus arm_type:=ur10e moveit_config_name:=rbkairos_moveit_config run_moveit_rviz:=true
+```
+
+Example independent launch with custom `robot_xacro_path`:
+
+```bash
+ros2 launch robotnik_simulation_moveit moveit.launch.py robot_id:=robot robot:=rbkairos robot_model:=rbkairos_plus robot_xacro_path:=/path/to/robot.urdf.xacro arm_type:=ur10e moveit_config_name:=rbkairos_moveit_config run_moveit_rviz:=true
+```
+
+![moveit_rviz](../docs/assets/img/moveit-rviz.png)
+
+Robots with mobile manipulation available right now:
+ - rbkairos
+ - rbrobout (additionally available lift)
+ - rbtheron
+ - rbvogui
+ - rbfiqus (bi arm setup)(WIP)
+
 ## 🎉 Enjoy
 
 Example of RBVogui executing docking procedure in Gazebo Ignition. Currently, only for demonstration purposes, no docking controller is provided.
@@ -183,6 +225,12 @@ Specific robot models can be customized by creating your own URDF/XACRO files ba
 2. Modify the URDF/XACRO files in the new folder to add or change components as needed.
 3. Update any necessary configuration files for sensors, arms, or other components.
 4. Spawn the customized robot using the `robot_xacro_path` parameter:
+
+```sh
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos_plus arm_type:=ur10e
+```
+
+With custom `robot_xacro_path`:
 
 ```sh
 ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_xacro_path:=<your_robot.urdf.xacro>

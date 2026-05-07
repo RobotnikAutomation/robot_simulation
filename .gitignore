@@ -1,0 +1,49 @@
+# ROS 2 build artifacts
+build/
+install/
+log/
+*.pyc
+__pycache__/
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+!*Config.cmake
+!*ConfigVersion.cmake
+
+# Colcon
+.colcon_install_layout
+.colcon_build_cache
+
+# Python
+*.egg-info/
+dist/
+*.pyo
+*.pyd
+.eggs/
+
+# Temporary / launch generated files
+/tmp/
+launch_params_*
+
+# Editor / IDE
+.vscode/*
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Byte-compiled / optimized
+*.o
+*.so
+*.a
+
+# Docker
+.dockerignore
+
+# Environment overrides (keep template env/ files, ignore local overrides)
+*.env.local

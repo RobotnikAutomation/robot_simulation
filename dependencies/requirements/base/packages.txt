@@ -10,3 +10,16 @@ ros-jazzy-rqt-joint-trajectory-controller
 ros-jazzy-joint-state-publisher
 ros-jazzy-joint-state-publisher-gui
 ros-jazzy-plotjuggler-ros
+ros-jazzy-moveit*
+ros-jazzy-chomp-motion-planner*
+ros-jazzy-kdl*
+ros-jazzy-joint-trajectory-controller*
+ros-jazzy-ompl*
+ros-jazzy-pick-ik*
+ros-jazzy-pilz-industrial-motion-planner*
+ros-jazzy-trac-ik*
+ros-jazzy-stomp*
+ros-jazzy-spacenav*
+ros-jazzy-warehouse-ros-sqlite*
+ros-jazzy-ros2-control
+ros-jazzy-moveit-configs-utils
