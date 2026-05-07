@@ -331,7 +331,6 @@ def generate_launch_description():
         ("x", "Initial X Coordinate", "0.0", "X"),
         ("y", "Initial Y Coordinate", "0.0", "Y"),
         ("z", "Initial Z Coordinate", "0.0", "Z"),
-        ("has_arm", "Enable Arm Controller", "False", "HAS_ARM"),
         ("arm_type", "Type of robotic arm", "ur10e", "ARM_TYPE"),
         ("run_rviz", "Run RViz", "True", "RUN_RVIZ"),
         ("rviz_config", "RViz configuration file", "", "CONFIG_RVIZ"),
