@@ -28,11 +28,11 @@ repositories:
   src/robotnik_simulation:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_simulation.git
-    version: jazzy-devel
+    version: robot/jazzy/rbkairos_rbrobout_centauro
   src/robotnik_description:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_description.git
-    version: jazzy-devel
+    version: robot/jazzy/rbkairos_rbrobout_centauro
   src/robotnik_sensors:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_sensors.git
@@ -48,7 +48,7 @@ repositories:
   src/robotnik_moveit_configs:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_moveit_configs.git
-    version: jazzy-devel
+    version: robot/jazzy/rbkairos_rbrobout_centauro
   src/ros-control/gz_ros2_control:
     type: git
     url: https://github.com/ros-controls/gz_ros2_control.git
