@@ -25,30 +25,34 @@
 # EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ---
 repositories:
-  src/robotnik_simulation:
+
+  # Robotnik repositories
+  src/robotnik/robotnik_simulation:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_simulation.git
     version: jazzy-devel
-  src/robotnik_description:
+  src/robotnik/robotnik_description:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_description.git
     version: jazzy-devel
-  src/robotnik_sensors:
+  src/robotnik/robotnik_sensors:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_sensors.git
     version: jazzy-devel
-  src/robotnik_common:
+  src/robotnik/robotnik_common:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_common.git
     version: jazzy-devel
-  src/robotnik_interfaces:
+  src/robotnik/robotnik_interfaces:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_interfaces.git
     version: jazzy-devel
-  src/robotnik_moveit_configs:
+  src/robotnik/robotnik_moveit_configs:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_moveit_configs.git
     version: jazzy-devel
+
+  # Third-party repositories
   src/ros-control/gz_ros2_control:
     type: git
     url: https://github.com/ros-controls/gz_ros2_control.git
