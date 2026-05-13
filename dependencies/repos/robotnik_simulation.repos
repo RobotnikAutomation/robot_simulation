@@ -25,43 +25,46 @@
 # EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ---
 repositories:
-  src/robotnik_simulation:
+  # Robotnik repositories
+  robotnik/robotnik_simulation:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_simulation.git
     version: jazzy-devel
-  src/robotnik_description:
+  robotnik/robotnik_description:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_description.git
     version: jazzy-devel
-  src/robotnik_sensors:
+  robotnik/robotnik_sensors:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_sensors.git
     version: jazzy-devel
-  src/robotnik_common:
+  robotnik/robotnik_common:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_common.git
     version: jazzy-devel
-  src/robotnik_interfaces:
+  robotnik/robotnik_interfaces:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_interfaces.git
     version: jazzy-devel
-  src/robotnik_moveit_configs:
+  robotnik/robotnik_moveit_configs:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_moveit_configs.git
     version: jazzy-devel
-  src/ros-control/gz_ros2_control:
+
+  # Third-party repositories
+  ros-control/gz_ros2_control:
     type: git
     url: https://github.com/ros-controls/gz_ros2_control.git
     version: 1.2.15
-  src/ros-visualization/visualization_tutorials:
+  ros-visualization/visualization_tutorials:
     type: git
     url: https://github.com/ros-visualization/visualization_tutorials.git
     version: b43b3f6a867b1d799af3edba673c56d37178e847  # ros2
-  src/Universal_Robots_ROS2_Description:
+  Universal_Robots_ROS2_Description:
     type: git
     url: https://github.com/UniversalRobots/Universal_Robots_ROS2_Description.git
     version: jazzy
-  src/Universal_Robots_ROS2_GZ_Simulation:
+  Universal_Robots_ROS2_GZ_Simulation:
     type: git
     url: https://github.com/UniversalRobots/Universal_Robots_ROS2_GZ_Simulation.git
     version: ros2
