@@ -4,10 +4,12 @@
 
 This package provides Gazebo Ignition plugins and resources for Robotnik robots.
 
+> **Branch-specific guide**: `robotnik_gazebo_ignition` is maintained across ROS 2 distro branches, but the Gazebo version changes with each branch. This README is the canonical installation guide for `jazzy-devel` and documents only ROS 2 Jazzy with Gazebo Harmonic. For conceptual background about ROS 2, Gazebo, compatibility and versioning, see [`../docs/ros2-gazebo-compatibility.md`](../docs/ros2-gazebo-compatibility.md).
+
 ## 📥 Installation
 
 1. Setup sources and keys for Gazebo packages:
-```sh
+```bash
 sudo apt update
 sudo apt-get install curl lsb-release gnupg
 sudo curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
@@ -15,40 +17,69 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-
 ```
 
 2. Install Gazebo Harmonic.
-```sh
+```bash
 sudo apt-get update
 sudo apt-get install gz-harmonic
 ```
 
-3. Install ROS 2 Jazzy and ROS-GZ bridge and manipulation dependencies.
-```sh
-sudo apt install -y ros-jazzy-ros-gz ros-$ROS_DISTRO-moveit* ros-$ROS_DISTRO-chomp-motion-planner* ros-$ROS_DISTRO-kdl* ros-$ROS_DISTRO-joint-trajectory-controller* ros-$ROS_DISTRO-ompl* ros-$ROS_DISTRO-pick-ik* ros-$ROS_DISTRO-pilz-industrial-motion-planner* ros-$ROS_DISTRO-trac-ik* ros-$ROS_DISTRO-stomp* ros-$ROS_DISTRO-spacenav* ros-$ROS_DISTRO-warehouse-ros-sqlite* ros-$ROS_DISTRO-ros2-control ros-$ROS_DISTRO-moveit-configs-utils
-```
-
-4. Set up workspace and install dependencies:
-
-```sh
+3. Create the workspace and import repositories using the canonical `jazzy-devel` manifest.
+```bash
 # Workspace
 mkdir -p ~/ros2_ws/src
 cd ~/ros2_ws
 
-# Robotnik and related packages (ROS 2 Jazzy)
-vcs import --input https://raw.githubusercontent.com/RobotnikAutomation/robotnik_simulation/jazzy-devel/robotnik_simulation.jazzy.repos src/
+# Import Robotnik and third-party repositories for jazzy-devel
+curl -L \
+  https://raw.githubusercontent.com/RobotnikAutomation/robotnik_simulation/jazzy-devel/dependencies/repos/robotnik_simulation.repos \
+  -o /tmp/robotnik_simulation.repos
+vcs import src < /tmp/robotnik_simulation.repos
+```
+
+4. Install ROS 2 Jazzy runtime dependencies and the prebuilt debs shipped in this repository.
+```bash
+sudo apt-get update
+sudo apt-get install -y \
+  libgz-sim8-dev \
+  ros-jazzy-ros-gz-sim \
+  ros-jazzy-ros-gz \
+  ros-jazzy-controller-manager \
+  ros-jazzy-gz-ros2-control \
+  ros-jazzy-joint-state-broadcaster \
+  ros-jazzy-teleop-twist-keyboard \
+  ros-jazzy-joint-trajectory-controller \
+  ros-jazzy-rqt-joint-trajectory-controller \
+  ros-jazzy-joint-state-publisher \
+  ros-jazzy-joint-state-publisher-gui \
+  ros-jazzy-plotjuggler-ros \
+  ros-jazzy-moveit* \
+  ros-jazzy-chomp-motion-planner* \
+  ros-jazzy-kdl* \
+  ros-jazzy-joint-trajectory-controller* \
+  ros-jazzy-ompl* \
+  ros-jazzy-pick-ik* \
+  ros-jazzy-pilz-industrial-motion-planner* \
+  ros-jazzy-trac-ik* \
+  ros-jazzy-stomp* \
+  ros-jazzy-spacenav* \
+  ros-jazzy-warehouse-ros-sqlite* \
+  ros-jazzy-ros2-control \
+  ros-jazzy-moveit-configs-utils
 
 # Install prebuilt simulation debs from this repo (run at repo root)
 cd ~/ros2_ws/src/robotnik/robotnik_simulation
-sudo apt-get install -y ./debs/ros-${ROS_DISTRO}-*.deb
+sudo apt-get install -y ./debs/ros-jazzy-*.deb
+```
 
-# Resolve dependencies
+5. Resolve the remaining rosdep dependencies.
+```bash
 source /opt/ros/jazzy/setup.bash
 cd ~/ros2_ws
 rosdep update
 rosdep install --from-paths src --ignore-src -r -y
 ```
 
-5. Build the workspace:
-
-```sh
+6. Build the workspace.
+```bash
 cd ~/ros2_ws
 colcon build --symlink-install
 source install/setup.bash
@@ -97,6 +128,8 @@ ros2 launch robotnik_gazebo_ignition spawn_world.launch.py world:=<world_name> g
 ### 🤖 Spawn Robot
 
 Use the launch file to insert a robot into the Gazebo (Ignition) world.
+
+> **Important**: `spawn_robot.launch.py` requires an active Gazebo simulation. Launch a world first and keep it running before trying to spawn a robot. The robot spawn command does not start Gazebo by itself.
 
 #### Basic
 ```bash
@@ -226,13 +259,13 @@ Specific robot models can be customized by creating your own URDF/XACRO files ba
 3. Update any necessary configuration files for sensors, arms, or other components.
 4. Spawn the customized robot using the `robot_xacro_path` parameter:
 
-```sh
+```bash
 ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos_plus arm_type:=ur10e
 ```
 
 With custom `robot_xacro_path`:
 
-```sh
+```bash
 ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_xacro_path:=<your_robot.urdf.xacro>
 ```
 

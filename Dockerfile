@@ -33,10 +33,10 @@ source=dependencies/requirements/builder/packages.txt \
 USER ${USER_NAME}
 
 RUN --mount=type=bind,\
-source=./dependencies/repos/common.repo.yml,\
-target=/tmp/common.repo.yml,ro \
+source=./dependencies/repos/robotnik_simulation.repos,\
+target=/tmp/robotnik_simulation.repos,ro \
         vcs import \
-        --input /tmp/common.repo.yml  \
+        --input /tmp/robotnik_simulation.repos  \
         --shallow
 
 
