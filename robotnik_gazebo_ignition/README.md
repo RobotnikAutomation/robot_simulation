@@ -53,11 +53,7 @@ sudo apt-get install gz-harmonic
 mkdir -p ~/ros2_ws/src
 cd ~/ros2_ws
 
-curl -L \
-  https://raw.githubusercontent.com/RobotnikAutomation/robotnik_simulation/jazzy-devel/dependencies/repos/robotnik_simulation.repos \
-  -o /tmp/robotnik_simulation.repos
-
-vcs import src < /tmp/robotnik_simulation.repos
+vcs import --input https://raw.githubusercontent.com/jlgalanRB/robotnik_simulation/refactor/jazzy/install-docs-dependencies/dependencies/repos/robotnik_simulation.repos src/
 ```
 
 4. Install ROS 2 runtime dependencies:

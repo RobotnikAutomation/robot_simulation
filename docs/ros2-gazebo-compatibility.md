@@ -52,8 +52,6 @@ The current integration can be traced directly in the launch files:
 4. ROS 2 controllers and application nodes publish commands.
 5. Gazebo applies those commands to the simulated joints and robot body.
 
-### ROS 2 <-> Gazebo architecture
-
 ![ROS 2 Gazebo architecture](assets/img/Diagram-ros2-gazebo-architecture.png)
 
 ## Naming and versioning: Ignition, Gazebo, Fortress and Harmonic
@@ -90,8 +88,6 @@ The recommended setup is branch-specific. Each branch should document and valida
 | `humble-devel` | Humble | To be documented in its branch README | `ros_gz_*` / Gazebo integration may differ by packaging choice | Branch-specific validation required |
 
 This table is intentionally conservative: it should reflect validated branch guidance, not every theoretical combination that might compile.
-
-### Branch compatibility matrix
 
 ![Branch compatibility matrix](assets/img/Compatibility-diagram-robotnik_simulation.png)
 
@@ -223,8 +219,6 @@ Typical command path:
 - Gazebo applies them to the robot in the simulation step.
 
 This is why a robot can appear correctly in Gazebo but still fail to move if the control layer is misconfigured.
-
-### Simulation data flow
 
 ![Simulation data flow](assets/img/Simulation-data-flow-gazebo-ros2.png)
 
