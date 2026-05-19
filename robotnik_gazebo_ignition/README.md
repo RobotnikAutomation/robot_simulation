@@ -276,11 +276,11 @@ sudo apt install ros-jazzy-teleop-twist-keyboard
 
 ros2 run teleop_twist_keyboard teleop_twist_keyboard \
   --ros-args \
-  -r cmd_vel:=/robot/robotnik_base_control/cmd_vel \
+  -r cmd_vel:=/robot/robotnik_base_control/cmd_vel_unstamped \
   -p stamped:=true
 ```
 
-Replace `/robot/robotnik_base_control/cmd_vel` with the correct namespace for the `robot_id` you used when spawning the robot.
+Replace `/robot/robotnik_base_control/cmd_vel_unstamped` with the correct namespace for the `robot_id` you used when spawning the robot.
 
 You can also use the RViz teleoperation panel shown on the bottom right when the `ros-visualization/visualization_tutorials` plugin is available in the workspace.
 
