@@ -86,8 +86,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "world_path",
             default_value=PathJoinSubstitution([
-                #FindPackageShare('electrical_substation_world'), 'worlds/electrical_substation.world'
-                FindPackageShare('robotnik_gazebo_ignition'), 'worlds/demo.world',
+                FindPackageShare('robotnik_gazebo_ignition'), 'worlds/centauro_capot.world',
             ]),
             description="Path to the world file"
         ),
