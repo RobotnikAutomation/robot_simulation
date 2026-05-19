@@ -53,8 +53,10 @@ sudo apt-get install gz-harmonic
 mkdir -p ~/ros2_ws/src
 cd ~/ros2_ws
 
-vcs import --input https://raw.githubusercontent.com/jlgalanRB/robotnik_simulation/refactor/jazzy/install-docs-dependencies/dependencies/repos/robotnik_simulation.repos src/
+vcs import --input https://raw.githubusercontent.com/jlgalanRB/robotnik_simulation/refactor/jazzy/install-docs-dependencies/dependencies/repos/robotnik_simulation.jazzy.repos src/
 ```
+
+`robotnik_simulation.jazzy.repos` is the validated static release manifest. Use `jazzy-devel` when you want the development branch versions instead of the fixed functional revision set.
 
 4. Install ROS 2 runtime dependencies:
 
