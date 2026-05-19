@@ -12,6 +12,8 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>ros_gz</depend>
+  <depend>ros_gz_sim</depend>
+  <depend>ros_gz_bridge</depend>
   <depend>gz_ros2_control</depend>
   <depend>controller_manager</depend>
   <depend>control_msgs</depend>
@@ -19,8 +21,7 @@
   <depend>controller_interface</depend>
   <depend>joint_state_broadcaster</depend>
   <depend>joint_trajectory_controller</depend>
-  <depend>teleop_twist_keyboard</depend>
-  <depend>rqt_joint_trajectory_controller</depend>
+  <depend>rviz2</depend>
 
   <exec_depend>robotnik_description</exec_depend>
   <exec_depend>robotnik_sensors</exec_depend>

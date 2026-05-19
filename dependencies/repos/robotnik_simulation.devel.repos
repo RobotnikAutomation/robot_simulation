@@ -33,23 +33,23 @@ repositories:
   robotnik/robotnik_description:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_description.git
-    version: 73d11c7c1f9d45ea051c6733e8726434df8d0056
+    version: jazzy-devel
   robotnik/robotnik_sensors:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_sensors.git
-    version: afe6cc3b933c82f5733373f25fdbf00cf0846fa8
+    version: jazzy-devel
   robotnik/robotnik_common:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_common.git
-    version: 0153704842c35f115da65c7404d6ce6392f9c817
+    version: jazzy-devel
   robotnik/robotnik_interfaces:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_interfaces.git
-    version: ee903abca2ede1872b4cfa264b435f4a11e7f081
+    version: jazzy-devel
   robotnik/robotnik_moveit_configs:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_moveit_configs.git
-    version: 1715e13499ede32922ab31695cb624c881aa8deb
+    version: jazzy-devel
 
   # Third-party repositories
   ros-visualization/visualization_tutorials:
