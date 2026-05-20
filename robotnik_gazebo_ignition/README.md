@@ -328,7 +328,11 @@ After spawning the robot, you can control it using command velocity messages. Th
 - `/<robot-id>/robotnik_base_control/cmd_vel`: This topic is used to send velocity commands to the robot. The messages should be of type `geometry_msgs/msg/TwistStamped`.
 - `/<robot-id>/robotnik_base_control/cmd_vel_unstamped`: This topic is used to send velocity commands without a timestamp. The messages should be of type `geometry_msgs/msg/Twist`.
 
-Example with `teleop_twist_keyboard`:
+The simulation includes an RViz teleoperation panel by default. Once the robot is spawned and RViz is open, you can use the `Teleop` panel shown in the interface to send velocity commands directly to the robot.
+
+The panel is already configured in the provided RViz layouts and publishes to the robot command topic. If you use a different `robot_id` or namespace, update the panel topic accordingly.
+
+As an optional alternative, you can also control the robot from the keyboard with `teleop_twist_keyboard`:
 
 ```bash
 # Run in another terminal after the robot is already spawned
@@ -342,11 +346,7 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard \
 
 Replace `/robot/robotnik_base_control/cmd_vel_unstamped` with the correct namespace for the `robot_id` you used when spawning the robot.
 
-You can also use the RViz teleoperation panel shown on the bottom right when the `ros-visualization/visualization_tutorials` plugin is available in the workspace.
-
-> **Important**: the current RViz teleoperation plugin is known to publish zero-velocity commands while it remains active. This can interfere with other command sources and make the panel counterproductive in some workflows, especially when another teleoperation or navigation source is active at the same time.
-
-> **Planned change**: this behavior will be revisited in a future update. The current intention is to replace the existing RViz teleoperation panel with a Robotnik-specific plugin better adapted to the supported control flow.
+> **Important**: if multiple teleoperation or navigation sources are active at the same time, they can still interfere with each other because they publish to the same command topic.
 
 ## MoveIt compatibility
 

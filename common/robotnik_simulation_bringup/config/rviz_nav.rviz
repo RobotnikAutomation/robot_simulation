@@ -29,9 +29,12 @@ Panels:
     Name: Time
     SyncMode: 0
     SyncSource: front laser
-  - Class: rviz_plugin_tutorials/Teleop
+  - Class: teleop_panel/Teleop
+    Enabled: false
+    MaxAngular: 1
+    MaxLinear: 1
     Name: Teleop
-    Topic: robotnik_base_control/cmd_vel_unstamped
+    Topic: /robot/robotnik_base_control/cmd_vel_unstamped
   - Class: nav2_rviz_plugins/Navigation 2
     Name: Navigation 2
 Visualization Manager:

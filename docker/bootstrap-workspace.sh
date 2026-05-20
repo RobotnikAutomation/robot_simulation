@@ -11,7 +11,7 @@ required_repos=(
   "robotnik/robotnik_common"
   "robotnik/robotnik_interfaces"
   "robotnik/robotnik_moveit_configs"
-  "ros-visualization/visualization_tutorials"
+  "robotnik/teleop_panel"
 )
 
 missing_repo=false

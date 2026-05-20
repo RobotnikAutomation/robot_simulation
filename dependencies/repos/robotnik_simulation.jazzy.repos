@@ -50,9 +50,7 @@ repositories:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_moveit_configs.git
     version: 1715e13499ede32922ab31695cb624c881aa8deb
-
-  # Third-party repositories
-  ros-visualization/visualization_tutorials:
+  robotnik/teleop_panel:
     type: git
-    url: https://github.com/ros-visualization/visualization_tutorials.git
-    version: b43b3f6a867b1d799af3edba673c56d37178e847  # ros2
+    url: https://github.com/jlgalanRB/teleop_panel.git
+    version: 62383c762fdc3ee927fbe01e6f3cf3d0b381fcc1
