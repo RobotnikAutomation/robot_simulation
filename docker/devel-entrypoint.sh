@@ -7,7 +7,7 @@ CONTAINER_USERNAME="${CONTAINER_USERNAME:-robot}"
 WORKSPACE_DIR="${WORKSPACE_DIR:-${HOME}/ros2_ws}"
 SRC_DIR="${SRC_DIR:-${WORKSPACE_DIR}/src}"
 REPO_ROOT="${REPO_ROOT:-${SRC_DIR}/robotnik/robotnik_simulation}"
-EXTERNAL_REPOS_FILE="${EXTERNAL_REPOS_FILE:-${REPO_ROOT}/dependencies/repos/robotnik_simulation.jazzy-devel.repos}"
+EXTERNAL_REPOS_FILE="${EXTERNAL_REPOS_FILE:-${REPO_ROOT}/dependencies/repos/robotnik_simulation.${ROS_DISTRO}-devel.repos}"
 CONTAINER_GROUP="${CONTAINER_GROUP:-$(id -gn "${CONTAINER_USERNAME}")}"
 
 log() {

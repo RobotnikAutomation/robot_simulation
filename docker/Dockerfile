@@ -9,26 +9,12 @@ ARG USERNAME=robot
 ARG USER_UID=1000
 ARG USER_GID=1000
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl \
-    dbus-x11 \
-    git \
-    gosu \
-    gnupg \
-    libegl1 \
-    libgl1 \
-    libgl1-mesa-dri \
-    libxext6 \
-    libxi6 \
-    libxkbcommon-x11-0 \
-    libxrender1 \
-    libxtst6 \
-    lsb-release \
-    python3-colcon-common-extensions \
-    python3-rosdep \
-    python3-vcstool \
-    sudo \
-    xauth \
+COPY dependencies/requirements/builder/packages.txt /tmp/requirements/builder-packages.txt
+COPY dependencies/requirements/base/packages.txt /tmp/requirements/base-packages.txt
+
+RUN builder_packages="$(sed "s/\${ROS_DISTRO}/${ROS_DISTRO}/g" /tmp/requirements/builder-packages.txt | grep -vE '^(#|$)')" \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends ${builder_packages} \
     && rm -rf /var/lib/apt/lists/*
 
 RUN curl -fsSL https://packages.osrfoundation.org/gazebo.gpg \
@@ -36,21 +22,9 @@ RUN curl -fsSL https://packages.osrfoundation.org/gazebo.gpg \
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" \
     | tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gz-harmonic \
-    libgz-sim8-dev \
-    ros-jazzy-navigation2 \
-    ros-jazzy-chomp-motion-planner* \
-    ros-jazzy-kdl* \
-    ros-jazzy-ompl* \
-    ros-jazzy-pick-ik* \
-    ros-jazzy-pilz-industrial-motion-planner* \
-    ros-jazzy-spacenav* \
-    ros-jazzy-stomp* \
-    ros-jazzy-trac-ik* \
-    ros-jazzy-ur-description \
-    ros-jazzy-ur-simulation-gz \
-    ros-jazzy-warehouse-ros-sqlite* \
+RUN base_packages="$(sed "s/\${ROS_DISTRO}/${ROS_DISTRO}/g" /tmp/requirements/base-packages.txt | grep -vE '^(#|$)')" \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends ${base_packages} \
     && rm -rf /var/lib/apt/lists/*
 
 RUN if [ ! -f /etc/ros/rosdep/sources.list.d/20-default.list ]; then \

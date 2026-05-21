@@ -6,7 +6,7 @@ This package provides the Gazebo-based simulation layer for Robotnik robots on R
 
 > **Branch-specific guide**: `robotnik_gazebo_ignition` is maintained across ROS 2 distro branches, but the Gazebo version changes with each branch. This README documents only the validated workflow for `jazzy-devel`: ROS 2 Jazzy + Gazebo Harmonic. For conceptual background about architecture, compatibility and versioning, see [`../docs/ros2-gazebo-compatibility.md`](../docs/ros2-gazebo-compatibility.md).
 >
-> **Docker guide**: the full development Docker workflow is documented separately in [`../docs/docker.md`](../docs/docker.md).
+> **Docker guide**: the full development Docker workflow is documented separately in [`../docker/docker.md`](../docker/docker.md).
 
 ## What this package includes
 
@@ -456,7 +456,7 @@ The package includes control profiles under `robotnik_gazebo_ignition/config/pro
 
 ## Docker
 
-The full development Docker workflow is documented in [`../docs/docker.md`](../docs/docker.md).
+The full development Docker workflow is documented in [`../docker/docker.md`](../docker/docker.md).
 
 Use that guide for:
 
