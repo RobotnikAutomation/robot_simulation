@@ -50,7 +50,7 @@ repositories:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_moveit_configs.git
     version: 1715e13499ede32922ab31695cb624c881aa8deb
-  robotnik/teleop_panel:
+  robotnik/robotnik_teleop_panel:
     type: git
     url: https://github.com/RobotnikAutomation/teleop_panel.git
     version: d9c7d0f7d37857b83330e0104cf1dc545af8b3e4

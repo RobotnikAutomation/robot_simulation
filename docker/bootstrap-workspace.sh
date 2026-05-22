@@ -11,7 +11,7 @@ required_repos=(
   "robotnik/robotnik_common"
   "robotnik/robotnik_interfaces"
   "robotnik/robotnik_moveit_configs"
-  "robotnik/teleop_panel"
+  "robotnik/robotnik_teleop_panel"
 )
 
 missing_repo=false
