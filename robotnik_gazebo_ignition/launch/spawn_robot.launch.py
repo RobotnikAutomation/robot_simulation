@@ -186,25 +186,26 @@ def launch_setup(context, params):
                 (f"/{robot_id}/{camera_name}_camera_depth/depth/image_raw", f"/{robot_id}/{camera_name}_rgbd_camera/depth/image_raw", "sensor_msgs/msg/Image", "gz.msgs.Image", "GZ_TO_ROS"),
             ])
 
-        def add_zivid_cameras():
-            """Add Zivid depth and color cameras from arm tool"""
+        def add_photoneo_motioncam_cameras():
+            """Add Photoneo MotionCam depth and color cameras from arm tool"""
             bridge_raw.extend([
-                # Zivid depth camera
-                (f"/{robot_id}/arm_tool_zivid2_depth/depth/image_raw", f"/{robot_id}/arm_tool_zivid2_depth/depth/image_raw", "sensor_msgs/msg/Image", "gz.msgs.Image", "GZ_TO_ROS"),
-                (f"/{robot_id}/arm_tool_zivid2_depth/depth/camera_info", f"/{robot_id}/arm_tool_zivid2_depth/depth/camera_info", "sensor_msgs/msg/CameraInfo", "gz.msgs.CameraInfo", "GZ_TO_ROS"),
-                # Zivid color camera
-                (f"/{robot_id}/arm_tool_zivid2_color/color/image_raw", f"/{robot_id}/arm_tool_zivid2_color/color/image_raw", "sensor_msgs/msg/Image", "gz.msgs.Image", "GZ_TO_ROS"),
-                (f"/{robot_id}/arm_tool_zivid2_color/color/camera_info", f"/{robot_id}/arm_tool_zivid2_color/color/camera_info", "sensor_msgs/msg/CameraInfo", "gz.msgs.CameraInfo", "GZ_TO_ROS"),
+                # Photoneo MotionCam depth camera
+                (f"/{robot_id}/arm_tool_photoneo_motioncam_depth/depth/image_raw", f"/{robot_id}/arm_tool_photoneo_motioncam_depth/depth/image_raw", "sensor_msgs/msg/Image", "gz.msgs.Image", "GZ_TO_ROS"),
+                (f"/{robot_id}/arm_tool_photoneo_motioncam_depth/depth/camera_info", f"/{robot_id}/arm_tool_photoneo_motioncam_depth/depth/camera_info", "sensor_msgs/msg/CameraInfo", "gz.msgs.CameraInfo", "GZ_TO_ROS"),
+                # Photoneo MotionCam color camera
+                (f"/{robot_id}/arm_tool_photoneo_motioncam_color/color/image_raw", f"/{robot_id}/arm_tool_photoneo_motioncam_color/color/image_raw", "sensor_msgs/msg/Image", "gz.msgs.Image", "GZ_TO_ROS"),
+                (f"/{robot_id}/arm_tool_photoneo_motioncam_color/color/camera_info", f"/{robot_id}/arm_tool_photoneo_motioncam_color/color/camera_info", "sensor_msgs/msg/CameraInfo", "gz.msgs.CameraInfo", "GZ_TO_ROS"),
             ])
 
         add_camera("front")
         add_camera("rear")
         add_camera("top_ptz")
-        #add_depth_camera("front")
+        add_depth_camera("front")
+        add_depth_camera("rear")
         add_laser("front")
         add_laser("rear")
         add_pointcloud("top")
-        add_zivid_cameras()
+        add_photoneo_motioncam_cameras()
 
         bridge_config = [{"ros_topic_name": ros, "gz_topic_name": gz, "ros_type_name": ros_type, "gz_type_name": gz_type, "direction": direction} for gz, ros, ros_type, gz_type, direction in bridge_raw]
         with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp:
@@ -307,7 +308,7 @@ def launch_setup(context, params):
 
     use_sim_time = {"use_sim_time": True}
 
-    # Depth to PointCloud converter for Zivid camera
+    # Depth to PointCloud converter for Photoneo MotionCam camera
     ret.append(Node(
         package='robotnik_simulation_bringup',
         executable='depth_to_pointcloud_node.py',
@@ -315,9 +316,9 @@ def launch_setup(context, params):
         name='depth_to_pointcloud_converter',
         parameters=[use_sim_time],
         remappings=[
-            ('depth/image_raw', 'arm_tool_zivid2_depth/depth/image_raw'),
-            ('depth/camera_info', 'arm_tool_zivid2_depth/depth/camera_info'),
-            ('depth/points', 'arm_tool_zivid2_depth/depth/points'),
+            ('depth/image_raw', 'arm_tool_photoneo_motioncam_depth/depth/image_raw'),
+            ('depth/camera_info', 'arm_tool_photoneo_motioncam_depth/depth/camera_info'),
+            ('depth/points', 'arm_tool_photoneo_motioncam_depth/depth/points'),
         ],
         output='screen',
     ))
