@@ -189,6 +189,19 @@ def generate_launch_description():
         actions=[navigation]
     )
 
+    tf_target_publisher = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution([
+                 FindPackageShare('tf_target_publisher'), 'launch/tf_target_publisher.launch.py'
+            ])
+        ),
+    )
+
+    delayed_tf_target_publisher = TimerAction(
+        period=20.0,
+        actions=[tf_target_publisher]
+    )
+
     rviz = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution([
@@ -232,6 +245,7 @@ def generate_launch_description():
         laser_filters,
         delayed_localization,
         delayed_navigation,
+        delayed_tf_target_publisher,
         delayed_rviz,
         delayed_moveit,
     ])

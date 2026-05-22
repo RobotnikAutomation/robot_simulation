@@ -8,9 +8,9 @@ Panels:
         - /PointCloud21/Topic1
         - /Map1/Topic1
         - /Map1/Update Topic1
-        - /WristCameraImage1/Status1
+        - /WristCameraImage1
       Splitter Ratio: 0.5
-    Tree Height: 294
+    Tree Height: 343
   - Class: rviz_common/Selection
     Name: Selection
   - Class: rviz_common/Tool Properties
@@ -109,6 +109,26 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        robot_arm_tool_photoneo_motioncam_color_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        robot_arm_tool_photoneo_motioncam_color_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        robot_arm_tool_photoneo_motioncam_depth_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        robot_arm_tool_photoneo_motioncam_depth_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        robot_arm_tool_photoneo_motioncam_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         robot_arm_tool_sander_link:
           Alpha: 1
           Show Axes: false
@@ -118,26 +138,6 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        robot_arm_tool_zivid_color_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        robot_arm_tool_zivid_color_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        robot_arm_tool_zivid_depth_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        robot_arm_tool_zivid_depth_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        robot_arm_tool_zivid_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         robot_arm_upper_arm_link:
           Alpha: 1
           Show Axes: false
@@ -321,19 +321,19 @@ Visualization Manager:
           Value: true
         robot_arm_tool0:
           Value: true
+        robot_arm_tool_photoneo_motioncam_color_frame:
+          Value: true
+        robot_arm_tool_photoneo_motioncam_color_optical_frame:
+          Value: true
+        robot_arm_tool_photoneo_motioncam_depth_frame:
+          Value: true
+        robot_arm_tool_photoneo_motioncam_depth_optical_frame:
+          Value: true
+        robot_arm_tool_photoneo_motioncam_link:
+          Value: true
         robot_arm_tool_sander_link:
           Value: true
         robot_arm_tool_tool_link:
-          Value: true
-        robot_arm_tool_zivid_color_frame:
-          Value: true
-        robot_arm_tool_zivid_color_optical_frame:
-          Value: true
-        robot_arm_tool_zivid_depth_frame:
-          Value: true
-        robot_arm_tool_zivid_depth_optical_frame:
-          Value: true
-        robot_arm_tool_zivid_link:
           Value: true
         robot_arm_upper_arm_link:
           Value: true
@@ -471,15 +471,15 @@ Visualization Manager:
                                     robot_arm_flange:
                                       robot_arm_tool0:
                                         robot_arm_tool_tool_link:
+                                          robot_arm_tool_photoneo_motioncam_link:
+                                            robot_arm_tool_photoneo_motioncam_color_frame:
+                                              robot_arm_tool_photoneo_motioncam_color_optical_frame:
+                                                {}
+                                            robot_arm_tool_photoneo_motioncam_depth_frame:
+                                              robot_arm_tool_photoneo_motioncam_depth_optical_frame:
+                                                {}
                                           robot_arm_tool_sander_link:
                                             {}
-                                          robot_arm_tool_zivid_link:
-                                            robot_arm_tool_zivid_color_frame:
-                                              robot_arm_tool_zivid_color_optical_frame:
-                                                {}
-                                            robot_arm_tool_zivid_depth_frame:
-                                              robot_arm_tool_zivid_depth_optical_frame:
-                                                {}
                                     robot_arm_ft_frame:
                                       {}
       Update Interval: 0
@@ -700,7 +700,7 @@ Visualization Manager:
       Channel Name: intensity
       Class: rviz_default_plugins/PointCloud2
       Color: 255; 255; 255
-      Color Transformer: ""
+      Color Transformer: Intensity
       Decay Time: 0
       Enabled: true
       Invert Rainbow: false
@@ -709,7 +709,7 @@ Visualization Manager:
       Min Color: 0; 0; 0
       Min Intensity: 0
       Name: WristCameraPointCloud
-      Position Transformer: ""
+      Position Transformer: XYZ
       Selectable: true
       Size (Pixels): 3
       Size (m): 0.009999999776482582
@@ -719,7 +719,7 @@ Visualization Manager:
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /robot/cost_cloud
+        Value: /robot/arm_tool_photoneo_motioncam_depth/depth/points
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
@@ -735,7 +735,7 @@ Visualization Manager:
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /robot/arm_tool_zivid2_color/color/image_raw
+        Value: /robot/arm_tool_photoneo_motioncam_color/color/image_raw
       Value: true
   Enabled: true
   Global Options:
@@ -798,10 +798,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.5047963261604309
+      Pitch: 0.4997960925102234
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 2.3672118186950684
+      Yaw: 3.7072091102600098
     Saved: ~
 Window Geometry:
   Displays:
@@ -813,7 +813,7 @@ Window Geometry:
   Hide Right Dock: false
   Navigation 2:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000400000000000001ee00000351fc020000000afb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005d00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003f000001b4000000cc00fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000002000460072006f006e007400430061006d0065007200610049006d00610067006501000001f9000000cb0000001700fffffffb000000200057007200690073007400430061006d0065007200610049006d00610067006501000002ca000000c60000001700ffffff000000010000014a00000351fc0200000005fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073010000003f000000a9000000a900fffffffb00000018004e0061007600690067006100740069006f006e0020003201000000ee000001f8000001e300fffffffb0000000c00540065006c0065006f007001000002ec000000a40000004a00fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000073e0000003efc0100000002fb0000000800540069006d006501000000000000073e0000026f00fffffffb0000000800540069006d00650100000000000004500000000000000000000003fa0000035100000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000400000000000001ee00000351fc020000000afb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005d00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003f000001e5000000cc00fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000002000460072006f006e007400430061006d0065007200610049006d006100670065010000022a000000cb0000001700fffffffb000000200057007200690073007400430061006d0065007200610049006d00610067006501000002fb000000950000001700ffffff000000010000014a00000351fc0200000005fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073010000003f000000a9000000a900fffffffb00000018004e0061007600690067006100740069006f006e0020003201000000ee000001f8000001f800fffffffb0000000c00540065006c0065006f007001000002ec000000a40000004a00fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000073e0000003efc0100000002fb0000000800540069006d006501000000000000073e0000026f00fffffffb0000000800540069006d00650100000000000004500000000000000000000003fa0000035100000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Teleop:
