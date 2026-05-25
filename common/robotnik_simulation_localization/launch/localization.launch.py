@@ -47,6 +47,11 @@ def generate_launch_description():
             description="Enable simulation"
         ),
         DeclareLaunchArgument(
+            "frame_prefix",
+            default_value=[LaunchConfiguration("robot_id"), "_"],
+            description="Prefix for TF frames"
+        ),
+        DeclareLaunchArgument(
             "run_mapping",
             default_value="false",
             description="Run mapping instead of localization"
@@ -55,6 +60,7 @@ def generate_launch_description():
 
     robot_id = LaunchConfiguration("robot_id")
     use_sim = LaunchConfiguration("use_sim")
+    frame_prefix = LaunchConfiguration("frame_prefix")
     run_mapping = LaunchConfiguration("run_mapping")
 
     localization_2d = IncludeLaunchDescription(
@@ -66,6 +72,7 @@ def generate_launch_description():
         launch_arguments={
             'robot_id': robot_id,
             'use_sim': use_sim,
+            'frame_prefix': frame_prefix,
         }.items(),
         condition=UnlessCondition(run_mapping)
     )
@@ -79,6 +86,7 @@ def generate_launch_description():
         launch_arguments={
             'robot_id': robot_id,
             'use_sim': use_sim,
+            'frame_prefix': frame_prefix,
         }.items(),
         condition=IfCondition(run_mapping)
     )

@@ -28,16 +28,20 @@ from launch import LaunchDescription
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 from launch.actions import GroupAction
+from robotnik_common.launch import ConfigFile
 
 def generate_launch_description():
 
     robot_id = LaunchConfiguration("robot_id")
     use_sim = LaunchConfiguration("use_sim", default="true")
+    frame_prefix = LaunchConfiguration("frame_prefix")
 
     slam_toolbox_config = PathJoinSubstitution([
         FindPackageShare('robotnik_simulation_localization'),
         'config/slam_toolbox.yaml'
     ])
+
+    slam_toolbox_params = ConfigFile(slam_toolbox_config)
 
     slam_toolbox_mapping = Node(
         package='slam_toolbox',
@@ -45,7 +49,7 @@ def generate_launch_description():
         name='slam_toolbox_mapping',
         output='screen',
         parameters=[
-            slam_toolbox_config,
+            slam_toolbox_params,
             {
                 'use_sim_time': use_sim,
                 'use_lifecycle_manager': True,
