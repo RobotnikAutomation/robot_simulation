@@ -74,6 +74,11 @@ def generate_launch_description():
             description="Enable rviz gui"
         ),
         DeclareLaunchArgument(
+            "frame_prefix",
+            default_value=[LaunchConfiguration("robot_id"), "_"],
+            description="Prefix for TF frames"
+        ),
+        DeclareLaunchArgument(
             "run_moveit",
             default_value="false",
             description="Enable MoveIt for manipulation"
@@ -101,6 +106,7 @@ def generate_launch_description():
     low_performance_simulation = LaunchConfiguration("low_performance_simulation")
     world_path = LaunchConfiguration("world_path")
     use_rviz = LaunchConfiguration("use_rviz")
+    frame_prefix = LaunchConfiguration("frame_prefix")
     run_moveit = LaunchConfiguration("run_moveit")
     arm_type = LaunchConfiguration("arm_type")
 
@@ -147,6 +153,7 @@ def generate_launch_description():
         launch_arguments={
             'robot_id': robot_id,
             'use_sim': 'true',
+            'frame_prefix': frame_prefix,
         }.items(),
         condition=IfCondition(
             OrSubstitution(
@@ -165,6 +172,7 @@ def generate_launch_description():
         launch_arguments={
             'robot_id': robot_id,
             'use_sim': 'true',
+            'frame_prefix': frame_prefix,
         }.items()
     )
 
@@ -182,6 +190,7 @@ def generate_launch_description():
         launch_arguments={
             'robot_id': robot_id,
             'use_sim': 'true',
+            'frame_prefix': frame_prefix,
         }.items()
     )
 
@@ -196,6 +205,11 @@ def generate_launch_description():
                  FindPackageShare('robotnik_simulation_bringup'), 'launch/rviz.launch.py'
             ])
         ),
+        launch_arguments={
+            'robot_id': robot_id,
+            'use_sim': 'true',
+            'frame_prefix': frame_prefix,
+        }.items(),
         condition=IfCondition(use_rviz)
     )
 

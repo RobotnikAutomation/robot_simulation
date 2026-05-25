@@ -24,29 +24,46 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 from launch import LaunchDescription
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
-from launch_ros.substitutions import FindPackageShare
-from launch_ros.actions import Node
 from launch.substitutions import LaunchConfiguration
-from launch.actions import GroupAction
+from launch_ros.actions import Node
+from launch.actions import GroupAction, DeclareLaunchArgument
 
 def generate_launch_description():
+    declared_arguments = [
+        DeclareLaunchArgument(
+            "robot_id",
+            default_value="robot",
+            description="Name for launch and config resources"
+        ),
+        DeclareLaunchArgument(
+            "use_sim",
+            default_value="true",
+            description="Enable simulation"
+        ),
+        DeclareLaunchArgument(
+            "frame_prefix",
+            default_value=[LaunchConfiguration("robot_id"), "_"],
+            description="Prefix for TF frames"
+        ),
+    ]
 
     robot_id = LaunchConfiguration("robot_id")
     use_sim = LaunchConfiguration("use_sim")
+    frame_prefix = LaunchConfiguration("frame_prefix")
 
     pointcloud_to_laserscan = Node(
         package='pointcloud_to_laserscan',
         executable='pointcloud_to_laserscan_node',
         name='pointcloud_to_laserscan',
+        namespace=robot_id,
         output='screen',
         remappings=[
-            ('cloud_in', '/robot/top_laser/points'),
-            ('scan', '/robot/front_laser/scan')
+            ('cloud_in', 'top_laser/points'),
+            ('scan', 'front_laser/scan')
         ],
         parameters=[{
-            'use_sim_time': True,
-            'target_frame': 'robot_base_link',
+            'use_sim_time': use_sim,
+            'target_frame': [frame_prefix, 'base_link'],
             'transform_tolerance': 0.2,
             'min_height': 0.0,
             'max_height': 1.0,
@@ -64,4 +81,4 @@ def generate_launch_description():
         pointcloud_to_laserscan,
     ])
 
-    return LaunchDescription([group])
+    return LaunchDescription(declared_arguments + [group])

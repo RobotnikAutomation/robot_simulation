@@ -30,8 +30,8 @@ from launch_ros.actions import PushRosNamespace
 from launch.actions import GroupAction, DeclareLaunchArgument
 from launch.substitutions import PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
-from launch.actions import GroupAction
 from launch.substitutions import PythonExpression
+from robotnik_common.launch import ConfigFile
 
 def generate_launch_description():
 
@@ -55,6 +55,14 @@ def generate_launch_description():
 
     declared_arguments.append(
         DeclareLaunchArgument(
+            "frame_prefix",
+            default_value=[LaunchConfiguration("robot_id"), "_"],
+            description="Prefix for TF frames"
+        )
+    )
+
+    declared_arguments.append(
+        DeclareLaunchArgument(
             "rviz_name",
             default_value="rviz_nav",
             description="Rviz config name"
@@ -63,6 +71,7 @@ def generate_launch_description():
 
     robot_id = LaunchConfiguration("robot_id")
     use_sim = LaunchConfiguration("use_sim")
+    frame_prefix = LaunchConfiguration("frame_prefix")
     rviz_name = LaunchConfiguration("rviz_name")
 
     rviz_config_path = PathJoinSubstitution([
@@ -71,13 +80,15 @@ def generate_launch_description():
         PythonExpression(["'", rviz_name, ".rviz'"])
     ])
 
+    rviz_config = ConfigFile(rviz_config_path)
+
     rviz = Node(
         package='rviz2',
         executable='rviz2',
         name='rviz2',
         output='screen',
         parameters=[{'use_sim_time': use_sim}],
-        arguments=['-d', rviz_config_path]
+        arguments=['-d', rviz_config]
     )
 
     group = GroupAction([
