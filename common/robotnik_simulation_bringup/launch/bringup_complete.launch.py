@@ -227,7 +227,7 @@ def generate_launch_description():
             'robot': robot,
             'robot_model': robot_model,
             'robot_xacro_path': robot_xacro_path,
-            'moveit_config_name': [robot, '_moveit_config'],
+            'moveit_config_name': [robot_model, '_moveit_config'],
             'arm_type': arm_type,
             'use_sim_time': 'true',
         }.items(),
