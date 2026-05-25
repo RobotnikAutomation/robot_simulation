@@ -24,16 +24,17 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 from launch import LaunchDescription
-from launch.substitutions import LaunchConfiguration
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.actions import Node
 from launch.actions import GroupAction
+from robotnik_common.launch import ConfigFile
 
 def generate_launch_description():
 
     robot_id = LaunchConfiguration("robot_id")
     use_sim = LaunchConfiguration("use_sim")
+    frame_prefix = LaunchConfiguration("frame_prefix")
 
     waypoint_config = PathJoinSubstitution([
         FindPackageShare('robotnik_simulation_navigation'),
@@ -50,12 +51,15 @@ def generate_launch_description():
         'config/graph/demo_map_graph.geojson'
     ])
 
+    waypoint_params = ConfigFile(waypoint_config)
+    route_params = ConfigFile(route_config)
+
     waypoint_follower = Node(
         package='nav2_waypoint_follower',
         executable='waypoint_follower',
         name='waypoint_follower',
         output='screen',
-        parameters=[waypoint_config, {'use_sim_time': use_sim}]
+        parameters=[waypoint_params, {'use_sim_time': use_sim}]
     )
 
     # No full available in Jazzy
@@ -66,7 +70,7 @@ def generate_launch_description():
         output='screen',
         respawn_delay=2.0,
         parameters=[
-            route_config,
+            route_params,
             {
                 'use_sim_time': use_sim,
                 'graph_filepath': route_graph_filepath

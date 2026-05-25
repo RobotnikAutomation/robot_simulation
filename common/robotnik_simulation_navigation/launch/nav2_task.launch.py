@@ -28,11 +28,13 @@ from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.actions import Node
 from launch.actions import GroupAction
+from robotnik_common.launch import ConfigFile
 
 def generate_launch_description():
     
     robot_id = LaunchConfiguration("robot_id")
     use_sim = LaunchConfiguration("use_sim")
+    frame_prefix = LaunchConfiguration("frame_prefix")
 
     # Nav2 core node configurations
 
@@ -75,6 +77,12 @@ def generate_launch_description():
         'config/behavior_trees/navigate_through_poses.xml'
     ])
 
+    controller_params = ConfigFile(controller_config)
+    planner_params = ConfigFile(planner_config)
+    behavior_params = ConfigFile(behavior_config)
+    smoother_params = ConfigFile(smoother_config)
+    bt_navigator_params = ConfigFile(bt_navigator_config)
+
     # Nav2 core nodes
 
     controller_server = Node(
@@ -82,7 +90,7 @@ def generate_launch_description():
         executable='controller_server',
         name='controller_server',
         output='screen',
-        parameters=[controller_config, {'use_sim_time': use_sim}],
+        parameters=[controller_params, {'use_sim_time': use_sim}],
         remappings=[
             ('cmd_vel', 'robotnik_base_control/cmd_vel'),
             ('odom', 'robotnik_base_control/odom'),
@@ -94,7 +102,7 @@ def generate_launch_description():
         executable='planner_server',
         name='planner_server',
         output='screen',
-        parameters=[planner_config, {'use_sim_time': use_sim}],
+        parameters=[planner_params, {'use_sim_time': use_sim}],
     )
 
     # Nav2 auxiliary nodes
@@ -104,7 +112,7 @@ def generate_launch_description():
         executable='behavior_server',
         name='behavior_server',
         output='screen',
-        parameters=[behavior_config, {'use_sim_time': use_sim}],
+        parameters=[behavior_params, {'use_sim_time': use_sim}],
         remappings=[
             ('cmd_vel', 'robotnik_base_control/cmd_vel')
         ] 
@@ -115,7 +123,7 @@ def generate_launch_description():
         executable='smoother_server',
         name='smoother_server',
         output='screen',
-        parameters=[smoother_config, {'use_sim_time': use_sim}],
+        parameters=[smoother_params, {'use_sim_time': use_sim}],
     )
 
 
@@ -127,7 +135,7 @@ def generate_launch_description():
         name='bt_navigator',
         output='screen',
         parameters=[
-            bt_navigator_config,
+            bt_navigator_params,
             {
                 'use_sim_time': use_sim,
                 'default_nav_to_pose_bt_xml': bt_navigator_pose_xml,

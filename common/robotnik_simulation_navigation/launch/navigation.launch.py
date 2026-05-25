@@ -44,11 +44,17 @@ def generate_launch_description():
             "use_sim",
             default_value="true",
             description="Enable simulation"
+        ),
+        DeclareLaunchArgument(
+            "frame_prefix",
+            default_value=[LaunchConfiguration("robot_id"), "_"],
+            description="Prefix for TF frames"
         )
     ]
 
     robot_id = LaunchConfiguration("robot_id")
     use_sim = LaunchConfiguration("use_sim")
+    frame_prefix = LaunchConfiguration("frame_prefix")
 
     nav2_task = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -59,6 +65,7 @@ def generate_launch_description():
         launch_arguments={
             'robot_id': robot_id,
             'use_sim': use_sim,
+            'frame_prefix': frame_prefix,
         }.items()
     )
 
@@ -71,6 +78,7 @@ def generate_launch_description():
         launch_arguments={
             'robot_id': robot_id,
             'use_sim': use_sim,
+            'frame_prefix': frame_prefix,
         }.items()
     )
 
