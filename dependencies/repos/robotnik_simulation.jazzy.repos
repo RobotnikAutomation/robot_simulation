@@ -33,7 +33,7 @@ repositories:
   robotnik/robotnik_description:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_description.git
-    version: 73d11c7c1f9d45ea051c6733e8726434df8d0056
+    version: 76d883039c99f80ca3cb8645dd7c39210d101a1f
   robotnik/robotnik_sensors:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_sensors.git
@@ -49,7 +49,7 @@ repositories:
   robotnik/robotnik_moveit_configs:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_moveit_configs.git
-    version: 1715e13499ede32922ab31695cb624c881aa8deb
+    version: 45bc50947eafc3f1abd2492e9ac0e367843882e5
   robotnik/robotnik_teleop_panel:
     type: git
     url: https://github.com/RobotnikAutomation/teleop_panel.git
