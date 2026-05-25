@@ -25,6 +25,7 @@
 
   <exec_depend>robotnik_description</exec_depend>
   <exec_depend>robotnik_sensors</exec_depend>
+  <exec_depend>teleop_panel</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
