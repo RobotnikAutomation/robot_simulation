@@ -30,87 +30,18 @@ import os
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription, OpaqueFunction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch_ros.parameter_descriptions import ParameterValue
 from launch.substitutions import LaunchConfiguration
-from launch.substitutions import SubstitutionFailure
-from launch.substitutions import Command, FindExecutable
-from launch.substitutions import PathJoinSubstitution
 
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 
-from robotnik_common.launch import AddArgumentParser, ExtendedArgument
+from robotnik_common.launch import AddArgumentParser, ConfigFile, ExtendedArgument
 
 
 from pathlib import Path
-from tempfile import NamedTemporaryFile
-from typing import Union, Optional
-from launch import SomeSubstitutionsType, SomeSubstitutionsType_types_tuple
-from launch.frontend.parse_substitution import parse_substitution
-from launch.utilities import normalize_to_list_of_substitutions, perform_substitutions
-from launch.utilities.typing_file_path import FilePath
-from launch.substitution import Substitution
 
 from launch import LaunchContext
 from launch.conditions import IfCondition
-
-
-# TODO: move this utility class into robotnik_common
-class ConfigFile(Substitution):
-    """Substitution to get the path of the configuration file."""
-
-    def __init__(
-        self,
-        param_file: Union[FilePath, SomeSubstitutionsType],
-    ) -> None:
-        """
-        Construct a parameter file description.
-
-        :param param_file: The path to the parameter file or a substitution that resolves to it.
-        """
-        self.__evaluated_param_file: Optional[Path] = None
-        self.__created_tmp_file = False
-
-        self.__param_file = param_file
-        if isinstance(param_file, SomeSubstitutionsType_types_tuple):
-            self.__param_file = normalize_to_list_of_substitutions(param_file)  # type: ignore
-
-    def perform(self, context: LaunchContext) -> str:
-        """Substitute the parameter file path."""
-        param_file = self.__param_file
-        if isinstance(param_file, list):
-            # list of substitutions
-            param_file = perform_substitutions(context, self.__param_file)  # type: ignore
-
-        param_file_path: Path = Path(param_file)  # type: ignore
-        with open(param_file_path, 'r') as f, NamedTemporaryFile(
-                mode='w', prefix='launch_params_', delete=False
-            ) as h:
-                parsed = perform_substitutions(context, parse_substitution(f.read()))  # type: ignore
-                try:
-                    yaml.safe_load(parsed)
-                except Exception:
-                    raise SubstitutionFailure(
-                        'The substituted parameter file is not a valid yaml file')
-                h.write(parsed)
-                param_file_path = Path(h.name)
-                self.__created_tmp_file = True
-        self.__evaluated_param_file = param_file_path
-        return str(param_file_path)
-
-    def cleanup(self) -> None:
-        """Remove the temporary file if it was created."""
-        if self.__created_tmp_file and self.__evaluated_param_file is not None:
-            try:
-                self.__evaluated_param_file.unlink()
-            except FileNotFoundError:
-                # The file may have been deleted already, ignore this error
-                pass
-            self.__evaluated_param_file = None
-
-    def __del__(self):
-        """Clean up the temporary file when the object is deleted."""
-        self.cleanup()
 
 
 def load_yaml(package_path, relative_path):
