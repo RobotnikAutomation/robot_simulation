@@ -24,7 +24,7 @@
         track_unknown_space: true
         plugins: ["static_layer", "inflation_layer"]
         static_layer:
-          map_topic: map
+          map_topic: /$(var robot_id)/map
           plugin: "nav2_costmap_2d::StaticLayer"
           map_subscribe_transient_local: true
         inflation_layer:
