@@ -11,8 +11,13 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
+  <exec_depend>chomp_motion_planner</exec_depend>
+  <exec_depend>moveit_kinematics</exec_depend>
   <exec_depend>moveit_configs_utils</exec_depend>
+  <exec_depend>moveit_planners_ompl</exec_depend>
+  <exec_depend>moveit_planners_stomp</exec_depend>
   <exec_depend>moveit_ros_move_group</exec_depend>
+  <exec_depend>pilz_industrial_motion_planner</exec_depend>
   <exec_depend>robotnik_description</exec_depend>
   <exec_depend>robotnik_gazebo_ignition</exec_depend>
   <exec_depend>rviz2</exec_depend>
