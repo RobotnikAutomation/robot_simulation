@@ -45,7 +45,9 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-
 ```bash
 # Run after adding the Gazebo package repository
 sudo apt-get update
-sudo apt-get install gz-harmonic
+sudo apt-get install -y \
+  gz-harmonic \
+  libgz-sim8-dev
 ```
 
 3. Create the workspace and import the canonical repository manifest for `jazzy-devel`:
@@ -60,39 +62,7 @@ vcs import --input https://raw.githubusercontent.com/jlgalanRB/robotnik_simulati
 
 `robotnik_simulation.jazzy.repos` is the validated static release manifest. Use `jazzy-devel` when you want the development branch versions instead of the fixed functional revision set.
 
-4. Install ROS 2 runtime dependencies:
-
-```bash
-# Run on the target machine to install manual runtime extras
-sudo apt-get update
-
-# Gazebo system library
-sudo apt-get install -y \
-  libgz-sim8-dev
-
-# Navigation stack convenience metapackage
-sudo apt-get install -y \
-  ros-jazzy-navigation2
-
-# MoveIt planning extras not yet covered by the current package manifests
-sudo apt-get install -y \
-  ros-jazzy-chomp-motion-planner* \
-  ros-jazzy-kdl* \
-  ros-jazzy-ompl* \
-  ros-jazzy-pick-ik* \
-  ros-jazzy-pilz-industrial-motion-planner* \
-  ros-jazzy-trac-ik* \
-  ros-jazzy-stomp* \
-  ros-jazzy-spacenav* \
-  ros-jazzy-warehouse-ros-sqlite*
-
-# Universal Robots support
-sudo apt-get install -y \
-  ros-jazzy-ur-simulation-gz \
-  ros-jazzy-ur-description
-```
-
-5. Install the Robotnik-specific prebuilt debs shipped in this repository:
+4. Install the Robotnik-specific prebuilt debs shipped in this repository:
 
 ```bash
 # Run from the repository root inside the workspace
@@ -100,7 +70,7 @@ cd ~/ros2_ws/src/robotnik/robotnik_simulation
 sudo apt-get install -y ./debs/ros-jazzy-*.deb
 ```
 
-6. Resolve remaining dependencies:
+5. Resolve the remaining dependencies and build the workspace:
 
 ```bash
 # Run from the workspace root after importing all repositories
@@ -108,86 +78,44 @@ source /opt/ros/jazzy/setup.bash
 cd ~/ros2_ws
 rosdep update
 rosdep install --from-paths src --ignore-src -r -y
-```
-
-7. Build the workspace:
-
-```bash
-# Run from the workspace root to build and source the environment
-cd ~/ros2_ws
 colcon build --symlink-install
 source install/setup.bash
 ```
 
-## GPU verification guide
-
-If you want to check whether NVIDIA is available and whether Gazebo is really using it for rendering, use this quick verification flow. The same checks can be run either on the host or inside the Docker container, depending on where you plan to execute the simulation.
-
-### 1. Verify that the NVIDIA driver is available
-
-Run:
-
-```bash
-nvidia-smi
-```
-
-If this command fails, NVIDIA is not available in the current environment.
-
-### 2. Check which OpenGL renderer is being used
-
-If `glxinfo` is not available in the current environment, install `mesa-utils` first:
-
-```bash
-sudo apt-get update
-sudo apt-get install -y mesa-utils
-```
-
-Then run:
-
-```bash
-glxinfo | grep "OpenGL renderer"
-```
-
-Typical outcomes:
-
-- `NVIDIA`: Gazebo should be using NVIDIA for OpenGL rendering.
-- `Mesa Intel(...)`: rendering is going through the integrated Intel GPU.
-- `llvmpipe`: rendering is falling back to software mode.
-
-### 3. Hybrid Intel/NVIDIA systems
-
-On hybrid Intel/NVIDIA systems, Gazebo may still render through Intel even if NVIDIA is available. In that case, you can force NVIDIA when launching `spawn_world`.
-
-The examples in this README include the required prefixes where appropriate.
-
 ## Quick start
 
-Once the installation is complete and the workspace is built, this is the minimum validated flow to check that the simulation is working.
+Once the installation is complete and the workspace is built, these are the fastest validated ways to get `rbwatcher` running.
 
-> **Important**: `spawn_robot.launch.py` requires an active Gazebo simulation. Launch a world first and keep it running. The robot spawn command does not start Gazebo by itself.
+### Option 1: Integrated bringup for `rbwatcher`
+
+```bash
+# Run after building the workspace
+source ~/ros2_ws/install/setup.bash
+ros2 launch robotnik_simulation_bringup bringup_complete.launch.py \
+  robot:=rbwatcher \
+  robot_model:=rbwatcher \
+  use_rviz:=true
+```
+
+### Option 2: Standalone world + robot flow for `rbwatcher`
 
 Terminal 1:
 
 ```bash
-# Run in a dedicated terminal after building the workspace
+# Run after building the workspace
 source ~/ros2_ws/install/setup.bash
 ros2 launch robotnik_gazebo_ignition spawn_world.launch.py world:=empty
-```
-
-If the machine uses hybrid graphics and you want to force Gazebo to run on an NVIDIA GPU, you can launch the world with:
-
-```bash
-source ~/ros2_ws/install/setup.bash
-__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia \
-  ros2 launch robotnik_gazebo_ignition spawn_world.launch.py world:=empty
 ```
 
 Terminal 2:
 
 ```bash
-# Run in a second terminal while Gazebo is already running
+# Run while Gazebo is already active
 source ~/ros2_ws/install/setup.bash
-ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbwatcher
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py \
+  robot:=rbwatcher \
+  robot_model:=rbwatcher \
+  run_rviz:=true
 ```
 
 ## Usage
@@ -204,13 +132,6 @@ ros2 launch robotnik_gazebo_ignition spawn_world.launch.py world:=empty
 
 # Run to start the same world without the Gazebo GUI
 ros2 launch robotnik_gazebo_ignition spawn_world.launch.py world:=empty gui:=false
-```
-
-If the host has NVIDIA graphics and you want to force Gazebo to use it, launch the world with:
-
-```bash
-__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia \
-  ros2 launch robotnik_gazebo_ignition spawn_world.launch.py world:=empty
 ```
 
 #### Advanced
@@ -320,6 +241,7 @@ Description package is [robotnik_description](https://github.com/RobotnikAutomat
 #### Notes
 
 - Use a unique `robot_id` when spawning multiple robots in the same world to avoid name conflicts in topics and frames.
+- For additional launch variants, GPU-specific notes and troubleshooting guidance, see [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md).
 
 ## Control the robot
 
@@ -443,17 +365,6 @@ ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py \
 
 The package includes control profiles under `robotnik_gazebo_ignition/config/profile`. These profiles can be used to adjust topics, frames, velocities and controller settings for different Robotnik robots.
 
-## Troubleshooting
-
-- The robot does not appear in the simulation:
-  confirm that a Gazebo world is already running before launching `spawn_robot.launch.py`.
-- The expected ROS 2 topics are missing:
-  review the selected `robot_id`, the namespace in use and the active bridges.
-- MoveIt does not connect or interact correctly:
-  confirm that the robot was launched with `robot_id:=robot`.
-- The robot does not respond to control commands:
-  review the control topics, the selected controller setup and the active simulation state.
-
 ## Docker
 
 The full development Docker workflow is documented in [`../docker/docker.md`](../docker/docker.md).
@@ -472,3 +383,4 @@ Use that guide for:
 - Conceptual ROS 2 + Gazebo guide: [`../docs/ros2-gazebo-compatibility.md`](../docs/ros2-gazebo-compatibility.md)
 - Integrated simulation bringup: [`../common/robotnik_simulation_bringup/README.md`](../common/robotnik_simulation_bringup/README.md)
 - Standalone MoveIt flow: [`../common/robotnik_simulation_moveit/README.md`](../common/robotnik_simulation_moveit/README.md)
+- GPU notes and troubleshooting: [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md)
