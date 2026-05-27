@@ -10,8 +10,6 @@ services:
       args:
         USER_UID: ${LOCAL_UID:-1000}
         USER_GID: ${LOCAL_GID:-1000}
-    env_file:
-      - ../env/robot.env
     network_mode: host
     privileged: true
     stdin_open: true
@@ -22,10 +20,12 @@ services:
       ROS_DOMAIN_ID: ${ROS_DOMAIN_ID:-0}
       WORKSPACE_DIR: /opt/robotnik_ws
       RUNTIME_AUTOSTART: ${RUNTIME_AUTOSTART:-true}
+      ROBOTNIK_ENV_FILE: /opt/robotnik/config/env/robot.env
       ROBOTNIK_LAUNCH_PACKAGE: ${ROBOTNIK_LAUNCH_PACKAGE:-robotnik_simulation_bringup}
       ROBOTNIK_LAUNCH_FILE: ${ROBOTNIK_LAUNCH_FILE:-bringup_complete.launch.py}
       ROBOTNIK_LAUNCH_ARGS: ${ROBOTNIK_LAUNCH_ARGS:-}
     devices:
       - /dev/dri:/dev/dri
     volumes:
+      - ../env/robot.env:/opt/robotnik/config/env/robot.env:ro
       - /tmp/.X11-unix:/tmp/.X11-unix

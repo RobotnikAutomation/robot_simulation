@@ -6,6 +6,7 @@ ROS_DISTRO="${ROS_DISTRO:-jazzy}"
 CONTAINER_USERNAME="${CONTAINER_USERNAME:-robot}"
 WORKSPACE_DIR="${WORKSPACE_DIR:-/opt/robotnik_ws}"
 RUNTIME_AUTOSTART="${RUNTIME_AUTOSTART:-true}"
+ROBOTNIK_ENV_FILE="${ROBOTNIK_ENV_FILE:-/opt/robotnik/config/env/robot.env}"
 ROBOTNIK_LAUNCH_PACKAGE="${ROBOTNIK_LAUNCH_PACKAGE:-robotnik_simulation_bringup}"
 ROBOTNIK_LAUNCH_FILE="${ROBOTNIK_LAUNCH_FILE:-bringup_complete.launch.py}"
 ROBOTNIK_LAUNCH_ARGS="${ROBOTNIK_LAUNCH_ARGS:-}"
@@ -22,6 +23,17 @@ source_setup_file() {
     source "${setup_file}"
     set -u
   fi
+}
+
+load_runtime_env_file() {
+  if [ ! -f "${ROBOTNIK_ENV_FILE}" ]; then
+    return 0
+  fi
+
+  set -a
+  # shellcheck disable=SC1090
+  source "${ROBOTNIK_ENV_FILE}"
+  set +a
 }
 
 append_launch_arg() {
@@ -52,6 +64,7 @@ resolve_world_path() {
 main() {
   source_setup_file "/opt/ros/${ROS_DISTRO}/setup.bash"
   source_setup_file "${WORKSPACE_DIR}/install/setup.bash"
+  load_runtime_env_file
 
   if [ "$#" -gt 0 ]; then
     exec "$@"

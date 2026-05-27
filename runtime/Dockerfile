@@ -102,6 +102,7 @@ ENV HOME=/home/${USERNAME}
 ENV WORKSPACE_DIR=/opt/robotnik_ws
 
 COPY runtime/runtime-entrypoint.sh /usr/local/bin/runtime-entrypoint.sh
+COPY env /opt/robotnik/config/env
 
 RUN chmod +x /usr/local/bin/runtime-entrypoint.sh \
     && rm -rf "${WORKSPACE_DIR}/build" "${WORKSPACE_DIR}/log" "${WORKSPACE_DIR}/src" \
@@ -125,6 +126,7 @@ RUN chmod +x /usr/local/bin/runtime-entrypoint.sh \
       'if [ -f /opt/robotnik_ws/install/setup.bash ]; then source /opt/robotnik_ws/install/setup.bash; fi' \
       > /etc/profile.d/robotnik_ros_setup.sh \
     && chmod 0644 /etc/profile.d/robotnik_ros_setup.sh \
+    && chown -R "${USER_UID}:${USER_GID}" /opt/robotnik \
     && printf '%s\n' \
       'source /etc/profile.d/robotnik_ros_setup.sh' \
       >> /root/.bashrc \
