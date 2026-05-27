@@ -40,7 +40,7 @@ repositories:
     version: afe6cc3b933c82f5733373f25fdbf00cf0846fa8
   robotnik/robotnik_common:
     type: git
-    url: https://github.com/RobotnikAutomation/robotnik_common.git
+    url: https://github.com/jlgalanRB/robotnik_common.git
     version: 4a462e6d9fddad6be319142fa9673ac3c4b45a7a
   robotnik/robotnik_interfaces:
     type: git
@@ -48,7 +48,7 @@ repositories:
     version: ee903abca2ede1872b4cfa264b435f4a11e7f081
   robotnik/robotnik_moveit_configs:
     type: git
-    url: https://github.com/RobotnikAutomation/robotnik_moveit_configs.git
+    url: https://github.com/jlgalanRB/robotnik_moveit_configs.git
     version: 45bc50947eafc3f1abd2492e9ac0e367843882e5
   robotnik/robotnik_teleop_panel:
     type: git
