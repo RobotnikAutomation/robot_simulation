@@ -71,8 +71,7 @@ install_rosdeps() {
     --ignore-src \
     -r \
     -y \
-    --rosdistro "${ROS_DISTRO}" \
-    --skip-keys "warehouse_ros_mongo"
+    --rosdistro "${ROS_DISTRO}"
 }
 
 main() {
