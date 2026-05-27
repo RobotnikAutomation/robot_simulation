@@ -10,6 +10,8 @@ services:
       args:
         USER_UID: ${LOCAL_UID:-1000}
         USER_GID: ${LOCAL_GID:-1000}
+    env_file:
+      - ../env/robot.env
     network_mode: host
     privileged: true
     stdin_open: true
@@ -22,7 +24,7 @@ services:
       RUNTIME_AUTOSTART: ${RUNTIME_AUTOSTART:-true}
       ROBOTNIK_LAUNCH_PACKAGE: ${ROBOTNIK_LAUNCH_PACKAGE:-robotnik_simulation_bringup}
       ROBOTNIK_LAUNCH_FILE: ${ROBOTNIK_LAUNCH_FILE:-bringup_complete.launch.py}
-      ROBOTNIK_LAUNCH_ARGS: ${ROBOTNIK_LAUNCH_ARGS:-robot:=rbwatcher robot_model:=rbwatcher use_gui:=true use_rviz:=true}
+      ROBOTNIK_LAUNCH_ARGS: ${ROBOTNIK_LAUNCH_ARGS:-}
     devices:
       - /dev/dri:/dev/dri
     volumes:
