@@ -74,11 +74,6 @@ def generate_launch_description():
             description="Enable rviz gui"
         ),
         DeclareLaunchArgument(
-            "launch_world",
-            default_value="true",
-            description="Launch Gazebo world or reuse an existing one"
-        ),
-        DeclareLaunchArgument(
             "frame_prefix",
             default_value=[LaunchConfiguration("robot_id"), "_"],
             description="Prefix for TF frames"
@@ -111,7 +106,6 @@ def generate_launch_description():
     low_performance_simulation = LaunchConfiguration("low_performance_simulation")
     world_path = LaunchConfiguration("world_path")
     use_rviz = LaunchConfiguration("use_rviz")
-    launch_world = LaunchConfiguration("launch_world")
     frame_prefix = LaunchConfiguration("frame_prefix")
     run_moveit = LaunchConfiguration("run_moveit")
     arm_type = LaunchConfiguration("arm_type")
@@ -126,8 +120,7 @@ def generate_launch_description():
             'robot_id': robot_id,
             'gui': use_gui,
             'world_path': world_path
-        }.items(),
-        condition=IfCondition(launch_world)
+        }.items()
     )
 
     gazebo_robot = IncludeLaunchDescription(
