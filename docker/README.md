@@ -10,6 +10,25 @@ The simulation configuration is defined in:
 
 Edit that file to choose the robot, world, GUI, RViz and other bringup options before launching the container.
 
+## Workspace model
+
+This Docker setup does not run directly from your host ROS 2 workspace as a bind-mounted development tree.
+
+When the image is built, it creates an internal workspace at `/opt/robotnik_ws` and:
+
+- copies only this `robotnik_simulation` repository from your local machine into that workspace
+- imports the additional Robotnik repositories declared in `dependencies/repos/robotnik_simulation.jazzy.repos`
+- resolves dependencies and builds the workspace inside the image
+
+The runtime container uses the installed workspace from `/opt/robotnik_ws/install`. It does not keep the `src` tree from the build stage.
+
+That means:
+
+- changes in your local repository are not reflected in the container until you rebuild the image
+- other local packages from your host workspace are not included automatically
+- if the image needs additional repositories, they must be added to `dependencies/repos/robotnik_simulation.jazzy.repos`
+- `docker exec` gives you access to the runtime environment and installed packages, not to a live bind-mounted source workspace
+
 ## Prerequisites
 
 - Docker must be installed.
@@ -45,7 +64,7 @@ To stop the published-image run started with `docker compose ... up`, press `Ctr
 
 ## 2. Build a new image locally
 
-Use this option when you want to generate the image from source with the current contents of the repository.
+Use this option when you want to generate the image from the current contents of this repository. Any additional repositories that must be part of the image need to be declared in `dependencies/repos/robotnik_simulation.jazzy.repos`.
 
 From the repository root:
 
@@ -94,6 +113,8 @@ ros2 topic list
 ros2 node list
 ros2 topic echo /clock
 ```
+
+This shell is attached to the runtime container built from the installed workspace in `/opt/robotnik_ws/install`.
 
 If you prefer to leave the simulation running in the background, start it detached:
 

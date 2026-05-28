@@ -371,9 +371,9 @@ The full development Docker workflow is documented in [`../docker/README.md`](..
 
 Use that guide for:
 
-- running the published image or building a local one
+- running the published image or building an image that copies only this repository from the local machine and pulls any extra required repositories from [`../dependencies/repos/robotnik_simulation.jazzy.repos`](../dependencies/repos/robotnik_simulation.jazzy.repos)
 - editing the runtime configuration in [`../env/robot.env`](../env/robot.env)
-- opening a second terminal with `docker exec` to interact with the running simulation
+- opening a second terminal with `docker exec` to interact with the running simulation inside the runtime container
 - GPU-enabled Docker sessions
 - cleanup and reset commands
 - notes about the future release-oriented Docker image workflow
