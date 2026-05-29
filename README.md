@@ -47,6 +47,17 @@ Simulation-based environments and launch assets for Robotnik platforms on ROS 2.
 
 Before launching the simulation, ensure that the installation steps for one of the available simulators listed above have been completed.
 
+### Docker
+
+If you want to run the integrated simulation in Docker, the current workflow is documented in [`docker/README.md`](docker/README.md).
+
+That guide covers:
+
+- running the published image from Docker Hub
+- building an image that copies only this repository from the local machine and pulls any extra required repositories from `dependencies/repos/robotnik_simulation.jazzy.repos`
+- editing [`env/robot.env`](env/robot.env) to choose robot, world, GUI and RViz options
+- opening a second terminal with `docker exec` to interact with the running simulation from inside the runtime container
+
 ### Bringup
 
 Launch complete simulation:
