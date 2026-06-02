@@ -33,6 +33,7 @@ from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
 from launch.substitutions import Command, FindExecutable
 from ament_index_python.packages import get_package_share_directory
+from robotnik_common.launch import ConfigFile
 
 
 def load_yaml(package_path, relative_path):
@@ -41,12 +42,20 @@ def load_yaml(package_path, relative_path):
         return yaml.safe_load(f)
 
 
+def load_config(context, source_file):
+    config_file = ConfigFile(source_file)
+    with open(config_file.perform(context), 'r') as config_stream:
+        return yaml.safe_load(config_stream)
+
+
 def launch_setup(context, *args, **kwargs):
     robot_id = LaunchConfiguration('robot_id').perform(context)
     robot_model = LaunchConfiguration('robot_model').perform(context)
     robot_xacro_path = LaunchConfiguration('robot_xacro_path').perform(context)
     moveit_config_name = LaunchConfiguration('moveit_config_name').perform(context)
     arm_type = LaunchConfiguration('arm_type').perform(context)
+    frame_prefix = LaunchConfiguration('frame_prefix').perform(context)
+    use_sim_time = LaunchConfiguration('use_sim_time').perform(context)
 
     moveit_config_pkg = get_package_share_directory(moveit_config_name)
     srdf_path = os.path.join(moveit_config_pkg, 'config', f'{robot_model}.srdf')
@@ -57,7 +66,7 @@ def launch_setup(context, *args, **kwargs):
             Command([
                 FindExecutable(name='xacro'), ' ', robot_xacro_path, ' ',
                 f'namespace:={robot_id}', ' ',
-                f'prefix:={robot_id}_', ' ',
+                f'prefix:={frame_prefix}', ' ',
                 'gazebo_ignition:=true', ' ',
                 f'ur_type:={arm_type}',
             ]),
@@ -69,20 +78,29 @@ def launch_setup(context, *args, **kwargs):
         'robot_description_semantic': ParameterValue(
             Command([
                 FindExecutable(name='xacro'), ' ', srdf_path, ' ',
-                f'namespace:={robot_id}_',
+                f'prefix:={frame_prefix}',
             ]),
             value_type=str,
         )
     }
 
     robot_description_kinematics = {
-        'robot_description_kinematics': load_yaml(moveit_config_pkg, 'config/kinematics.yaml')
+        'robot_description_kinematics': load_config(
+            context,
+            os.path.join(moveit_config_pkg, 'config', 'kinematics.yaml'),
+        )
     }
 
     planning_description_yaml = {
         'robot_description_planning': {
-            **load_yaml(moveit_config_pkg, 'config/joint_limits.yaml'),
-            **load_yaml(moveit_config_pkg, 'config/pilz_cartesian_limits.yaml'),
+            **load_config(
+                context,
+                os.path.join(moveit_config_pkg, 'config', 'joint_limits.yaml'),
+            ),
+            **load_config(
+                context,
+                os.path.join(moveit_config_pkg, 'config', 'pilz_cartesian_limits.yaml'),
+            ),
         }
     }
 
@@ -127,7 +145,10 @@ def launch_setup(context, *args, **kwargs):
         'default_planning_pipeline': 'pilz_industrial_motion_planner',
     }
 
-    controllers_yaml = load_yaml(moveit_config_pkg, 'config/moveit_controllers.yaml')
+    controllers_yaml = load_config(
+        context,
+        os.path.join(moveit_config_pkg, 'config', 'moveit_controllers.yaml'),
+    )
 
     trajectory_execution = {
         'moveit_manage_controllers': False,
@@ -145,7 +166,7 @@ def launch_setup(context, *args, **kwargs):
         'publish_robot_description_semantic': True,
     }
 
-    use_sim_time = {'use_sim_time': True}
+    use_sim_time = {'use_sim_time': use_sim_time.strip().lower() in ('true', '1', 'yes', 'on')}
 
     move_group_node = Node(
         package='moveit_ros_move_group',
@@ -206,6 +227,11 @@ def generate_launch_description():
             'arm_type',
             default_value='ur10e',
             description='Type of robotic arm',
+        ),
+        DeclareLaunchArgument(
+            'frame_prefix',
+            default_value=[LaunchConfiguration('robot_id'), '_'],
+            description='Prefix for TF frames and joint names',
         ),
         DeclareLaunchArgument(
             'use_sim_time',
