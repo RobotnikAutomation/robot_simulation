@@ -24,7 +24,7 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, TimerAction
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
@@ -67,6 +67,11 @@ def generate_launch_description():
             description='Type of robotic arm',
         ),
         DeclareLaunchArgument(
+            'frame_prefix',
+            default_value=[LaunchConfiguration('robot_id'), '_'],
+            description='Prefix for TF frames and joint names',
+        ),
+        DeclareLaunchArgument(
             'use_sim_time',
             default_value='true',
             description='Use simulation time',
@@ -79,7 +84,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'moveit_rviz_config',
             default_value=PathJoinSubstitution([
-                FindPackageShare('robotnik_gazebo_ignition'), 'config/moveit_rviz_config.rviz',
+                FindPackageShare('robotnik_simulation_bringup'), 'config/moveit_rviz_config.rviz',
             ]),
             description='MoveIt RViz configuration file',
         ),
@@ -97,6 +102,7 @@ def generate_launch_description():
         'robot_xacro_path': LaunchConfiguration('robot_xacro_path'),
         'moveit_config_name': LaunchConfiguration('moveit_config_name'),
         'arm_type': LaunchConfiguration('arm_type'),
+        'frame_prefix': LaunchConfiguration('frame_prefix'),
         'use_sim_time': LaunchConfiguration('use_sim_time'),
     }
 
@@ -109,18 +115,23 @@ def generate_launch_description():
         launch_arguments=common_args.items(),
     )
 
-    moveit_rviz = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            PathJoinSubstitution([
-                FindPackageShare('robotnik_simulation_moveit'), 'launch/moveit_rviz.launch.py',
-            ])
-        ),
-        launch_arguments={
-            **common_args,
-            'moveit_rviz_config': LaunchConfiguration('moveit_rviz_config'),
-            'use_fixed_frame': LaunchConfiguration('use_fixed_frame'),
-        }.items(),
-        condition=IfCondition(LaunchConfiguration('run_moveit_rviz')),
+    moveit_rviz = TimerAction(
+        period=1.0,
+        actions=[
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource(
+                    PathJoinSubstitution([
+                        FindPackageShare('robotnik_simulation_moveit'), 'launch/moveit_rviz.launch.py',
+                    ])
+                ),
+                launch_arguments={
+                    **common_args,
+                    'moveit_rviz_config': LaunchConfiguration('moveit_rviz_config'),
+                    'use_fixed_frame': LaunchConfiguration('use_fixed_frame'),
+                }.items(),
+                condition=IfCondition(LaunchConfiguration('run_moveit_rviz')),
+            )
+        ],
     )
 
     return LaunchDescription(declared_arguments + [move_group, moveit_rviz])
