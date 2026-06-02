@@ -231,6 +231,7 @@ def generate_launch_description():
             'robot_xacro_path': robot_xacro_path,
             'moveit_config_name': [robot, '_moveit_config'],
             'arm_type': arm_type,
+            'frame_prefix': frame_prefix,
             'use_sim_time': 'true',
         }.items(),
         condition=IfCondition(run_moveit),
