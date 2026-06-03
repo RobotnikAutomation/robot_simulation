@@ -4,7 +4,7 @@
     ros__parameters:
       frame_id: robot_base_link
       joints:
-        # Estas joints, son para simular las suspensiones del robot
+        # Estas joints son para simular las suspensiones del robot
         - robot_left_front_shock
         - robot_right_front_shock
         - robot_left_rear_shock
