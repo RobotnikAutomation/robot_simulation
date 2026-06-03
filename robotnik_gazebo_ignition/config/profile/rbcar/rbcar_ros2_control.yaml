@@ -27,6 +27,7 @@
       position_feedback: false
       traction_joints_names: [robot_left_rear_axle, robot_right_rear_axle]
       steering_joints_names: [robot_left_steering_joint, robot_right_steering_joint]
-      wheelbase: 1.83
-      traction_track_width: 0.8
-      traction_wheels_radius: 0.45
+      wheelbase: 1.83323
+      traction_track_width: 1.21802
+      steering_track_width: 1.21802
+      traction_wheels_radius: 0.3195
