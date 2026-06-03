@@ -24,13 +24,17 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import tempfile
 import yaml
+import os
 
 
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription, OpaqueFunction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch_ros.parameter_descriptions import ParameterFile
+from launch_ros.parameter_descriptions import ParameterValue
 from launch.substitutions import LaunchConfiguration
+from launch.substitutions import SubstitutionFailure
+from launch.substitutions import Command, FindExecutable
+from launch.substitutions import PathJoinSubstitution
 
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
@@ -41,13 +45,12 @@ from robotnik_common.launch import AddArgumentParser, ExtendedArgument
 from pathlib import Path
 from tempfile import NamedTemporaryFile
 from typing import Union, Optional
-
 from launch import SomeSubstitutionsType, SomeSubstitutionsType_types_tuple
-from launch.substitutions import SubstitutionFailure
 from launch.frontend.parse_substitution import parse_substitution
 from launch.utilities import normalize_to_list_of_substitutions, perform_substitutions
 from launch.utilities.typing_file_path import FilePath
 from launch.substitution import Substitution
+
 from launch import LaunchContext
 from launch.conditions import IfCondition
 
@@ -110,6 +113,11 @@ class ConfigFile(Substitution):
         self.cleanup()
 
 
+def load_yaml(package_path, relative_path):
+    full_path = os.path.join(package_path, relative_path)
+    with open(full_path, "r") as f:
+        return yaml.safe_load(f)
+
 def substitute_param_context(param, context):
     """Resolve a parameter if it is a LaunchConfiguration."""
     if isinstance(param, LaunchConfiguration):
@@ -126,10 +134,11 @@ def launch_setup(context, params):
         ]),
         launch_arguments={
             'verbose': 'false',
-            'robot_xacro_file': params['robot_xacro'],
+            'robot_xacro_path': params['robot_xacro_path'],
             'frame_prefix': [params['robot_id'], '_'],
             'namespace': params['robot_id'],
             'gazebo_ignition': 'true',
+            'arm_type': params['arm_type'],
             'low_performance_simulation': params['low_performance_simulation']
         }.items(),
     ))
@@ -229,33 +238,28 @@ def launch_setup(context, params):
         return existing_controllers
 
     def get_ros2_control_yaml_path(params):
-        return str(
-            Path(
-                FindPackageShare('robotnik_gazebo_ignition').perform(context)
-            )
+        base_path = (
+            Path(FindPackageShare('robotnik_gazebo_ignition').perform(context))
             / 'config'
             / 'profile'
             / substitute_param_context(params['robot'], context)
-            / 'ros2_control.yaml'
         )
+        robot_model = substitute_param_context(params['robot_model'], context)
+        return str(base_path / f'{robot_model}_ros2_control.yaml')
 
     path = get_ros2_control_yaml_path(params)
     new_controllers = extract_controllers_from_yaml(path)
 
     # ROS2 control
-    controllers = ['joint_state_broadcaster']
+    controllers =  ['--controller-manager-timeout', '60', '--service-call-timeout', '60', 'joint_state_broadcaster']
     # Replace default joint_state_broadcaster by the one defined in the specific
-    # ros2_control.yamlrobot model
+    # ros2_control.yaml for the robot model
     if 'joint_state_broadcaster' in new_controllers:
         controllers.remove('joint_state_broadcaster')
     controllers.extend(new_controllers)
     print("Controllers to be spawned:", controllers)
 
-    robot_controller_config = ConfigFile(
-        [
-            FindPackageShare('robotnik_gazebo_ignition'), '/config/profile/', LaunchConfiguration('robot'), '/ros2_control.yaml',
-        ],
-    )
+    robot_controller_config = ConfigFile(path)
 
     controllers.append('--param-file')
     controllers.append(
@@ -289,6 +293,8 @@ def launch_setup(context, params):
     if use_fixed_frame:
         params['rviz_config'] = rviz_config_default
 
+    use_sim_time = {"use_sim_time": True}
+
     # RViz
     ret.append(Node(
         package="rviz2",
@@ -300,11 +306,14 @@ def launch_setup(context, params):
             # Config file
             '-d', [params['rviz_config']],
             # Window name
-            '-t', [params['robot_id'], ' - ', params['robot_model'], ' - RViz'],
+            '-t', [params['robot_id'], ' - ', params['robot_model'], ' - navigation RViz'],
         ],
-        parameters=[{'use_sim_time': True}],
+        parameters=[
+            use_sim_time,
+            ],
         condition=IfCondition(params['run_rviz'])
     ))
+
     return ret
 
 
@@ -313,11 +322,11 @@ def generate_launch_description():
         ("robot_id", "Unique Robot Identifier", "robot", "ROBOT_ID"),
         ("robot", "Robot Model Name", "rbwatcher", "ROBOT"),
         ("robot_model", "Robot Variant or Type", LaunchConfiguration('robot'), "ROBOT_MODEL"),
-        ("robot_xacro", "Path to Robot Xacro File", [FindPackageShare('robotnik_description'), '/robots/', LaunchConfiguration('robot'), '/', LaunchConfiguration('robot_model'), '.urdf.xacro'], "ROBOT_XACRO"),
+        ("robot_xacro_path", "Path to Robot Xacro File", [FindPackageShare('robotnik_description'), '/robots/', LaunchConfiguration('robot'), '/', LaunchConfiguration('robot_model'), '.urdf.xacro'], "ROBOT_XACRO_PATH"),
         ("x", "Initial X Coordinate", "0.0", "X"),
         ("y", "Initial Y Coordinate", "0.0", "Y"),
         ("z", "Initial Z Coordinate", "0.0", "Z"),
-        ("has_arm", "Enable Arm Controller", "False", "HAS_ARM"),
+        ("arm_type", "Type of robotic arm", "ur10e", "ARM_TYPE"),
         ("run_rviz", "Run RViz", "True", "RUN_RVIZ"),
         ("rviz_config", "RViz configuration file", "", "CONFIG_RVIZ"),
         ("use_sim_time", "Use simulation time", "True", "USE_SIM_TIME"),

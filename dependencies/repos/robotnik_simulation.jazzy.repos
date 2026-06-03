@@ -25,27 +25,32 @@
 # EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ---
 repositories:
-  src/robotnik_simulation:
+  # Robotnik repositories
+  robotnik/robotnik_simulation:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_simulation.git
     version: jazzy-devel
-  src/robotnik_description:
+  robotnik/robotnik_description:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_description.git
-    version: jazzy-devel
-  src/robotnik_sensors:
+    version: 76d883039c99f80ca3cb8645dd7c39210d101a1f
+  robotnik/robotnik_sensors:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_sensors.git
-    version: jazzy-devel
-  src/robotnik_common:
+    version: afe6cc3b933c82f5733373f25fdbf00cf0846fa8
+  robotnik/robotnik_common:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_common.git
-    version: jazzy-devel
-  src/robotnik_interfaces:
+    version: 0153704842c35f115da65c7404d6ce6392f9c817
+  robotnik/robotnik_interfaces:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_interfaces.git
-    version: jazzy-devel
-  src/Universal_Robots_ROS2_Description:
+    version: ee903abca2ede1872b4cfa264b435f4a11e7f081
+  robotnik/robotnik_moveit_configs:
     type: git
-    url: https://github.com/RobotnikAutomation/Universal_Robots_ROS2_Description.git
-    version: fix/gazebo-control-jazzy
+    url: https://github.com/RobotnikAutomation/robotnik_moveit_configs.git
+    version: 45bc50947eafc3f1abd2492e9ac0e367843882e5
+  robotnik/robotnik_teleop_panel:
+    type: git
+    url: https://github.com/RobotnikAutomation/teleop_panel.git
+    version: d9c7d0f7d37857b83330e0104cf1dc545af8b3e4

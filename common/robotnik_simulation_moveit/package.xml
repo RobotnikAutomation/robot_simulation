@@ -3,22 +3,25 @@
   href="http://download.ros.org/schema/package_format3.xsd"
   schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>robotnik_simulation_bringup</name>
+  <name>robotnik_simulation_moveit</name>
   <version>1.0.0</version>
-  <description>Package to bring up the robotnik simulation</description>
+  <description>Package to bring up MoveIt in the robotnik simulation</description>
   <maintainer email="ros-developers@robotnik.es">Robotnik Developers</maintainer>
   <license>Apache-2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <exec_depend>pointcloud_to_laserscan</exec_depend>
+  <exec_depend>chomp_motion_planner</exec_depend>
+  <exec_depend>moveit_kinematics</exec_depend>
+  <exec_depend>moveit_configs_utils</exec_depend>
+  <exec_depend>moveit_planners_ompl</exec_depend>
+  <exec_depend>moveit_planners_stomp</exec_depend>
+  <exec_depend>moveit_ros_move_group</exec_depend>
+  <exec_depend>pilz_industrial_motion_planner</exec_depend>
   <exec_depend>robotnik_description</exec_depend>
   <exec_depend>robotnik_gazebo_ignition</exec_depend>
-  <exec_depend>robotnik_simulation_localization</exec_depend>
-  <exec_depend>robotnik_simulation_navigation</exec_depend>
-  <exec_depend>robotnik_simulation_moveit</exec_depend>
   <exec_depend>rviz2</exec_depend>
-  <exec_depend>teleop_panel</exec_depend>
+  <exec_depend>xacro</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

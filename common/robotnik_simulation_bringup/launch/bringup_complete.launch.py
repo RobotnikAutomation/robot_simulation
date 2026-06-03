@@ -41,9 +41,22 @@ def generate_launch_description():
             description="Name for launch and config resources"
         ),
         DeclareLaunchArgument(
+            "robot",
+            default_value="rbsummit",
+            description="Robot Model Name"
+        ),
+        DeclareLaunchArgument(
             "robot_model",
             default_value="rbsummit",
-            description="Set robot model"
+            description="Robot Variant or Type"
+        ),
+        DeclareLaunchArgument(
+            "robot_xacro_path",
+            default_value=[
+                FindPackageShare('robotnik_description'), '/robots/',
+                LaunchConfiguration('robot'), '/', LaunchConfiguration('robot_model'), '.urdf.xacro',
+            ],
+            description="Path to Robot Xacro File"
         ),
         DeclareLaunchArgument(
             "use_gui",
@@ -61,6 +74,16 @@ def generate_launch_description():
             description="Enable rviz gui"
         ),
         DeclareLaunchArgument(
+            "run_moveit",
+            default_value="false",
+            description="Enable MoveIt for manipulation"
+        ),
+        DeclareLaunchArgument(
+            "arm_type",
+            default_value="ur10e",
+            description="Type of robotic arm"
+        ),
+        DeclareLaunchArgument(
             "world_path",
             default_value=PathJoinSubstitution([
                 #FindPackageShare('electrical_substation_world'), 'worlds/electrical_substation.world'
@@ -71,11 +94,15 @@ def generate_launch_description():
     ]
 
     robot_id = LaunchConfiguration("robot_id")
+    robot = LaunchConfiguration("robot")
     robot_model = LaunchConfiguration("robot_model")
+    robot_xacro_path = LaunchConfiguration("robot_xacro_path")
     use_gui = LaunchConfiguration("use_gui")
     low_performance_simulation = LaunchConfiguration("low_performance_simulation")
     world_path = LaunchConfiguration("world_path")
     use_rviz = LaunchConfiguration("use_rviz")
+    run_moveit = LaunchConfiguration("run_moveit")
+    arm_type = LaunchConfiguration("arm_type")
 
     gazebo_world = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -98,7 +125,10 @@ def generate_launch_description():
         ),
         launch_arguments={
             'robot_id': robot_id,
-            'robot': robot_model,
+            'robot': robot,
+            'robot_model': robot_model,
+            'robot_xacro_path': robot_xacro_path,
+            'arm_type': arm_type,
             'low_performance_simulation': low_performance_simulation,
             'run_rviz': 'true'
         }.items()
@@ -174,13 +204,37 @@ def generate_launch_description():
         actions=[rviz]
     )
 
+    moveit = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution([
+                FindPackageShare('robotnik_simulation_moveit'), 'launch/moveit.launch.py',
+            ])
+        ),
+        launch_arguments={
+            'robot_id': robot_id,
+            'robot': robot,
+            'robot_model': robot_model,
+            'robot_xacro_path': robot_xacro_path,
+            'moveit_config_name': [robot, '_moveit_config'],
+            'arm_type': arm_type,
+            'use_sim_time': 'true',
+        }.items(),
+        condition=IfCondition(run_moveit),
+    )
+
+    delayed_moveit = TimerAction(
+        period=25.0,
+        actions=[moveit]
+    )
+
     group = GroupAction([
         gazebo_world,
         gazebo_robot,
-        # laser_filters,
-        # delayed_localization,
-        # delayed_navigation,
-        # delayed_rviz
+        laser_filters,
+        delayed_localization,
+        delayed_navigation,
+        delayed_rviz,
+        delayed_moveit,
     ])
 
     return LaunchDescription(declared_arguments + [group])
