@@ -53,4 +53,4 @@ repositories:
   robotnik/robotnik_teleop_panel:
     type: git
     url: https://github.com/RobotnikAutomation/teleop_panel.git
-    version: d9c7d0f7d37857b83330e0104cf1dc545af8b3e4
+    version: 21d3e5335366390d0c79acb9875a1839236afe3d
