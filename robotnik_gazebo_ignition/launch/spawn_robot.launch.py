@@ -194,6 +194,7 @@ def launch_setup(context, params):
         add_laser("front")
         add_laser("rear")
         add_pointcloud("top")
+        #add_pointcloud("front")
 
         bridge_config = [{"ros_topic_name": ros, "gz_topic_name": gz, "ros_type_name": ros_type, "gz_type_name": gz_type, "direction": direction} for gz, ros, ros_type, gz_type, direction in bridge_raw]
         with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp:
