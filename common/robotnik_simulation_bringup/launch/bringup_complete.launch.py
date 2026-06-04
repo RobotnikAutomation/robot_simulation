@@ -150,8 +150,11 @@ def generate_launch_description():
         }.items(),
         condition=IfCondition(
             OrSubstitution(
-                EqualsSubstitution(robot_model, 'rbsummit'),
-                EqualsSubstitution(robot_model, 'rbwatcher'),
+                OrSubstitution(
+                    EqualsSubstitution(robot_model, 'rbsummit'),
+                    EqualsSubstitution(robot_model, 'rbwatcher'),
+                ),
+                EqualsSubstitution(robot_model, 'rbcar'),
             )
         )
     )
