@@ -91,41 +91,87 @@ def launch_setup(context, params):
     ))
 
     # Gazebo bridge
+    # def generate_bridge_yaml(params) -> str:
+    #     robot_id = substitute_param_context(params['robot_id'], context)
+    #     bridge_raw = [
+    #         (f"/{robot_id}/imu/data", f"/{robot_id}/imu/data", "sensor_msgs/msg/Imu", "ignition.msgs.IMU", "GZ_TO_ROS"),
+    #         (f"/{robot_id}/gps/data", f"/{robot_id}/gps/fix", "sensor_msgs/msg/NavSatFix", "ignition.msgs.NavSat", "GZ_TO_ROS"),
+    #     ]
+    #     def add_camera(camera_name):
+    #         bridge_raw.extend([
+    #             (f"/{robot_id}/{camera_name}_camera_color/color/camera_info", f"/{robot_id}/{camera_name}_rgbd_camera/color/camera_info", "sensor_msgs/msg/CameraInfo", "gz.msgs.CameraInfo", "GZ_TO_ROS"),
+    #             (f"/{robot_id}/{camera_name}_camera_color/color/image_raw", f"/{robot_id}/{camera_name}_rgbd_camera/color/image_raw", "sensor_msgs/msg/Image", "gz.msgs.Image", "GZ_TO_ROS"),
+    #         ])
+    #     def add_laser(laser_name):
+    #         bridge_raw.extend([
+    #             (f"/{robot_id}/{laser_name}_laser/scan", f"/{robot_id}/{laser_name}_laser/scan", "sensor_msgs/msg/LaserScan", "gz.msgs.LaserScan", "GZ_TO_ROS"),
+    #         ])
+    #     def add_pointcloud(points_name):
+    #         bridge_raw.extend([
+    #             ( f"/{robot_id}/{points_name}_lidar/scan/points", f"/{robot_id}/{points_name}_laser/points", "sensor_msgs/msg/PointCloud2", "gz.msgs.PointCloudPacked", "GZ_TO_ROS"),
+    #         ])
+
+    #     def add_depth_camera(camera_name):
+    #         bridge_raw.extend([
+    #             (f"/{robot_id}/{camera_name}_camera_depth/depth/camera_info", f"/{robot_id}/{camera_name}_rgbd_camera/depth/camera_info", "sensor_msgs/msg/CameraInfo", "gz.msgs.CameraInfo", "GZ_TO_ROS"),
+    #             (f"/{robot_id}/{camera_name}_camera_depth/depth/image_raw", f"/{robot_id}/{camera_name}_rgbd_camera/depth/image_raw", "sensor_msgs/msg/Image", "gz.msgs.Image", "GZ_TO_ROS"),
+    #         ])
+
+    #     add_camera("front")
+    #     add_camera("rear")
+    #     add_camera("top_ptz")
+    #     #add_depth_camera("front")
+    #     add_laser("front")
+    #     add_laser("rear")
+    #     add_pointcloud("top")
+
+    #     bridge_config = [{"ros_topic_name": ros, "gz_topic_name": gz, "ros_type_name": ros_type, "gz_type_name": gz_type, "direction": direction} for gz, ros, ros_type, gz_type, direction in bridge_raw]
+    #     with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp:
+    #         yaml.dump(bridge_config, tmp)
+    #         return tmp.name
+
+    # bridge_yaml = generate_bridge_yaml(params)
+    # ret.append(Node(
+    #     package="ros_gz_bridge",
+    #     executable="parameter_bridge",
+    #     parameters=[
+    #         {'config_file': bridge_yaml},
+    #     ],
+    #     namespace=params['robot_id'],
+    # ))
+
     def generate_bridge_yaml(params) -> str:
         robot_id = substitute_param_context(params['robot_id'], context)
-        bridge_raw = [
-            (f"/{robot_id}/imu/data", f"/{robot_id}/imu/data", "sensor_msgs/msg/Imu", "ignition.msgs.IMU", "GZ_TO_ROS"),
-            (f"/{robot_id}/gps/data", f"/{robot_id}/gps/fix", "sensor_msgs/msg/NavSatFix", "ignition.msgs.NavSat", "GZ_TO_ROS"),
-        ]
-        def add_camera(camera_name):
-            bridge_raw.extend([
-                (f"/{robot_id}/{camera_name}_camera_color/color/camera_info", f"/{robot_id}/{camera_name}_rgbd_camera/color/camera_info", "sensor_msgs/msg/CameraInfo", "gz.msgs.CameraInfo", "GZ_TO_ROS"),
-                (f"/{robot_id}/{camera_name}_camera_color/color/image_raw", f"/{robot_id}/{camera_name}_rgbd_camera/color/image_raw", "sensor_msgs/msg/Image", "gz.msgs.Image", "GZ_TO_ROS"),
-            ])
-        def add_laser(laser_name):
-            bridge_raw.extend([
-                (f"/{robot_id}/{laser_name}_laser/scan", f"/{robot_id}/{laser_name}_laser/scan", "sensor_msgs/msg/LaserScan", "gz.msgs.LaserScan", "GZ_TO_ROS"),
-            ])
-        def add_pointcloud(points_name):
-            bridge_raw.extend([
-                ( f"/{robot_id}/{points_name}_lidar/scan/points", f"/{robot_id}/{points_name}_laser/points", "sensor_msgs/msg/PointCloud2", "gz.msgs.PointCloudPacked", "GZ_TO_ROS"),
-            ])
+        robot = substitute_param_context(params['robot'], context)
+        package_path = FindPackageShare('robotnik_gazebo_ignition').perform(context)
 
-        def add_depth_camera(camera_name):
-            bridge_raw.extend([
-                (f"/{robot_id}/{camera_name}_camera_depth/depth/camera_info", f"/{robot_id}/{camera_name}_rgbd_camera/depth/camera_info", "sensor_msgs/msg/CameraInfo", "gz.msgs.CameraInfo", "GZ_TO_ROS"),
-                (f"/{robot_id}/{camera_name}_camera_depth/depth/image_raw", f"/{robot_id}/{camera_name}_rgbd_camera/depth/image_raw", "sensor_msgs/msg/Image", "gz.msgs.Image", "GZ_TO_ROS"),
-            ])
+        templates_config = load_yaml(package_path, 'config/bridge_templates.yaml') or {}
+        profile_config = load_yaml(package_path, f'config/profile/{robot}/bridges.yaml') or {}
 
-        add_camera("front")
-        add_camera("rear")
-        add_camera("top_ptz")
-        #add_depth_camera("front")
-        add_laser("front")
-        add_laser("rear")
-        add_pointcloud("top")
+        templates = templates_config.get('templates', {})
+        bridge_items = profile_config.get('bridges', [])
+        bridge_config = []
 
-        bridge_config = [{"ros_topic_name": ros, "gz_topic_name": gz, "ros_type_name": ros_type, "gz_type_name": gz_type, "direction": direction} for gz, ros, ros_type, gz_type, direction in bridge_raw]
+        for item in bridge_items:
+            template_name = item.get('template')
+            if template_name not in templates:
+                raise RuntimeError(
+                    f"Bridge template '{template_name}' not found for robot '{robot}'"
+                )
+
+            format_values = {
+                'robot_id': robot_id,
+                'name': item.get('name', ''),
+                'gz_topic': item.get('gz_topic', ''),
+                'ros_topic': item.get('ros_topic', ''),
+            }
+
+            for template_entry in templates[template_name]:
+                bridge_config.append({
+                    key: value.format(**format_values) if isinstance(value, str) else value
+                    for key, value in template_entry.items()
+                })
+
         with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp:
             yaml.dump(bridge_config, tmp)
             return tmp.name
