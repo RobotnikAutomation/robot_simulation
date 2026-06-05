@@ -1,9 +1,9 @@
-name: robotnik_simulation_ws
+name: robotnik_simulation
 
 services:
-  robotnik_simulation_devel:
-    container_name: robotnik_simulation_devel
-    image: robotnik_simulation:jazzy-devel
+  robotnik_simulation:
+    container_name: robotnik_simulation
+    image: ${ROBOTNIK_SIMULATION_IMAGE:-robotnik/simulation-gz:jazzy}
     build:
       context: ..
       dockerfile: docker/Dockerfile
@@ -18,21 +18,14 @@ services:
       DISPLAY: ${DISPLAY}
       ROS_DISTRO: jazzy
       ROS_DOMAIN_ID: ${ROS_DOMAIN_ID:-0}
-      WORKSPACE_DIR: /home/robot/ros2_ws
-      SRC_DIR: /home/robot/ros2_ws/src
+      WORKSPACE_DIR: /opt/robotnik_ws
+      RUNTIME_AUTOSTART: ${RUNTIME_AUTOSTART:-true}
+      ROBOTNIK_ENV_FILE: /opt/robotnik/config/env/robot.env
+      ROBOTNIK_LAUNCH_PACKAGE: ${ROBOTNIK_LAUNCH_PACKAGE:-robotnik_simulation_bringup}
+      ROBOTNIK_LAUNCH_FILE: ${ROBOTNIK_LAUNCH_FILE:-bringup_complete.launch.py}
+      ROBOTNIK_LAUNCH_ARGS: ${ROBOTNIK_LAUNCH_ARGS:-}
     devices:
       - /dev/dri:/dev/dri
     volumes:
-      - workspace_src:/home/robot/ros2_ws/src
-      - workspace_build:/home/robot/ros2_ws/build
-      - workspace_install:/home/robot/ros2_ws/install
-      - workspace_log:/home/robot/ros2_ws/log
-      - ../:/home/robot/ros2_ws/src/robotnik/robotnik_simulation
+      - ../env/robot.env:/opt/robotnik/config/env/robot.env:ro
       - /tmp/.X11-unix:/tmp/.X11-unix
-    command: ["sleep", "infinity"]
-
-volumes:
-  workspace_src:
-  workspace_build:
-  workspace_install:
-  workspace_log:
