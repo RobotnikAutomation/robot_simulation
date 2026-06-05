@@ -34,6 +34,7 @@ def generate_launch_description():
 
     robot_id = LaunchConfiguration("robot_id")
     use_sim = LaunchConfiguration("use_sim")
+    robot = LaunchConfiguration("robot")
     frame_prefix = LaunchConfiguration("frame_prefix")
 
     map_file = PathJoinSubstitution([
@@ -43,7 +44,10 @@ def generate_launch_description():
 
     amcl_config = PathJoinSubstitution([
         FindPackageShare('robotnik_simulation_localization'),
-        'config/amcl.yaml'
+        'config',
+        'profile',
+        robot,
+        'amcl.yaml'
     ])
 
     amcl_params = ConfigFile(amcl_config)

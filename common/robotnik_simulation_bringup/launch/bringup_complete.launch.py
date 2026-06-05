@@ -172,6 +172,7 @@ def generate_launch_description():
         launch_arguments={
             'robot_id': robot_id,
             'use_sim': 'true',
+            'robot': robot,
             'frame_prefix': frame_prefix,
         }.items()
     )
