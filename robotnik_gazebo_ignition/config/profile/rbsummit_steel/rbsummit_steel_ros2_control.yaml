@@ -20,9 +20,9 @@
       use_2D_odom: true
 
       # Kinematics Params
-      wheel_radius: 0.11  # radius: 0.11
-      track_width: 0.47
-      wheel_base: 0.458
+      wheel_radius: 0.127  # radius: 0.127
+      track_width: 0.409
+      wheel_base: 0.445
       max_steering_position_error: 0.3
 
       #Topics
