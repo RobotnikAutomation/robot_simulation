@@ -143,10 +143,14 @@ def launch_setup(context, params):
     def generate_bridge_yaml(params) -> str:
         robot_id = substitute_param_context(params['robot_id'], context)
         robot = substitute_param_context(params['robot'], context)
+        robot_model = substitute_param_context(params['robot_model'], context)
         package_path = FindPackageShare('robotnik_gazebo_ignition').perform(context)
 
         templates_config = load_yaml(package_path, 'config/bridge_templates.yaml') or {}
-        profile_config = load_yaml(package_path, f'config/profile/{robot}/bridges.yaml') or {}
+        profile_config = load_yaml(
+            package_path,
+            f'config/profile/{robot}/{robot_model}_bridges.yaml',
+        ) or {}
 
         templates = templates_config.get('templates', {})
         bridge_items = profile_config.get('bridges', [])
@@ -156,7 +160,8 @@ def launch_setup(context, params):
             template_name = item.get('template')
             if template_name not in templates:
                 raise RuntimeError(
-                    f"Bridge template '{template_name}' not found for robot '{robot}'"
+                    f"Bridge template '{template_name}' not found for robot '{robot}' "
+                    f"and model '{robot_model}'"
                 )
 
             format_values = {
