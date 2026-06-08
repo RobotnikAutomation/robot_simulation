@@ -1,0 +1,5 @@
+bridges:
+  - template: imu
+    name: imu
+    gz_topic: imu/data
+    ros_topic: imu/data
