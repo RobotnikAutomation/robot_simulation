@@ -37,7 +37,7 @@ repositories:
   robotnik/robotnik_sensors:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_sensors.git
-    version: afe6cc3b933c82f5733373f25fdbf00cf0846fa8
+    version: a00c3b22fcb6937e90b805931bfcb0da2b30f424
   robotnik/robotnik_common:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_common.git
