@@ -130,7 +130,7 @@ def generate_launch_description():
             'robot_xacro_path': robot_xacro_path,
             'arm_type': arm_type,
             'low_performance_simulation': low_performance_simulation,
-            'run_rviz': 'true'
+            'run_rviz': 'false'
         }.items()
     )
 
