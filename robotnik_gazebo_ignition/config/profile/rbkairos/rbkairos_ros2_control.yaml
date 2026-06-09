@@ -21,8 +21,8 @@
 
       # Kinematics Params
       wheel_radius: 0.127  # radius: 0.127
-      track_width: 0.47
-      wheel_base: 0.458
+      track_width: 0.518
+      wheel_base: 0.43056
       max_steering_position_error: 0.3
 
       #Topics

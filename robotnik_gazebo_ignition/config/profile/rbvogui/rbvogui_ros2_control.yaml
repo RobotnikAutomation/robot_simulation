@@ -19,9 +19,9 @@
       use_2D_odom: true
 
       #Kinematics Params
-      wheel_radius: 0.1125  # radious: 0.1125, diameter: 0.2552
-      wheel_base:   0.76
-      track_width:  0.4745
+      wheel_radius: 0.1165  # radius: 0.1165, diameter: 0.233
+      wheel_base:   0.736
+      track_width:  0.47
       min_turning_ratio:  1.0
 
       # Topics
