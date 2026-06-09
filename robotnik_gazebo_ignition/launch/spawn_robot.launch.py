@@ -163,6 +163,7 @@ def launch_setup(context, params):
     # Gazebo bridge
     def generate_bridge_yaml(params) -> str:
         robot_id = substitute_param_context(params['robot_id'], context)
+        robot_model = substitute_param_context(params['robot_model'], context)
         bridge_raw = [
             (f"/{robot_id}/imu/data", f"/{robot_id}/imu/data", "sensor_msgs/msg/Imu", "ignition.msgs.IMU", "GZ_TO_ROS"),
             (f"/{robot_id}/gps/data", f"/{robot_id}/gps/fix", "sensor_msgs/msg/NavSatFix", "ignition.msgs.NavSat", "GZ_TO_ROS"),
@@ -191,7 +192,8 @@ def launch_setup(context, params):
         add_camera("rear")
         add_camera("top_ptz")
         #add_depth_camera("front")
-        add_laser("front")
+        if robot_model != "rbcar":
+            add_laser("front")
         add_laser("rear")
         add_pointcloud("top")
         #add_pointcloud("front")
