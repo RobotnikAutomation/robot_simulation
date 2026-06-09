@@ -4,20 +4,18 @@
     ros__parameters:
       frame_id: robot_base_footprint
       joints:
-        # Estas joints son para simular las suspensiones del robot
+        # These joints simulate the robot suspension.
         - $(var frame_prefix)left_front_shock
         - $(var frame_prefix)right_front_shock
         - $(var frame_prefix)left_rear_shock
         - $(var frame_prefix)right_rear_shock
-        # Estas joints son para un control tipo ackermann en ROS1 (https://github.com/RobotnikAutomation/rbcar_common/tree/feat/hyperimage_simulation, rbcar_common --> rbcar_control --> config --> rbcar_control)
+        # These joints were used by the ROS 1 Ackermann-style controller
         - $(var frame_prefix)left_steering_joint
         - $(var frame_prefix)right_steering_joint
         - $(var frame_prefix)left_front_axle
         - $(var frame_prefix)right_front_axle
         - $(var frame_prefix)left_rear_axle
         - $(var frame_prefix)right_rear_axle
-        # Esta joint parace que es para un antiguo control de traccion en ROS1 (https://github.com/RobotnikAutomation/rbcar_common/tree/feat/hyperimage_simulation, rbcar_common --> rbcar_control --> config --> simple_control)
-        # - $(var frame_prefix)rear_axle_joint
 
   robotnik_base_control:
     ros__parameters:
@@ -31,7 +29,7 @@
       enable_odom_tf: true
       pose_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 0.01]
       twist_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 0.01]
-      # El controlador Ackermann estándar espera el orden right, left.
+      # The standard Ackermann controller expects right, left order.
       traction_joints_names: [$(var frame_prefix)right_rear_axle, $(var frame_prefix)left_rear_axle]
       steering_joints_names: [$(var frame_prefix)right_steering_joint, $(var frame_prefix)left_steering_joint]
       traction_joints_state_names: [$(var frame_prefix)right_rear_axle, $(var frame_prefix)left_rear_axle]
