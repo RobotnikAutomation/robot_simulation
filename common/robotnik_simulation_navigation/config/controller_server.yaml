@@ -100,7 +100,7 @@
           combination_method: 1
           observation_sources: front_laser
           front_laser:
-            topic: /$(var robot_id)/front_laser/scan
+            topic: /$(var robot_id)/localization/scan
             observation_persistence: 0.5
             expected_update_rate: 10.0
             data_type: "LaserScan"

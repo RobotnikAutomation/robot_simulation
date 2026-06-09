@@ -26,7 +26,7 @@
 from launch import LaunchDescription
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
-from launch_ros.actions import Node
+from launch_ros.actions import Node, PushRosNamespace
 from launch.actions import GroupAction
 from robotnik_common.launch import ConfigFile
 
@@ -97,6 +97,7 @@ def generate_launch_description():
     )
 
     group = GroupAction([
+        PushRosNamespace(robot_id),
         map_server,
         amcl,
         lifecycle_manager_localization,

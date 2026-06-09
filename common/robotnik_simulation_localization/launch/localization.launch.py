@@ -23,11 +23,9 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import os
 from launch import LaunchDescription
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
-from launch_ros.actions import PushRosNamespace
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.actions import GroupAction, DeclareLaunchArgument, IncludeLaunchDescription
 from launch.conditions import IfCondition, UnlessCondition
@@ -69,6 +67,21 @@ def generate_launch_description():
     frame_prefix = LaunchConfiguration("frame_prefix")
     run_mapping = LaunchConfiguration("run_mapping")
 
+    localization_scan = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution([
+                 FindPackageShare('robotnik_simulation_localization'), 'launch/localization_scan.launch.py'
+            ])
+        ),
+        launch_arguments={
+            'robot_id': robot_id,
+            'use_sim': use_sim,
+            'robot': robot,
+            'frame_prefix': frame_prefix,
+        }.items(),
+        condition=UnlessCondition(run_mapping)
+    )
+
     localization_2d = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution([
@@ -100,7 +113,7 @@ def generate_launch_description():
     )
 
     group = GroupAction([
-        PushRosNamespace(LaunchConfiguration('robot_id')),
+        localization_scan,
         localization_2d,
         mapping_2d
     ])
