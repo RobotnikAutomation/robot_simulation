@@ -11,7 +11,7 @@ merge:
   laser_1_yaw_offset: 0.0
   laser_2_x_offset: 0.0
   laser_2_y_offset: 0.0
-  laser_2_yaw_offset: 3.141592654
+  laser_2_yaw_offset: 0.0
   tolerance: 0.01
   queue_size: 5
   publish_rate: 100
@@ -26,5 +26,5 @@ merge:
   inf_epsilon: 1.0
   use_inf: true
   allowed_radius: 0.45
-  enable_shadow_filter: true
-  enable_average_filter: true
+  enable_shadow_filter: false
+  enable_average_filter: false
