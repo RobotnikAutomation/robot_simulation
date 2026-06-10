@@ -59,6 +59,8 @@ def _build_pointcloud_to_laserscan(use_sim, frame_prefix, output_topic, pcl_conf
                 remappings=[
                     ("cloud_in", input_topic),
                     ("scan", output_topic),
+                    ("tf", "/tf"),
+                    ("tf_static", "/tf_static"),
                 ],
                 parameters=[parameters],
             )
@@ -94,7 +96,7 @@ def _merge_parameters(frame_prefix, output_topic, merge_config, merge_inputs):
         "use_inf": merge_config.get("use_inf", True),
         "allowed_radius": merge_config.get("allowed_radius", 0.45),
         "enable_shadow_filter": merge_config.get("enable_shadow_filter", True),
-        "enable_average_filter": merge_config.get("enable_average_filter", True),
+        "enable_average_filter": merge_config.get("enable_average_filter", False),
     }
 
 
@@ -115,6 +117,10 @@ def _build_dual_laser_merge(frame_prefix, output_topic, merge_config, merge_inpu
                         plugin="merger_node::MergerNode",
                         name="localization_dual_laser_merger",
                         parameters=[parameters],
+                        remappings=[
+                            ("tf", "/tf"),
+                            ("tf_static", "/tf_static"),
+                        ],
                     )
                 ],
                 output="screen",
