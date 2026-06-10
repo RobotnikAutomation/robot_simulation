@@ -1,2 +1,15 @@
 gz-harmonic
+gz-harmonic
 libgz-sim8-dev
+ros-${ROS_DISTRO}-navigation2
+ros-${ROS_DISTRO}-chomp-motion-planner*
+ros-${ROS_DISTRO}-kdl*
+ros-${ROS_DISTRO}-ompl*
+ros-${ROS_DISTRO}-pick-ik*
+ros-${ROS_DISTRO}-pilz-industrial-motion-planner*
+ros-${ROS_DISTRO}-spacenav*
+ros-${ROS_DISTRO}-stomp*
+ros-${ROS_DISTRO}-trac-ik*
+ros-${ROS_DISTRO}-ur-description
+ros-${ROS_DISTRO}-ur-simulation-gz
+ros-${ROS_DISTRO}-warehouse-ros-sqlite*
