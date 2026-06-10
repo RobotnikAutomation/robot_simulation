@@ -20,8 +20,6 @@
   <exec_depend>robotnik_simulation_moveit</exec_depend>
   <exec_depend>rviz2</exec_depend>
   <exec_depend>teleop_panel</exec_depend>
-  <exec_depend>rviz2</exec_depend>
-  <exec_depend>teleop_panel</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>
