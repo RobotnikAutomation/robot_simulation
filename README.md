@@ -31,6 +31,7 @@ Simulation-based environments and launch assets for Robotnik platforms on ROS 2.
 | [RB-ROBOUT](https://robotnik.eu/robotnik-robots/rb-robout/) | rbrobout, rbrobout_plus | `omni-directional` | <img src="docs/assets/robots/rb-robout.png" alt="RB-ROBOUT" width=100> |
 | [RB-1*](https://robotnik.eu/robotnik-robots/rb-1/) | rb1 | `differential` | <img src="docs/assets/robots/rb-1.png" alt="RB-1 (discontinued)" width=100> |
 | [RB-THERON](https://robotnik.eu/robotnik-robots/rb-theron/) | rbtheron, rbtheron_plus | `differential` | <img src="docs/assets/robots/rb-theron.png" alt="RB-THERON" width=100> |
+| [RB-CAR](https://robotnik.eu/wp-content/uploads/2023/01/Robotnik-RB-CAR-Datasheet-221226-EN.pdf) | rbcar | `ackermann` | <img src="docs/assets/robots/rb-car.png" alt="RB-CAR" width=100> |
 
 *Note: The RB-1 robot is discontinued and may not be supported in future releases.*
 

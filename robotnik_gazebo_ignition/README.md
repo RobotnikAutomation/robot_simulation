@@ -220,6 +220,7 @@ ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py \
 |---|---|---|
 | `rbwatcher` | `rbwatcher` | Supported |
 | `rb1` | `rb1` | Limited |
+| `rbcar` | `rbcar` | Limited |
 | `rbfiqus` | `rbfiqus` | Limited |
 | `rbkairos` | `rbkairos`, `rbkairos_plus` | Limited |
 | `rbrobout` | `rbrobout`, `rbrobout_plus` | Limited |
@@ -241,6 +242,7 @@ Description package is [robotnik_description](https://github.com/RobotnikAutomat
 #### Notes
 
 - Use a unique `robot_id` when spawning multiple robots in the same world to avoid name conflicts in topics and frames.
+- `rbcar` spawns the `ros2_control` Ackermann controller, so its velocity commands use `geometry_msgs/msg/TwistStamped`.
 - For additional launch variants, GPU-specific notes and troubleshooting guidance, see [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md).
 
 ## Control the robot

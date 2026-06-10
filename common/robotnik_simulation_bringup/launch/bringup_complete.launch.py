@@ -139,6 +139,31 @@ def generate_launch_description():
         }.items()
     )
 
+    # In spawn_robot.launch.py the add_laser("front") is defined for any robot model
+    # This causes two publishers to /robot/front_laser/scan when laser filters are enabled
+    # In rbsummit and rbwatcher is not an issue because front laser is not available
+    # but in other robot models that have front laser, it causes conflict.
+    laser_filters = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution([
+                 FindPackageShare('robotnik_simulation_bringup'), 'launch/laser_filters.launch.py'
+            ])
+        ),
+        launch_arguments={
+            'robot_id': robot_id,
+            'use_sim': 'true',
+        }.items(),
+        condition=IfCondition(
+            OrSubstitution(
+                OrSubstitution(
+                    EqualsSubstitution(robot_model, 'rbsummit'),
+                    EqualsSubstitution(robot_model, 'rbwatcher'),
+                ),
+                EqualsSubstitution(robot_model, 'rbcar'),
+            )
+        )
+    )
+
     localization = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution([
