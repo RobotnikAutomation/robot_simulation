@@ -24,13 +24,24 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 from launch import LaunchDescription
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
-from launch_ros.substitutions import FindPackageShare
-from launch_ros.actions import Node
+from launch.actions import DeclareLaunchArgument, GroupAction
 from launch.substitutions import LaunchConfiguration
-from launch.actions import GroupAction
+from launch_ros.actions import Node
 
 def generate_launch_description():
+
+    declared_arguments = [
+        DeclareLaunchArgument(
+            "robot_id",
+            default_value="robot",
+            description="Name for launch and config resources"
+        ),
+        DeclareLaunchArgument(
+            "use_sim",
+            default_value="true",
+            description="Enable simulation time"
+        ),
+    ]
 
     robot_id = LaunchConfiguration("robot_id")
     use_sim = LaunchConfiguration("use_sim")
@@ -41,12 +52,12 @@ def generate_launch_description():
         name='pointcloud_to_laserscan',
         output='screen',
         remappings=[
-            ('cloud_in', '/robot/top_laser/points'),
-            ('scan', '/robot/front_laser/scan')
+            ('cloud_in', ['/', robot_id, '/top_laser/points']),
+            ('scan', ['/', robot_id, '/front_laser/scan'])
         ],
         parameters=[{
-            'use_sim_time': True,
-            'target_frame': 'robot_base_link',
+            'use_sim_time': use_sim,
+            'target_frame': [robot_id, '_base_link'],
             'transform_tolerance': 0.2,
             'min_height': 0.0,
             'max_height': 1.0,
@@ -64,4 +75,4 @@ def generate_launch_description():
         pointcloud_to_laserscan,
     ])
 
-    return LaunchDescription([group])
+    return LaunchDescription(declared_arguments + [group])

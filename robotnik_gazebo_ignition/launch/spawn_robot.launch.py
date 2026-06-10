@@ -32,6 +32,7 @@ from launch.actions import IncludeLaunchDescription, OpaqueFunction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.parameter_descriptions import ParameterValue
 from launch.substitutions import LaunchConfiguration
+from launch.substitutions import EqualsSubstitution
 from launch.substitutions import SubstitutionFailure
 from launch.substitutions import Command, FindExecutable
 from launch.substitutions import PathJoinSubstitution
@@ -52,7 +53,7 @@ from launch.utilities.typing_file_path import FilePath
 from launch.substitution import Substitution
 
 from launch import LaunchContext
-from launch.conditions import IfCondition
+from launch.conditions import IfCondition, UnlessCondition
 
 
 # TODO: move this utility class into robotnik_common
@@ -162,6 +163,7 @@ def launch_setup(context, params):
     # Gazebo bridge
     def generate_bridge_yaml(params) -> str:
         robot_id = substitute_param_context(params['robot_id'], context)
+        robot_model = substitute_param_context(params['robot_model'], context)
         bridge_raw = [
             (f"/{robot_id}/imu/data", f"/{robot_id}/imu/data", "sensor_msgs/msg/Imu", "ignition.msgs.IMU", "GZ_TO_ROS"),
             (f"/{robot_id}/gps/data", f"/{robot_id}/gps/fix", "sensor_msgs/msg/NavSatFix", "ignition.msgs.NavSat", "GZ_TO_ROS"),
@@ -190,9 +192,11 @@ def launch_setup(context, params):
         add_camera("rear")
         add_camera("top_ptz")
         #add_depth_camera("front")
-        add_laser("front")
+        if robot_model != "rbcar":
+            add_laser("front")
         add_laser("rear")
         add_pointcloud("top")
+        #add_pointcloud("front")
 
         bridge_config = [{"ros_topic_name": ros, "gz_topic_name": gz, "ros_type_name": ros_type, "gz_type_name": gz_type, "direction": direction} for gz, ros, ros_type, gz_type, direction in bridge_raw]
         with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp:
@@ -266,12 +270,46 @@ def launch_setup(context, params):
          robot_controller_config, # type: ignore
     )
 
+    is_rbcar = EqualsSubstitution(params['robot'], 'rbcar')
+
     ret.append(Node(
         package='controller_manager',
         executable='spawner',
         namespace=params['robot_id'],
         arguments=controllers,
         output='screen',
+        condition=UnlessCondition(is_rbcar),
+    ))
+
+    rbcar_joint_state_broadcaster = [
+        '--controller-manager-timeout', '60',
+        '--service-call-timeout', '60',
+        'joint_state_broadcaster',
+        '--param-file', robot_controller_config,  # type: ignore
+    ]
+    ret.append(Node(
+        package='controller_manager',
+        executable='spawner',
+        namespace=params['robot_id'],
+        arguments=rbcar_joint_state_broadcaster,
+        output='screen',
+        condition=IfCondition(is_rbcar),
+    ))
+
+    rbcar_ackermann_controller = [
+        '--controller-manager-timeout', '60',
+        '--service-call-timeout', '60',
+        'robotnik_base_control',
+        '--param-file', robot_controller_config,  # type: ignore
+        '--controller-ros-args', '--ros-args -r ~/tf_odometry:=/tf -r ~/odometry:=~/odom -r ~/reference:=~/cmd_vel',
+    ]
+    ret.append(Node(
+        package='controller_manager',
+        executable='spawner',
+        namespace=params['robot_id'],
+        arguments=rbcar_ackermann_controller,
+        output='screen',
+        condition=IfCondition(is_rbcar),
     ))
 
     # Check if rviz config path is modified, if not use default fixed frame
