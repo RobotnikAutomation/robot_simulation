@@ -23,18 +23,28 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+import os
+
 from launch import LaunchDescription
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.actions import Node, PushRosNamespace
-from launch.actions import GroupAction
+from launch.actions import DeclareLaunchArgument, GroupAction, OpaqueFunction
 from robotnik_common.launch import ConfigFile
 
-def generate_launch_description():
+def _resolve_amcl_config(context):
+    robot = LaunchConfiguration("robot").perform(context)
+    return os.path.join(
+        FindPackageShare('robotnik_simulation_localization').perform(context),
+        'config',
+        'profile',
+        robot,
+        'amcl.yaml'
+    )
 
+def _launch_setup(context, *_args, **_kwargs):
     robot_id = LaunchConfiguration("robot_id")
     use_sim = LaunchConfiguration("use_sim")
-    robot = LaunchConfiguration("robot")
     frame_prefix = LaunchConfiguration("frame_prefix")
 
     map_file = PathJoinSubstitution([
@@ -42,15 +52,7 @@ def generate_launch_description():
         'maps/demo_map/demo_map.yaml'
     ])
 
-    amcl_config = PathJoinSubstitution([
-        FindPackageShare('robotnik_simulation_localization'),
-        'config',
-        'profile',
-        robot,
-        'amcl.yaml'
-    ])
-
-    amcl_params = ConfigFile(amcl_config)
+    amcl_params = ConfigFile(_resolve_amcl_config(context))
 
     map_server = Node(
         package='nav2_map_server',
@@ -103,4 +105,35 @@ def generate_launch_description():
         lifecycle_manager_localization,
     ])
 
-    return LaunchDescription([group])
+    return [group]
+
+def generate_launch_description():
+
+    declared_arguments = [
+        DeclareLaunchArgument(
+            "robot_id",
+            default_value="robot",
+            description="Name for launch and config resources"
+        ),
+        DeclareLaunchArgument(
+            "use_sim",
+            default_value="true",
+            description="Enable simulation"
+        ),
+        DeclareLaunchArgument(
+            "robot",
+            default_value="rbwatcher",
+            description="Robot profile used to resolve AMCL config"
+        ),
+        DeclareLaunchArgument(
+            "frame_prefix",
+            default_value=[LaunchConfiguration("robot_id"), "_"],
+            description="Prefix for TF frames"
+        ),
+    ]
+
+    group = GroupAction([
+        OpaqueFunction(function=_launch_setup),
+    ])
+
+    return LaunchDescription(declared_arguments + [group])
