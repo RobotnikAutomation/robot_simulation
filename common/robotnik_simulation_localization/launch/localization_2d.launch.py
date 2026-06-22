@@ -34,12 +34,19 @@ from robotnik_common.launch import ConfigFile
 
 def _resolve_amcl_config(context):
     robot = LaunchConfiguration("robot").perform(context)
-    return os.path.join(
-        FindPackageShare('robotnik_simulation_localization').perform(context),
-        'config',
-        'profile',
+    profile_config = os.path.join(
+        FindPackageShare("robotnik_simulation_profiles").perform(context),
         robot,
-        'amcl.yaml'
+        "localization",
+        "amcl.yaml",
+    )
+    if os.path.exists(profile_config):
+        return profile_config
+
+    return os.path.join(
+        FindPackageShare("robotnik_simulation_localization").perform(context),
+        "config",
+        "amcl.yaml",
     )
 
 def _launch_setup(context, *_args, **_kwargs):

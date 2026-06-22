@@ -11,16 +11,20 @@ from launch_ros.substitutions import FindPackageShare
 
 def _load_scan_pipeline(context):
     robot = LaunchConfiguration("robot").perform(context)
-    config_path = os.path.join(
-        FindPackageShare("robotnik_simulation_localization").perform(context),
-        "config",
-        "profile",
+    profile_config = os.path.join(
+        FindPackageShare("robotnik_simulation_profiles").perform(context),
         robot,
+        "localization",
         "localization_scan.yaml",
     )
-
-    if not os.path.exists(config_path):
-        return None, config_path
+    if os.path.exists(profile_config):
+        config_path = profile_config
+    else:
+        config_path = os.path.join(
+            FindPackageShare("robotnik_simulation_localization").perform(context),
+            "config",
+            "localization_scan.yaml",
+        )
 
     with open(config_path, "r", encoding="utf-8") as config_file:
         return yaml.safe_load(config_file) or {}, config_path
@@ -63,6 +67,26 @@ def _build_pointcloud_to_laserscan(use_sim, frame_prefix, output_topic, pcl_conf
                     ("tf_static", "/tf_static"),
                 ],
                 parameters=[parameters],
+            )
+        ])
+    ]
+
+
+def _build_passthrough(output_topic, passthrough_config):
+    input_topic = passthrough_config.get("input_topic", "front_laser/scan")
+    return [
+        GroupAction([
+            PushRosNamespace(LaunchConfiguration("robot_id")),
+            Node(
+                package="topic_tools",
+                executable="relay",
+                name="localization_scan_relay",
+                output="screen",
+                arguments=[input_topic, output_topic],
+                remappings=[
+                    ("tf", "/tf"),
+                    ("tf_static", "/tf_static"),
+                ],
             )
         ])
     ]
@@ -148,6 +172,10 @@ def _launch_setup(context, *_args, **_kwargs):
     if mode == "pointcloud_to_laserscan":
         pcl_config = scan_pipeline.get("pointcloud_to_laserscan", {})
         return _build_pointcloud_to_laserscan(use_sim, frame_prefix, output_topic, pcl_config)
+
+    if mode == "passthrough":
+        passthrough_config = scan_pipeline.get("passthrough", {})
+        return _build_passthrough(output_topic, passthrough_config)
 
     if mode == "merge":
         merge_config = scan_pipeline.get("merge", {})
