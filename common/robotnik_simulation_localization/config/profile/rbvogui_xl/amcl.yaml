@@ -6,8 +6,8 @@
       base_frame_id: $(var frame_prefix)base_footprint
       global_frame_id: $(var frame_prefix)map
       odom_frame_id: $(var frame_prefix)odom
-      robot_model_type: nav2_amcl::DifferentialMotionModel
-      scan_topic: front_laser/scan
+      robot_model_type: nav2_amcl::OmniMotionModel
+      scan_topic: localization/scan
 
       set_initial_pose: true
       initial_pose:
@@ -20,7 +20,7 @@
       alpha2: 0.005
       alpha3: 0.02
       alpha4: 0.02
-      alpha5: 0.0
+      alpha5: 0.01
       beam_skip_distance: 0.5
       beam_skip_error_threshold: 0.9
       beam_skip_threshold: 0.3
