@@ -15,14 +15,14 @@ merge:
   tolerance: 0.01
   queue_size: 5
   publish_rate: 100
-  scan_time: 0.067
+  scan_time: 0.04
   min_height: -1.0
   max_height: 1.0
   angle_min: -3.14159
   angle_max: 3.14159
-  angle_increment: 0.008694
+  angle_increment: 0.01704
   range_min: 0.05
-  range_max: 30.0
+  range_max: 10.0
   inf_epsilon: 1.0
   use_inf: true
   allowed_radius: 0.45

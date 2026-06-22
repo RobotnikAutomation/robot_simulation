@@ -6,7 +6,7 @@
       base_frame_id: $(var frame_prefix)base_footprint
       global_frame_id: $(var frame_prefix)map
       odom_frame_id: $(var frame_prefix)odom
-      robot_model_type: nav2_amcl::DifferentialMotionModel
+      robot_model_type: nav2_amcl::OmniMotionModel
       scan_topic: localization/scan
 
       set_initial_pose: true
@@ -27,8 +27,8 @@
       do_beamskip: false
       lambda_short: 0.1
       laser_likelihood_max_dist: 0.15
-      laser_max_range: 10.0
-      laser_min_range: -1.0
+      laser_max_range: 64.0
+      laser_min_range: 0.05
       laser_model_type: "likelihood_field"
       max_beams: 60
       max_particles: 2000

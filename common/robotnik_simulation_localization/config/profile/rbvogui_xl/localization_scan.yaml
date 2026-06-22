@@ -20,9 +20,9 @@ merge:
   max_height: 1.0
   angle_min: -3.14159
   angle_max: 3.14159
-  angle_increment: 0.008694
+  angle_increment: 0.005185
   range_min: 0.05
-  range_max: 30.0
+  range_max: 25.0
   inf_epsilon: 1.0
   use_inf: true
   allowed_radius: 0.7

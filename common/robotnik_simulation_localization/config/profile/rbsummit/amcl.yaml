@@ -27,8 +27,8 @@
       do_beamskip: false
       lambda_short: 0.1
       laser_likelihood_max_dist: 0.15
-      laser_max_range: 10.0
-      laser_min_range: -1.0
+      laser_max_range: 150.0
+      laser_min_range: 0.2
       laser_model_type: "likelihood_field"
       max_beams: 60
       max_particles: 2000
