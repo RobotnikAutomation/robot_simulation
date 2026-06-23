@@ -27,6 +27,7 @@ from launch_ros.actions import Node
 from launch import LaunchDescription
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
+from launch_ros.parameter_descriptions import ParameterFile
 from launch.actions import GroupAction
 
 def generate_launch_description():
@@ -34,10 +35,13 @@ def generate_launch_description():
     robot_id = LaunchConfiguration("robot_id")
     use_sim = LaunchConfiguration("use_sim", default="true")
 
-    slam_toolbox_config = PathJoinSubstitution([
-        FindPackageShare('robotnik_simulation_localization'),
-        'config/slam_toolbox.yaml'
-    ])
+    slam_toolbox_config = ParameterFile(
+        PathJoinSubstitution([
+            FindPackageShare('robotnik_simulation_localization'),
+            'config/slam_toolbox.yaml'
+        ]),
+        allow_substs=True
+    )
 
     slam_toolbox_mapping = Node(
         package='slam_toolbox',

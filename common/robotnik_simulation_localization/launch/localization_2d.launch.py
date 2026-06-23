@@ -27,7 +27,7 @@ from launch import LaunchDescription
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.actions import Node
-from launch.substitutions import LaunchConfiguration
+from launch_ros.parameter_descriptions import ParameterFile
 from launch.actions import GroupAction
 
 def generate_launch_description():
@@ -40,10 +40,13 @@ def generate_launch_description():
         'maps/demo_map/demo_map.yaml'
     ])
 
-    amcl_config = PathJoinSubstitution([
-        FindPackageShare('robotnik_simulation_localization'),
-        'config/amcl.yaml'
-    ])
+    amcl_config = ParameterFile(
+        PathJoinSubstitution([
+            FindPackageShare('robotnik_simulation_localization'),
+            'config/amcl.yaml'
+        ]),
+        allow_substs=True
+    )
 
     map_server = Node(
         package='nav2_map_server',
@@ -54,7 +57,7 @@ def generate_launch_description():
             {
                 'use_sim_time': use_sim,
                 'yaml_filename': map_file,
-                'frame_id': 'robot_map'
+                'frame_id': [robot_id, '_map']
             }
         ]
     )
