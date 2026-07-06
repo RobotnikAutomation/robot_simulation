@@ -16,6 +16,15 @@ This package provides the Gazebo-based simulation layer for Robotnik robots on R
 - `gz_ros2_control` integration for simulated control
 - RViz resources and simulation control profiles
 
+The robot files in `robotnik_description` contain the physical description but
+no Gazebo control system. `spawn_robot.launch.py` composes the selected
+`robot_xacro_path` with the matching adapter under
+`robotnik_description/simulators/gazebo_ignition`. Expanding a description
+xacro directly with `gazebo_ignition:=true` therefore does not add
+`gz_ros2_control`; use this package's launcher or
+`robotnik_description/simulators/gazebo_ignition/robot.urdf.xacro` when a
+complete Gazebo robot description is required.
+
 ## Installation
 
 ### General requirements
