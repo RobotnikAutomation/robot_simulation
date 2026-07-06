@@ -37,7 +37,7 @@ def generate_launch_description():
 
     map_file = PathJoinSubstitution([
         FindPackageShare('robotnik_simulation_localization'),
-        'maps/demo_map/demo_map.yaml'
+        'maps/demo_map/map.yaml'
     ])
 
     amcl_config = PathJoinSubstitution([
