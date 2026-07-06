@@ -9,6 +9,7 @@ find_package(ament_cmake REQUIRED)
 
 install(DIRECTORY
   rb1
+  rbcar
   rbfiqus
   rbkairos
   rbrobout
