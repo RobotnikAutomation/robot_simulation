@@ -26,10 +26,6 @@
 ---
 repositories:
   # Robotnik repositories
-  robotnik/robotnik_simulation:
-    type: git
-    url: https://github.com/RobotnikAutomation/robotnik_simulation.git
-    version: jazzy-devel
   robotnik/robotnik_description:
     type: git
     url: https://github.com/RobotnikAutomation/robotnik_description.git
