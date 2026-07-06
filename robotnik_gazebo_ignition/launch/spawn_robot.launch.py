@@ -22,30 +22,25 @@
 # ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-import tempfile
-import yaml
 import os
+from pathlib import Path
+import tempfile
 
+import yaml
 
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, OpaqueFunction
-from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.actions import OpaqueFunction
 from launch.substitutions import LaunchConfiguration
 from launch.substitutions import EqualsSubstitution
-from launch.substitutions import SubstitutionFailure
 from launch.substitutions import Command, FindExecutable
 from launch.substitutions import PathJoinSubstitution
 
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
+from launch_ros.descriptions import ParameterValue
 
-from robotnik_common.launch import AddArgumentParser, ConfigFile, ExtendedArgument
-
-
-from pathlib import Path
-
-from launch import LaunchContext
 from launch.conditions import IfCondition, UnlessCondition
+from robotnik_common.launch import AddArgumentParser, ConfigFile, ExtendedArgument
 
 
 def load_yaml(package_path, relative_path):
@@ -62,20 +57,37 @@ def substitute_param_context(param, context):
 def launch_setup(context, params):
     ret = []
 
-    # Robot Description
-    ret.append(IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([
-            FindPackageShare('robotnik_description'), '/launch/robot_description.launch.py'
-        ]),
-        launch_arguments={
-            'verbose': 'false',
-            'robot_xacro_path': params['robot_xacro_path'],
-            'frame_prefix': [params['robot_id'], '_'],
-            'namespace': params['robot_id'],
-            'gazebo_ignition': 'true',
-            'arm_type': params['arm_type'],
-            'low_performance_simulation': params['low_performance_simulation']
-        }.items(),
+    # Compose the simulator-independent description with Gazebo ros2_control.
+    gazebo_robot_xacro = PathJoinSubstitution([
+        FindPackageShare('robotnik_description'),
+        'simulators',
+        'gazebo_ignition',
+        'robot.urdf.xacro',
+    ])
+    robot_description_content = Command([
+        FindExecutable(name='xacro'),
+        ' ', gazebo_robot_xacro,
+        ' source_robot_xacro_path:=', params['robot_xacro_path'],
+        ' robot:=', params['robot'],
+        ' namespace:=', params['robot_id'],
+        ' prefix:=', params['frame_prefix'],
+        ' controller_config:=', params['robot_model'], '_ros2_control.yaml',
+        ' gazebo_ignition:=true',
+        ' ur_type:=', params['arm_type'],
+        ' low_performance:=', params['low_performance_simulation'],
+    ])
+    robot_description = ParameterValue(robot_description_content, value_type=str)
+    ret.append(Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        name='robot_state_publisher',
+        namespace=params['robot_id'],
+        output='screen',
+        parameters=[{
+            'robot_description': robot_description,
+            'publish_frequency': 100.0,
+            'use_sim_time': params['use_sim_time'],
+        }],
     ))
 
     # Spawner
@@ -197,38 +209,27 @@ def launch_setup(context, params):
 
 
     def extract_controllers_from_yaml(yaml_path):
-
-        data = {}
         existing_controllers = []
-        # Load the YAML file
         with open(yaml_path, 'r') as f:
-
-            # Read the file content
-            content = f.read()
-            # Remove the string "---\n/**:" if it exists at the beginning
-            if content.startswith('---\n/**:'):
-                content = content[len('---\n/**:'):]
-            # Move file pointer back to start for yaml.safe_load
-            f.seek(0)
-            f = tempfile.SpooledTemporaryFile(mode='w+')
-            f.write(content)
-            f.seek(0)
-
             try:
-                data = yaml.safe_load(f)
+                data = yaml.safe_load(f) or {}
             except Exception as e:
                 raise RuntimeError(f"Failed to parse YAML file '{yaml_path}': {e}")
 
-        for controller in data:
-            existing_controllers.append(controller)
+        root_data = data.get('/**', data)
+        ros_parameters = root_data.get('controller_manager', {}).get('ros__parameters', {})
+
+        for controller_name, controller_data in ros_parameters.items():
+            if isinstance(controller_data, dict) and 'type' in controller_data:
+                existing_controllers.append(controller_name)
+
         return existing_controllers
 
     def get_ros2_control_yaml_path(params):
         base_path = (
-            Path(FindPackageShare('robotnik_gazebo_ignition').perform(context))
-            / 'config'
-            / 'profile'
+            Path(FindPackageShare('robotnik_simulation_profiles').perform(context))
             / substitute_param_context(params['robot'], context)
+            / 'control'
         )
         robot_model = substitute_param_context(params['robot_model'], context)
         return str(base_path / f'{robot_model}_ros2_control.yaml')
@@ -322,7 +323,7 @@ def launch_setup(context, params):
         namespace=params['robot_id'],
         arguments=[
             # Fixed frame
-            ['-f', params['robot_id'], '_odom'] if use_fixed_frame else [],
+            ['-f', params['frame_prefix'], 'odom'] if use_fixed_frame else [],
             # Config file
             '-d', [params['rviz_config']],
             # Window name
@@ -343,6 +344,7 @@ def generate_launch_description():
         ("robot", "Robot Model Name", "rbwatcher", "ROBOT"),
         ("robot_model", "Robot Variant or Type", LaunchConfiguration('robot'), "ROBOT_MODEL"),
         ("robot_xacro_path", "Path to Robot Xacro File", [FindPackageShare('robotnik_description'), '/robots/', LaunchConfiguration('robot'), '/', LaunchConfiguration('robot_model'), '.urdf.xacro'], "ROBOT_XACRO_PATH"),
+        ("frame_prefix", "Prefix of each frame", [LaunchConfiguration('robot_id'), '_'], "FRAME_PREFIX"),
         ("x", "Initial X Coordinate", "0.0", "X"),
         ("y", "Initial Y Coordinate", "0.0", "Y"),
         ("z", "Initial Z Coordinate", "0.0", "Z"),
