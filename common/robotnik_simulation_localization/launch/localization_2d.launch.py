@@ -24,15 +24,39 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import os
+import yaml
 
 from launch import LaunchDescription
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.actions import Node, PushRosNamespace
 from launch.actions import DeclareLaunchArgument, GroupAction, OpaqueFunction
-from robotnik_common.launch import ConfigFile
+from robotnik_common.launch import ConfigFile, RewrittenYaml
 
-def _resolve_amcl_config(context):
+
+_AMCL_OVERRIDE_KEYS = {
+    "robot_model_type",
+    "scan_topic",
+    "alpha5",
+    "laser_min_range",
+    "laser_max_range",
+}
+_AMCL_REQUIRED_OVERRIDE_KEYS = {
+    "robot_model_type",
+    "scan_topic",
+}
+_AMCL_PARAMS_ROOT = "/**.amcl.ros__parameters"
+
+
+def _resolve_amcl_base_config(context):
+    return os.path.join(
+        FindPackageShare("robotnik_simulation_localization").perform(context),
+        "config",
+        "amcl.yaml",
+    )
+
+
+def _resolve_amcl_override_config(context):
     robot = LaunchConfiguration("robot").perform(context)
     profile_config = os.path.join(
         FindPackageShare("robotnik_simulation_profiles").perform(context),
@@ -40,14 +64,54 @@ def _resolve_amcl_config(context):
         "localization",
         "amcl.yaml",
     )
-    if os.path.exists(profile_config):
-        return profile_config
+    if not os.path.exists(profile_config):
+        raise FileNotFoundError(
+            f"AMCL override file for robot '{robot}' was not found at {profile_config}."
+        )
+    return profile_config
 
-    return os.path.join(
-        FindPackageShare("robotnik_simulation_localization").perform(context),
-        "config",
-        "amcl.yaml",
+
+def _load_amcl_override_rewrites(override_config):
+    with open(override_config, "r", encoding="utf-8") as config_file:
+        config = yaml.safe_load(config_file) or {}
+
+    try:
+        params = config["/**"]["amcl"]["ros__parameters"]
+    except KeyError as exc:
+        raise ValueError(
+            f"AMCL override file '{override_config}' must define /**/amcl/ros__parameters."
+        ) from exc
+
+    invalid_keys = sorted(set(params) - _AMCL_OVERRIDE_KEYS)
+    if invalid_keys:
+        raise ValueError(
+            f"AMCL override file '{override_config}' contains unsupported keys: "
+            f"{', '.join(invalid_keys)}."
+        )
+
+    missing_keys = sorted(_AMCL_REQUIRED_OVERRIDE_KEYS - set(params))
+    if missing_keys:
+        raise ValueError(
+            f"AMCL override file '{override_config}' is missing required keys: "
+            f"{', '.join(missing_keys)}."
+        )
+
+    return {
+        f"{_AMCL_PARAMS_ROOT}.{key}": str(value)
+        for key, value in params.items()
+    }
+
+
+def _resolve_amcl_config(context):
+    base_config = _resolve_amcl_base_config(context)
+    override_config = _resolve_amcl_override_config(context)
+    override_rewrites = _load_amcl_override_rewrites(override_config)
+    rewritten_config = RewrittenYaml(
+        source_file=base_config,
+        param_rewrites=override_rewrites,
+        convert_types=True,
     )
+    return ConfigFile(rewritten_config)
 
 def _launch_setup(context, *_args, **_kwargs):
     robot_id = LaunchConfiguration("robot_id")
@@ -59,7 +123,7 @@ def _launch_setup(context, *_args, **_kwargs):
         'maps/demo_map/demo_map.yaml'
     ])
 
-    amcl_params = ConfigFile(_resolve_amcl_config(context))
+    amcl_params = _resolve_amcl_config(context)
 
     map_server = Node(
         package='nav2_map_server',
