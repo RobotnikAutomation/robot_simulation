@@ -86,7 +86,7 @@ source install/setup.bash
 
 Once the installation is complete and the workspace is built, the recommended Gazebo workflow is to launch a world first and then spawn one or more robots into that running world.
 
-### Option 1: Gazebo world + robot`
+### Option 1: Gazebo world + robot
 Terminal 1:
 
 ```bash
@@ -106,16 +106,13 @@ ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py \
 This flow is recommended when you want to keep Gazebo running, spawn multiple robots, respawn robots during development, or test different robot models and poses without restarting the world.
 
 ### Option 2: Full navigation/manipulation demo
-```
+```bash
 source ~/ros2_ws/install/setup.bash
 ros2 launch robotnik_simulation_bringup bringup_complete.launch.py \
   robot:=rbwatcher \
   use_rviz:=true
 ```
-`robotnik_gazebo_ignition` intentionally keeps world launching and robot spawning
-as separate launch files. This makes multi-robot simulation and iterative
-development easier. For a higher-level demo launcher, use
-`robotnik_simulation_bringup`.
+`robotnik_gazebo_ignition` intentionally keeps world launching and robot spawning as separate launch files. This makes multi-robot simulation and iterative development easier. For a higher-level demo launcher, use `robotnik_simulation_bringup`.
 
 ## Usage
 
@@ -195,7 +192,6 @@ ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py \
   robot_model:=<robot_model> \
   arm_type:=<ur_model> \
   x:=<m> y:=<m> z:=<m> \
-  has_arm:=<true|false> \
   run_rviz:=<true|false> \
   rviz_config:=<path/to/config.rviz>
 ```
@@ -204,14 +200,17 @@ ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py \
 
 | Name | Required | Purpose | Example |
 |---|---|---|---|
-| `robot_id` | no | Instance name for the spawned robot | `robot_a` |
+| `robot_id` | no | Instance name and ROS namespace for the spawned robot | `robot_a` |
 | `robot` | no | Robot type to spawn; default is `rbwatcher` | `rbwatcher` |
-| `robot_model` | no | Specific model within the selected robot type | `rbwatcher` |
+| `robot_model` | no | Concrete model or variant; defaults to `robot` | `rbwatcher` |
+| `frame_prefix` | no | TF frame prefix; defaults to `<robot_id>_` | `robot_a_` |
+| `robot_xacro_path` | no | Full path to a custom robot XACRO | `/path/to/robot.urdf.xacro` |
 | `x` `y` `z` | no | Spawn position in meters | `0.0 0.0 0.0` |
-| `run_rviz` | no | Launch RViz2 with a predefined configuration | `true` or `false` |
-| `rviz_config` | no | Full path to a custom RViz2 config; overrides the default | `/path/to/custom_config.rviz` |
-| `has_arm` | no | Whether the platform should be spawned with a robotic arm | `true` or `false` |
 | `arm_type` | no | Arm type forwarded to the robot xacro as `ur_type` | `ur10e` |
+| `run_rviz` | no | Launch RViz2 with a predefined Gazebo simulation config | `true` |
+| `rviz_config` | no | Full path to a custom RViz2 config; overrides the default | `/path/to/custom_config.rviz` |
+| `use_sim_time` | no | Use simulation time | `true` |
+| `low_performance_simulation` | no | Enable lower-performance simulation options where supported | `false` |
 
 #### Supported robots
 
@@ -236,13 +235,14 @@ ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py \
 Description package is [robotnik_description](https://github.com/RobotnikAutomation/robotnik_description), which contains all robot types and models. The distinction is:
 
 - **Robot type**: Category such as `rbwatcher`, `summit_xl`. See the package `robots/` folder for available types. [List of supported robots](https://github.com/RobotnikAutomation/robotnik_description/tree/jazzy-devel/robots).
-- **Robot model**: Concrete variant inside a type. If omitted, the default model for that type is used. See the package `robots/<robot>/models/` folder for available models. [Example models for rbwatcher](https://github.com/RobotnikAutomation/robotnik_description/tree/jazzy-devel/robots/rbwatcher).
+- **Robot model**: Concrete variant inside a type. If `robot_model` is not provided, it defaults to the selected `robot` value. See the package `robots/<robot>/models/` folder for available models. [Example models for rbwatcher](https://github.com/RobotnikAutomation/robotnik_description/tree/jazzy-devel/robots/rbwatcher).
 
 #### Notes
 
 - Use a unique `robot_id` when spawning multiple robots in the same world to avoid name conflicts in topics and frames.
 - `rbcar` spawns the `ros2_control` Ackermann controller, so its velocity commands use `geometry_msgs/msg/TwistStamped`.
 - For additional launch variants, GPU-specific notes and troubleshooting guidance, see [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md).
+- If Gazebo server processes or ROS 2 control nodes remain after closing a simulation, see [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md#gazebo-server-remains-alive-after-closing-the-simulation).
 
 ## Control the robot
 
@@ -264,7 +264,7 @@ sudo apt install ros-jazzy-teleop-twist-keyboard
 ros2 run teleop_twist_keyboard teleop_twist_keyboard \
   --ros-args \
   -r cmd_vel:=/robot/robotnik_base_control/cmd_vel_unstamped \
-  -p stamped:=true
+  -p stamped:=false
 ```
 
 Replace `/robot/robotnik_base_control/cmd_vel_unstamped` with the correct namespace for the `robot_id` you used when spawning the robot.
