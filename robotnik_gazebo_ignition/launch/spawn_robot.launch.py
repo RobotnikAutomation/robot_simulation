@@ -207,6 +207,10 @@ def launch_setup(context, params):
 
     robot_controller_config = ParameterFile(path, allow_substs=True)
 
+    # RB-CAR uses the standard Ackermann controller and requires controller-specific
+    # ROS argument remaps. Spawn it separately so these remaps are applied only to
+    # robotnik_base_control.
+
     is_rbcar = EqualsSubstitution(params['robot'], 'rbcar')
 
     ret.append(Node(
