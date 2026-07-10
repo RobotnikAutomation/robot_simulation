@@ -24,18 +24,14 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import tempfile
 import yaml
-import os
-
 
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription, OpaqueFunction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch_ros.parameter_descriptions import ParameterValue
 from launch.substitutions import LaunchConfiguration
 from launch.substitutions import EqualsSubstitution
-from launch.substitutions import SubstitutionFailure
-from launch.substitutions import Command, FindExecutable
-from launch.substitutions import PathJoinSubstitution
+from launch.utilities import normalize_to_list_of_substitutions, perform_substitutions
+from launch.conditions import IfCondition, UnlessCondition
 
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
@@ -43,23 +39,41 @@ from launch_ros.parameter_descriptions import ParameterFile
 
 from robotnik_common.launch import AddArgumentParser, ExtendedArgument
 
-
 from pathlib import Path
-from tempfile import NamedTemporaryFile
-from typing import Union, Optional
-from launch import SomeSubstitutionsType, SomeSubstitutionsType_types_tuple, LaunchContext
-from launch.frontend.parse_substitution import parse_substitution
-from launch.utilities import normalize_to_list_of_substitutions, perform_substitutions
-from launch.utilities.typing_file_path import FilePath
-from launch.substitution import Substitution
-from launch.conditions import IfCondition, UnlessCondition
 
 
+def generate_rviz_config(context, rviz_config_path, robot_id, frame_prefix):
+    """Generate an RViz config adapted to the current robot instance.
 
-def load_yaml(package_path, relative_path):
-    full_path = os.path.join(package_path, relative_path)
-    with open(full_path, "r") as f:
-        return yaml.safe_load(f)
+    The default RViz config is stored with topics under /robot/ and frames using
+    the robot_ prefix. When spawning robots with a different robot_id or
+    frame_prefix, create a temporary RViz config pointing to the correct topics
+    and TF frames.
+    """
+    robot_id_value = perform_substitutions(
+        context,
+        normalize_to_list_of_substitutions(robot_id),
+    )
+    frame_prefix_value = perform_substitutions(
+        context,
+        normalize_to_list_of_substitutions(frame_prefix),
+    )
+
+    with open(rviz_config_path, 'r') as f:
+        content = f.read()
+    # Replace only the default robot namespace and frame prefix used by the
+    # template RViz config.
+    content = content.replace('/robot/', f'/{robot_id_value}/')
+    content = content.replace('robot_', frame_prefix_value)
+
+    with tempfile.NamedTemporaryFile(
+        mode='w',
+        prefix='rviz_config_',
+        suffix='.rviz',
+        delete=False,
+    ) as tmp:
+        tmp.write(content)
+        return tmp.name
 
 def substitute_param_context(param, context):
     """Resolve a parameter if it is a LaunchConfiguration."""
@@ -78,7 +92,7 @@ def launch_setup(context, params):
         launch_arguments={
             'verbose': 'false',
             'robot_xacro_path': params['robot_xacro_path'],
-            'frame_prefix': [params['robot_id'], '_'],
+            'frame_prefix': params['frame_prefix'],
             'namespace': params['robot_id'],
             'gazebo_ignition': 'true',
             'arm_type': params['arm_type'],
@@ -210,7 +224,6 @@ def launch_setup(context, params):
     # RB-CAR uses the standard Ackermann controller and requires controller-specific
     # ROS argument remaps. Spawn it separately so these remaps are applied only to
     # robotnik_base_control.
-
     is_rbcar = EqualsSubstitution(params['robot'], 'rbcar')
 
     ret.append(Node(
@@ -254,7 +267,9 @@ def launch_setup(context, params):
         condition=IfCondition(is_rbcar),
     ))
 
-    # Check if rviz config path is modified, if not use default fixed frame
+    # If no custom RViz config is provided, adapt the default RViz config to the
+    # current robot namespace and frame prefix. The default config is authored for
+    # robot_id="robot" and frame_prefix="robot_".
     rviz_config_default = str(
         Path(
             FindPackageShare('robotnik_gazebo_ignition').perform(context)
@@ -262,16 +277,20 @@ def launch_setup(context, params):
         / 'config'
         / 'rviz_config.rviz'
     )
-    use_fixed_frame = False
-    # Determine if fixed frame should be used
+
     if isinstance(params['rviz_config'], LaunchConfiguration):
         rviz_config_value = params['rviz_config'].perform(context)
-        use_fixed_frame = (rviz_config_value == "")
+        use_default_rviz_config = (rviz_config_value == "")
     else:
-        use_fixed_frame = (params['rviz_config'] == "")
+        use_default_rviz_config = (params['rviz_config'] == "")
 
-    if use_fixed_frame:
-        params['rviz_config'] = rviz_config_default
+    if use_default_rviz_config:
+        params['rviz_config'] = generate_rviz_config(
+            context,
+            rviz_config_default,
+            params['robot_id'],
+            params['frame_prefix'],
+    )
 
     use_sim_time = {"use_sim_time": True}
 
@@ -282,7 +301,7 @@ def launch_setup(context, params):
         namespace=params['robot_id'],
         arguments=[
             # Fixed frame
-            ['-f', params['robot_id'], '_odom'] if use_fixed_frame else [],
+            ['-f', params['frame_prefix'], 'odom'] if use_default_rviz_config else [],
             # Config file
             '-d', [params['rviz_config']],
             # Window name
