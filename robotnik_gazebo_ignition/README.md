@@ -84,20 +84,9 @@ source install/setup.bash
 
 ## Quick start
 
-Once the installation is complete and the workspace is built, these are the fastest validated ways to get `rbwatcher` running.
+Once the installation is complete and the workspace is built, the recommended Gazebo workflow is to launch a world first and then spawn one or more robots into that running world.
 
-### Option 1: Integrated bringup for `rbwatcher`
-
-```bash
-# Run after building the workspace
-source ~/ros2_ws/install/setup.bash
-ros2 launch robotnik_simulation_bringup bringup_complete.launch.py \
-  robot:=rbwatcher \
-  use_rviz:=true
-```
-
-### Option 2: Standalone world + robot flow for `rbwatcher`
-
+### Option 1: Gazebo world + robot`
 Terminal 1:
 
 ```bash
@@ -107,14 +96,26 @@ ros2 launch robotnik_gazebo_ignition spawn_world.launch.py world:=empty
 ```
 
 Terminal 2:
-
 ```bash
-# Run while Gazebo is already active
+# Run after building the workspace
 source ~/ros2_ws/install/setup.bash
 ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py \
   robot:=rbwatcher \
   run_rviz:=true
 ```
+This flow is recommended when you want to keep Gazebo running, spawn multiple robots, respawn robots during development, or test different robot models and poses without restarting the world.
+
+### Option 2: Full navigation/manipulation demo
+```
+source ~/ros2_ws/install/setup.bash
+ros2 launch robotnik_simulation_bringup bringup_complete.launch.py \
+  robot:=rbwatcher \
+  use_rviz:=true
+```
+`robotnik_gazebo_ignition` intentionally keeps world launching and robot spawning
+as separate launch files. This makes multi-robot simulation and iterative
+development easier. For a higher-level demo launcher, use
+`robotnik_simulation_bringup`.
 
 ## Usage
 
