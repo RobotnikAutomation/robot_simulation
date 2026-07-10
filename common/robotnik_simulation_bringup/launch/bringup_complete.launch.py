@@ -74,6 +74,16 @@ def generate_launch_description():
             description="Enable rviz gui"
         ),
         DeclareLaunchArgument(
+            "run_localization",
+            default_value="true",
+            description="Enable localization"
+        ),
+        DeclareLaunchArgument(
+            "run_navigation",
+            default_value="true",
+            description="Enable navigation"
+        ),
+        DeclareLaunchArgument(
             "run_moveit",
             default_value="false",
             description="Enable MoveIt for manipulation"
@@ -82,6 +92,11 @@ def generate_launch_description():
             "arm_type",
             default_value="ur10e",
             description="Type of robotic arm"
+        ),
+        DeclareLaunchArgument(
+            "run_laser_filters",
+            default_value="true",
+            description="Enable laser filters when supported by the selected robot"
         ),
         DeclareLaunchArgument(
             "world_path",
@@ -101,6 +116,8 @@ def generate_launch_description():
     low_performance_simulation = LaunchConfiguration("low_performance_simulation")
     world_path = LaunchConfiguration("world_path")
     use_rviz = LaunchConfiguration("use_rviz")
+    run_localization = LaunchConfiguration("run_localization")
+    run_navigation = LaunchConfiguration("run_navigation")
     run_moveit = LaunchConfiguration("run_moveit")
     arm_type = LaunchConfiguration("arm_type")
 
@@ -173,7 +190,8 @@ def generate_launch_description():
 
     delayed_localization = TimerAction(
         period=10.0,
-        actions=[localization]
+        actions=[localization],
+        condition=IfCondition(run_localization),
     )
 
     navigation = IncludeLaunchDescription(
@@ -190,7 +208,8 @@ def generate_launch_description():
 
     delayed_navigation = TimerAction(
         period=15.0,
-        actions=[navigation]
+        actions=[navigation],
+        condition=IfCondition(run_navigation),
     )
 
     rviz = IncludeLaunchDescription(
