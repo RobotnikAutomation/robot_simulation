@@ -30,7 +30,7 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.actions import GroupAction, DeclareLaunchArgument, IncludeLaunchDescription
 from launch.conditions import IfCondition
 from launch.actions import TimerAction
-from launch.substitutions import EqualsSubstitution, OrSubstitution
+from launch.substitutions import EqualsSubstitution, OrSubstitution, AndSubstitution
 
 def generate_launch_description():
 
@@ -119,6 +119,7 @@ def generate_launch_description():
     run_localization = LaunchConfiguration("run_localization")
     run_navigation = LaunchConfiguration("run_navigation")
     run_moveit = LaunchConfiguration("run_moveit")
+    run_laser_filters = LaunchConfiguration("run_laser_filters")
     arm_type = LaunchConfiguration("arm_type")
 
     gazebo_world = IncludeLaunchDescription(
@@ -166,12 +167,15 @@ def generate_launch_description():
             'use_sim': 'true',
         }.items(),
         condition=IfCondition(
-            OrSubstitution(
+            AndSubstitution(
+                run_laser_filters,
                 OrSubstitution(
-                    EqualsSubstitution(robot_model, 'rbsummit'),
-                    EqualsSubstitution(robot_model, 'rbwatcher'),
-                ),
-                EqualsSubstitution(robot_model, 'rbcar'),
+                    OrSubstitution(
+                        EqualsSubstitution(robot_model, 'rbsummit'),
+                        EqualsSubstitution(robot_model, 'rbwatcher'),
+                    ),
+                    EqualsSubstitution(robot_model, 'rbcar'),
+                )
             )
         )
     )
