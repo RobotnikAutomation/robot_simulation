@@ -93,7 +93,6 @@ Once the installation is complete and the workspace is built, these are the fast
 source ~/ros2_ws/install/setup.bash
 ros2 launch robotnik_simulation_bringup bringup_complete.launch.py \
   robot:=rbwatcher \
-  robot_model:=rbwatcher \
   use_rviz:=true
 ```
 
@@ -114,7 +113,6 @@ Terminal 2:
 source ~/ros2_ws/install/setup.bash
 ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py \
   robot:=rbwatcher \
-  robot_model:=rbwatcher \
   run_rviz:=true
 ```
 

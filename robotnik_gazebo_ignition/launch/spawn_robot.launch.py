@@ -26,7 +26,7 @@ import tempfile
 import yaml
 
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, OpaqueFunction
+from launch.actions import IncludeLaunchDescription, OpaqueFunction, RegisterEventHandler
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch.substitutions import EqualsSubstitution
@@ -40,7 +40,6 @@ from launch_ros.parameter_descriptions import ParameterFile
 from robotnik_common.launch import AddArgumentParser, ExtendedArgument
 
 from pathlib import Path
-
 
 def generate_rviz_config(context, rviz_config_path, robot_id, frame_prefix):
     """Generate an RViz config adapted to the current robot instance.
@@ -222,7 +221,10 @@ def launch_setup(context, params):
     new_controllers = extract_controllers_from_yaml(path)
 
     # ROS2 control
-    controllers =  ['--controller-manager-timeout', '60', '--service-call-timeout', '60', 'joint_state_broadcaster']
+    controllers =  ['--controller-manager-timeout', '60',
+                    '--service-call-timeout', '60',
+                    '--unload-on-kill',
+                    'joint_state_broadcaster']
     # Replace default joint_state_broadcaster by the one defined in the specific
     # ros2_control.yaml for the robot model
     if 'joint_state_broadcaster' in new_controllers:
@@ -250,6 +252,7 @@ def launch_setup(context, params):
     rbcar_joint_state_broadcaster = [
         '--controller-manager-timeout', '60',
         '--service-call-timeout', '60',
+        '--unload-on-kill',
         'joint_state_broadcaster',
     ]
     ret.append(Node(
