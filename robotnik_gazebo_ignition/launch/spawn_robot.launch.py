@@ -298,6 +298,7 @@ def generate_launch_description():
         ("robot_id", "Unique Robot Identifier", "robot", "ROBOT_ID"),
         ("robot", "Robot Model Name", "rbwatcher", "ROBOT"),
         ("robot_model", "Robot Variant or Type", LaunchConfiguration('robot'), "ROBOT_MODEL"),
+        ("frame_prefix", "Frame prefix", [LaunchConfiguration('robot_id'), '_'], "FRAME_PREFIX"),
         ("robot_xacro_path", "Path to Robot Xacro File", [FindPackageShare('robotnik_description'), '/robots/', LaunchConfiguration('robot'), '/', LaunchConfiguration('robot_model'), '.urdf.xacro'], "ROBOT_XACRO_PATH"),
         ("x", "Initial X Coordinate", "0.0", "X"),
         ("y", "Initial Y Coordinate", "0.0", "Y"),
