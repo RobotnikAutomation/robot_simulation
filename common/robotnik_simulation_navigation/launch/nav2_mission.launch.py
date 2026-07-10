@@ -28,6 +28,7 @@ from launch.substitutions import LaunchConfiguration
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterFile
 from launch.actions import GroupAction
 
 def generate_launch_description():
@@ -35,15 +36,21 @@ def generate_launch_description():
     robot_id = LaunchConfiguration("robot_id")
     use_sim = LaunchConfiguration("use_sim")
 
-    waypoint_config = PathJoinSubstitution([
-        FindPackageShare('robotnik_simulation_navigation'),
-        'config/waypoint_follower.yaml'
-    ])
+    waypoint_config = ParameterFile(
+        PathJoinSubstitution([
+            FindPackageShare('robotnik_simulation_navigation'),
+            'config/waypoint_follower.yaml'
+        ]),
+        allow_substs=True
+    )
 
-    route_config = PathJoinSubstitution([
-        FindPackageShare('robotnik_simulation_navigation'),
-        'config/route_server.yaml'
-    ])
+    route_config = ParameterFile(
+        PathJoinSubstitution([
+            FindPackageShare('robotnik_simulation_navigation'),
+            'config/route_server.yaml'
+        ]),
+        allow_substs=True
+    )
 
     route_graph_filepath = PathJoinSubstitution([
         FindPackageShare('robotnik_simulation_navigation'),

@@ -16,9 +16,9 @@
         plugin: "nav2_behaviors::DriveOnHeading"
       wait:
         plugin: "nav2_behaviors::Wait"
-      local_frame: robot_odom
-      global_frame: robot_map
-      robot_base_frame: robot_base_link
+      local_frame: $(var robot_id)_odom
+      global_frame: $(var robot_id)_map
+      robot_base_frame: $(var robot_id)_base_link
       transform_tolerance: 0.1
       use_sim_time: true
       simulate_ahead_time: 2.0

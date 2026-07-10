@@ -33,7 +33,6 @@ from launch.actions import TimerAction
 from launch.substitutions import EqualsSubstitution, OrSubstitution
 
 def generate_launch_description():
-
     declared_arguments = [
         DeclareLaunchArgument(
             "robot_id",
@@ -57,11 +56,6 @@ def generate_launch_description():
                 LaunchConfiguration('robot'), '/', LaunchConfiguration('robot_model'), '.urdf.xacro',
             ],
             description="Path to Robot Xacro File"
-        ),
-        DeclareLaunchArgument(
-            "use_gui",
-            default_value="true",
-            description="Enable simulation gui"
         ),
         DeclareLaunchArgument(
             "low_performance_simulation",
@@ -94,12 +88,19 @@ def generate_launch_description():
             description="Type of robotic arm"
         ),
         DeclareLaunchArgument(
-            "world_path",
-            default_value=PathJoinSubstitution([
-                #FindPackageShare('electrical_substation_world'), 'worlds/electrical_substation.world'
-                FindPackageShare('robotnik_gazebo_ignition'), 'worlds/demo.world',
-            ]),
-            description="Path to the world file"
+            "x",
+            default_value="0.0",
+            description="Robot initial position in x"
+        ),
+        DeclareLaunchArgument(
+            "y",
+            default_value="0.0",
+            description="Robot initial position in y"
+        ),
+        DeclareLaunchArgument(
+            "z",
+            default_value="0.0",
+            description="Robot initial position in z"
         ),
     ]
 
@@ -107,32 +108,17 @@ def generate_launch_description():
     robot = LaunchConfiguration("robot")
     robot_model = LaunchConfiguration("robot_model")
     robot_xacro_path = LaunchConfiguration("robot_xacro_path")
-    use_gui = LaunchConfiguration("use_gui")
     low_performance_simulation = LaunchConfiguration("low_performance_simulation")
-    world_path = LaunchConfiguration("world_path")
     use_rviz = LaunchConfiguration("use_rviz")
     run_moveit = LaunchConfiguration("run_moveit")
     run_localization = LaunchConfiguration("run_localization")
     run_navigation = LaunchConfiguration("run_navigation")
     arm_type = LaunchConfiguration("arm_type")
 
-    gazebo_world = IncludeLaunchDescription(
+    gazebo_robot = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution([
-                FindPackageShare('robotnik_gazebo_ignition'), 'launch/spawn_world.launch.py'
-            ])
-        ),
-        launch_arguments={
-            'robot_id': robot_id,
-            'gui': use_gui,
-            'world_path': world_path
-        }.items()
-    )
-
-    robot_complete = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            PathJoinSubstitution([
-                 FindPackageShare('robotnik_simulation_bringup'), 'launch/robot_complete.launch.py'
+                 FindPackageShare('robotnik_gazebo_ignition'), 'launch/spawn_robot.launch.py'
             ])
         ),
         launch_arguments={
@@ -140,18 +126,117 @@ def generate_launch_description():
             'robot': robot,
             'robot_model': robot_model,
             'robot_xacro_path': robot_xacro_path,
-            'run_moveit': run_moveit,
-            'run_localization': run_localization,
-            'run_navigation': run_navigation,
             'arm_type': arm_type,
             'low_performance_simulation': low_performance_simulation,
-            'use_rviz': use_rviz,
+            'run_rviz': 'false'
         }.items()
     )
 
+    # In spawn_robot.launch.py the add_laser("front") is defined for any robot model
+    # This causes two publishers to /robot/front_laser/scan when laser filters are enabled
+    # In rbsummit and rbwatcher is not an issue because front laser is not available
+    # but in other robot models that have front laser, it causes conflict.
+    laser_filters = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution([
+                 FindPackageShare('robotnik_simulation_bringup'), 'launch/laser_filters.launch.py'
+            ])
+        ),
+        launch_arguments={
+            'robot_id': robot_id,
+            'use_sim': 'true',
+        }.items(),
+        condition=IfCondition(
+            OrSubstitution(
+                OrSubstitution(
+                    EqualsSubstitution(robot_model, 'rbsummit'),
+                    EqualsSubstitution(robot_model, 'rbwatcher'),
+                ),
+                EqualsSubstitution(robot_model, 'rbcar'),
+            )
+        )
+    )
+
+    localization = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution([
+                 FindPackageShare('robotnik_simulation_localization'), 'launch/localization.launch.py'
+            ])
+        ),
+        launch_arguments={
+            'robot_id': robot_id,
+            'use_sim': 'true',
+        }.items(),
+        condition=IfCondition(run_localization),
+    )
+
+    delayed_localization = TimerAction(
+        period=10.0,
+        actions=[localization]
+    )
+
+    navigation = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution([
+                 FindPackageShare('robotnik_simulation_navigation'), 'launch/navigation.launch.py'
+            ])
+        ),
+        launch_arguments={
+            'robot_id': robot_id,
+            'use_sim': 'true',
+        }.items(),
+        condition=IfCondition(run_navigation),
+    )
+
+    delayed_navigation = TimerAction(
+        period=15.0,
+        actions=[navigation]
+    )
+
+    rviz = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution([
+                 FindPackageShare('robotnik_simulation_bringup'), 'launch/rviz.launch.py'
+            ])
+        ),
+        condition=IfCondition(use_rviz)
+    )
+
+    delayed_rviz = TimerAction(
+        period=20.0,
+        actions=[rviz]
+    )
+
+    moveit = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution([
+                FindPackageShare('robotnik_simulation_moveit'), 'launch/moveit.launch.py',
+            ])
+        ),
+        launch_arguments={
+            'robot_id': robot_id,
+            'robot': robot,
+            'robot_model': robot_model,
+            'robot_xacro_path': robot_xacro_path,
+            'moveit_config_name': [robot, '_moveit_config'],
+            'arm_type': arm_type,
+            'use_sim_time': 'true',
+        }.items(),
+        condition=IfCondition(run_moveit),
+    )
+
+    delayed_moveit = TimerAction(
+        period=25.0,
+        actions=[moveit]
+    )
+
     group = GroupAction([
-        gazebo_world,
-        robot_complete
+        gazebo_robot,
+        laser_filters,
+        delayed_localization,
+        delayed_navigation,
+        delayed_rviz,
+        delayed_moveit,
     ])
 
     return LaunchDescription(declared_arguments + [group])
