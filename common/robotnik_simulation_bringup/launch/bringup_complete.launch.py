@@ -47,8 +47,8 @@ def generate_launch_description():
         ),
         DeclareLaunchArgument(
             "robot_model",
-            default_value="rbsummit",
-            description="Robot Variant or Type"
+            default_value=LaunchConfiguration("robot"),
+            description="Robot variant or model. Defaults to the selected robot value."
         ),
         DeclareLaunchArgument(
             "robot_xacro_path",
