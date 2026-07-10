@@ -1,4 +1,4 @@
-image: demo_map.png
+image: map.png
 mode: trinary
 resolution: 0.050
 origin: [-18.207, -15.425, 0]
