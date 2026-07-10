@@ -14,8 +14,8 @@ For a simple Gazebo-only simulation with one robot, use the launch files in robo
 
 ![alt text](docs/summit-gz.png)
 
-# Quick start
-## Full navigation demo 
+## Quick start
+### Full navigation demo 
 
 Launch the default simulation stack (with RBSummit):
 
@@ -47,14 +47,15 @@ ros2 launch robotnik_simulation_bringup bringup_complete.launch.py robot:=rbkair
 |---|---|---|---|
 | `robot_id` | no | `robot` | Name for launch and config resources |
 | `robot` | no | `rbsummit` | Robot base type used to resolve defaults |
-| `robot_model` | no |  arg(robot) | Name of the robot model |
-| `robot_xacro_path` | no |  `/path/to/robot.urdf.xacro` | Path to robot URDF/XACRO (forwarded to spawn and MoveIt) |
+| `robot_model` | no |  value of 'robot' | Name of the robot model |
+| `robot_xacro_path` | no | resolved from `robot` and `robot_model` | Path to robot URDF/XACRO (forwarded to spawn and MoveIt) |
 | `use_gui` | no | `true` | Enable simulation graphical interface |
 | `low_performance_simulation` | no | `true` | Enable smooth simulation for low performance computers |
 | `use_rviz` | no | `true` | Launch rviz |
 | `run_localization` | no | `true` | Launch AMCL |
 | `run_navigation` | no | `true` | Launch nav2 |
-| `run_moveit` | no | `false` | Launch MoveIt stack after navigation startup |
+| `run_moveit` | no | `false` | Launch MoveIt for supported mobile manipulators |
+| `run_laser_filters` | no | `true` | Launch laser filters when supported by the selected robot model. |
 | `arm_type` | no | `ur10e` | Arm type used for robots with manipulator (forwarded as xacro `ur_type`) |
 | `world_path` | no | `/robotnik_gazebo_ignition/worlds/demo.world` | Path of the world file |
 
@@ -86,7 +87,7 @@ Independently with custom xacro path:
 ros2 launch robotnik_simulation_moveit moveit.launch.py robot_id:=robot robot:=rbkairos robot_model:=rbkairos_plus robot_xacro_path:=/path/to/robot.urdf.xacro moveit_config_name:=rbkairos_moveit_config arm_type:=ur10e run_moveit_rviz:=true
 ```
 
-### rviz olny for visualization:
+### rviz only for visualization:
 
 ```
 ros2 launch  robotnik_simulation_bringup rviz.launch.py
@@ -135,16 +136,16 @@ Save map:
 
 ```
 ros2 service call /robot/map_saver/save_map nav2_msgs/srv/SaveMap "map_topic: '/robot/map'
-map_url: '/home/robot/maps/demo_map/'
-image_format: 'true'
-map_mode: 'true'
+map_url: '/home/robot/maps/demo_map/demo_map'
+image_format: 'png'
+map_mode: 'trinary'
 free_thresh: 0.196
 occupied_thresh: 0.65"
 ```
 
 ### 3. Launch Autonomous Navigation with your map
 
-Kill mapping node. Run localization:
+Stop the mapping launch before starting localization:
 
 ```
 ros2 launch robotnik_simulation_localization localization.launch.py
