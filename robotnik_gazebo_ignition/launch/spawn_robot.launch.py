@@ -63,8 +63,19 @@ def generate_rviz_config(context, rviz_config_path, robot_id, frame_prefix):
         content = f.read()
     # Replace only the default robot namespace and frame prefix used by the
     # template RViz config.
-    content = content.replace('/robot/', f'/{robot_id_value}/')
+    robot_ns_placeholder = '__ROBOT_NAMESPACE_PLACEHOLDER__'
+    robot_description_placeholder = '__ROBOT_DESCRIPTION_PLACEHOLDER__'
+
+    # Protect values that must not be affected by the frame-prefix replacement.
+    content = content.replace('/robot/', f'/{robot_ns_placeholder}/')
+    content = content.replace('robot_description', robot_description_placeholder)
+
+    # Replace the default frame prefix used by the RViz config.
     content = content.replace('robot_', frame_prefix_value)
+
+    # Restore protected values with the current robot namespace.
+    content = content.replace(f'/{robot_ns_placeholder}/', f'/{robot_id_value}/')
+    content = content.replace(robot_description_placeholder, 'robot_description')
 
     with tempfile.NamedTemporaryFile(
         mode='w',
