@@ -194,6 +194,7 @@ def launch_setup(context, params):
         #add_depth_camera("front")
         add_camera("wrist")
         add_depth_camera("wrist")
+        add_depth_camera("front")
         add_laser("front")
         add_laser("rear")
         add_pointcloud("top")
