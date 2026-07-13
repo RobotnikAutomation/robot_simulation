@@ -2,387 +2,251 @@
 
 <img src="../docs/assets/img/ignition_simulation_view.png" alt="Robotnik Gazebo Ignition Simulation View" height=300>
 
-This package provides the Gazebo-based simulation layer for Robotnik robots on ROS 2. It includes world launching, robot spawning, ROS 2 <-> Gazebo bridges, control integration and auxiliary simulation resources.
+This package provides Gazebo Ignition plugins and resources for Robotnik robots.
 
-> **Branch-specific guide**: `robotnik_gazebo_ignition` is maintained across ROS 2 distro branches, but the Gazebo version changes with each branch. This README documents only the validated workflow for `jazzy-devel`: ROS 2 Jazzy + Gazebo Harmonic. For conceptual background about architecture, compatibility and versioning, see [`../docs/ros2-gazebo-compatibility.md`](../docs/ros2-gazebo-compatibility.md).
->
-> **Docker guide**: the full development Docker workflow is documented separately in [`../docker/README.md`](../docker/README.md).
+## 📥 Installation
 
-## What this package includes
-
-- Gazebo world launch files
-- Robot spawn launch files
-- ROS 2 <-> Gazebo topic bridging
-- `gz_ros2_control` integration for simulated control
-- RViz resources and simulation control profiles
-
-## Installation
-
-### General requirements
-
-Before following the branch-specific steps below, make sure you have:
-
-- ROS 2 Jazzy installed
-- `curl`, `gnupg`, `vcs`, `rosdep` and `colcon` available
-- permission to install Gazebo and ROS 2 packages from apt
-
-This README documents the manual installation path currently validated for this branch.
-
-### Jazzy-specific installation
-
-1. Set up the Gazebo package repository:
-
-```bash
-# Run on a machine with ROS 2 Jazzy already installed
+1. Setup sources and keys for Gazebo packages:
+```sh
 sudo apt update
 sudo apt-get install curl lsb-release gnupg
 sudo curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
 ```
 
-2. Install Gazebo Harmonic:
-
-```bash
-# Run after adding the Gazebo package repository
+2. Install Gazebo Harmonic.
+```sh
 sudo apt-get update
-sudo apt-get install -y \
-  gz-harmonic \
-  libgz-sim8-dev
+sudo apt-get install gz-harmonic
 ```
 
-3. Create the workspace and import the canonical repository manifest for `jazzy-devel`:
+3. Install ROS 2 Jazzy and ROS-GZ bridge and manipulation dependencies.
+```sh
+sudo apt install -y ros-jazzy-ros-gz ros-$ROS_DISTRO-moveit* ros-$ROS_DISTRO-chomp-motion-planner* ros-$ROS_DISTRO-kdl* ros-$ROS_DISTRO-joint-trajectory-controller* ros-$ROS_DISTRO-ompl* ros-$ROS_DISTRO-pick-ik* ros-$ROS_DISTRO-pilz-industrial-motion-planner* ros-$ROS_DISTRO-trac-ik* ros-$ROS_DISTRO-stomp* ros-$ROS_DISTRO-spacenav* ros-$ROS_DISTRO-warehouse-ros-sqlite* ros-$ROS_DISTRO-ros2-control ros-$ROS_DISTRO-moveit-configs-utils
+```
 
-```bash
-# Run from your home directory to create and populate the workspace
+4. Set up workspace and install dependencies:
+
+```sh
+# Workspace
 mkdir -p ~/ros2_ws/src
 cd ~/ros2_ws
 
-vcs import --input https://raw.githubusercontent.com/RobotnikAutomation/robotnik_simulation/refs/heads/jazzy-devel/dependencies/repos/robotnik_simulation.jazzy.repos src/
-```
+# Robotnik and related packages (ROS 2 Jazzy)
+vcs import --input https://raw.githubusercontent.com/RobotnikAutomation/robotnik_simulation/jazzy-devel/robotnik_simulation.jazzy.repos src/
 
-`robotnik_simulation.jazzy.repos` is the validated static release manifest. Use `jazzy-devel` when you want the development branch versions instead of the fixed functional revision set.
-
-4. Install the Robotnik-specific prebuilt debs shipped in this repository:
-
-```bash
-# Run from the repository root inside the workspace
+# Install prebuilt simulation debs from this repo (run at repo root)
 cd ~/ros2_ws/src/robotnik/robotnik_simulation
-sudo apt-get install -y ./debs/ros-jazzy-*.deb
-```
+sudo apt-get install -y ./debs/ros-${ROS_DISTRO}-*.deb
 
-5. Resolve the remaining dependencies and build the workspace:
-
-```bash
-# Run from the workspace root after importing all repositories
+# Resolve dependencies
 source /opt/ros/jazzy/setup.bash
 cd ~/ros2_ws
 rosdep update
 rosdep install --from-paths src --ignore-src -r -y
+```
+
+5. Build the workspace:
+
+```sh
+cd ~/ros2_ws
 colcon build --symlink-install
 source install/setup.bash
 ```
 
-## Quick start
+## 🚀 Usage
 
-Once the installation is complete and the workspace is built, the recommended Gazebo workflow is to launch a world first and then spawn one or more robots into that running world.
+To use the simulation, you need to spawn a world and then spawn at least one robot. Continue reading for instructions.
 
-### Option 1: Gazebo world + robot
-Terminal 1:
+### 🗺️ Spawn World
 
-```bash
-# Run after building the workspace
-source ~/ros2_ws/install/setup.bash
-ros2 launch robotnik_gazebo_ignition spawn_world.launch.py world:=empty
-```
-
-Terminal 2:
-```bash
-# Run after building the workspace
-source ~/ros2_ws/install/setup.bash
-ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py \
-  robot:=rbwatcher \
-  run_rviz:=true
-```
-This flow is recommended when you want to keep Gazebo running, spawn multiple robots, respawn robots during development, or test different robot models and poses without restarting the world.
-
-### Option 2: Full navigation/manipulation demo
-```bash
-source ~/ros2_ws/install/setup.bash
-ros2 launch robotnik_simulation_bringup bringup_complete.launch.py \
-  robot:=rbwatcher \
-  use_rviz:=true
-```
-`robotnik_gazebo_ignition` intentionally keeps world launching and robot spawning as separate launch files. This makes multi-robot simulation and iterative development easier. For a higher-level demo launcher, use `robotnik_simulation_bringup`.
-
-## Usage
-
-### Spawn World
-
-This is the first operational step in the simulation flow. It launches Gazebo and loads the selected world.
+First step to use this simulation is launch world where the robot will be spawned. For example, to launch the `empty` world, use the following command:
 
 #### Basic
-
 ```bash
-# Run after sourcing the workspace and with no robot spawned yet
+# Basic
 ros2 launch robotnik_gazebo_ignition spawn_world.launch.py world:=empty
 
-# Run to start the same world without the Gazebo GUI
+# With GUI disabled
 ros2 launch robotnik_gazebo_ignition spawn_world.launch.py world:=empty gui:=false
 ```
 
 #### Advanced
-
 ```bash
-# Run after sourcing the workspace to launch any available world
+# Generic pattern
 ros2 launch robotnik_gazebo_ignition spawn_world.launch.py world:=<world_name> gui:=<true|false>
 ```
 
 #### Parameters
-
 | Name | Required | Purpose | Example |
 |---|---|---|---|
-| `world` | no | Name of the world file without the `.world` extension | `empty` |
-| `world_path` | no | Full path to a custom world file; overrides `world` | `/path/to/custom_world.sdf` |
+| `world` | no | Name of the world file (without the `.world` extension) | `empty` |
+| `world_path` | no | Full path to a custom world file (overrides `world` parameter) | `/path/to/custom_world.sdf` |
 | `gui` | no | Enable or disable Gazebo GUI | `true` or `false` |
 
-#### Supported worlds
+#### Supported Worlds
 
 | Name | Description | Thumbnail |
-|---|---|---|
-| `empty` | Empty world with a flat ground plane | <img src="../docs/assets/world/empty.png" alt="empty world" height=100> |
-| `demo` | Demo world with obstacles and ramps for navigation testing | <img src="../docs/assets/world/demo.png" alt="demo world" height=100> |
-| `ionic` | Demo world from Gazebo showing Ionic simulation features | <img src="../docs/assets/world/ionic.png" alt="ionic world" height=100> |
-| `lightweight_scene` | Lightweight scene for performance testing | <img src="../docs/assets/world/lightweight_scene.png" alt="lightweight scene" height=100> |
+|------|-------------|-----------|
+| `empty` | An empty world with a flat ground plane | <img src="../docs/assets/world/empty.png" alt="empty_world" height=100> |
+| `demo` | A demo world with obstacles and ramps for testing robot navigation | <img src="../docs/assets/world/demo.png" alt="demo_world" height=100> |
+| `ionic` | Demo world from Gazebo to show ionic simulation features | <img src="../docs/assets/world/ionic.png" alt="ionic_world" height=100> |
+| `lightweight_scene` | A lightweight scene for performance testing | <img src="../docs/assets/world/lightweight_scene.png" alt="lightweight_scene_world" height=100> |
 
-### Spawn Robot
 
-This launch file inserts a robot into an already running Gazebo simulation.
+### 🤖 Spawn Robot
 
-> **Important**: `spawn_robot.launch.py` does not launch Gazebo. A world must already be active before spawning a robot.
+Use the launch file to insert a robot into the Gazebo (Ignition) world.
 
 #### Basic
-
 ```bash
-# Run after Gazebo is already running to spawn the default RB-Watcher
+# Basic RB-Watcher
 ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbwatcher
 
-# Run to spawn the robot with a custom namespace and pose
-ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py \
-  robot_id:=robot_a \
-  robot:=rbwatcher \
-  robot_model:=rbwatcher \
-  x:=0.0 y:=0.0 z:=0.0 \
-  run_rviz:=true
+# Specific ID and pose
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=robot_a robot:=rbwatcher robot_model:=rbwatcher x:=0.0 y:=0.0 z:=0.0 run_rviz:=true
 
-# Run to spawn a mobile manipulator variant with a specific arm
-ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py \
-  robot:=rbkairos \
-  robot_model:=rbkairos_plus \
-  arm_type:=ur10e \
-  run_rviz:=true
+# Mobile manipulator selecting arm type
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos_plus arm_type:=ur10e run_rviz:=true
 ```
 
 #### Advanced
-
 ```bash
-# Run after Gazebo is active to spawn any supported robot configuration
-ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py \
-  robot_id:=<unique_name> \
-  robot:=<robot_type> \
-  robot_model:=<robot_model> \
-  arm_type:=<ur_model> \
-  x:=<m> y:=<m> z:=<m> \
-  run_rviz:=<true|false> \
-  rviz_config:=<path/to/config.rviz>
+# Generic pattern
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_id:=<unique_name> robot:=<robot_type> robot_model:=<robot_model> arm_type:=<ur_model> x:=<m> y:=<m> z:=<m> has_arm:=<true/false> run_rviz:=<true/false> rviz_config:=<path/to/config.rviz>
 ```
 
 #### Parameters
-
 | Name | Required | Purpose | Example |
 |---|---|---|---|
-| `robot_id` | no | Instance name and ROS namespace for the spawned robot | `robot_a` |
-| `robot` | no | Robot type to spawn; default is `rbwatcher` | `rbwatcher` |
-| `robot_model` | no | Concrete model or variant; defaults to `robot` | `rbwatcher` |
-| `frame_prefix` | no | TF frame prefix; defaults to `<robot_id>_` | `robot_a_` |
-| `robot_xacro_path` | no | Full path to a custom robot XACRO | `/path/to/robot.urdf.xacro` |
+| `robot_id` | no | Instance name for the spawned robot | `robot_a` |
+| `robot` | no | Robot **type** to spawn, see `supported_robots`, default is `rbwatcher` | `rbwatcher` |
+| `robot_model` | no | Specific **model** within the type, see `supported_robots` | `rbwatcher` |
 | `x` `y` `z` | no | Spawn position in meters | `0.0 0.0 0.0` |
-| `arm_type` | no | Arm type forwarded to the robot xacro as `ur_type` | `ur10e` |
-| `run_rviz` | no | Launch RViz2 with a predefined Gazebo simulation config | `true` |
-| `rviz_config` | no | Full path to a custom RViz2 config; overrides the default | `/path/to/custom_config.rviz` |
-| `use_sim_time` | no | Use simulation time | `true` |
-| `low_performance_simulation` | no | Enable lower-performance simulation options where supported | `false` |
+| `run_rviz` | no | Launch RViz2 with a predefined configuration | `true` or `false` |
+| `rviz_config` | no | Full path to a custom navigation RViz2 configuration file (overrides default config and fixed frame must be set in config) | `/path/to/custom_config.rviz` |
+| `has_arm` | no | Flag stating if platform should be spawned with robotic arm | `true` or `false` |
+| `arm_type` | no | Arm type forwarded to robot xacro as `ur_type` for manipulator variants | `ur10e` |
 
-#### Supported robots
+#### Supported Robots
 
-| robot | robot_model options | Notes |
-|---|---|---|
-| `rbwatcher` | `rbwatcher` | Supported |
-| `rb1` | `rb1` | Limited |
-| `rbcar` | `rbcar` | Limited |
-| `rbfiqus` | `rbfiqus` | Limited |
-| `rbkairos` | `rbkairos`, `rbkairos_plus` | Limited |
-| `rbrobout` | `rbrobout`, `rbrobout_plus` | Limited |
-| `rbsummit` | `rbsummit` | Limited |
-| `rbsummit_steel` | `rbsummit_steel` | Limited |
-| `rbtheron` | `rbtheron`, `rbtheron_plus` | Limited |
-| `rbvogui` | `rbvogui`, `rbvogui_plus` | Limited |
-| `rbvogui_xl` | `rbvogui_xl` | Limited |
+| robot          | robot_model options     | Notes |
+| -------------- | ----------------------- | --- |
+| rbwatcher      | rbwatcher               | Supported |
+| rb1            | rb1                     | Limited |
+| rbfiqus        | rbfiqus                 | Limited |
+| rbkairos       | rbkairos, rbkairos_plus | Limited |
+| rbrobout       | rbrobout, rbrobout_plus | Limited |
+| rbsummit       | rbsummit                | Limited |
+| rbsummit_steel | rbsummit_steel          | Limited |
+| rbtheron       | rbtheron, rbtheron_plus | Limited |
+| rbvogui        | rbvogui, rbvogui_plus   | Limited |
+| rbvogui_xl     | rbvogui_xl              | Limited |
 
-`Limited` means the robot has been integrated but may still require additional validation or tuning for some workflows.
+Note: "not well tested" means that the robot has been integrated but may require further validation and adjustments to ensure optimal performance in the simulation environment.
 
-#### Robot type vs robot model
-
+#### Types vs. models
 Description package is [robotnik_description](https://github.com/RobotnikAutomation/robotnik_description), which contains all robot types and models. The distinction is:
-
 - **Robot type**: Category such as `rbwatcher`, `summit_xl`. See the package `robots/` folder for available types. [List of supported robots](https://github.com/RobotnikAutomation/robotnik_description/tree/jazzy-devel/robots).
-- **Robot model**: Concrete variant inside a type. If `robot_model` is not provided, it defaults to the selected `robot` value. See the package `robots/<robot>/models/` folder for available models. [Example models for rbwatcher](https://github.com/RobotnikAutomation/robotnik_description/tree/jazzy-devel/robots/rbwatcher).
+- **Robot model**: Concrete variant inside a type. If omitted, the default model for that type is used. See the package `robots/<robot>/models/` folder for available models. [Example models for rbwatcher](https://github.com/RobotnikAutomation/robotnik_description/tree/jazzy-devel/robots/rbwatcher).
 
 #### Notes
-
 - Use a unique `robot_id` when spawning multiple robots in the same world to avoid name conflicts in topics and frames.
-- `rbcar` spawns the `ros2_control` Ackermann controller, so its velocity commands use `geometry_msgs/msg/TwistStamped`.
-- For additional launch variants, GPU-specific notes and troubleshooting guidance, see [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md).
-- If Gazebo server processes or ROS 2 control nodes remain after closing a simulation, see [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md#gazebo-server-remains-alive-after-closing-the-simulation).
 
-## Control the robot
+## 🎮 Control the Robot
 
 After spawning the robot, you can control it using command velocity messages. The two main topics for controlling the robot are:
-
 - `/<robot-id>/robotnik_base_control/cmd_vel`: This topic is used to send velocity commands to the robot. The messages should be of type `geometry_msgs/msg/TwistStamped`.
 - `/<robot-id>/robotnik_base_control/cmd_vel_unstamped`: This topic is used to send velocity commands without a timestamp. The messages should be of type `geometry_msgs/msg/Twist`.
 
-The simulation includes an RViz teleoperation panel by default. Once the robot is spawned and RViz is open, you can use the `Teleop` panel shown in the interface to send velocity commands directly to the robot.
 
-The panel is already configured in the provided RViz layouts and publishes to the robot command topic. If you use a different `robot_id` or namespace, update the panel topic accordingly.
-
-As an optional alternative, you can also control the robot from the keyboard with `teleop_twist_keyboard`:
+To control the robot, you can use teleoperation packages such as `teleop_twist_keyboard` or `teleop_twist_joy`. For example, to control the robot using the keyboard, run:
 
 ```bash
-# Run in another terminal after the robot is already spawned
 sudo apt install ros-jazzy-teleop-twist-keyboard
 
-ros2 run teleop_twist_keyboard teleop_twist_keyboard \
-  --ros-args \
-  -r cmd_vel:=/robot/robotnik_base_control/cmd_vel_unstamped \
-  -p stamped:=false
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=/robot/robotnik_base_control/cmd_vel -p stamped:=true
 ```
 
-Replace `/robot/robotnik_base_control/cmd_vel_unstamped` with the correct namespace for the `robot_id` you used when spawning the robot.
+Make sure to replace `/robot/robotnik_base_control/cmd_vel` with the appropriate topic name based on the `robot_id` you used when spawning the robot.
 
-> **Important**: if multiple teleoperation or navigation sources are active at the same time, they can still interfere with each other because they publish to the same command topic.
+Also, you can use RViz plugin on the bottom right to control the robot by clicking on the arrows.
 
-## MoveIt compatibility
+## 🦾 MoveIt compatibility
 
 It is possible to use [MoveIt](https://moveit.picknik.ai/main/index.html) to control robotic arms mounted on supported platforms.
 
-> **Important**: MoveIt support currently works correctly only with `robot_id:=robot`. If a different `robot_id` is used, interaction with `move_group` from RViz2 is not supported.
+Warning!!! MoveIt support works correctly only with `robot_id:=robot`. If different robot_id will be used, then it is not possible to interact with move_group from Rviz2.
 
-MoveIt can be launched in two ways:
+You can launch MoveIt in two ways:
+1. From bringup, using `robotnik_simulation_bringup` with `run_moveit:=true`.
+2. Independently, using `robotnik_simulation_moveit`.
 
-1. From `robotnik_simulation_bringup` using `run_moveit:=true`
-2. Independently from `robotnik_simulation_moveit`
-
-Example from bringup:
+Example launch from bringup:
 
 ```bash
-# Run after the simulation is active if you want integrated MoveIt bringup
-ros2 launch robotnik_simulation_bringup bringup_complete.launch.py \
-  robot:=rbkairos \
-  robot_model:=rbkairos_plus \
-  arm_type:=ur10e \
-  run_moveit:=true \
-  use_rviz:=true
+ros2 launch robotnik_simulation_bringup bringup_complete.launch.py robot:=rbkairos robot_model:=rbkairos_plus arm_type:=ur10e run_moveit:=true use_rviz:=true
 ```
 
-Example standalone:
+Example independent launch:
 
 ```bash
-# Run after the robot and controllers are already running in simulation
-ros2 launch robotnik_simulation_moveit moveit.launch.py \
-  robot_id:=robot \
-  robot:=rbkairos \
-  robot_model:=rbkairos_plus \
-  arm_type:=ur10e \
-  moveit_config_name:=rbkairos_moveit_config \
-  run_moveit_rviz:=true
+ros2 launch robotnik_simulation_moveit moveit.launch.py robot_id:=robot robot:=rbkairos robot_model:=rbkairos_plus arm_type:=ur10e moveit_config_name:=rbkairos_moveit_config run_moveit_rviz:=true
 ```
 
-Example standalone with custom `robot_xacro_path`:
+Example independent launch with custom `robot_xacro_path`:
 
 ```bash
-# Run after the robot and controllers are already running, using a custom robot description
-ros2 launch robotnik_simulation_moveit moveit.launch.py \
-  robot_id:=robot \
-  robot:=rbkairos \
-  robot_model:=rbkairos_plus \
-  robot_xacro_path:=/path/to/robot.urdf.xacro \
-  arm_type:=ur10e \
-  moveit_config_name:=rbkairos_moveit_config \
-  run_moveit_rviz:=true
+ros2 launch robotnik_simulation_moveit moveit.launch.py robot_id:=robot robot:=rbkairos robot_model:=rbkairos_plus robot_xacro_path:=/path/to/robot.urdf.xacro arm_type:=ur10e moveit_config_name:=rbkairos_moveit_config run_moveit_rviz:=true
 ```
 
 ![moveit_rviz](../docs/assets/img/moveit-rviz.png)
 
-Currently documented mobile manipulation platforms:
+Robots with mobile manipulation available right now:
+ - rbkairos
+ - rbrobout (additionally available lift)
+ - rbtheron
+ - rbvogui
+ - rbfiqus (bi arm setup)(WIP)
 
-- `rbkairos`
-- `rbrobout` including lift variants
-- `rbtheron`
-- `rbvogui`
-- `rbfiqus` bi-arm setup (WIP)
+## 🎉 Enjoy
 
-For the standalone MoveIt flow and its parameters, see [`../common/robotnik_simulation_moveit/README.md`](../common/robotnik_simulation_moveit/README.md).
+Example of RBVogui executing docking procedure in Gazebo Ignition. Currently, only for demonstration purposes, no docking controller is provided.
+
+![rbvogui_gif](../docs/assets/img/RBVogui_Docking.gif)
 
 ## Customization
 
-### Edit the robot model
+### Edit robot model
 
-Specific robot models can be customized by creating your own URDF/XACRO files based on the existing ones in `robotnik_description`.
+Specific robot models can be customized by creating your own URDF/XACRO files based on the existing ones in the `robotnik_description` package.
 
-1. Copy the existing robot folder from `robotnik_description/robots/<robot>/` into a new custom folder.
-2. Modify the URDF/XACRO files to add or adapt components.
-3. Update any required configuration files for sensors, arms or other components.
-4. Spawn the customized robot using `robot_xacro_path`.
+1. Copy the existing robot folder from `robotnik_description/robots/<robot>/` to a new folder, e.g., `robotnik_description/robots/my_robot/`.
+2. Modify the URDF/XACRO files in the new folder to add or change components as needed.
+3. Update any necessary configuration files for sensors, arms, or other components.
+4. Spawn the customized robot using the `robot_xacro_path` parameter:
 
-Example:
-
-```bash
-# Run after Gazebo is active to spawn a customized robot variant
-ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py \
-  robot:=rbkairos \
-  robot_model:=rbkairos_plus \
-  arm_type:=ur10e
+```sh
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot:=rbkairos robot_model:=rbkairos_plus arm_type:=ur10e
 ```
 
 With custom `robot_xacro_path`:
 
-```bash
-# Run after Gazebo is active to spawn a robot from your custom XACRO path
-ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py \
-  robot_xacro_path:=/path/to/your_robot.urdf.xacro
+```sh
+ros2 launch robotnik_gazebo_ignition spawn_robot.launch.py robot_xacro_path:=<your_robot.urdf.xacro>
 ```
 
 ### Custom control configuration
 
-The package includes control profiles under `robotnik_gazebo_ignition/config/profile`. These profiles can be used to adjust topics, frames, velocities and controller settings for different Robotnik robots.
+Inside the simulation package `robotnik_gazebo_ignition/config/profile`, you can find different control profiles for various Robotnik robots. You can adjust topics, frames, velocities, and controllers there.
 
-## Docker
+## 🐳 Docker
+🚧 Work in progress. 🚧
 
-The full development Docker workflow is documented in [`../docker/README.md`](../docker/README.md).
+Use the compose file in the repo root to run a preconfigured simulator container.
 
-Use that guide for:
+```sh
+docker compose up
+```
 
-- running the published image or building an image that copies only this repository from the local machine and pulls any extra required repositories from [`../dependencies/repos/robotnik_simulation.jazzy.repos`](../dependencies/repos/robotnik_simulation.jazzy.repos)
-- editing the runtime configuration in [`../env/robot.env`](../env/robot.env)
-- opening a second terminal with `docker exec` to interact with the running simulation inside the runtime container
-- GPU-enabled Docker sessions
-- cleanup and reset commands
-- notes about the future release-oriented Docker image workflow
-
-
-## Related documentation
-
-- Conceptual ROS 2 + Gazebo guide: [`../docs/ros2-gazebo-compatibility.md`](../docs/ros2-gazebo-compatibility.md)
-- Integrated simulation bringup: [`../common/robotnik_simulation_bringup/README.md`](../common/robotnik_simulation_bringup/README.md)
-- Standalone MoveIt flow: [`../common/robotnik_simulation_moveit/README.md`](../common/robotnik_simulation_moveit/README.md)
-- GPU notes and troubleshooting: [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md)
+> **Note**: The first time will take a while as it builds the image. Subsequent runs will be faster.

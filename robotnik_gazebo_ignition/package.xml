@@ -12,8 +12,6 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>ros_gz</depend>
-  <depend>ros_gz_sim</depend>
-  <depend>ros_gz_bridge</depend>
   <depend>gz_ros2_control</depend>
   <depend>controller_manager</depend>
   <depend>control_msgs</depend>
@@ -21,15 +19,12 @@
   <depend>controller_interface</depend>
   <depend>joint_state_broadcaster</depend>
   <depend>joint_trajectory_controller</depend>
-  <depend>rviz2</depend>
+  <depend>teleop_twist_keyboard</depend>
+  <depend>rqt_joint_trajectory_controller</depend>
 
-  <exec_depend>ros2_control</exec_depend>
-  <exec_depend>ackermann_msgs</exec_depend>
-  <exec_depend>ackermann_steering_controller</exec_depend>
   <exec_depend>robotnik_description</exec_depend>
   <exec_depend>robotnik_sensors</exec_depend>
-  <exec_depend>teleop_panel</exec_depend>
-  <exec_depend>robotnik_common</exec_depend>
+  <exec_depend>vacuum_gripper_plugin</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
