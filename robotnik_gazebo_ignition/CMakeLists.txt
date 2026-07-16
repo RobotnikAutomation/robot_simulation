@@ -12,13 +12,22 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-# Install launch files
+# Install executable scripts
 install(
   PROGRAMS
     scripts/stop_gazebo_sim.sh
   DESTINATION lib/${PROJECT_NAME}
-  DIRECTORY config launch models worlds scripts
-  DESTINATION share/${PROJECT_NAME}/
+)
+
+# Install package resources
+install(
+  DIRECTORY
+    config
+    launch
+    models
+    worlds
+    scripts
+  DESTINATION share/${PROJECT_NAME}
 )
 
 ament_package()
