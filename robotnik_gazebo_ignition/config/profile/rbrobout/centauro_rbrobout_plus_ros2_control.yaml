@@ -1,10 +1,7 @@
 ---
 /**:
-
   robotnik_base_control:
     ros__parameters:
-      publish_rate: 50
-
       # General Params
       profile: base
       debug: true
@@ -14,51 +11,41 @@
       joint_command_timeout: 0.1
       cmd_vel_timeout: 2.0
 
-      #Odom
+      # Odom
       odom_frame_id: $(var frame_prefix)odom
       base_frame_id: $(var frame_prefix)base_footprint
       use_2D_odom: true
 
       # Kinematics Params
-      wheel_radius: 0.11  # radius: 0.11
-      track_width: 0.47
-      wheel_base: 0.458
-      max_steering_position_error: 0.3
+      wheel_radius: 0.127
+      wheel_base:   1.116
+      track_width:  0.573
 
-      #Topics
-      cmd_vel_topic: ~/cmd_vel_unstamped
-      odom_topic: ~/odom
-      imu_topic: imu/data
-      emergency_topic: robotnik_base_hw/emergency_stop
-      joint_control_topic: ~/joint_control_command
-
-      # RBKairos Controller Params
-
-      # Cartesian and wheels limits
+      #Cartesian and wheels limits
       base:
         linear:
           x:
             velocity:
+              min: -0.5
+              max: 0.5
+            acceleration:
               min: -1.0
               max: 1.0
-            acceleration:
-              min: -3.0
-              max: 1.5
           y:
             velocity:
+              min: -0.5
+              max: 0.5
+            acceleration:
               min: -1.0
               max: 1.0
-            acceleration:
-              min: -3.0
-              max: 1.5
         angular:
           z:
             velocity:
-              min: -1.5
-              max: 1.5
+              min: -0.25
+              max: 0.25
             acceleration:
-              min: -7.5
-              max: 7.5
+              min: -1.0
+              max: 1.0
 
         front_right:
           traction:
@@ -109,6 +96,7 @@
     ros__parameters:
       publish_rate: 50
       joints:
+        # - $(var frame_prefix)lift_top_joint
         - $(var frame_prefix)arm_shoulder_pan_joint
         - $(var frame_prefix)arm_shoulder_lift_joint
         - $(var frame_prefix)arm_elbow_joint
@@ -136,6 +124,7 @@
         - $(var frame_prefix)front_left_wheel_joint
         - $(var frame_prefix)back_right_wheel_joint
         - $(var frame_prefix)back_left_wheel_joint
+        - $(var frame_prefix)lift_top_joint
         - $(var frame_prefix)arm_shoulder_pan_joint
         - $(var frame_prefix)arm_shoulder_lift_joint
         - $(var frame_prefix)arm_elbow_joint
@@ -150,6 +139,7 @@
   velocity_controller:
     ros__parameters:
       joints:
+        - $(var frame_prefix)lift_top_joint
         - $(var frame_prefix)arm_shoulder_pan_joint
         - $(var frame_prefix)arm_shoulder_lift_joint
         - $(var frame_prefix)arm_elbow_joint

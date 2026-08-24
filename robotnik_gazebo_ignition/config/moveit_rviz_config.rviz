@@ -34,7 +34,7 @@ Visualization Manager:
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
       Value: true
-    - Acceleration_Scaling_Factor: 0.1
+    - Acceleration_Scaling_Factor: 1
       Class: moveit_rviz_plugin/MotionPlanning
       Enabled: true
       Move Group Namespace: robot
@@ -100,6 +100,35 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
+          robot_arm_tool_photoneo_motioncam_color_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          robot_arm_tool_photoneo_motioncam_color_optical_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          robot_arm_tool_photoneo_motioncam_depth_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          robot_arm_tool_photoneo_motioncam_depth_optical_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          robot_arm_tool_photoneo_motioncam_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          robot_arm_tool_sander_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          robot_arm_tool_tool_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           robot_arm_upper_arm_link:
             Alpha: 1
             Show Axes: false
@@ -198,6 +227,10 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
+          robot_front_rgbd_camera_imu_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
           robot_front_rgbd_camera_infra1_frame:
             Alpha: 1
             Show Axes: false
@@ -242,6 +275,11 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
+          robot_top_column:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           robot_top_cover:
             Alpha: 1
             Show Axes: false
@@ -328,6 +366,35 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
+          robot_arm_tool_photoneo_motioncam_color_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          robot_arm_tool_photoneo_motioncam_color_optical_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          robot_arm_tool_photoneo_motioncam_depth_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          robot_arm_tool_photoneo_motioncam_depth_optical_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          robot_arm_tool_photoneo_motioncam_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          robot_arm_tool_sander_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          robot_arm_tool_tool_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           robot_arm_upper_arm_link:
             Alpha: 1
             Show Axes: false
@@ -426,6 +493,10 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
+          robot_front_rgbd_camera_imu_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
           robot_front_rgbd_camera_infra1_frame:
             Alpha: 1
             Show Axes: false
@@ -470,6 +541,11 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
+          robot_top_column:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           robot_top_cover:
             Alpha: 1
             Show Axes: false
@@ -479,7 +555,7 @@ Visualization Manager:
         Show Robot Collision: false
         Show Robot Visual: true
       Value: true
-      Velocity_Scaling_Factor: 0.1
+      Velocity_Scaling_Factor: 1
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48

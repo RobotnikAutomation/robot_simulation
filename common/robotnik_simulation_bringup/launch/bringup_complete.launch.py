@@ -195,6 +195,10 @@ def generate_launch_description():
                  FindPackageShare('tf_target_publisher'), 'launch/tf_target_publisher.launch.py'
             ])
         ),
+        launch_arguments={
+            'robot_id': robot_id,
+            'use_sim_time': 'true',
+        }.items(),
     )
 
     delayed_tf_target_publisher = TimerAction(

@@ -185,7 +185,11 @@ You can launch MoveIt in two ways:
 Example launch from bringup:
 
 ```bash
-ros2 launch robotnik_simulation_bringup bringup_complete.launch.py robot:=rbkairos robot_model:=centauro_rbkairos_plus arm_type:=ur10e run_moveit:=true use_rviz:=true
+ros2 launch robotnik_simulation_bringup bringup_complete.launch.py robot:=rbkairos robot_model:=centauro_rbkairos_plus arm_type:=ur10e run_moveit:=true use_rviz:=true world_path:=<path_to_workspace>/src/robotnik/robotnik_simulation/robotnik_gazebo_ignition/worlds/centauro_capot.world
+
+ros2 launch robotnik_simulation_bringup bringup_complete.launch.py robot:=rbrobout robot_model:=centauro_rbrobout_plus arm_type:=ur20 run_moveit:=true use_rviz:=true world_path:=<path_to_workspace>/src/robotnik/robotnik_simulation/robotnik_gazebo_ignition/worlds/centauro_muro.world
+
+ros2 launch robotnik_simulation_bringup bringup_complete.launch.py robot:=rbvogui robot_model:=centauro_rbvogui_plus arm_type:=ur5e run_moveit:=true use_rviz:=true world_path:=<path_to_workspace>/src/robotnik/robotnik_simulation/robotnik_gazebo_ignition/worlds/centauro_muro.world
 ```
 
 Example independent launch:

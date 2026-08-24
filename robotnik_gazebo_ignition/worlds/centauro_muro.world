@@ -69,14 +69,14 @@
       <pose>2.0 3.0 0.4 0 0 0</pose>
     </include> -->
 
-    <model name="hood_bonnet">
+    <model name="wall">
       <static>true</static>
-      <pose>2.0 0.0 0.9 0 0 1.57</pose>
+      <pose>-2.0 0.0 0.0 0 0 3.14</pose>
       <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
-              <uri>package://robotnik_description/meshes/structures/CENTAURO/Hood_Bonnet_Capot_1700x1500_Centauro.stl</uri>
+              <uri>package://robotnik_description/meshes/structures/CENTAURO/wall_model_simplified.STL</uri>
             </mesh>
           </geometry>
           <material>
@@ -88,23 +88,5 @@
       </link>
     </model>
 
-    <model name="stands">
-      <static>true</static>
-      <pose>2.0 0.0 0 0 0 1.57</pose>
-      <link name="link">
-        <visual name="visual">
-          <geometry>
-            <mesh>
-              <uri>package://robotnik_description/meshes/structures/CENTAURO/Stands_DSCE0005-Caballetes_capó_V1a.stl</uri>
-            </mesh>
-          </geometry>
-          <material>
-            <ambient>0.8 0.8 0.8 1</ambient>
-            <diffuse>0.8 0.8 0.8 1</diffuse>
-            <specular>0.8 0.8 0.8 1</specular>
-          </material>
-        </visual>
-      </link>
-    </model>
   </world>
 </sdf>
