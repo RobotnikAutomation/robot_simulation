@@ -192,6 +192,13 @@ ros2 launch robotnik_simulation_bringup bringup_complete.launch.py robot:=rbrobo
 ros2 launch robotnik_simulation_bringup bringup_complete.launch.py robot:=rbvogui robot_model:=centauro_rbvogui_plus arm_type:=ur5e run_moveit:=true use_rviz:=true world_path:=<path_to_workspace>/src/robotnik/robotnik_simulation/robotnik_gazebo_ignition/worlds/centauro_muro.world
 ```
 
+On the beginning both controllers (velocity_controller and joint_trajectory_controller) are loaded, to switch between them use:
+```bash
+ros2 service call /robot/controller_manager/switch_controller controller_manager_msgs/srv/SwitchController "{activate_controllers: {velocity_controller}, deactivate_controllers: {joint_trajectory_controller}}"
+
+ros2 service call /robot/controller_manager/switch_controller controller_manager_msgs/srv/SwitchController "{activate_controllers: {joint_trajectory_controller}, deactivate_controllers: {velocity_controller}}"
+```
+
 Example independent launch:
 
 ```bash
